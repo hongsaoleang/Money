@@ -1,0 +1,105 @@
+import React from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import { ShoppingBag, User, Shield, Briefcase, LogOut, Code, Package, PlusCircle } from 'lucide-react';
+
+const Navbar = () => {
+  const { user, logout, isAdmin, isClient } = useAuth();
+  const { totalItems } = useCart();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  return (
+    <header className="navbar-wrapper">
+      <div className="navbar-container">
+        {/* Logo */}
+        <Link to="/" className="navbar-logo">
+          <div className="logo-icon">
+            <Code size={22} />
+          </div>
+          <span className="logo-text">Nexus<span className="logo-accent">Tech</span></span>
+        </Link>
+
+        {/* Navigation Links */}
+        <nav className="navbar-links">
+          <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
+            Home
+          </NavLink>
+          <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            Products
+          </NavLink>
+          <NavLink to="/services" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            Services
+          </NavLink>
+          <NavLink to="/about-us" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            About Us
+          </NavLink>
+        </nav>
+
+        {/* Action Controls */}
+        <div className="navbar-actions">
+          {/* Cart */}
+          <Link to="/cart" className="cart-btn" title="View Cart">
+            <ShoppingBag size={20} />
+            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+          </Link>
+
+          {/* User State */}
+          {user ? (
+            <div className="user-dropdown">
+              <div className="user-pill">
+                <span className="user-avatar">{user.fullName.charAt(0)}</span>
+                <span className="user-name">{user.fullName.split(' ')[0]}</span>
+                {isAdmin && <span className="role-tag admin">Admin</span>}
+                {!isAdmin && isClient && <span className="role-tag client">Client</span>}
+              </div>
+
+              <div className="dropdown-menu">
+                <div className="dropdown-header">
+                  <p className="dropdown-user-name">{user.fullName}</p>
+                  <p className="dropdown-email">{user.email}</p>
+                </div>
+
+                <div className="dropdown-divider" />
+
+                <Link to="/settings" className="dropdown-item">
+                  <User size={16} /> Account Settings
+                </Link>
+
+                {isClient && (
+                  <Link to="/client/deploy" className="dropdown-item">
+                    <PlusCircle size={16} /> Deploy Product (Client)
+                  </Link>
+                )}
+
+                {isAdmin && (
+                  <Link to="/admin" className="dropdown-item admin-link">
+                    <Shield size={16} /> Admin Dashboard
+                  </Link>
+                )}
+
+                <div className="dropdown-divider" />
+
+                <button onClick={handleLogout} className="dropdown-item logout-btn">
+                  <LogOut size={16} /> Sign Out
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="auth-buttons">
+              <Link to="/login" className="btn-secondary">Sign In</Link>
+              <Link to="/register" className="btn-primary">Get Started</Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Navbar;
