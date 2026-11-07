@@ -81,7 +81,7 @@ const ClientPortal = () => {
     <div className="client-portal-page section-container">
       <div className="portal-header">
         <span className="section-badge">Client & Merchant Hub</span>
-        <h1 className="page-title">Deploy Your Products on NexusTech</h1>
+        <h1 className="page-title">Deploy Your Products on Saoleang Tech</h1>
         <p className="page-desc">
           To maintain quality and origin traceability, all merchant products must be requested and approved by our administration before being deployed live to public customers.
         </p>

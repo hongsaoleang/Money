@@ -33,7 +33,7 @@ const Register = () => {
         <div className="auth-header">
           <div className="auth-icon-badge"><UserPlus size={24} /></div>
           <h1>Create an Account</h1>
-          <p>Join NexusTech as a customer or partner merchant</p>
+          <p>Join Saoleang Tech as a customer or partner merchant</p>
         </div>
 
         {error && (

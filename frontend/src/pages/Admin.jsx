@@ -615,7 +615,7 @@ const Admin = () => {
                         <img src={p.imageUrl} alt={p.name} className="table-thumb" />
                         <div>
                           <strong>{p.name}</strong>
-                          <span className="table-vendor">Vendor: {p.vendor?.fullName || 'NexusTech Direct'}</span>
+                          <span className="table-vendor">Vendor: {p.vendor?.fullName || 'Saoleang Tech Direct'}</span>
                         </div>
                       </td>
                       <td>{p.category?.name}</td>
