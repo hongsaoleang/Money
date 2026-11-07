@@ -328,55 +328,6 @@ const AboutUs = () => {
           </div>
         </div>
 
-        {/* Developer Profiles Grid with Hover Linking to 3D Pass */}
-        <div className="dev-team-grid">
-          {developers.map((dev) => {
-            const isSelected = selectedDevId === dev.id;
-            return (
-              <div 
-                key={dev.id}
-                className={`dev-card ${dev.isLead ? 'lead-card' : ''} ${isSelected ? 'is-active-inspected' : ''}`}
-                onMouseEnter={() => setSelectedDevId(dev.id)}
-                onClick={() => setSelectedDevId(dev.id)}
-                style={{ cursor: 'pointer', transition: 'all 0.25s ease' }}
-              >
-                <div className="dev-card-top">
-                  <div className="dev-avatar-wrap">
-                    <img 
-                      src={dev.avatar} 
-                      alt={dev.name} 
-                      className="dev-avatar" 
-                      style={dev.avatar.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d', padding: '3px' } : { objectFit: 'cover' }}
-                    />
-                    <span className="dev-status-indicator" title={isSelected ? 'Active on 3D Pass' : dev.pill} />
-                  </div>
-                  <div className="dev-meta">
-                    <div className="flex items-center gap-2">
-                      <h3 className="dev-name">{dev.name}</h3>
-                      <span className="dev-pill-lead">{dev.pill}</span>
-                    </div>
-                    <span className="dev-role">{dev.role}</span>
-                  </div>
-                </div>
-
-                <p className="dev-bio">{dev.bio}</p>
-
-                <div className="dev-skills">
-                  {dev.skills.map((skill, idx) => (
-                    <span key={idx} className="dev-skill-tag">{skill}</span>
-                  ))}
-                </div>
-
-                <div className="dev-card-pass-status">
-                  <span className={`pass-status-indicator ${isSelected ? 'active' : ''}`}>
-                    <span className={`status-dot ${isSelected ? 'pulsing' : ''}`} />
-                    {isSelected ? 'Viewing on 3D Pass' : 'Hover to load into 3D Pass'}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </section>
 
       {/* CTA */}
