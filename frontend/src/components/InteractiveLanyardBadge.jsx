@@ -24,26 +24,26 @@ const TIERS = [
     strapText: 'JOMNENH-KH // FOUNDER & LEAD ARCHITECT // HONG SAOLEANG // ROOT CLEARANCE',
   },
   {
-    id: 'vip',
-    name: 'VIP Executive',
-    clearance: 'VIP Global Pass',
-    dept: 'Executive & Global Provenance',
+    id: 'frontend',
+    name: 'Frontend Lead',
+    clearance: 'CLEARANCE LV.5',
+    dept: 'UI & Ergonomic Systems',
     accentColor: '#f59e0b',
     glowColor: 'rgba(245, 158, 11, 0.45)',
     strapColor1: '#292524',
     strapColor2: '#44403c',
-    strapText: 'JOMNENH-KH VIP FOUNDER // GLOBAL PROVENANCE // ALL-ACCESS UNLOCKED // GOLD',
+    strapText: 'JOMNENH-KH // FRONTEND SYSTEMS LEAD // ALEX RIVERA // REACT & VITE',
   },
   {
-    id: 'stealth',
-    name: 'Cyberpunk Stealth',
-    clearance: 'SpecOps Tier-1',
-    dept: 'Encrypted Security & Networks',
+    id: 'infra',
+    name: 'Database & Infra',
+    clearance: 'SPECOPS TIER-1',
+    dept: 'Cloud Infrastructure & Database',
     accentColor: '#10b981',
     glowColor: 'rgba(16, 185, 129, 0.45)',
     strapColor1: '#09090b',
     strapColor2: '#18181b',
-    strapText: 'JOMNENH-KH STEALTH PROTOCOL // ZERO-TRUST ACCESS // LEVEL-0 // ENCRYPTED',
+    strapText: 'JOMNENH-KH // DATABASE & CLOUD INFRA // DEVON VANCE // POSTGRESQL & DOCKER',
   },
 ];
 
@@ -83,18 +83,47 @@ export const calculateDirection = (dx, dy) => {
 };
 
 const InteractiveLanyardBadge = ({
-  initialName = 'Alex Rivera',
-  initialRole = 'Lead Hardware & AI Architect',
-  initialAvatar = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+  initialName = 'Hong Saoleang',
+  initialRole = 'Founder & Full-Stack Architect',
+  initialAvatar = '/JomnenhKH.jpg',
+  initialTier = 0,
   stageHeight = 620,
   onDragDirection,
 }) => {
-  const [tierIndex, setTierIndex] = useState(0);
+  const [tierIndex, setTierIndex] = useState(initialTier || 0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [name, setName] = useState(initialName);
+  const [role, setRole] = useState(initialRole);
+  const [avatar, setAvatar] = useState(initialAvatar);
   const [isEditing, setIsEditing] = useState(false);
 
-  const activeTier = TIERS[tierIndex];
+  // Sync state whenever props change from parent (e.g., hovering another developer)
+  useEffect(() => {
+    setName(initialName);
+  }, [initialName]);
+
+  useEffect(() => {
+    setRole(initialRole);
+  }, [initialRole]);
+
+  useEffect(() => {
+    setAvatar(initialAvatar);
+  }, [initialAvatar]);
+
+  useEffect(() => {
+    if (initialTier !== undefined && initialTier !== null) {
+      setTierIndex(initialTier);
+      // Give a gentle impulse spring to indicate the pass was updated!
+      const p = physicsRef.current;
+      if (p && !p.isDragging) {
+        p.vy = -6;
+        p.vx = (Math.random() - 0.5) * 6;
+        p.angleV = (Math.random() - 0.5) * 5;
+      }
+    }
+  }, [initialTier, initialName]);
+
+  const activeTier = TIERS[tierIndex] || TIERS[0];
 
   // Physics state refs (60 FPS smooth updates without React render latency)
   const stageRef = useRef(null);
@@ -628,9 +657,9 @@ const InteractiveLanyardBadge = ({
             <div className="badge-avatar-container">
               <div className="badge-avatar-frame">
                 <img 
-                  src={initialAvatar} 
+                  src={avatar || initialAvatar} 
                   alt={name} 
-                  className="badge-avatar-img" 
+                  className={`badge-avatar-img ${(avatar || '').includes('JomnenhKH') ? 'is-logo' : 'is-portrait'}`}
                   draggable={false}
                 />
                 <div className="badge-avatar-status-beacon" title="Biometrically Authenticated" />
@@ -666,7 +695,7 @@ const InteractiveLanyardBadge = ({
                 </div>
               )}
 
-              <div className="badge-person-role">{initialRole}</div>
+              <div className="badge-person-role">{role || initialRole}</div>
             </div>
 
             {/* Barcode with Animated Laser Scan */}

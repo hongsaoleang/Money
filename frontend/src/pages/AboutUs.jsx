@@ -1,11 +1,53 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu } from 'lucide-react';
+import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu, UserCheck } from 'lucide-react';
 import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
+
+const DEVELOPERS = [
+  {
+    id: 'hong',
+    name: 'Hong Saoleang',
+    role: 'Full-Stack Architect & System Designer',
+    badgeRole: 'Founder & Full-Stack Architect',
+    pill: 'Founder & Lead',
+    avatar: '/JomnenhKH.jpg',
+    tier: 0,
+    isLead: true,
+    bio: 'Architected the core Jomnenh-KH platform from scratch using Spring Boot 3, secure JWT auth, PostgreSQL data models, and reactive frontend components.',
+    skills: ['Spring Boot 3', 'React.js', 'PostgreSQL', 'REST APIs', 'JWT Security'],
+  },
+  {
+    id: 'alex',
+    name: 'Alex Rivera',
+    role: 'Frontend & UI Systems Lead',
+    badgeRole: 'Frontend & UI Systems Lead',
+    pill: 'Frontend Lead',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    tier: 1,
+    isLead: false,
+    bio: 'Engineered responsive high-density mobile navigation, sleek micro-interactions, cart state management, and modern CSS layout engines.',
+    skills: ['Vite', 'Responsive CSS', 'State Management', 'UI/UX'],
+  },
+  {
+    id: 'devon',
+    name: 'Devon Vance',
+    role: 'Database & Infrastructure Engineer',
+    badgeRole: 'Database & Infrastructure Engineer',
+    pill: 'Database & Cloud',
+    avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80',
+    tier: 2,
+    isLead: false,
+    bio: 'Responsible for database query indexing, production containerization, automated mail routing, and enterprise security compliance.',
+    skills: ['PostgreSQL', 'Docker', 'Mail Servers', 'DevOps'],
+  },
+];
 
 const AboutUs = () => {
   // Interactive delivery date preview
   const [selectedOrderDayOffset, setSelectedOrderDayOffset] = useState(0);
+  const [selectedDevId, setSelectedDevId] = useState('hong');
+
+  const activeDev = DEVELOPERS.find(d => d.id === selectedDevId) || DEVELOPERS[0];
 
   const getCalculatedDates = (offsetDays) => {
     const orderDate = new Date();
@@ -225,101 +267,98 @@ const AboutUs = () => {
           <div className="text-center mb-4">
             <span className="section-badge"><Sparkles size={12} className="text-amber-400" /> Real-Time 3D Physics</span>
             <h3 className="text-lg font-bold text-slate-200 mt-1">Interactive Systems Architecture Pass</h3>
-            <p className="text-xs text-slate-400 max-w-xl mx-auto">
-              Drag, pull, or toss the badge below. Built with vector physics, inertial spring physics, real-time specular glare, and gyroscope angle banking.
+            <p className="text-xs text-slate-400 max-w-xl mx-auto mb-3">
+              Hover on any developer card below or click a profile tab to view their face, credentials, and encrypted RFID security pass on the 3D card.
             </p>
+
+            {/* Quick Switcher Dock */}
+            <div className="dev-switcher-dock">
+              {DEVELOPERS.map((dev) => {
+                const isActive = selectedDevId === dev.id;
+                return (
+                  <button
+                    key={dev.id}
+                    className={`dev-dock-btn ${isActive ? 'active' : ''}`}
+                    onMouseEnter={() => setSelectedDevId(dev.id)}
+                    onClick={() => setSelectedDevId(dev.id)}
+                    type="button"
+                  >
+                    <img 
+                      src={dev.avatar} 
+                      alt={dev.name} 
+                      className="dev-dock-img" 
+                      style={dev.avatar.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d' } : { objectFit: 'cover' }}
+                    />
+                    <div className="dev-dock-text">
+                      <span className="dev-dock-name">{dev.name}</span>
+                      <span className="dev-dock-role">{dev.pill}</span>
+                    </div>
+                    {isActive && <span className="dev-active-dot" title="Active on 3D Pass" />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
           <div className="lanyard-stage-box">
             <InteractiveLanyardBadge 
-              initialName="Hong Saoleang"
-              initialRole="Founder & Full-Stack Architect"
-              initialAvatar="/JomnenhKH.jpg"
+              initialName={activeDev.name}
+              initialRole={activeDev.badgeRole}
+              initialAvatar={activeDev.avatar}
+              initialTier={activeDev.tier}
               stageHeight={580}
             />
           </div>
         </div>
 
+        {/* Developer Profiles Grid with Hover Linking to 3D Pass */}
         <div className="dev-team-grid">
-          <div className="dev-card lead-card">
-            <div className="dev-card-top">
-              <div className="dev-avatar-wrap">
-                <img 
-                  src="/JomnenhKH.jpg" 
-                  alt="Hong Saoleang" 
-                  className="dev-avatar" 
-                  style={{ objectFit: 'contain', background: '#0a0f1d', padding: '3px' }}
-                />
-                <span className="dev-status-indicator" title="Lead Architect" />
-              </div>
-              <div className="dev-meta">
-                <div className="flex items-center gap-2">
-                  <h3 className="dev-name">Hong Saoleang</h3>
-                  <span className="dev-pill-lead">Founder &amp; Lead</span>
+          {DEVELOPERS.map((dev) => {
+            const isSelected = selectedDevId === dev.id;
+            return (
+              <div 
+                key={dev.id}
+                className={`dev-card ${dev.isLead ? 'lead-card' : ''} ${isSelected ? 'is-active-inspected' : ''}`}
+                onMouseEnter={() => setSelectedDevId(dev.id)}
+                onClick={() => setSelectedDevId(dev.id)}
+                style={{ cursor: 'pointer', transition: 'all 0.25s ease' }}
+              >
+                <div className="dev-card-top">
+                  <div className="dev-avatar-wrap">
+                    <img 
+                      src={dev.avatar} 
+                      alt={dev.name} 
+                      className="dev-avatar" 
+                      style={dev.avatar.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d', padding: '3px' } : { objectFit: 'cover' }}
+                    />
+                    <span className="dev-status-indicator" title={isSelected ? 'Active on 3D Pass' : dev.pill} />
+                  </div>
+                  <div className="dev-meta">
+                    <div className="flex items-center gap-2">
+                      <h3 className="dev-name">{dev.name}</h3>
+                      <span className="dev-pill-lead">{dev.pill}</span>
+                    </div>
+                    <span className="dev-role">{dev.role}</span>
+                  </div>
                 </div>
-                <span className="dev-role">Full-Stack Architect &amp; System Designer</span>
-              </div>
-            </div>
-            <p className="dev-bio">
-              Architected the core Jomnenh-KH platform from scratch using Spring Boot 3, secure JWT auth, PostgreSQL data models, and reactive frontend components.
-            </p>
-            <div className="dev-skills">
-              <span className="dev-skill-tag">Spring Boot 3</span>
-              <span className="dev-skill-tag">React.js</span>
-              <span className="dev-skill-tag">PostgreSQL</span>
-              <span className="dev-skill-tag">REST APIs</span>
-              <span className="dev-skill-tag">JWT Security</span>
-            </div>
-          </div>
 
-          <div className="dev-card">
-            <div className="dev-card-top">
-              <div className="dev-avatar-wrap">
-                <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" 
-                  alt="Alex Rivera" 
-                  className="dev-avatar" 
-                />
-              </div>
-              <div className="dev-meta">
-                <h3 className="dev-name">Alex Rivera</h3>
-                <span className="dev-role">Frontend &amp; UI Systems Lead</span>
-              </div>
-            </div>
-            <p className="dev-bio">
-              Engineered responsive high-density mobile navigation, sleek micro-interactions, cart state management, and modern CSS layout engines.
-            </p>
-            <div className="dev-skills">
-              <span className="dev-skill-tag">Vite</span>
-              <span className="dev-skill-tag">Responsive CSS</span>
-              <span className="dev-skill-tag">State Management</span>
-              <span className="dev-skill-tag">UI/UX</span>
-            </div>
-          </div>
+                <p className="dev-bio">{dev.bio}</p>
 
-          <div className="dev-card">
-            <div className="dev-card-top">
-              <div className="dev-avatar-wrap">
-                <img 
-                  src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80" 
-                  alt="Devon Vance" 
-                  className="dev-avatar" 
-                />
+                <div className="dev-skills">
+                  {dev.skills.map((skill, idx) => (
+                    <span key={idx} className="dev-skill-tag">{skill}</span>
+                  ))}
+                </div>
+
+                <div className="dev-card-pass-status">
+                  <span className={`pass-status-indicator ${isSelected ? 'active' : ''}`}>
+                    <span className={`status-dot ${isSelected ? 'pulsing' : ''}`} />
+                    {isSelected ? 'Viewing on 3D Pass' : 'Hover to load into 3D Pass'}
+                  </span>
+                </div>
               </div>
-              <div className="dev-meta">
-                <h3 className="dev-name">Devon Vance</h3>
-                <span className="dev-role">Database &amp; Infrastructure Engineer</span>
-              </div>
-            </div>
-            <p className="dev-bio">
-              Responsible for database query indexing, production containerization, automated mail routing, and enterprise security compliance.
-            </p>
-            <div className="dev-skills">
-              <span className="dev-skill-tag">PostgreSQL</span>
-              <span className="dev-skill-tag">Docker</span>
-              <span className="dev-skill-tag">Mail Servers</span>
-              <span className="dev-skill-tag">DevOps</span>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </section>
 
