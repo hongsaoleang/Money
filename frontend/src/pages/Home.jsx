@@ -2,16 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
-import { ArrowRight, Code, Cpu, Smartphone, ShieldCheck, Sparkles, Clock, Globe } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { 
+  ArrowRight, Code, Cpu, Smartphone, ShieldCheck, Sparkles, Clock, Globe,
+  ShoppingBag, Check, Zap, Layers
+} from 'lucide-react';
 import CountdownTimer from '../components/CountdownTimer';
 import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 
 const Home = () => {
   const { user } = useAuth();
+  const { addToCart } = useCart();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [upcomingProducts, setUpcomingProducts] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [addedId, setAddedId] = useState(null);
+
+  const handleQuickAdd = (product) => {
+    addToCart(product, 1);
+    setAddedId(product.id);
+    setTimeout(() => setAddedId(null), 1800);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,29 +47,117 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
-      <section className="hero-section hero-section-split">
-        <div className="hero-grid">
-          <div className="hero-content hero-content-split">
-            <div className="hero-badge">
-              <Sparkles size={14} /> Hardware &amp; Software
+      {/* 1. TOP FEATURED PRODUCTS SHOWCASE (SEEN IMMEDIATELY ON OPEN) */}
+      <section className="top-featured-section section-container">
+        <div className="top-featured-header">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="section-badge"><Sparkles size={13} className="text-amber-400" /> Featured Store</span>
+              <span className="featured-live-beacon"><span className="pulse-dot" /> Live Catalog</span>
             </div>
-            <h1 className="hero-title">
-              Where Precision <span className="gradient-text">Hardware</span> Meets Enterprise <span className="gradient-text">Software</span>.
+            <h1 className="top-featured-title">
+              Featured <span className="gradient-text">Hardware</span> &amp; Devices
             </h1>
-            <p className="hero-subtitle">
-              Curated tech hardware and bespoke software engineering.
+            <p className="top-featured-subtitle">
+              Verified global origin &bull; Aerospace materials &bull; Ready to ship
             </p>
-            <div className="hero-actions">
-              <Link to="/products" className="btn-primary hero-btn">
-                Explore Products <ArrowRight size={18} />
-              </Link>
-              <Link to="/services" className="btn-outline hero-btn">
-                Hire Software Team <Code size={18} />
-              </Link>
-            </div>
+          </div>
 
-            <div className="hero-metrics">
+          <Link to="/products" className="view-all-pill">
+            All Products ({featuredProducts.length}+) <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        {/* Featured Showcase Cards */}
+        {loading ? (
+          <div className="loading-spinner">Loading featured hardware...</div>
+        ) : (
+          <div className="featured-showcase-grid">
+            {featuredProducts.map((product, idx) => (
+              <div 
+                key={product.id} 
+                className={`featured-spotlight-card ${idx === 0 ? 'spotlight-lead' : ''}`}
+              >
+                {/* Visual Thumbnail Wrap */}
+                <div className="spotlight-thumb-wrap">
+                  <img src={product.imageUrl} alt={product.name} className="spotlight-img" />
+                  <div className="spotlight-badge-row">
+                    <span className="spotlight-origin-badge">
+                      <Globe size={12} /> {product.originCountry || 'Imported'}
+                    </span>
+                    <span className={`spotlight-stock-badge ${product.stockQuantity > 0 ? 'in-stock' : 'out-stock'}`}>
+                      {product.stockQuantity > 0 ? `● In Stock (${product.stockQuantity})` : 'Backorder'}
+                    </span>
+                  </div>
+                  {idx === 0 && <span className="spotlight-flagship-tag">Flagship</span>}
+                </div>
+
+                {/* Card Content Body */}
+                <div className="spotlight-content">
+                  <div className="spotlight-category-row">
+                    <span className="spotlight-category">{product.category?.name}</span>
+                    <span className="spotlight-id">#JKH-0{product.id}</span>
+                  </div>
+
+                  <h3 className="spotlight-title">{product.name}</h3>
+
+                  <p className="spotlight-desc">
+                    {product.description?.substring(0, idx === 0 ? 110 : 80)}...
+                  </p>
+
+                  <div className="spotlight-provenance-tag">
+                    <strong>Origin:</strong> {product.provenanceDetails?.substring(0, 55)}...
+                  </div>
+
+                  <div className="spotlight-footer">
+                    <div className="spotlight-price-col">
+                      <span className="price-label">Price</span>
+                      <span className="spotlight-price">${parseFloat(product.price).toFixed(2)}</span>
+                    </div>
+
+                    <div className="spotlight-actions">
+                      <button 
+                        onClick={() => handleQuickAdd(product)}
+                        disabled={product.stockQuantity <= 0}
+                        className={`spotlight-cart-btn ${addedId === product.id ? 'added' : ''}`}
+                        title="Add to shopping cart"
+                      >
+                        {addedId === product.id ? (
+                          <>
+                            <Check size={16} /> Added!
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag size={16} /> Add to Cart
+                          </>
+                        )}
+                      </button>
+
+                      <Link to={`/products/${product.id}`} className="spotlight-inspect-btn" title="View Specifications">
+                        <ArrowRight size={16} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* 2. INTERACTIVE LANYARD PASS & STUDIO CAPABILITIES */}
+      <section className="lanyard-showcase-section section-container">
+        <div className="lanyard-section-grid">
+          <div className="lanyard-content">
+            <span className="section-badge">Jomnenh-KH Core</span>
+            <h2 className="section-title">
+              Interactive <span className="gradient-text">Identity Pass</span> &amp; Systems
+            </h2>
+            <p className="section-subtitle">
+              Drag, pull, or toss the 3D credentials pass below. Built with real-time physics and vector angle banking.
+            </p>
+
+            <div className="hero-metrics compact mt-4">
               <div className="metric-item">
                 <span className="metric-val">100%</span>
                 <span className="metric-lbl">Provenance</span>
@@ -75,8 +175,7 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Interactive Hanging Lanyard ID Badge Showcase */}
-          <div className="hero-badge-container">
+          <div className="lanyard-card-col">
             <div className="hero-badge-ambient-glow" />
             <InteractiveLanyardBadge 
               initialName={user?.fullName || 'Alex Rivera'}
@@ -84,49 +183,6 @@ const Home = () => {
             />
           </div>
         </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="section-container">
-        <div className="section-header">
-          <div>
-            <span className="section-badge">Store</span>
-            <h2 className="section-title">Featured Products</h2>
-          </div>
-          <Link to="/products" className="view-all-link">
-            View All <ArrowRight size={16} />
-          </Link>
-        </div>
-
-        {loading ? (
-          <div className="loading-spinner">Loading products...</div>
-        ) : (
-          <div className="products-grid">
-            {featuredProducts.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-image-wrap">
-                  <img src={product.imageUrl} alt={product.name} className="product-image" />
-                  <span className="origin-badge">
-                    <Globe size={13} /> {product.originCountry || 'Imported'}
-                  </span>
-                </div>
-                <div className="product-details">
-                  <span className="product-category">{product.category?.name}</span>
-                  <h3 className="product-title">{product.name}</h3>
-                  <p className="product-provenance-snippet">
-                    <strong>Origin:</strong> {product.provenanceDetails?.substring(0, 75)}...
-                  </p>
-                  <div className="product-footer">
-                    <span className="product-price">${parseFloat(product.price).toFixed(2)}</span>
-                    <Link to={`/products/${product.id}`} className="btn-secondary btn-sm">
-                      Inspect Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* Scheduled Release Products (Upcoming) */}
