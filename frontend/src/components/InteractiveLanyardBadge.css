@@ -661,17 +661,17 @@
    ========================================================================== */
 
 .lanyard-direction-hud {
+  display: none !important;
   position: absolute;
   top: 26px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px) scale(0.92);
-  display: flex;
   align-items: center;
   gap: 8px;
   background: rgba(15, 23, 42, 0.92);
   border: 1px solid rgba(56, 189, 248, 0.45);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(56, 189, 248, 0.25);
-  border-radius: 9999px;
+  border-radius: 6px;
   padding: 5px 12px;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -731,7 +731,7 @@
   color: #38bdf8;
   background: rgba(56, 189, 248, 0.14);
   padding: 2px 7px;
-  border-radius: 9999px;
+  border-radius: 4px;
   font-family: 'Courier New', Courier, monospace;
   border: 1px solid rgba(56, 189, 248, 0.3);
 }
@@ -747,7 +747,7 @@
   gap: 10px;
   background: rgba(15, 23, 42, 0.85);
   padding: 8px 14px;
-  border-radius: 9999px;
+  border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(14px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -762,7 +762,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #cbd5e1;
   padding: 6px 12px;
-  border-radius: 9999px;
+  border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
