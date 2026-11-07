@@ -13,7 +13,7 @@ const DEVELOPERS = [
     avatar: '/JomnenhKH.jpg',
     tier: 0,
     isLead: true,
-    bio: 'Architected the core Jomnenh-KH platform from scratch using Spring Boot 3, secure JWT auth, PostgreSQL data models, and reactive frontend components.',
+    bio: 'Built the platform architecture, APIs, authentication, and data models.',
     skills: ['Spring Boot 3', 'React.js', 'PostgreSQL', 'REST APIs', 'JWT Security'],
   },
   {
@@ -25,7 +25,7 @@ const DEVELOPERS = [
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
     tier: 1,
     isLead: false,
-    bio: 'Engineered responsive high-density mobile navigation, sleek micro-interactions, cart state management, and modern CSS layout engines.',
+    bio: 'Built the responsive interface, navigation, and shopping experience.',
     skills: ['Vite', 'Responsive CSS', 'State Management', 'UI/UX'],
   },
   {
@@ -37,7 +37,7 @@ const DEVELOPERS = [
     avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80',
     tier: 2,
     isLead: false,
-    bio: 'Responsible for database query indexing, production containerization, automated mail routing, and enterprise security compliance.',
+    bio: 'Maintains the database, cloud infrastructure, and platform security.',
     skills: ['PostgreSQL', 'Docker', 'Mail Servers', 'DevOps'],
   },
 ];
@@ -78,10 +78,10 @@ const AboutUs = () => {
       <section className="about-hero section-container">
         <span className="section-badge">Company & Philosophy</span>
         <h1 className="hero-title">
-          Transparency in <span className="gradient-text">Hardware Origin</span> & <span className="gradient-text">Delivery Speed</span>
+          Know where it’s made. <span className="gradient-text">Know when it arrives.</span>
         </h1>
         <p className="hero-subtitle">
-          We believe consumers deserve 100% clarity on where their products originate, how they are made, and the exact date they arrive at their door after ordering.
+          Clear product origins and delivery dates, from checkout to your door.
         </p>
       </section>
 
@@ -89,9 +89,9 @@ const AboutUs = () => {
       <section id="provenance" className="section-container">
         <div className="section-header text-center">
           <span className="section-badge">Product Provenance</span>
-          <h2 className="section-title">Where Do Our Products Come From?</h2>
+          <h2 className="section-title">Made with care, sourced with clarity</h2>
           <p className="section-subtitle">
-            Every device on our catalog is audited for ethical manufacturing, material purity, and factory certifications.
+            We review our suppliers for quality and responsible manufacturing.
           </p>
         </div>
 
@@ -99,27 +99,27 @@ const AboutUs = () => {
           <div className="provenance-country-card">
             <div className="country-flag-icon"><Globe size={28} /></div>
             <h3>Germany</h3>
-            <span className="provenance-focus">Precision Mechanical & Ultrabook Alloys</span>
+            <span className="provenance-focus">Precision engineering</span>
             <p>
-              Our flagship ultrabooks are machined from solid billets of 100% recycled aluminum in Stuttgart, adhering to DIN standards and renewable energy manufacturing.
+              Recycled aluminum components from audited German suppliers.
             </p>
           </div>
 
           <div className="provenance-country-card">
             <div className="country-flag-icon"><Globe size={28} /></div>
             <h3>Japan</h3>
-            <span className="provenance-focus">Acoustic Drivers & Planar Magnetics</span>
+            <span className="provenance-focus">Audio components</span>
             <p>
-              Studio headphones diaphragms and drivers are hand-calibrated in Kyoto by master audio acousticians using organic lambskin ear-cups.
+              Carefully tuned drivers and acoustic components from Japan.
             </p>
           </div>
 
           <div className="provenance-country-card">
             <div className="country-flag-icon"><Globe size={28} /></div>
             <h3>Taiwan</h3>
-            <span className="provenance-focus">Semiconductor & Keyboard Micro-Controllers</span>
+            <span className="provenance-focus">Electronics</span>
             <p>
-              High-frequency micro-controllers, custom PCB switches, and CNC keyboard bodies fabricated in the heart of Hsinchu Science Park.
+              Semiconductors, controllers, and precision keyboard parts.
             </p>
           </div>
 
@@ -140,14 +140,14 @@ const AboutUs = () => {
               <ShieldCheck size={20} className="text-emerald" />
               <div>
                 <strong>Zero Conflict Minerals</strong>
-                <p>Tantalum, tin, tungsten, and gold are 100% certified from verified ethical mines.</p>
+                <p>Suppliers verify responsible mineral sourcing.</p>
               </div>
             </div>
             <div className="check-row">
               <ShieldCheck size={20} className="text-emerald" />
               <div>
                 <strong>Factory Audit Certification</strong>
-                <p>All supplier factories must uphold ISO-9001 and ISO-14001 compliance standards.</p>
+                <p>Factories are reviewed for quality and environmental standards.</p>
               </div>
             </div>
           </div>
@@ -156,14 +156,14 @@ const AboutUs = () => {
               <ShieldCheck size={20} className="text-emerald" />
               <div>
                 <strong>Third-Party Merchant Review</strong>
-                <p>Partners wishing to sell on our platform must submit products for rigorous admin testing before publication.</p>
+                <p>Every partner product is reviewed before it goes live.</p>
               </div>
             </div>
             <div className="check-row">
               <ShieldCheck size={20} className="text-emerald" />
               <div>
                 <strong>Full Provenance Ledger</strong>
-                <p>Each product page explicitly details the origin country and factory specs for the buyer.</p>
+                <p>Product pages show origin details and key specifications.</p>
               </div>
             </div>
           </div>
@@ -174,16 +174,16 @@ const AboutUs = () => {
       <section id="delivery" className="section-container delivery-timeline-section">
         <div className="section-header text-center">
           <span className="section-badge">Post-Order Logistics</span>
-          <h2 className="section-title">Delivery Dates After Customer Ordering</h2>
+          <h2 className="section-title">Your order, step by step</h2>
           <p className="section-subtitle">
-            We provide exact dates and transparent stages from the instant an order is placed to arrival.
+            See each delivery stage and your estimated arrival date.
           </p>
         </div>
 
         {/* Interactive Order Date Picker */}
         <div className="interactive-delivery-tester">
           <div className="tester-header">
-            <h4>Select Order Placement Date:</h4>
+              <h4>When will you order?</h4>
             <div className="date-selector-buttons">
               <button
                 className={`date-pill ${selectedOrderDayOffset === 0 ? 'active' : ''}`}
@@ -212,7 +212,7 @@ const AboutUs = () => {
               <div className="point-icon"><Calendar size={20} /></div>
               <span className="step-title">1. Order Placed</span>
               <span className="step-date">{dates.orderFormatted}</span>
-              <p className="step-desc">Payment confirmed, automated receipt sent, stock deducted</p>
+              <p className="step-desc">Payment confirmed and order received.</p>
             </div>
 
             <div className="step-connector" />
@@ -221,7 +221,7 @@ const AboutUs = () => {
               <div className="point-icon"><Box size={20} /></div>
               <span className="step-title">2. Processing & QA</span>
               <span className="step-date">{dates.packFormatted}</span>
-              <p className="step-desc">Item inspected, serial number logged, eco-packaged</p>
+              <p className="step-desc">Your item is checked and packed.</p>
             </div>
 
             <div className="step-connector" />
@@ -230,7 +230,7 @@ const AboutUs = () => {
               <div className="point-icon"><Truck size={20} /></div>
               <span className="step-title">3. Express Dispatch</span>
               <span className="step-date">{dates.dispatchFormatted}</span>
-              <p className="step-desc">Handed to air courier, live tracking link activated</p>
+              <p className="step-desc">Your package is dispatched with tracking.</p>
             </div>
 
             <div className="step-connector" />
@@ -239,14 +239,14 @@ const AboutUs = () => {
               <div className="point-icon"><PackageCheck size={20} /></div>
               <span className="step-title">4. Doorstep Delivery</span>
               <span className="step-date delivery-highlight">{dates.deliveryFormatted}</span>
-              <p className="step-desc">Signature delivery guaranteed at customer address</p>
+              <p className="step-desc">Delivered to your address.</p>
             </div>
           </div>
 
           <div className="delivery-summary-banner">
             <Clock size={20} className="text-indigo" />
             <div>
-              <strong>Standard Fulfillment SLA:</strong> Customers receive their goods within <strong>4 calendar days</strong> of placing an order.
+              Most orders arrive within <strong>4 days</strong>.
             </div>
           </div>
         </div>
@@ -258,7 +258,7 @@ const AboutUs = () => {
           <span className="section-badge"><Code size={13} className="text-indigo-400" /> Engineering Division</span>
           <h2 className="section-title">The Developers Who Built Jomnenh-KH</h2>
           <p className="section-subtitle">
-            Our full-stack engineers and software architects responsible for the platform design, APIs, security, and infrastructure.
+            Meet the team behind our products and platform.
           </p>
         </div>
 
@@ -266,9 +266,9 @@ const AboutUs = () => {
         <div className="interactive-lanyard-wrapper mb-10">
           <div className="text-center mb-4">
             <span className="section-badge"><Sparkles size={12} className="text-amber-400" /> Real-Time 3D Physics</span>
-            <h3 className="text-lg font-bold text-slate-200 mt-1">Interactive Systems Architecture Pass</h3>
+            <h3 className="text-lg font-bold text-slate-200 mt-1">Meet the team</h3>
             <p className="text-xs text-slate-400 max-w-xl mx-auto mb-3">
-              Hover on any developer card below or click a profile tab to view their face, credentials, and encrypted RFID security pass on the 3D card.
+              Select a profile to see it on the interactive 3D badge.
             </p>
 
             {/* Quick Switcher Dock */}
@@ -364,11 +364,11 @@ const AboutUs = () => {
 
       {/* CTA */}
       <section className="section-container text-center about-cta">
-        <h2>Experience the Jomnenh-KH Standard</h2>
-        <p>Explore our transparent product catalog or build software with our engineering division.</p>
+        <h2>Ready to explore?</h2>
+        <p>Shop our products or talk with our software team.</p>
         <div className="hero-actions justify-center">
           <Link to="/products" className="btn-primary">Browse Products</Link>
-          <Link to="/services" className="btn-secondary">Hire Software Team</Link>
+          <Link to="/services" className="btn-secondary">Explore services</Link>
         </div>
       </section>
     </div>

@@ -8,25 +8,25 @@ import {
 
 const SERVICE_FEATURE_SETS = {
   web: [
-    'React 19 & Vite Architecture',
-    'Spring Boot 3 REST Microservices',
-    'Sub-100ms API Response Times',
-    'Enterprise JWT & RBAC Security',
-    'Automated CI/CD Deployment Pipelines',
+    'React and modern frontend architecture',
+    'Spring Boot APIs and microservices',
+    'Fast, responsive user experiences',
+    'Secure sign-in and role controls',
+    'Automated testing and deployment',
   ],
   mobile: [
-    'Flutter & React Native Cross-Platform',
-    'Native 60fps Performance on iOS & Android',
-    'Biometric & NFC Hardware Authentication',
-    'Offline-First Local Data Caching',
-    'Push Notifications & Real-Time Sync',
+    'Flutter and React Native apps',
+    'Smooth iOS and Android performance',
+    'Biometric and NFC support',
+    'Offline access to key features',
+    'Notifications and live sync',
   ],
   cloud: [
-    'PostgreSQL Database Indexing & Tuning',
-    'Redis In-Memory Distributed Caching',
-    'Docker Containerization & Kubernetes',
-    'Zero-Downtime Rolling Releases',
-    'Automated Backup & Disaster Recovery',
+    'Reliable PostgreSQL databases',
+    'Fast caching with Redis',
+    'Docker and Kubernetes hosting',
+    'Safe, low-downtime releases',
+    'Automated backups and recovery',
   ],
 };
 
@@ -91,27 +91,27 @@ const Services = () => {
         <div className="services-hero-content text-center">
           <div className="hero-badge-row">
             <span className="section-badge">
-              <Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Engineering Division
+              <Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Engineering
             </span>
             <span className="hero-status-pill">
-              <span className="pulse-dot green" /> Accepting New Client Projects
+              <span className="pulse-dot green" /> Taking new projects
             </span>
           </div>
 
           <h1 className="hero-title">
-            Enterprise <span className="gradient-text">Web, Mobile &amp; Cloud</span> Engineering
+            Software built <span className="gradient-text">to scale</span>
           </h1>
 
           <p className="hero-subtitle max-w-xl mx-auto mb-6 text-slate-300">
-            Production-grade software platforms built to scale. High-performance Spring Boot backends, responsive React frontends, and native mobile apps.
+            Web, mobile, and cloud products designed for speed, security, and growth.
           </p>
 
           <div className="hero-actions justify-center mb-8">
             <a href="#inquiry" className="btn-primary">
-              <Send size={15} /> Request Technical Proposal
+              <Send size={15} /> Start a project
             </a>
             <a href="#portfolio" className="btn-secondary">
-              Inspect Shipped Work <ArrowRight size={15} />
+              View our work <ArrowRight size={15} />
             </a>
           </div>
 
@@ -124,7 +124,7 @@ const Services = () => {
             <div className="metric-v-sep" />
             <div className="hero-metric-item">
               <span className="metric-figure">100%</span>
-              <span className="metric-caption">On-Time Sprint Delivery</span>
+              <span className="metric-caption">On-time delivery</span>
             </div>
             <div className="metric-v-sep" />
             <div className="hero-metric-item">
@@ -146,7 +146,7 @@ const Services = () => {
           <span className="section-badge">Capabilities</span>
           <h2 className="section-title">Core Engineering Capabilities</h2>
           <p className="section-subtitle">
-            Bespoke architectures built with clean code, verified security, and sub-second performance.
+            Practical, secure software shaped around your needs.
           </p>
         </div>
 
@@ -174,7 +174,7 @@ const Services = () => {
                   </div>
                 </div>
 
-                <p className="service-summary text-sm text-slate-300 mb-4">{srv.summary}</p>
+                <p className="service-summary text-sm text-slate-300 mb-4">{srv.summary?.split(/(?<=[.!?])\s/)[0]}</p>
 
                 {/* Specific Feature Checklist */}
                 <div className="service-features-list">
@@ -197,7 +197,7 @@ const Services = () => {
           <span className="section-badge">Track Record</span>
           <h2 className="section-title">Shipped Enterprise Case Studies</h2>
           <p className="section-subtitle">
-            Real production platforms engineered, scaled, and deployed by our team.
+            A few products we’ve taken from idea to launch.
           </p>
         </div>
 
@@ -216,7 +216,7 @@ const Services = () => {
                 </div>
 
                 <p className="portfolio-compact-desc text-xs text-slate-300">
-                  {project.description}
+                  {project.description?.split(/(?<=[.!?])\s/)[0]}
                 </p>
 
                 {/* Tech Stack Chips */}
@@ -251,29 +251,29 @@ const Services = () => {
         <div className="section-header text-center">
           <span className="section-badge">Methodology</span>
           <h2 className="section-title">Sprint Delivery Pipeline</h2>
-          <p className="section-subtitle">Transparent, predictable, and SLA-guaranteed.</p>
+          <p className="section-subtitle">Clear steps, steady progress, reliable launches.</p>
         </div>
 
         <div className="process-timeline-compact">
           <div className="process-step-compact">
             <div className="step-num-badge">01</div>
             <h4>System Architecture</h4>
-            <p>Database schemas, data flow, and REST API contracts.</p>
+            <p>Plan the data, system, and APIs.</p>
           </div>
           <div className="process-step-compact">
             <div className="step-num-badge">02</div>
             <h4>Figma Prototyping</h4>
-            <p>High-fidelity wireframes and interactive UX journeys.</p>
+            <p>Shape and test the user experience.</p>
           </div>
           <div className="process-step-compact">
             <div className="step-num-badge">03</div>
             <h4>Agile Sprints</h4>
-            <p>Bi-weekly releases with automated tests and code reviews.</p>
+            <p>Ship updates with reviews and checks.</p>
           </div>
           <div className="process-step-compact">
             <div className="step-num-badge">04</div>
             <h4>Production Launch</h4>
-            <p>CI/CD automated deployment, security checks, and 99.9% SLA.</p>
+            <p>Launch with security and monitoring.</p>
           </div>
         </div>
       </section>
@@ -283,14 +283,14 @@ const Services = () => {
         <div className="inquiry-box">
           <div className="inquiry-info">
             <span className="section-badge">Get Started</span>
-            <h2>Let’s Build Your Software Solution</h2>
+            <h2>Let’s build your next product</h2>
             <p className="text-sm text-slate-300 mb-4">
-              Tell us about your project requirements. Our lead software architect will review your specifications and schedule a consultation within 24 business hours.
+              Share your goals. We’ll review them and reply within one business day.
             </p>
             <div className="inquiry-perks">
-              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Free technical architecture estimate</div>
-              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Strict NDA and IP confidentiality</div>
-              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Guaranteed response within 24 hours</div>
+              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Free project estimate</div>
+              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Your ideas stay confidential</div>
+              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Reply within one business day</div>
             </div>
           </div>
 
@@ -343,23 +343,23 @@ const Services = () => {
                 <option value="Custom Web Application Development">Custom Web Application Development</option>
                 <option value="Cross-Platform Mobile App Development">Cross-Platform Mobile App Development</option>
                 <option value="Enterprise Cloud & Backend Systems">Enterprise Cloud & Backend Systems</option>
-                <option value="Full Digital Transformation">Full Digital Transformation (Web + App)</option>
+                <option value="Full Digital Transformation">Full digital product</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label>Project Details &amp; Scope *</label>
+              <label>Project details *</label>
               <textarea
                 required
                 rows={3}
                 value={inquiry.message}
                 onChange={(e) => setInquiry({ ...inquiry, message: e.target.value })}
-                placeholder="Briefly describe your vision, timeline, and key requirements..."
+                placeholder="What would you like to build?"
               />
             </div>
 
             <button type="submit" disabled={submitting} className="btn-primary submit-btn">
-              <Send size={15} /> {submitting ? 'Submitting...' : 'Send Project Inquiry'}
+              <Send size={15} /> {submitting ? 'Sending...' : 'Send inquiry'}
             </button>
           </form>
         </div>

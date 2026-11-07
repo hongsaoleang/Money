@@ -6021,3 +6021,103 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   .order-header-row, .order-footer-row { flex-wrap: wrap; gap: 12px; }
   .crud-toolbar, .catalog-toolbar { align-items: stretch; gap: 14px; }
 }
+
+/* Inventory summary cards: give values and descriptions room to breathe. */
+.dashboard-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-bottom: 32px !important; }
+.kpi-glass-card { min-height: 132px; padding: 22px; align-items: center; gap: 18px; border-radius: 18px; }
+.kpi-content { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; }
+.kpi-lbl, .kpi-val, .kpi-sub { margin: 0; line-height: 1.4; }
+.kpi-lbl { font-size: .76rem; letter-spacing: .06em; }
+.kpi-val { font-size: clamp(1.2rem, 2vw, 1.55rem); overflow-wrap: anywhere; }
+.kpi-sub { font-size: .82rem; }
+
+/* The Services page uses service-detail-card; keep its content in clear blocks. */
+.service-detail-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 16px;
+  padding: clamp(20px, 2.4vw, 30px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.service-detail-card > .flex { align-items: flex-start; gap: 16px; }
+.service-detail-card h3 { line-height: 1.35; }
+.service-summary { margin: 0 !important; line-height: 1.65; }
+.service-features-list { gap: 12px; padding: 18px; }
+.service-feature-row { align-items: flex-start; gap: 11px; line-height: 1.5; }
+.service-feature-row span { font-size: .82rem; }
+.services-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 24px; }
+.portfolio-compact-card { gap: 16px; }
+.portfolio-card-header > .flex { align-items: flex-start; flex-wrap: wrap; row-gap: 8px; }
+.portfolio-compact-title { line-height: 1.35; }
+.portfolio-compact-desc { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; line-height: 1.65; }
+.tech-tags { gap: 8px; }
+.tech-tag { white-space: normal; }
+.inquiry-box { gap: clamp(28px, 5vw, 64px); padding: clamp(24px, 5vw, 52px); }
+.inquiry-info h2 { line-height: 1.18; margin-bottom: 18px; }
+.inquiry-info p { line-height: 1.7; margin-bottom: 28px; }
+.inquiry-form, .inquiry-form .form-group { display: flex; flex-direction: column; gap: 10px; }
+.inquiry-form { gap: 20px; }
+.inquiry-form .form-group { margin: 0; }
+.inquiry-form .form-row { gap: 18px; }
+
+.about-hero { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.about-hero .section-badge, .about-hero .hero-title, .about-hero .hero-subtitle { margin: 0; }
+.about-hero .hero-title { max-width: 900px; line-height: 1.12; }
+.about-hero .hero-subtitle { max-width: 680px; line-height: 1.7; }
+.provenance-country-card { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 28px; }
+.provenance-country-card h3, .provenance-country-card p, .provenance-country-card .provenance-focus { margin: 0; }
+.provenance-country-card p { line-height: 1.7; }
+.provenance-country-card p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.provenance-focus { line-height: 1.45; }
+.audit-checklist-box { padding: clamp(22px, 3vw, 36px); gap: 28px; }
+.checklist-col { gap: 24px; }
+.check-row { align-items: flex-start; gap: 14px; line-height: 1.55; }
+.check-row > svg { flex: 0 0 auto; }
+.check-row strong { display: block; margin-bottom: 6px; }
+.check-row p { line-height: 1.65; }
+.interactive-delivery-tester { padding: clamp(20px, 4vw, 40px); }
+.tester-header { align-items: flex-start; margin-bottom: 42px; }
+.date-selector-buttons { flex-wrap: wrap; gap: 10px; }
+.order-progress-stepper { gap: 12px; }
+.step-point { gap: 7px; min-width: 0; }
+.step-title, .step-date, .step-desc { margin: 0; line-height: 1.5; }
+.step-desc { overflow-wrap: anywhere; }
+.delivery-summary-banner { align-items: flex-start; line-height: 1.6; }
+.delivery-summary-banner > svg { flex: 0 0 auto; }
+.dev-card { gap: 16px; padding: 24px; border-radius: 18px; }
+.dev-card-top { align-items: flex-start; gap: 16px; margin: 0; }
+.dev-meta, .dev-meta > div { min-width: 0; flex-wrap: wrap; gap: 8px; }
+.dev-name, .dev-role, .dev-bio { overflow-wrap: anywhere; }
+.dev-bio { line-height: 1.65; margin: 0; }
+.dev-skills { gap: 8px; }
+.dev-card-pass-status { margin-top: 4px; }
+
+@media (max-width: 900px) {
+  .order-progress-stepper { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .order-progress-stepper .step-connector { display: none; }
+  .order-progress-stepper .step-point { align-items: flex-start; text-align: left; }
+  .order-progress-stepper .step-desc { max-width: none; }
+}
+
+[data-theme="light"] .service-detail-card { background: var(--bg-card); border-color: var(--border-color); }
+
+@media (max-width: 640px) {
+  .dashboard-kpi-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .kpi-glass-card { min-height: 112px; padding: 20px; }
+  .inquiry-box { padding: 22px 18px; }
+  .inquiry-form .form-row { flex-direction: column; gap: 16px; }
+  .audit-checklist-box { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .interactive-delivery-tester { padding: 18px 14px; }
+  .tester-header { gap: 18px; margin-bottom: 24px; }
+  .date-selector-buttons { width: 100%; }
+  .date-pill { flex: 1 1 auto; }
+  .order-progress-stepper { gap: 18px; }
+  .step-point { align-items: flex-start; text-align: left; }
+  .step-desc { max-width: none; }
+  .dev-card { padding: 18px; }
+  .service-detail-card { padding: 20px; gap: 14px; }
+}
