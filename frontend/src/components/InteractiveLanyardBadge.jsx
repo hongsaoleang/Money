@@ -151,6 +151,21 @@ const InteractiveLanyardBadge = ({
     lastTime: performance.now(),
   });
 
+  // Responsive resting Y coordinate for mobile devices
+  useEffect(() => {
+    const updateResponsiveRest = () => {
+      const w = window.innerWidth;
+      const newRestY = w <= 380 ? 95 : (w <= 640 ? 112 : 145);
+      physicsRef.current.restY = newRestY;
+      if (!physicsRef.current.isDragging) {
+        physicsRef.current.y = newRestY;
+      }
+    };
+    updateResponsiveRest();
+    window.addEventListener('resize', updateResponsiveRest);
+    return () => window.removeEventListener('resize', updateResponsiveRest);
+  }, []);
+
   // Toggle Card Flip
   const handleToggleFlip = () => {
     setIsFlipped(prev => !prev);
