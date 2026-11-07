@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { 
   ArrowRight, Code, Cpu, Smartphone, ShieldCheck, Sparkles, Clock, Globe,
-  ShoppingBag, Check, Zap, Layers, Users, Terminal
+  ShoppingBag, Check, Zap, Layers
 } from 'lucide-react';
 import CountdownTimer from '../components/CountdownTimer';
 
