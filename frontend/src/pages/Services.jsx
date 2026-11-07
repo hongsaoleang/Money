@@ -65,9 +65,6 @@ const Services = () => {
           <h1 className="hero-title">
             We Engineer Enterprise <span className="gradient-text">Web & Mobile Apps</span>
           </h1>
-          <p className="hero-subtitle">
-            Beyond precision devices, our engineering team partners with startups, high-growth brands, and enterprises to build mission-critical digital products from scratch.
-          </p>
           <div className="hero-actions">
             <a href="#portfolio" className="btn-secondary">
               Inspect Our Shipped Work
