@@ -1,11 +1,13 @@
 package com.example.ecommerce.controller;
 
+import com.example.ecommerce.dto.AdminCreateUserRequest;
 import com.example.ecommerce.dto.DashboardStatsDto;
 import com.example.ecommerce.dto.ProductApprovalRequest;
 import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.Product;
+import com.example.ecommerce.model.Role;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.repository.*;
 import com.example.ecommerce.service.OrderService;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -36,6 +39,7 @@ public class AdminController {
     private final ServiceOfferingRepository serviceOfferingRepository;
     private final PortfolioProjectRepository portfolioProjectRepository;
     private final ContactInquiryRepository contactInquiryRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // Admin Dashboard Stats
     @GetMapping("/dashboard")
@@ -123,7 +127,70 @@ public class AdminController {
     // Users list
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+        List<User> users = userRepository.findAll();
+        users.forEach(u -> u.setPassword(null));
+        return ResponseEntity.ok(users);
+    }
+
+    // Admin Creates User or Admin
+    @PostMapping("/users")
+    public ResponseEntity<?> createUser(@Valid @RequestBody AdminCreateUserRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body("Email is already registered: " + request.getEmail());
+        }
+
+        Role role = request.getRole() != null ? request.getRole() : Role.ROLE_USER;
+
+        User user = User.builder()
+                .email(request.getEmail().trim().toLowerCase())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .fullName(request.getFullName().trim())
+                .role(role)
+                .phone(request.getPhone())
+                .address(request.getAddress())
+                .active(true)
+                .build();
+
+        User savedUser = userRepository.save(user);
+        savedUser.setPassword(null);
+        return ResponseEntity.ok(savedUser);
+    }
+
+    // Admin Updates User Role (e.g. promote to ROLE_ADMIN or switch to ROLE_USER)
+    @PatchMapping("/users/{id}/role")
+    public ResponseEntity<?> updateUserRole(@PathVariable Long id, @RequestParam Role role) {
+        return userRepository.findById(id).map(user -> {
+            user.setRole(role);
+            User updated = userRepository.save(user);
+            updated.setPassword(null);
+            return ResponseEntity.ok(updated);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Admin Toggles User Active Status
+    @PatchMapping("/users/{id}/status")
+    public ResponseEntity<?> toggleUserStatus(@PathVariable Long id, @RequestParam boolean active) {
+        return userRepository.findById(id).map(user -> {
+            user.setActive(active);
+            User updated = userRepository.save(user);
+            updated.setPassword(null);
+            return ResponseEntity.ok(updated);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Admin Deletes User
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails currentUser
+    ) {
+        return userRepository.findById(id).map(user -> {
+            if (currentUser != null && user.getEmail().equalsIgnoreCase(currentUser.getUsername())) {
+                return ResponseEntity.badRequest().body("Cannot delete your own administrative account");
+            }
+            userRepository.delete(user);
+            return ResponseEntity.noContent().build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     // Orders list
