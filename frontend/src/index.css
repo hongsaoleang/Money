@@ -4502,27 +4502,20 @@ button, input, select, textarea {
   }
 
   .product-thumb-wrap {
-    height: 160px !important;
-  }
-
-  .featured-showcase-grid {
-    display: flex !important;
-    overflow-x: auto !important;
-    gap: 6px !important;
-    scroll-snap-type: x mandatory !important;
-    padding-bottom: 4px !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-
-  .featured-spotlight-card {
-    min-width: 105px !important;
-    max-width: 112px !important;
-    flex-shrink: 0 !important;
-    scroll-snap-align: start !important;
+    height: 150px !important;
   }
 
   .spotlight-thumb-wrap {
-    height: 80px !important;
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  .spotlight-title {
+    font-size: 0.8rem !important;
+  }
+
+  .spotlight-price {
+    font-size: 0.9rem !important;
   }
 
   .hero-content-split .hero-title {
