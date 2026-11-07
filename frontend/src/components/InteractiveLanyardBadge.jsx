@@ -155,7 +155,7 @@ const InteractiveLanyardBadge = ({
   useEffect(() => {
     const updateResponsiveRest = () => {
       const w = window.innerWidth;
-      const newRestY = w <= 380 ? 95 : (w <= 640 ? 112 : 145);
+      const newRestY = w <= 380 ? 75 : (w <= 640 ? 82 : 145);
       physicsRef.current.restY = newRestY;
       if (!physicsRef.current.isDragging) {
         physicsRef.current.y = newRestY;
