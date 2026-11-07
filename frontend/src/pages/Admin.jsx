@@ -5,7 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, Package, Clock, CheckCircle, XCircle, Trash2, Edit3, Plus, 
   Layers, Users, ShoppingCart, DollarSign, MessageSquare, Calendar, Globe, AlertCircle,
-  UserPlus, ShieldCheck, Shield, ShieldAlert, UserCheck, UserX, Key, Search, ArrowRight, ExternalLink
+  UserPlus, ShieldCheck, Shield, ShieldAlert, UserCheck, UserX, Key, Search, ArrowRight, ExternalLink,
+  Mail
 } from 'lucide-react';
 
 const Admin = () => {
@@ -37,6 +38,29 @@ const Admin = () => {
     phone: '',
     address: ''
   });
+
+  // Gmail testing state
+  const [mailTesting, setMailTesting] = useState(false);
+  const [mailFeedback, setMailFeedback] = useState(null);
+
+  const handleSendTestEmail = async () => {
+    setMailTesting(true);
+    setMailFeedback(null);
+    try {
+      const res = await api.post('/admin/mail/test');
+      setMailFeedback({
+        type: 'success',
+        message: res.data?.message || 'Test email dispatched successfully to hongsaoleang@gmail.com!'
+      });
+    } catch (err) {
+      setMailFeedback({
+        type: 'error',
+        message: err.response?.data?.error || err.message || 'Failed to send test email'
+      });
+    } finally {
+      setMailTesting(false);
+    }
+  };
 
   // Product CRUD modal state
   const [isEditingProduct, setIsEditingProduct] = useState(false);
@@ -522,6 +546,30 @@ const Admin = () => {
               </div>
               <button onClick={() => { setUserFormFeedback(null); setIsUserModalOpen(true); }} className="btn-secondary btn-sm flex items-center gap-1.5 whitespace-nowrap" style={{ padding: '8px 14px' }}>
                 <UserPlus size={14} /> Add User
+              </button>
+            </div>
+
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '0.95rem', color: '#10b981' }}>
+                  <Mail size={18} /> Gmail SMTP Active
+                </div>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Connected as <strong>hongsaoleang@gmail.com</strong> for notifications &amp; order receipts.
+                </p>
+                {mailFeedback && (
+                  <p style={{ fontSize: '0.75rem', marginTop: '6px', color: mailFeedback.type === 'success' ? '#10b981' : '#f43f5e' }}>
+                    {mailFeedback.message}
+                  </p>
+                )}
+              </div>
+              <button 
+                onClick={handleSendTestEmail} 
+                disabled={mailTesting}
+                className="btn-secondary btn-sm flex items-center gap-1.5 whitespace-nowrap" 
+                style={{ padding: '8px 14px' }}
+              >
+                {mailTesting ? 'Sending...' : 'Test Gmail Relay'}
               </button>
             </div>
           </div>
