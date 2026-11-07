@@ -667,27 +667,6 @@ const InteractiveLanyardBadge = ({
               )}
 
               <div className="badge-person-role">{initialRole}</div>
-              <div className="badge-person-dept">{activeTier.dept}</div>
-            </div>
-
-            {/* Technical Parameters Grid */}
-            <div className="badge-specs-grid">
-              <div className="spec-cell">
-                <span className="spec-key">Pass Serial</span>
-                <span className="spec-val">#JKH-2026</span>
-              </div>
-              <div className="spec-cell">
-                <span className="spec-key">Protocol</span>
-                <span className="spec-val">AES-GCM-256</span>
-              </div>
-              <div className="spec-cell">
-                <span className="spec-key">Issue Date</span>
-                <span className="spec-val">2026.Q4-EXP</span>
-              </div>
-              <div className="spec-cell">
-                <span className="spec-key">Status</span>
-                <span className="spec-val" style={{ color: '#10b981' }}>● VALIDATED</span>
-              </div>
             </div>
 
             {/* Barcode with Animated Laser Scan */}
@@ -702,7 +681,6 @@ const InteractiveLanyardBadge = ({
                   />
                 ))}
               </div>
-              <span className="barcode-num-string">4029 8812 9042</span>
             </div>
           </div>
 

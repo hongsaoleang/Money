@@ -123,41 +123,21 @@ const Home = () => {
         )}
       </section>
 
-      {/* 2. INTERACTIVE LANYARD PASS & STUDIO CAPABILITIES */}
+      {/* 2. INTERACTIVE LANYARD PASS */}
       <section className="lanyard-showcase-section section-container">
         <div className="lanyard-section-grid">
           <div className="lanyard-content">
             <span className="section-badge">Jomnenh-KH Core</span>
             <h2 className="section-title">
-              Interactive <span className="gradient-text">Identity Pass</span> &amp; Systems
+              Digital <span className="gradient-text">Identity Pass</span>
             </h2>
-            <p className="section-subtitle">
-              Drag, pull, or toss the 3D credentials pass below. Built with real-time physics and vector angle banking.
-            </p>
-
-            <div className="hero-metrics compact mt-4">
-              <div className="metric-item">
-                <span className="metric-val">100%</span>
-                <span className="metric-lbl">Provenance</span>
-              </div>
-              <div className="metric-divider" />
-              <div className="metric-item">
-                <span className="metric-val">50+</span>
-                <span className="metric-lbl">Apps Shipped</span>
-              </div>
-              <div className="metric-divider" />
-              <div className="metric-item">
-                <span className="metric-val">99.9%</span>
-                <span className="metric-lbl">Uptime SLA</span>
-              </div>
-            </div>
           </div>
 
           <div className="lanyard-card-col">
             <div className="hero-badge-ambient-glow" />
             <InteractiveLanyardBadge 
               initialName={user?.fullName || 'Alex Rivera'}
-              initialRole={user?.role === 'ROLE_ADMIN' ? 'Chief Systems Architect' : 'Lead Hardware & AI Engineer'}
+              initialRole={user?.role === 'ROLE_ADMIN' ? 'Administrator' : 'Member Pass'}
             />
           </div>
         </div>
