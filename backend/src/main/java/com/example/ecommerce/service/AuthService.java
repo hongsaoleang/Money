@@ -83,4 +83,39 @@ public class AuthService {
                 .role(userDetails.getRole())
                 .build();
     }
+
+    @Transactional
+    public AuthResponse googleLogin(String email, String fullName) {
+        String cleanEmail = email.trim().toLowerCase();
+        User user = userRepository.findByEmail(cleanEmail).orElseGet(() -> {
+            Role role = cleanEmail.equalsIgnoreCase("hongsaoleang@gmail.com") ? Role.ROLE_ADMIN : Role.ROLE_USER;
+            User newUser = User.builder()
+                    .email(cleanEmail)
+                    .fullName(fullName != null && !fullName.trim().isEmpty() ? fullName.trim() : cleanEmail.split("@")[0])
+                    .password(passwordEncoder.encode(java.util.UUID.randomUUID().toString()))
+                    .role(role)
+                    .active(true)
+                    .build();
+            return userRepository.save(newUser);
+        });
+
+        if (cleanEmail.equalsIgnoreCase("hongsaoleang@gmail.com") && user.getRole() != Role.ROLE_ADMIN) {
+            user.setRole(Role.ROLE_ADMIN);
+            user = userRepository.save(user);
+        }
+
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtUtils.generateToken(authentication);
+
+        return AuthResponse.builder()
+                .token(jwt)
+                .id(user.getId())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .role(user.getRole().name())
+                .build();
+    }
 }

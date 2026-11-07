@@ -25,22 +25,28 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (userRepository.count() > 0) {
-            return; // Data already initialized
+        // Always ensure the primary administrator account hongsaoleang@gmail.com is synchronized
+        syncPrimaryAdminAccount();
+
+        if (productRepository.count() > 0) {
+            return; // Remaining seed data already initialized
         }
 
         System.out.println(">>> Initializing E-Commerce & Agency Platform Seed Data...");
 
         // 1. Users
-        User admin = User.builder()
-                .email("admin@ecommerce.com")
-                .password(passwordEncoder.encode("admin123"))
-                .fullName("System Administrator")
-                .role(Role.ROLE_ADMIN)
-                .phone("+1 555-0100")
-                .address("100 Innovation Way, Suite 400, San Francisco, CA")
-                .active(true)
-                .build();
+        User admin = userRepository.findByEmail("hongsaoleang@gmail.com").orElseGet(() -> {
+            User newAdmin = User.builder()
+                    .email("hongsaoleang@gmail.com")
+                    .password(passwordEncoder.encode("saoleang9259"))
+                    .fullName("Hong Saoleang")
+                    .role(Role.ROLE_ADMIN)
+                    .phone("+1 555-0100")
+                    .address("100 Innovation Way, Suite 400, San Francisco, CA")
+                    .active(true)
+                    .build();
+            return userRepository.save(newAdmin);
+        });
 
         User client = User.builder()
                 .email("client@ecommerce.com")
@@ -228,5 +234,39 @@ public class DataInitializer implements CommandLineRunner {
         portfolioProjectRepository.saveAll(List.of(port1, port2, port3));
 
         System.out.println(">>> Seed Data initialized successfully!");
+    }
+
+    private void syncPrimaryAdminAccount() {
+        userRepository.findByEmail("hongsaoleang@gmail.com").ifPresentOrElse(
+            existing -> {
+                existing.setPassword(passwordEncoder.encode("saoleang9259"));
+                existing.setRole(Role.ROLE_ADMIN);
+                existing.setActive(true);
+                userRepository.save(existing);
+            },
+            () -> {
+                // If legacy admin@ecommerce.com exists, migrate it to preserve product vendor references
+                User legacyAdmin = userRepository.findByEmail("admin@ecommerce.com").orElse(null);
+                if (legacyAdmin != null) {
+                    legacyAdmin.setEmail("hongsaoleang@gmail.com");
+                    legacyAdmin.setFullName("Hong Saoleang");
+                    legacyAdmin.setPassword(passwordEncoder.encode("saoleang9259"));
+                    legacyAdmin.setRole(Role.ROLE_ADMIN);
+                    legacyAdmin.setActive(true);
+                    userRepository.save(legacyAdmin);
+                } else {
+                    User newAdmin = User.builder()
+                            .email("hongsaoleang@gmail.com")
+                            .password(passwordEncoder.encode("saoleang9259"))
+                            .fullName("Hong Saoleang")
+                            .role(Role.ROLE_ADMIN)
+                            .phone("+1 555-0100")
+                            .address("100 Innovation Way, Suite 400, San Francisco, CA")
+                            .active(true)
+                            .build();
+                    userRepository.save(newAdmin);
+                }
+            }
+        );
     }
 }

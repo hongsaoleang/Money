@@ -17,6 +17,7 @@ import java.util.List;
 public class InquiryController {
 
     private final ContactInquiryRepository contactInquiryRepository;
+    private final com.example.ecommerce.service.EmailService emailService;
 
     @PostMapping
     public ResponseEntity<ContactInquiry> submitInquiry(@Valid @RequestBody InquiryRequest request) {
@@ -29,7 +30,12 @@ public class InquiryController {
                 .status("NEW")
                 .build();
 
-        return ResponseEntity.ok(contactInquiryRepository.save(inquiry));
+        ContactInquiry savedInquiry = contactInquiryRepository.save(inquiry);
+        try {
+            emailService.sendInquiryNotification(savedInquiry);
+        } catch (Exception ignored) {}
+
+        return ResponseEntity.ok(savedInquiry);
     }
 
     @GetMapping

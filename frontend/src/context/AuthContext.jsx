@@ -47,6 +47,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = async (googleEmail = 'hongsaoleang@gmail.com', fullName = 'Hong Saoleang') => {
+    setLoading(true);
+    try {
+      const res = await api.post('/api/auth/google', { email: googleEmail, fullName });
+      const data = res.data;
+      setToken(data.token);
+      setUser(data);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data));
+      return { success: true };
+    } catch (err) {
+      const message = err.response?.data?.message || 'Google authentication failed.';
+      return { success: false, error: message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -58,7 +76,7 @@ export const AuthProvider = ({ children }) => {
   const isClient = user?.role === 'ROLE_CLIENT' || user?.role === 'ROLE_ADMIN';
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, isAdmin, isClient }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, loginWithGoogle, logout, isAdmin, isClient }}>
       {children}
     </AuthContext.Provider>
   );

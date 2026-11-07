@@ -25,6 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Transactional
     public Order placeOrder(CreateOrderRequest request, String userEmail) {
@@ -71,7 +72,12 @@ public class OrderService {
         order.setTotalAmount(total);
         order.setItems(items);
 
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+        try {
+            emailService.sendOrderConfirmation(savedOrder);
+        } catch (Exception ignored) {}
+
+        return savedOrder;
     }
 
     public List<Order> getUserOrders(String userEmail) {

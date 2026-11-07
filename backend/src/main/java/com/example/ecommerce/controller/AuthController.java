@@ -25,4 +25,14 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> googleLogin(@RequestBody java.util.Map<String, String> payload) {
+        String email = payload.get("email");
+        String fullName = payload.get("fullName");
+        if (email == null || email.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(authService.googleLogin(email, fullName));
+    }
 }
