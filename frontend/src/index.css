@@ -3480,15 +3480,22 @@ button, input, select, textarea {
     padding: 2px !important;
   }
 
-  .metric-item .metric-number {
+  .metric-item .metric-number,
+  .metric-item .metric-val {
     font-size: 1.1rem !important;
     font-weight: 800 !important;
   }
 
-  .metric-item .metric-label {
+  .metric-item .metric-label,
+  .metric-item .metric-lbl {
     font-size: 0.62rem !important;
     line-height: 1.2 !important;
     margin-top: 2px !important;
+    text-align: center;
+  }
+
+  .metric-divider {
+    display: none !important;
   }
 
   /* High-Density 2-Column Product Grid on Phone */
@@ -3503,18 +3510,27 @@ button, input, select, textarea {
     flex-direction: column;
   }
 
-  .product-thumb-wrap {
+  .product-thumb-wrap,
+  .product-image-wrap {
     height: 130px !important;
   }
 
-  .product-card-body {
+  .product-image {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .product-card-body,
+  .product-details {
     padding: 10px !important;
     flex: 1;
     display: flex;
     flex-direction: column;
   }
 
-  .product-category-tag {
+  .product-category-tag,
+  .product-category {
     font-size: 0.62rem !important;
     margin-bottom: 4px !important;
   }
@@ -3530,8 +3546,16 @@ button, input, select, textarea {
     margin-bottom: 6px !important;
   }
 
-  .product-desc {
-    display: none !important; /* Hide long paragraph on phone for clean dense UI */
+  .product-desc,
+  .product-provenance-snippet,
+  .provenance-chip {
+    display: none !important; /* Hide long paragraph on phone for clean high-density UI */
+  }
+
+  .origin-badge,
+  .stock-badge {
+    font-size: 0.58rem !important;
+    padding: 2px 5px !important;
   }
 
   .product-meta-row {
@@ -3546,7 +3570,8 @@ button, input, select, textarea {
     padding: 2px 5px !important;
   }
 
-  .product-card-footer {
+  .product-card-footer,
+  .product-footer {
     margin-top: auto;
     padding-top: 6px !important;
     display: flex;
@@ -3560,11 +3585,30 @@ button, input, select, textarea {
     font-weight: 800 !important;
   }
 
-  .btn-add-cart {
+  .btn-add-cart,
+  .product-footer .btn-sm {
     width: 100% !important;
     padding: 6px 8px !important;
     font-size: 0.75rem !important;
     justify-content: center !important;
+    text-align: center !important;
+    border-radius: 8px !important;
+  }
+
+  /* Upcoming countdown cards on phone */
+  .upcoming-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .upcoming-card {
+    flex-direction: column !important;
+    padding: 12px !important;
+  }
+
+  .upcoming-thumb {
+    width: 100% !important;
+    height: 130px !important;
     border-radius: 8px !important;
   }
 
