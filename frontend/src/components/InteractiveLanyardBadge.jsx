@@ -5,7 +5,9 @@ import {
   QrCode, 
   Wifi, 
   Zap, 
-  Layers
+  Layers,
+  Compass,
+  Navigation
 } from 'lucide-react';
 import './InteractiveLanyardBadge.css';
 
@@ -45,11 +47,47 @@ const TIERS = [
   },
 ];
 
+export const calculateDirection = (dx, dy) => {
+  const dist = Math.hypot(dx, dy);
+  if (dist < 6) {
+    return { name: 'Neutral', cardinal: 'Center', arrow: '•', angle: 0, code: 'CTR', distance: Math.round(dist) };
+  }
+  // Math.atan2(dy, dx): 0° = East (Right), 90° = South (Down), -90° = North (Up), 180/-180° = West (Left)
+  const deg = Math.atan2(dy, dx) * (180 / Math.PI);
+  const roundedDeg = Math.round(deg);
+
+  let name = 'Right';
+  let cardinal = 'East';
+  let arrow = '→';
+  let code = 'E';
+
+  if (deg >= -22.5 && deg < 22.5) {
+    name = 'Right'; cardinal = 'East'; arrow = '→'; code = 'E';
+  } else if (deg >= 22.5 && deg < 67.5) {
+    name = 'Down-Right'; cardinal = 'Southeast'; arrow = '↘'; code = 'SE';
+  } else if (deg >= 67.5 && deg < 112.5) {
+    name = 'Down'; cardinal = 'South'; arrow = '↓'; code = 'S';
+  } else if (deg >= 112.5 && deg < 157.5) {
+    name = 'Down-Left'; cardinal = 'Southwest'; arrow = '↙'; code = 'SW';
+  } else if (deg >= -67.5 && deg < -22.5) {
+    name = 'Up-Right'; cardinal = 'Northeast'; arrow = '↗'; code = 'NE';
+  } else if (deg >= -112.5 && deg < -67.5) {
+    name = 'Up'; cardinal = 'North'; arrow = '↑'; code = 'N';
+  } else if (deg >= -157.5 && deg < -112.5) {
+    name = 'Up-Left'; cardinal = 'Northwest'; arrow = '↖'; code = 'NW';
+  } else {
+    name = 'Left'; cardinal = 'West'; arrow = '←'; code = 'W';
+  }
+
+  return { name, cardinal, arrow, angle: roundedDeg, code, distance: Math.round(dist) };
+};
+
 const InteractiveLanyardBadge = ({
   initialName = 'Alex Rivera',
   initialRole = 'Lead Hardware & AI Architect',
   initialAvatar = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
   stageHeight = 620,
+  onDragDirection,
 }) => {
   const [tierIndex, setTierIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -63,6 +101,14 @@ const InteractiveLanyardBadge = ({
   const cardAssemblyRef = useRef(null);
   const svgCordRef = useRef(null);
   const glareRef = useRef(null);
+
+  // Direction HUD & Gyro Sensor DOM refs
+  const directionHudRef = useRef(null);
+  const hudArrowRef = useRef(null);
+  const hudTextRef = useRef(null);
+  const hudMetricsRef = useRef(null);
+  const cardGyroIconRef = useRef(null);
+  const cardGyroTextRef = useRef(null);
 
   const physicsRef = useRef({
     // Resting coordinates of top attachment clip
@@ -84,6 +130,13 @@ const InteractiveLanyardBadge = ({
     // 3D Pitch (rotateX) & Roll (rotateY)
     roll: 0,
     pitch: 0,
+
+    // Mouse movement vector tracking
+    moveVx: 0,
+    moveVy: 0,
+    lastPointerX: 0,
+    lastPointerY: 0,
+    currentDirection: { name: 'Neutral', cardinal: 'Center', arrow: '•', angle: 0, code: 'CTR', distance: 0 },
 
     // Interaction flags & memory
     isDragging: false,
@@ -131,11 +184,16 @@ const InteractiveLanyardBadge = ({
     p.dragPointerId = e.pointerId;
     p.pointerStartX = e.clientX;
     p.pointerStartY = e.clientY;
+    p.lastPointerX = e.clientX;
+    p.lastPointerY = e.clientY;
     p.cardOriginX = p.x;
     p.cardOriginY = p.y;
     p.vx = 0;
     p.vy = 0;
+    p.moveVx = 0;
+    p.moveVy = 0;
     p.angleV = 0;
+    p.currentDirection = { name: 'Neutral', cardinal: 'Center', arrow: '•', angle: 0, code: 'CTR', distance: 0 };
     p.history = [{ x: e.clientX, y: e.clientY, time: performance.now() }];
 
     if (cardAssemblyRef.current) {
@@ -147,13 +205,39 @@ const InteractiveLanyardBadge = ({
     } catch (_) {}
   };
 
-  // Pointer Move: Dragging Card
+  // Pointer Move: Dragging Card & Direction Detection
   const handlePointerMove = (e) => {
     const p = physicsRef.current;
     if (!p.isDragging || p.dragPointerId !== e.pointerId) return;
 
     const dx = e.clientX - p.pointerStartX;
     const dy = e.clientY - p.pointerStartY;
+
+    // Movement delta and velocity since last pointer event
+    const moveDx = e.clientX - p.lastPointerX;
+    const moveDy = e.clientY - p.lastPointerY;
+    p.lastPointerX = e.clientX;
+    p.lastPointerY = e.clientY;
+
+    // Smooth movement velocities for directional banking
+    p.moveVx = p.moveVx * 0.6 + moveDx * 0.4;
+    p.moveVy = p.moveVy * 0.6 + moveDy * 0.4;
+
+    // Calculate live direction from the mouse drag vector
+    const dirInfo = calculateDirection(dx, dy);
+    p.currentDirection = dirInfo;
+
+    // Emit direction callback if consumer subscribed
+    if (onDragDirection) {
+      onDragDirection({
+        ...dirInfo,
+        dx: Math.round(dx),
+        dy: Math.round(dy),
+        moveDx: Math.round(moveDx),
+        moveDy: Math.round(moveDy),
+        isDragging: true,
+      });
+    }
 
     // Target position with soft rubber-band resistance if dragged very far
     const rawTargetX = p.cardOriginX + dx;
@@ -184,6 +268,22 @@ const InteractiveLanyardBadge = ({
 
     p.isDragging = false;
     p.dragPointerId = null;
+    p.moveVx = 0;
+    p.moveVy = 0;
+
+    if (onDragDirection) {
+      onDragDirection({
+        name: 'Idle',
+        cardinal: 'Rest',
+        arrow: '•',
+        angle: 0,
+        code: 'IDLE',
+        dx: 0,
+        dy: 0,
+        distance: 0,
+        isDragging: false,
+      });
+    }
 
     if (cardAssemblyRef.current) {
       cardAssemblyRef.current.classList.remove('is-dragging');
@@ -260,9 +360,9 @@ const InteractiveLanyardBadge = ({
         const stringAngle = Math.atan2(p.x, p.y) * (180 / Math.PI);
         p.angle = stringAngle * 0.75;
 
-        // 3D Tilt based on displacement
-        p.roll = Math.max(-32, Math.min(32, -p.x * 0.18));
-        p.pitch = Math.max(-28, Math.min(28, (p.y - p.restY) * 0.15));
+        // 3D Tilt banking dynamically towards mouse direction and drag velocity
+        p.roll = Math.max(-36, Math.min(36, -p.x * 0.18 + p.moveVx * 0.9));
+        p.pitch = Math.max(-30, Math.min(30, (p.y - p.restY) * 0.15 + p.moveVy * 0.9));
       }
 
       // Update Card Assembly DOM Transform
@@ -292,6 +392,37 @@ const InteractiveLanyardBadge = ({
         glareRef.current.style.setProperty('--holo-opacity', `${holoOpacity.toFixed(2)}`);
         glareRef.current.style.setProperty('--holo-offset-x', `${holoOffsetX.toFixed(1)}px`);
         glareRef.current.style.setProperty('--holo-offset-y', `${holoOffsetY.toFixed(1)}px`);
+      }
+
+      // Update Live Direction HUD & Card Gyro Sensor
+      if (directionHudRef.current) {
+        if (p.isDragging && p.currentDirection.name !== 'Neutral') {
+          directionHudRef.current.classList.add('is-active');
+          const d = p.currentDirection;
+          if (hudArrowRef.current) {
+            hudArrowRef.current.style.transform = `rotate(${d.angle}deg)`;
+          }
+          if (hudTextRef.current) {
+            hudTextRef.current.textContent = `${d.arrow} ${d.name.toUpperCase()}`;
+          }
+          if (hudMetricsRef.current) {
+            hudMetricsRef.current.textContent = `${d.angle}° · ${d.distance}px`;
+          }
+          if (cardGyroTextRef.current) {
+            cardGyroTextRef.current.textContent = `VEC: ${d.code} ${d.arrow} ${d.angle}°`;
+          }
+          if (cardGyroIconRef.current) {
+            cardGyroIconRef.current.style.transform = `rotate(${d.angle}deg)`;
+          }
+        } else {
+          directionHudRef.current.classList.remove('is-active');
+          if (cardGyroTextRef.current) {
+            cardGyroTextRef.current.textContent = 'NFC 13.56MHz';
+          }
+          if (cardGyroIconRef.current) {
+            cardGyroIconRef.current.style.transform = 'none';
+          }
+        }
       }
 
       // Update SVG Lanyard Cord & Straps
@@ -412,6 +543,20 @@ const InteractiveLanyardBadge = ({
         />
       </svg>
 
+      {/* Live Floating Direction HUD (Visual feedback on mouse drag) */}
+      <div className="lanyard-direction-hud" ref={directionHudRef}>
+        <div className="hud-compass-icon" ref={hudArrowRef}>
+          <Navigation size={13} />
+        </div>
+        <div className="hud-direction-info">
+          <span className="hud-direction-title">MOUSE VECTOR</span>
+          <span className="hud-direction-value" ref={hudTextRef}>NEUTRAL</span>
+        </div>
+        <div className="hud-angle-pill" ref={hudMetricsRef}>
+          0° · 0px
+        </div>
+      </div>
+
       {/* 3. The 3D Hanging Card Assembly (Physics-driven) */}
       <div 
         className={`lanyard-card-assembly ${isFlipped ? 'is-flipped' : ''}`}
@@ -455,12 +600,12 @@ const InteractiveLanyardBadge = ({
               </span>
             </div>
 
-            {/* Smartcard Gold Microchip & RFID Indicator */}
+            {/* Smartcard Gold Microchip & Dynamic Direction/RFID Indicator */}
             <div className="badge-microchip-row">
               <div className="badge-sim-chip" title="Hardware Encrypted Auth Microchip" />
               <div className="badge-nfc-indicator">
-                <Wifi size={13} />
-                <span>NFC 13.56MHz</span>
+                <Compass size={13} ref={cardGyroIconRef} style={{ transition: 'transform 0.08s ease' }} />
+                <span ref={cardGyroTextRef}>NFC 13.56MHz</span>
               </div>
             </div>
 
