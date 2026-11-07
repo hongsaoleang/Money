@@ -1094,24 +1094,151 @@ button, input, select, textarea {
   transform: translateX(1px);
 }
 
-/* Lanyard Section Styling */
-.lanyard-showcase-section {
-  padding-top: 24px;
-  padding-bottom: 50px;
+/* About Us & Developer Showcase Section */
+.about-showcase-section,
+.developers-section {
+  padding-top: 36px;
+  padding-bottom: 40px;
   border-top: 1px solid var(--border-color);
 }
 
-.lanyard-section-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 40px;
+.about-showcase-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
 }
 
-.lanyard-card-col {
+.dev-team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .dev-team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dev-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.dev-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(99, 102, 241, 0.2);
+}
+
+.dev-card.lead-card {
+  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(17, 24, 39, 0.95) 100%);
+}
+
+.dev-card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.dev-avatar-wrap {
   position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.dev-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.dev-status-indicator {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid #111827;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+.dev-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.dev-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.dev-pill-lead {
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(99, 102, 241, 0.45);
+  color: #818cf8;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dev-role {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  display: block;
+  margin-top: 3px;
+}
+
+.dev-bio {
+  font-size: 0.84rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.dev-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dev-skill-tag {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.about-showcase-bottom {
   display: flex;
   justify-content: center;
+  margin-top: 14px;
 }
 
 /* Products Grid - 4 Columns */
@@ -3994,30 +4121,51 @@ button, input, select, textarea {
     height: 13px !important;
   }
 
-  .lanyard-showcase-section {
-    padding-top: 12px !important;
-    padding-bottom: 16px !important;
+  .about-showcase-section,
+  .developers-section {
+    padding-top: 18px !important;
+    padding-bottom: 20px !important;
   }
 
-  .lanyard-section-grid {
+  .about-showcase-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .dev-team-grid {
     grid-template-columns: 1fr !important;
     gap: 10px !important;
-    text-align: center;
+    margin-bottom: 12px !important;
   }
 
-  .lanyard-content .section-title {
-    font-size: 1.1rem !important;
-    margin-bottom: 3px !important;
+  .dev-card {
+    padding: 14px !important;
+    border-radius: 6px !important;
   }
 
-  .lanyard-content .section-subtitle {
+  .dev-avatar-wrap {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .dev-name {
+    font-size: 0.95rem !important;
+  }
+
+  .dev-role {
     font-size: 0.72rem !important;
-    margin-bottom: 6px !important;
   }
 
-  .lanyard-content .hero-metrics {
-    margin-top: 6px !important;
-    padding: 6px 4px !important;
+  .dev-bio {
+    font-size: 0.78rem !important;
+    margin-bottom: 10px !important;
+  }
+
+  .dev-skill-tag {
+    font-size: 0.65rem !important;
+    padding: 2px 6px !important;
   }
 
   .lanyard-badge-stage {
