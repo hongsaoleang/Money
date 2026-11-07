@@ -66,8 +66,7 @@ const Products = () => {
       <div className="products-page-header">
         <div>
           <span className="section-badge">Catalog</span>
-          <h1 className="page-title">Curated Hardware</h1>
-          <p className="page-desc">Verified origin and direct delivery tracking.</p>
+          <h1 className="page-title">Products</h1>
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
