@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
-import { Search, Globe, Clock, Filter, ArrowRight, CheckCircle2, Package, Plus } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { Search, Globe, Clock, Filter, ArrowRight, CheckCircle2, Package, Plus, ShoppingBag, Check } from 'lucide-react';
 import CountdownTimer from '../components/CountdownTimer';
 
 const Products = () => {
   const { isAdmin } = useAuth();
+  const { addToCart } = useCart();
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [upcomingProducts, setUpcomingProducts] = useState([]);
@@ -14,6 +16,13 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('available'); // 'available' or 'upcoming'
+  const [addedId, setAddedId] = useState(null);
+
+  const handleQuickAdd = (product) => {
+    addToCart(product, 1);
+    setAddedId(product.id);
+    setTimeout(() => setAddedId(null), 1800);
+  };
 
   useEffect(() => {
     fetchCategories();
@@ -157,9 +166,27 @@ const Products = () => {
 
                     <div className="product-footer">
                       <span className="product-price">${parseFloat(product.price).toFixed(2)}</span>
-                      <Link to={`/products/${product.id}`} className="btn-secondary btn-sm">
-                        View Details <ArrowRight size={14} />
-                      </Link>
+                      <div className="product-card-actions">
+                        <button 
+                          onClick={() => handleQuickAdd(product)}
+                          disabled={product.stockQuantity <= 0}
+                          className={`spotlight-cart-btn ${addedId === product.id ? 'added' : ''}`}
+                          title="Add to shopping cart"
+                        >
+                          {addedId === product.id ? (
+                            <>
+                              <Check size={15} /> Added!
+                            </>
+                          ) : (
+                            <>
+                              <ShoppingBag size={15} /> Add to Cart
+                            </>
+                          )}
+                        </button>
+                        <Link to={`/products/${product.id}`} className="spotlight-inspect-btn" title="View Specifications">
+                          <ArrowRight size={15} />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
