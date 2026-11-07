@@ -209,6 +209,99 @@ const AboutUs = () => {
         </div>
       </section>
 
+      {/* Meet the Developers Who Built Jomnenh-KH */}
+      <section id="developers" className="section-container developers-section">
+        <div className="section-header text-center">
+          <span className="section-badge">Engineering Division</span>
+          <h2 className="section-title">The Developers Who Built Jomnenh-KH</h2>
+          <p className="section-subtitle">
+            Our full-stack engineers and software architects responsible for the platform design, APIs, security, and infrastructure.
+          </p>
+        </div>
+
+        <div className="dev-team-grid">
+          <div className="dev-card lead-card">
+            <div className="dev-card-top">
+              <div className="dev-avatar-wrap">
+                <img 
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" 
+                  alt="Hong Saoleang" 
+                  className="dev-avatar" 
+                />
+                <span className="dev-status-indicator" title="Lead Architect" />
+              </div>
+              <div className="dev-meta">
+                <div className="flex items-center gap-2">
+                  <h3 className="dev-name">Hong Saoleang</h3>
+                  <span className="dev-pill-lead">Founder &amp; Lead</span>
+                </div>
+                <span className="dev-role">Full-Stack Architect &amp; System Designer</span>
+              </div>
+            </div>
+            <p className="dev-bio">
+              Architected the core Jomnenh-KH platform from scratch using Spring Boot 3, secure JWT auth, PostgreSQL data models, and reactive frontend components.
+            </p>
+            <div className="dev-skills">
+              <span className="dev-skill-tag">Spring Boot 3</span>
+              <span className="dev-skill-tag">React.js</span>
+              <span className="dev-skill-tag">PostgreSQL</span>
+              <span className="dev-skill-tag">REST APIs</span>
+              <span className="dev-skill-tag">JWT Security</span>
+            </div>
+          </div>
+
+          <div className="dev-card">
+            <div className="dev-card-top">
+              <div className="dev-avatar-wrap">
+                <img 
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" 
+                  alt="Alex Rivera" 
+                  className="dev-avatar" 
+                />
+              </div>
+              <div className="dev-meta">
+                <h3 className="dev-name">Alex Rivera</h3>
+                <span className="dev-role">Frontend &amp; UI Systems Lead</span>
+              </div>
+            </div>
+            <p className="dev-bio">
+              Engineered responsive high-density mobile navigation, sleek micro-interactions, cart state management, and modern CSS layout engines.
+            </p>
+            <div className="dev-skills">
+              <span className="dev-skill-tag">Vite</span>
+              <span className="dev-skill-tag">Responsive CSS</span>
+              <span className="dev-skill-tag">State Management</span>
+              <span className="dev-skill-tag">UI/UX</span>
+            </div>
+          </div>
+
+          <div className="dev-card">
+            <div className="dev-card-top">
+              <div className="dev-avatar-wrap">
+                <img 
+                  src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80" 
+                  alt="Devon Vance" 
+                  className="dev-avatar" 
+                />
+              </div>
+              <div className="dev-meta">
+                <h3 className="dev-name">Devon Vance</h3>
+                <span className="dev-role">Database &amp; Infrastructure Engineer</span>
+              </div>
+            </div>
+            <p className="dev-bio">
+              Responsible for database query indexing, production containerization, automated mail routing, and enterprise security compliance.
+            </p>
+            <div className="dev-skills">
+              <span className="dev-skill-tag">PostgreSQL</span>
+              <span className="dev-skill-tag">Docker</span>
+              <span className="dev-skill-tag">Mail Servers</span>
+              <span className="dev-skill-tag">DevOps</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="section-container text-center about-cta">
         <h2>Experience the Jomnenh-KH Standard</h2>
