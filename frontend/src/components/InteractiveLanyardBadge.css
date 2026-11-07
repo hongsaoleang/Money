@@ -802,12 +802,12 @@
   .lanyard-card-assembly {
     width: 220px;
     height: 335px;
-    border-radius: 16px;
+    border-radius: 8px;
   }
 
   .lanyard-card-face {
     padding: 14px 14px 12px;
-    border-radius: 16px;
+    border-radius: 8px;
   }
 
   .badge-lanyard-slot {
