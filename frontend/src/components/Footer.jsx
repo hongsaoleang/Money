@@ -33,14 +33,14 @@ const Footer = () => {
         <div className="footer-col brand-col">
           <div className="navbar-logo">
             <div className="logo-icon"><Code size={20} /></div>
-            <span className="logo-text">Nexus<span className="logo-accent">Tech</span></span>
+            <span className="logo-text">Saoleang<span className="logo-accent">Tech</span></span>
           </div>
           <p className="footer-desc">
             A dual-engine platform delivering flagship engineering hardware with complete origin transparency, alongside enterprise custom software development.
           </p>
           <div className="footer-contact">
             <p><MapPin size={16} /> 100 Innovation Way, Suite 400, San Francisco, CA</p>
-            <p><Mail size={16} /> contact@nexustech.io</p>
+            <p><Mail size={16} /> hongsaoleang@gmail.com</p>
             <p><Phone size={16} /> +1 (555) 019-2834</p>
           </div>
         </div>
@@ -79,7 +79,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} NexusTech Inc. All rights reserved. Built with React.js, Spring Boot, PostgreSQL & Spring Security.</p>
+        <p>&copy; {new Date().getFullYear()} Saoleang Tech Inc. All rights reserved. Built with React.js, Spring Boot, PostgreSQL & Spring Security.</p>
       </div>
     </footer>
   );

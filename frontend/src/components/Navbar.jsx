@@ -24,7 +24,7 @@ const Navbar = () => {
           <div className="logo-icon">
             <Code size={22} />
           </div>
-          <span className="logo-text">Nexus<span className="logo-accent">Tech</span></span>
+          <span className="logo-text">Saoleang<span className="logo-accent">Tech</span></span>
         </Link>
 
         {/* Navigation Links */}
