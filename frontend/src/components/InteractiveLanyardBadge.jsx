@@ -693,9 +693,7 @@ const InteractiveLanyardBadge = ({
             <div className="badge-magnetic-stripe" />
 
             <div className="badge-back-terms">
-              <strong>JOMNENH-KH ID PASS</strong><br />
-              Authorized Security Clearance<br />
-              ID: #JKH-2026-STAFF
+              <strong>JOMNENH-KH PASS</strong>
             </div>
 
             {/* Security Tamper Seal & Verification QR */}
