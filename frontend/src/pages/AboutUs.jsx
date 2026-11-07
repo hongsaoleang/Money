@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight } from 'lucide-react';
+import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu } from 'lucide-react';
+import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 
 const AboutUs = () => {
   // Interactive delivery date preview
@@ -212,11 +213,30 @@ const AboutUs = () => {
       {/* Meet the Developers Who Built Jomnenh-KH */}
       <section id="developers" className="section-container developers-section">
         <div className="section-header text-center">
-          <span className="section-badge">Engineering Division</span>
+          <span className="section-badge"><Code size={13} className="text-indigo-400" /> Engineering Division</span>
           <h2 className="section-title">The Developers Who Built Jomnenh-KH</h2>
           <p className="section-subtitle">
             Our full-stack engineers and software architects responsible for the platform design, APIs, security, and infrastructure.
           </p>
+        </div>
+
+        {/* 3D Interactive Identity Pass & Physics Lanyard */}
+        <div className="interactive-lanyard-wrapper mb-10">
+          <div className="text-center mb-4">
+            <span className="section-badge"><Sparkles size={12} className="text-amber-400" /> Real-Time 3D Physics</span>
+            <h3 className="text-lg font-bold text-slate-200 mt-1">Interactive Systems Architecture Pass</h3>
+            <p className="text-xs text-slate-400 max-w-xl mx-auto">
+              Drag, pull, or toss the badge below. Built with vector physics, inertial spring physics, real-time specular glare, and gyroscope angle banking.
+            </p>
+          </div>
+          <div className="lanyard-stage-box">
+            <InteractiveLanyardBadge 
+              initialName="Hong Saoleang"
+              initialRole="Founder & Full-Stack Architect"
+              initialAvatar="/JomnenhKH.jpg"
+              stageHeight={580}
+            />
+          </div>
         </div>
 
         <div className="dev-team-grid">
@@ -224,9 +244,10 @@ const AboutUs = () => {
             <div className="dev-card-top">
               <div className="dev-avatar-wrap">
                 <img 
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" 
+                  src="/JomnenhKH.jpg" 
                   alt="Hong Saoleang" 
                   className="dev-avatar" 
+                  style={{ objectFit: 'contain', background: '#0a0f1d', padding: '3px' }}
                 />
                 <span className="dev-status-indicator" title="Lead Architect" />
               </div>
