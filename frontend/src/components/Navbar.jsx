@@ -2,11 +2,13 @@ import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { ShoppingBag, User, Shield, Briefcase, LogOut, Code, Package, PlusCircle } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { ShoppingBag, User, Shield, LogOut, Code, Package, PlusCircle, Sun, Moon } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout, isAdmin, isClient } = useAuth();
   const { totalItems } = useCart();
+  const { theme, toggleTheme, isDark } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -30,8 +32,13 @@ const Navbar = () => {
           <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
             Home
           </NavLink>
-          <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+          <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
             Products
+          </NavLink>
+          <NavLink to="/products/manage" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            <span className="flex items-center gap-1.5">
+              <Package size={15} /> Manage (CRUD)
+            </span>
           </NavLink>
           <NavLink to="/services" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
             Services
@@ -43,6 +50,20 @@ const Navbar = () => {
 
         {/* Action Controls */}
         <div className="navbar-actions">
+          {/* Theme Mode Toggle Button */}
+          <button 
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+            aria-label="Toggle dark/light theme"
+          >
+            {isDark ? (
+              <Sun size={19} className="theme-icon sun-icon text-amber-400" />
+            ) : (
+              <Moon size={19} className="theme-icon moon-icon text-indigo-500" />
+            )}
+          </button>
+
           {/* Cart */}
           <Link to="/cart" className="cart-btn" title="View Cart">
             <ShoppingBag size={20} />
@@ -69,6 +90,10 @@ const Navbar = () => {
 
                 <Link to="/settings" className="dropdown-item">
                   <User size={16} /> Account Settings
+                </Link>
+
+                <Link to="/products/manage" className="dropdown-item">
+                  <Package size={16} /> Manage Products (CRUD)
                 </Link>
 
                 {isClient && (

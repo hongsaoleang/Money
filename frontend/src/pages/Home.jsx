@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
+import { useAuth } from '../context/AuthContext';
 import { ArrowRight, Code, Cpu, Smartphone, ShieldCheck, Sparkles, Clock, Globe } from 'lucide-react';
 import CountdownTimer from '../components/CountdownTimer';
+import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 
 const Home = () => {
+  const { user } = useAuth();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [upcomingProducts, setUpcomingProducts] = useState([]);
   const [services, setServices] = useState([]);
@@ -33,41 +36,52 @@ const Home = () => {
   return (
     <div className="home-page">
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <div className="hero-badge">
-            <Sparkles size={16} /> Premium Hardware & Software Engineering
-          </div>
-          <h1 className="hero-title">
-            Where Precision <span className="gradient-text">Hardware</span> Meets Enterprise <span className="gradient-text">Software</span>.
-          </h1>
-          <p className="hero-subtitle">
-            Explore meticulously crafted electronic devices with verified global provenance, or partner with our senior engineering team to design, build, and deploy high-performance web & mobile applications.
-          </p>
-          <div className="hero-actions">
-            <Link to="/products" className="btn-primary hero-btn">
-              Explore Products <ArrowRight size={18} />
-            </Link>
-            <Link to="/services" className="btn-outline hero-btn">
-              Hire Software Team <Code size={18} />
-            </Link>
+      <section className="hero-section hero-section-split">
+        <div className="hero-grid">
+          <div className="hero-content hero-content-split">
+            <div className="hero-badge">
+              <Sparkles size={16} /> Premium Hardware & Software Engineering
+            </div>
+            <h1 className="hero-title">
+              Where Precision <span className="gradient-text">Hardware</span> Meets Enterprise <span className="gradient-text">Software</span>.
+            </h1>
+            <p className="hero-subtitle">
+              Explore meticulously crafted electronic devices with verified global provenance, or partner with our senior engineering team to design, build, and deploy high-performance web & mobile applications.
+            </p>
+            <div className="hero-actions">
+              <Link to="/products" className="btn-primary hero-btn">
+                Explore Products <ArrowRight size={18} />
+              </Link>
+              <Link to="/services" className="btn-outline hero-btn">
+                Hire Software Team <Code size={18} />
+              </Link>
+            </div>
+
+            <div className="hero-metrics">
+              <div className="metric-item">
+                <span className="metric-val">100%</span>
+                <span className="metric-lbl">Traceable Provenance</span>
+              </div>
+              <div className="metric-divider" />
+              <div className="metric-item">
+                <span className="metric-val">50+</span>
+                <span className="metric-lbl">Apps & Platforms Shipped</span>
+              </div>
+              <div className="metric-divider" />
+              <div className="metric-item">
+                <span className="metric-val">99.98%</span>
+                <span className="metric-lbl">Uptime SLA Guaranteed</span>
+              </div>
+            </div>
           </div>
 
-          <div className="hero-metrics">
-            <div className="metric-item">
-              <span className="metric-val">100%</span>
-              <span className="metric-lbl">Traceable Provenance</span>
-            </div>
-            <div className="metric-divider" />
-            <div className="metric-item">
-              <span className="metric-val">50+</span>
-              <span className="metric-lbl">Apps & Platforms Shipped</span>
-            </div>
-            <div className="metric-divider" />
-            <div className="metric-item">
-              <span className="metric-val">99.98%</span>
-              <span className="metric-lbl">Uptime SLA Guaranteed</span>
-            </div>
+          {/* Interactive Hanging Lanyard ID Badge Showcase */}
+          <div className="hero-badge-container">
+            <div className="hero-badge-ambient-glow" />
+            <InteractiveLanyardBadge 
+              initialName={user?.fullName || 'Alex Rivera'}
+              initialRole={user?.role === 'ROLE_ADMIN' ? 'Chief Systems Architect' : 'Lead Hardware & AI Engineer'}
+            />
           </div>
         </div>
       </section>
