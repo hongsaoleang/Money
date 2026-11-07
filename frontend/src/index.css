@@ -6105,6 +6105,51 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
 
 [data-theme="light"] .service-detail-card { background: var(--bg-card); border-color: var(--border-color); }
 
+/* Team section spacing and theme-aware text colors. */
+#developers { padding-top: clamp(64px, 8vw, 112px); }
+#developers > .section-header { margin-bottom: clamp(36px, 5vw, 60px); }
+#developers .interactive-lanyard-wrapper { margin-top: 0 !important; padding: clamp(24px, 4vw, 44px) clamp(16px, 3vw, 32px) 24px; }
+#developers .interactive-lanyard-wrapper > .text-center { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 28px !important; }
+#developers .interactive-lanyard-wrapper .section-badge,
+#developers .interactive-lanyard-wrapper h3,
+#developers .interactive-lanyard-wrapper p { margin: 0 !important; }
+#developers .dev-switcher-dock { margin: 12px 0 8px; gap: 14px; }
+.dev-name { color: var(--text-main); }
+.dev-role, .dev-bio, .dev-skill-tag { color: var(--text-muted); }
+.dev-skill-tag { background: color-mix(in srgb, var(--primary) 7%, var(--bg-card)); border-color: var(--border-color); border-radius: 999px; padding: 5px 10px; }
+.dev-pill-lead { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--bg-card)); border-color: color-mix(in srgb, var(--primary) 25%, var(--border-color)); }
+.dev-card { background: var(--bg-card); border-color: var(--border-color); }
+.dev-card.lead-card { background: linear-gradient(150deg, color-mix(in srgb, var(--primary) 10%, var(--bg-card)), var(--bg-card) 72%); }
+.dev-dock-btn { background: var(--bg-card); border-color: var(--border-color); color: var(--text-muted); }
+.dev-dock-name { color: var(--text-main); }
+.dev-dock-role { color: var(--text-muted); }
+.dev-dock-btn.active .dev-dock-role { color: var(--primary); }
+.dev-card-pass-status { color: var(--text-muted); }
+.pass-status-indicator { color: var(--text-muted); }
+.pass-status-indicator.active { color: var(--accent); }
+.developers-section .section-title { color: var(--text-main); }
+.developers-section .section-subtitle { color: var(--text-muted); }
+.developer-admin-card { gap: 14px; }
+.developer-admin-identity { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.developer-admin-identity img { width: 52px; height: 52px; flex: 0 0 auto; object-fit: cover; border-radius: 50%; background: var(--bg-secondary); }
+.developer-admin-identity h3 { margin: 0; color: var(--text-main); }
+.developer-admin-identity p, .developer-admin-card .summary-text { color: var(--text-muted); }
+.developer-edit-modal { max-width: 680px; max-height: 88vh; overflow: auto; }
+
+[data-theme="light"] .dev-name,
+[data-theme="light"] .dev-dock-name,
+[data-theme="light"] .developers-section .text-slate-200 { color: #111827 !important; }
+[data-theme="light"] .dev-role,
+[data-theme="light"] .dev-bio,
+[data-theme="light"] .dev-skill-tag,
+[data-theme="light"] .dev-dock-role,
+[data-theme="light"] .developers-section .text-slate-400 { color: #374151 !important; }
+[data-theme="light"] .dev-skill-tag { background: #f1f4fa; border-color: #d7deea; }
+[data-theme="light"] .dev-card.lead-card { background: linear-gradient(150deg, #eef0ff, #fff 72%); }
+[data-theme="light"] .interactive-lanyard-wrapper { background: linear-gradient(145deg, #f2f5ff, #fff); border-color: #dce3f0; }
+[data-theme="light"] .dev-dock-btn { background: #fff; color: #1f2937; }
+[data-theme="light"] .dev-dock-btn.active { background: #edf0ff; color: #2736a8; }
+
 @media (max-width: 640px) {
   .dashboard-kpi-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .kpi-glass-card { min-height: 112px; padding: 20px; }
@@ -6120,4 +6165,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   .step-desc { max-width: none; }
   .dev-card { padding: 18px; }
   .service-detail-card { padding: 20px; gap: 14px; }
+  #developers { padding-top: 54px; }
+  #developers .interactive-lanyard-wrapper { padding: 24px 14px 14px; }
+  #developers .interactive-lanyard-wrapper > .text-center { gap: 12px; margin-bottom: 22px !important; }
+  #developers .dev-switcher-dock { gap: 8px; }
+  .developer-edit-modal { width: min(96vw, 680px); }
 }

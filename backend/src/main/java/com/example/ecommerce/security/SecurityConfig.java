@@ -75,6 +75,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/services/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/portfolio/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/developers/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/inquiries/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         // Client / Vendor Endpoints

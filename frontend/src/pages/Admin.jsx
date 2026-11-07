@@ -756,6 +756,36 @@ const Admin = () => {
         <div className="admin-services-view">
           <div className="sub-header-row">
             <div>
+              <h2>Team profiles</h2>
+              <p>Edit the names, roles, portraits, and skills shown on the About page.</p>
+            </div>
+          </div>
+          <div className="services-admin-grid developer-admin-grid">
+            {teamProfiles.map((profile) => (
+              <div key={profile.id} className="service-admin-card developer-admin-card">
+                <div className="developer-admin-identity">
+                  <img src={profile.avatar} alt="" />
+                  <div>
+                    <h3>{profile.name}</h3>
+                    <p>{profile.pill}</p>
+                  </div>
+                </div>
+                <p className="summary-text">{profile.role}</p>
+                <button
+                  onClick={() => {
+                    setDeveloperForm({ ...profile, skills: profile.skills || '' });
+                    setIsEditingDeveloper(true);
+                  }}
+                  className="btn-secondary btn-sm"
+                >
+                  <Edit3 size={14} /> Edit profile
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="sub-header-row">
+            <div>
               <h2>Software Engineering Agency Offerings</h2>
               <p>Manage the Web & App services displayed on the public Services page.</p>
             </div>
@@ -1206,6 +1236,53 @@ const Admin = () => {
                 <button type="submit" className="btn-primary">
                   {productForm.id ? 'Update Product' : 'Create & Publish'}
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {isEditingDeveloper && (
+        <div className="modal-backdrop" onMouseDown={() => setIsEditingDeveloper(false)}>
+          <div className="modal-content developer-edit-modal" onMouseDown={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Edit team profile</h2>
+              <button onClick={() => setIsEditingDeveloper(false)} className="close-btn" aria-label="Close">&times;</button>
+            </div>
+            <form onSubmit={handleSaveDeveloper} className="modal-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Name *</label>
+                  <input required value={developerForm.name} onChange={(e) => setDeveloperForm({ ...developerForm, name: e.target.value })} />
+                </div>
+                <div className="form-group">
+                  <label>Card label *</label>
+                  <input required value={developerForm.pill} onChange={(e) => setDeveloperForm({ ...developerForm, pill: e.target.value })} />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Role *</label>
+                <input required value={developerForm.role} onChange={(e) => setDeveloperForm({ ...developerForm, role: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>3D badge role *</label>
+                <input required value={developerForm.badgeRole} onChange={(e) => setDeveloperForm({ ...developerForm, badgeRole: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Photo URL *</label>
+                <input type="url" required value={developerForm.avatar} onChange={(e) => setDeveloperForm({ ...developerForm, avatar: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Short bio *</label>
+                <textarea required rows={3} value={developerForm.bio} onChange={(e) => setDeveloperForm({ ...developerForm, bio: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label>Skills (comma separated)</label>
+                <textarea rows={2} value={developerForm.skills} onChange={(e) => setDeveloperForm({ ...developerForm, skills: e.target.value })} />
+              </div>
+              <div className="modal-actions">
+                <button type="button" onClick={() => setIsEditingDeveloper(false)} className="btn-secondary">Cancel</button>
+                <button type="submit" className="btn-primary">Save profile</button>
               </div>
             </form>
           </div>
