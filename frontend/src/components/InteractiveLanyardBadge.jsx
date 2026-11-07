@@ -21,7 +21,7 @@ const TIERS = [
     glowColor: 'rgba(56, 189, 248, 0.4)',
     strapColor1: '#1e1b4b',
     strapColor2: '#312e81',
-    strapText: 'NEXUS ARCHITECT // HARDWARE & AI // STAFF CLEARANCE 2026 // RFID',
+    strapText: 'SAOLEANG ARCHITECT // HARDWARE & AI // STAFF CLEARANCE 2026 // RFID',
   },
   {
     id: 'vip',
@@ -32,7 +32,7 @@ const TIERS = [
     glowColor: 'rgba(245, 158, 11, 0.45)',
     strapColor1: '#292524',
     strapColor2: '#44403c',
-    strapText: 'NEXUS VIP FOUNDER // GLOBAL PROVENANCE // ALL-ACCESS UNLOCKED // GOLD',
+    strapText: 'SAOLEANG VIP FOUNDER // GLOBAL PROVENANCE // ALL-ACCESS UNLOCKED // GOLD',
   },
   {
     id: 'stealth',
@@ -43,7 +43,7 @@ const TIERS = [
     glowColor: 'rgba(239, 68, 68, 0.45)',
     strapColor1: '#09090b',
     strapColor2: '#18181b',
-    strapText: 'NEXUS STEALTH PROTOCOL // ZERO-TRUST ACCESS // LEVEL-0 // ENCRYPTED',
+    strapText: 'SAOLEANG STEALTH PROTOCOL // ZERO-TRUST ACCESS // LEVEL-0 // ENCRYPTED',
   },
 ];
 
@@ -593,7 +593,7 @@ const InteractiveLanyardBadge = ({
             <div className="badge-header-row">
               <div className="badge-brand-title">
                 <span className="badge-brand-dot" />
-                NEXUS TECH // LABS
+                SAOLEANG TECH // LABS
               </div>
               <span className="badge-clearance-pill">
                 {activeTier.clearance}
@@ -701,11 +701,11 @@ const InteractiveLanyardBadge = ({
 
             <div className="badge-back-terms">
               <strong>OFFICIAL SECURITY PASS</strong><br />
-              This credentials card remains the exclusive property of Nexus Technologies Core Engineering. 
+              This credentials card remains the exclusive property of Saoleang Tech Core Engineering. 
               Holders are granted access to restricted hardware synthesis facilities, quantum compiler clusters, 
               and enterprise cloud clusters according to Tier Clearance.
               <br /><br />
-              <strong>EMERGENCY OVERRIDE:</strong> 1-800-NEXUS-ENG<br />
+              <strong>EMERGENCY OVERRIDE:</strong> 1-800-SAOLEANG-TECH<br />
               <strong>HASH:</strong> e3b0c44298fc1c149afbf4c8996fb92427ae
             </div>
 

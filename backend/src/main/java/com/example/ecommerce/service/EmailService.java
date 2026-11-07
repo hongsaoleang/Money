@@ -42,14 +42,14 @@ public class EmailService {
             message.setFrom(fromEmail);
             message.setTo(order.getUser().getEmail());
             message.setCc(adminEmail);
-            message.setSubject("NexusTech Order Confirmation - Order #" + order.getId());
+            message.setSubject("Saoleang Tech Order Confirmation - Order #" + order.getId());
             message.setText("Dear " + order.getUser().getFullName() + ",\n\n" +
-                    "Thank you for your order on NexusTech!\n" +
+                    "Thank you for your order on Saoleang Tech!\n" +
                     "Order ID: #" + order.getId() + "\n" +
                     "Total Amount: $" + order.getTotalAmount() + "\n" +
                     "Status: " + order.getOrderStatus() + "\n" +
                     "Estimated Delivery: " + (order.getEstimatedDeliveryDate() != null ? order.getEstimatedDeliveryDate() : "5-7 Business Days") + "\n\n" +
-                    "Best regards,\nNexusTech Automated Logistics");
+                    "Best regards,\nSaoleang Tech Automated Logistics");
 
             mailSender.send(message);
             log.info("[Gmail Integration] Sent order confirmation email for Order #{}", order.getId());
@@ -95,13 +95,13 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromEmail);
             message.setTo(toEmail);
-            message.setSubject("NexusTech Gmail Integration - Test Success!");
+            message.setSubject("Saoleang Tech Gmail Integration - Test Success!");
             message.setText("Hello Hong Saoleang,\n\n" +
-                    "Your NexusTech Gmail integration is working successfully!\n" +
+                    "Your Saoleang Tech Gmail integration is working successfully!\n" +
                     "Authenticated with: " + fromEmail + "\n" +
                     "Timestamp: " + java.time.LocalDateTime.now() + "\n\n" +
                     "Automated order confirmations and customer service inquiries will now be sent directly through this address.\n\n" +
-                    "Best regards,\nNexusTech E-Commerce Platform");
+                    "Best regards,\nSaoleang Tech E-Commerce Platform");
 
             mailSender.send(message);
             log.info("[Gmail Integration] Successfully sent test email to {}", toEmail);
