@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../api/client';
 import { useCart } from '../context/CartContext';
 import { Globe, Truck, ShieldCheck, ArrowLeft, ShoppingBag, CheckCircle2, Calendar, Clock, MapPin, Package } from 'lucide-react';
-import CountdownTimer from '../components/CountdownTimer';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -41,8 +40,6 @@ const ProductDetail = () => {
       </div>
     );
   }
-
-  const isUpcoming = product.releaseDate && new Date(product.releaseDate) > new Date();
 
   // Calculate estimated delivery date: 4 days from today
   const estimatedDelivery = new Date();
@@ -130,18 +127,6 @@ const ProductDetail = () => {
             <p>{product.description}</p>
           </div>
 
-          {/* Scheduled Release Countdown if upcoming */}
-          {isUpcoming && (
-            <div className="upcoming-alert-box">
-              <div className="alert-header">
-                <Clock size={18} />
-                <span>Product Release Countdown</span>
-              </div>
-              <p>This item will officially unlock on {new Date(product.releaseDate).toLocaleString()}.</p>
-              <CountdownTimer targetDate={product.releaseDate} />
-            </div>
-          )}
-
           {/* Delivery Date Tracker Information */}
           <div className="delivery-estimator-card">
             <div className="delivery-header">
@@ -158,9 +143,8 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Purchase Actions (if available) */}
-          {!isUpcoming && (
-            <div className="purchase-controls">
+          {/* Purchase Actions */}
+          <div className="purchase-controls">
               <div className="quantity-selector">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -194,7 +178,6 @@ const ProductDetail = () => {
                 Buy Now
               </button>
             </div>
-          )}
 
           {/* Platform Trust Highlights */}
           <div className="trust-features-list">

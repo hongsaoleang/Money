@@ -42,7 +42,7 @@ export const getProductSpecs = (product) => {
       spec2: '50m Water Resistant',
       origin: product.originCountry || 'Switzerland',
       modelId: 'SKU-RG01',
-      demandRating: '99% Pre-Release',
+      demandRating: '99% High Demand',
       chipLabel: 'Ceramic Core'
     };
   }

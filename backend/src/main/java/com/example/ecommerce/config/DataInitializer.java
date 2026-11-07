@@ -148,7 +148,7 @@ public class DataInitializer implements CommandLineRunner {
                 .provenanceDetails("Micro-sensors crafted in Neuchâtel, Switzerland. Medical-grade titanium micro-forging with hypoallergenic inner ceramic coating.")
                 .imageUrl("https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80")
                 .status(ProductStatus.APPROVED)
-                .releaseDate(LocalDateTime.now().plusDays(7)) // UPCOMING!
+                .releaseDate(LocalDateTime.now().minusDays(1)) // Available now
                 .category(catElectronics)
                 .vendor(admin)
                 .build();

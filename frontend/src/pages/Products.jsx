@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { Search, Globe, Clock, Filter, ArrowRight, CheckCircle2, Package, Plus, ShoppingBag, Check } from 'lucide-react';
-import CountdownTimer from '../components/CountdownTimer';
+import { Search, Globe, Filter, ArrowRight, CheckCircle2, Package, Plus, ShoppingBag, Check } from 'lucide-react';
 import { getProductSpecs } from '../utils/productSpecs';
 
 const Products = () => {
@@ -12,11 +11,9 @@ const Products = () => {
   const { addToCart } = useCart();
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [upcomingProducts, setUpcomingProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('available'); // 'available' or 'upcoming'
   const [addedId, setAddedId] = useState(null);
 
   const handleQuickAdd = (product) => {
@@ -27,7 +24,6 @@ const Products = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchUpcoming();
   }, []);
 
   useEffect(() => {
@@ -42,12 +38,6 @@ const Products = () => {
       console.error('Error fetching categories', err);
     }
   };
-
-  const fetchUpcoming = async () => {
-    try {
-      const res = await api.get('/api/products/upcoming');
-      setUpcomingProducts(res.data);
-    } catch (err) {
       console.error('Error fetching upcoming products', err);
     }
   };
@@ -117,27 +107,10 @@ const Products = () => {
             </button>
           ))}
         </div>
-
-        <div className="tab-switch">
-          <button
-            className={`tab-btn ${activeTab === 'available' ? 'active' : ''}`}
-            onClick={() => setActiveTab('available')}
-          >
-            Available Now ({products.length})
-          </button>
-          <button
-            className={`tab-btn ${activeTab === 'upcoming' ? 'active' : ''}`}
-            onClick={() => setActiveTab('upcoming')}
-          >
-            <Clock size={14} /> Scheduled Releases ({upcomingProducts.length})
-          </button>
-        </div>
       </div>
 
-      {/* Main Grid: Available Products */}
-      {activeTab === 'available' && (
-        <>
-          {loading ? (
+      {/* Main Grid: Products Catalog */}
+      {loading ? (
             <div className="loading-spinner">Loading curated catalog...</div>
           ) : products.length === 0 ? (
             <div className="empty-state">
@@ -206,47 +179,6 @@ const Products = () => {
               })}
             </div>
           )}
-        </>
-      )}
-
-      {/* Scheduled Releases Tab */}
-      {activeTab === 'upcoming' && (
-        <div className="upcoming-catalog-grid">
-          {upcomingProducts.length === 0 ? (
-            <div className="empty-state">
-              <p>No scheduled future releases at this moment. Check back soon!</p>
-            </div>
-          ) : (
-            upcomingProducts.map((product) => (
-              <div key={product.id} className="upcoming-item-card">
-                <div className="upcoming-img-wrap">
-                  <img src={product.imageUrl} alt={product.name} />
-                  <span className="origin-badge">
-                    <Globe size={13} /> Origin: {product.originCountry}
-                  </span>
-                </div>
-                <div className="upcoming-details">
-                  <span className="product-category">{product.category?.name}</span>
-                  <h2>{product.name}</h2>
-                  <p>{product.description}</p>
-
-                  <div className="provenance-box">
-                    <h4>Manufacturing & Provenance:</h4>
-                    <p>{product.provenanceDetails}</p>
-                  </div>
-
-                  <div className="release-countdown-container">
-                    <div className="release-meta">
-                      <Clock size={16} /> Scheduled Release: {new Date(product.releaseDate).toLocaleDateString()} at {new Date(product.releaseDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </div>
-                    <CountdownTimer targetDate={product.releaseDate} />
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      )}
     </div>
   );
 };
