@@ -33,7 +33,7 @@ const Footer = () => {
         <div className="footer-col brand-col">
           <div className="navbar-logo">
             <div className="logo-icon"><Code size={20} /></div>
-            <span className="logo-text">Saoleang<span className="logo-accent">Tech</span></span>
+            <span className="logo-text">Jomnenh<span className="logo-accent">-KH</span></span>
           </div>
           <p className="footer-desc">
             A dual-engine platform delivering flagship engineering hardware with complete origin transparency, alongside enterprise custom software development.
@@ -79,7 +79,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Saoleang Tech Inc. All rights reserved. Built with React.js, Spring Boot, PostgreSQL & Spring Security.</p>
+        <p>&copy; {new Date().getFullYear()} Jomnenh-KH Inc. All rights reserved. Built with React.js, Spring Boot, PostgreSQL & Spring Security.</p>
       </div>
     </footer>
   );

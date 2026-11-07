@@ -211,7 +211,7 @@ const AboutUs = () => {
 
       {/* CTA */}
       <section className="section-container text-center about-cta">
-        <h2>Experience the Saoleang Tech Standard</h2>
+        <h2>Experience the Jomnenh-KH Standard</h2>
         <p>Explore our transparent product catalog or build software with our engineering division.</p>
         <div className="hero-actions justify-center">
           <Link to="/products" className="btn-primary">Browse Products</Link>
