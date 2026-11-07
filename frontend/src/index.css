@@ -5968,3 +5968,56 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Extra breathing room for feature sections and narrow screens. */
+.section-header { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.section-header.text-center { align-items: center; }
+.section-header .section-badge, .section-header .section-title,
+.section-header .section-subtitle { margin-bottom: 0; }
+.products-page-header, .manage-header-row, .admin-header, .about-showcase-header,
+.settings-header, .order-header-row, .order-footer-row, .product-footer,
+.catalog-toolbar, .crud-toolbar { row-gap: 16px; }
+.products-grid, .portfolio-compact-grid, .process-timeline-compact,
+.provenance-cards-grid, .dev-team-grid, .services-grid, .portal-grid,
+.feature-grid, .dashboard-kpi-grid { gap: clamp(16px, 2.4vw, 28px); }
+.products-grid > *, .portfolio-compact-grid > *, .process-timeline-compact > *,
+.provenance-cards-grid > *, .dev-team-grid > *, .services-grid > *,
+.portal-grid > *, .dashboard-kpi-grid > * { min-width: 0; }
+.product-details, .product-info, .service-card, .profile-card, .order-item-row,
+.cart-item-card, .kpi-glass-card, .portfolio-compact-card { min-width: 0; }
+.product-title, .section-title, .page-title, .service-card h3, .portfolio-compact-title,
+.order-id, .dropdown-user-name { overflow-wrap: anywhere; }
+.hero-grid, .product-detail-layout, .cart-layout, .portal-grid, .inquiry-box,
+.footer-main { min-width: 0; }
+.hero-grid > *, .product-detail-layout > *, .cart-layout > *, .portal-grid > *,
+.inquiry-box > *, .footer-main > * { min-width: 0; }
+.product-detail-layout, .cart-layout { gap: clamp(22px, 4vw, 48px); }
+.profile-grid, .form-grid-2 { row-gap: 20px; }
+.settings-tabs, .admin-tabs { gap: 12px; flex-wrap: wrap; }
+.top-featured-header { gap: 16px; }
+.featured-showcase-grid { gap: 18px; }
+.featured-spotlight-card { gap: 18px; }
+
+@media (max-width: 900px) {
+  .portfolio-compact-grid, .provenance-cards-grid, .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .process-timeline-compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-grid, .product-detail-layout, .cart-layout, .inquiry-box, .portal-grid { gap: 28px; }
+}
+@media (max-width: 640px) {
+  .section-header { gap: 9px; margin-bottom: 26px; }
+  .products-page-header, .manage-header-row, .admin-header { flex-wrap: wrap; align-items: flex-start; gap: 18px; }
+  .products-page-header > *, .manage-header-row > *, .admin-header > * { min-width: 0; max-width: 100%; }
+  .portfolio-compact-grid, .provenance-cards-grid, .services-grid,
+  .process-timeline-compact, .dashboard-kpi-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .top-featured-header { flex-wrap: wrap !important; justify-content: flex-start !important; row-gap: 10px !important; }
+  .top-featured-title { flex: 1 1 100%; }
+  .top-featured-header .view-all-pill { margin-left: auto; }
+  .featured-spotlight-card { gap: 14px !important; padding: 12px !important; }
+  .spotlight-content { gap: 6px !important; }
+  .spotlight-footer { flex-wrap: wrap !important; row-gap: 8px !important; }
+  .hero-grid, .product-detail-layout, .cart-layout, .inquiry-box, .portal-grid { gap: 22px; }
+  .profile-grid, .form-grid-2 { grid-template-columns: minmax(0, 1fr); row-gap: 16px; }
+  .settings-tabs, .admin-tabs { gap: 8px; }
+  .order-header-row, .order-footer-row { flex-wrap: wrap; gap: 12px; }
+  .crud-toolbar, .catalog-toolbar { align-items: stretch; gap: 14px; }
+}
