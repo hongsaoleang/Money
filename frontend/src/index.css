@@ -146,6 +146,54 @@
   color: #64748b;
 }
 
+/* Light Theme Graph Dashboard Styles & White Line */
+[data-theme="light"] .dashboard-graph-card {
+  background: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
+}
+
+[data-theme="light"] .graph-line-path {
+  stroke: #ffffff !important;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95)) !important;
+}
+
+[data-theme="light"] .kpi-glass-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .kpi-glass-card .kpi-lbl {
+  color: #64748b;
+}
+
+[data-theme="light"] .kpi-glass-card .kpi-val {
+  color: #0f172a;
+}
+
+[data-theme="light"] .kpi-glass-card .kpi-sub {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .product-select-dropdown {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .selector-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .dashboard-main-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .dashboard-sub-title {
+  color: #64748b;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

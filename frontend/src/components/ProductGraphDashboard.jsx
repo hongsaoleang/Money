@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Sparkles
 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 import { getProductSpecs } from '../utils/productSpecs';
 
 const TIMEFRAMES = ['30D', '90D', '6M', '1Y'];
@@ -22,6 +23,9 @@ const METRICS = [
 ];
 
 const ProductGraphDashboard = ({ products = [] }) => {
+  const { theme, isDark } = useTheme();
+  const isLightMode = theme === 'light';
+
   const [selectedProductId, setSelectedProductId] = useState(
     products.length > 0 ? products[0].id : 'all'
   );
@@ -283,21 +287,47 @@ const ProductGraphDashboard = ({ products = [] }) => {
             <defs>
               {/* Gradient for area fill under the curve */}
               <linearGradient id="curveAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#6366f1" stopOpacity="0.32" />
-                <stop offset="60%" stopColor="#38bdf8" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#0f172a" stopOpacity="0.0" />
+                {isLightMode ? (
+                  <>
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.28" />
+                    <stop offset="60%" stopColor="#ffffff" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="#0f172a" stopOpacity="0.0" />
+                  </>
+                ) : (
+                  <>
+                    <stop offset="0%" stopColor="#6366f1" stopOpacity="0.32" />
+                    <stop offset="60%" stopColor="#38bdf8" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="#0f172a" stopOpacity="0.0" />
+                  </>
+                )}
               </linearGradient>
 
               {/* Gradient for the neon line stroke */}
               <linearGradient id="curveLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#4f46e5" />
-                <stop offset="45%" stopColor="#6366f1" />
-                <stop offset="100%" stopColor="#38bdf8" />
+                {isLightMode ? (
+                  <>
+                    <stop offset="0%" stopColor="#ffffff" />
+                    <stop offset="50%" stopColor="#ffffff" />
+                    <stop offset="100%" stopColor="#ffffff" />
+                  </>
+                ) : (
+                  <>
+                    <stop offset="0%" stopColor="#4f46e5" />
+                    <stop offset="45%" stopColor="#6366f1" />
+                    <stop offset="100%" stopColor="#38bdf8" />
+                  </>
+                )}
               </linearGradient>
 
-              {/* Glowing filter for data points */}
+              {/* Glowing filter for line and data points */}
               <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="0" stdDeviation="3.5" floodColor="#38bdf8" floodOpacity="0.75" />
+                <feDropShadow 
+                  dx="0" 
+                  dy="0" 
+                  stdDeviation={isLightMode ? "4.5" : "3.5"} 
+                  floodColor={isLightMode ? "#ffffff" : "#38bdf8"} 
+                  floodOpacity={isLightMode ? "0.9" : "0.75"} 
+                />
               </filter>
             </defs>
 
@@ -311,7 +341,7 @@ const ProductGraphDashboard = ({ products = [] }) => {
                   y1={y}
                   x2={svgWidth - paddingX}
                   y2={y}
-                  stroke="rgba(255, 255, 255, 0.06)"
+                  stroke={isLightMode ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.06)"}
                   strokeDasharray="4 4"
                   strokeWidth="1"
                 />
@@ -326,15 +356,17 @@ const ProductGraphDashboard = ({ products = [] }) => {
               />
             )}
 
-            {/* Neon Glowing Line Curve */}
+            {/* Glowing Line Curve */}
             {pathD && (
               <path 
                 d={pathD} 
                 fill="none" 
-                stroke="url(#curveLineGrad)" 
-                strokeWidth="3.2" 
+                className="graph-line-path"
+                stroke={isLightMode ? "#ffffff" : "url(#curveLineGrad)"} 
+                strokeWidth={isLightMode ? "3.6" : "3.2"} 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
+                filter="url(#glowFilter)"
               />
             )}
 
@@ -358,9 +390,9 @@ const ProductGraphDashboard = ({ products = [] }) => {
                 <circle 
                   cx={pt.x} 
                   cy={pt.y} 
-                  r={hoveredPoint?.month === pt.month ? 7 : 4.5} 
+                  r={hoveredPoint?.month === pt.month ? 7.5 : 5} 
                   fill="#0f172a"
-                  stroke="#38bdf8" 
+                  stroke={isLightMode ? "#ffffff" : "#38bdf8"} 
                   strokeWidth="2.5"
                   filter="url(#glowFilter)"
                   style={{ transition: 'all 0.15s ease' }}
@@ -369,7 +401,7 @@ const ProductGraphDashboard = ({ products = [] }) => {
                 <circle 
                   cx={pt.x} 
                   cy={pt.y} 
-                  r="2" 
+                  r="2.2" 
                   fill="#ffffff" 
                 />
               </g>
@@ -383,7 +415,7 @@ const ProductGraphDashboard = ({ products = [] }) => {
                 y={svgHeight - 8}
                 textAnchor="middle"
                 fontSize="11"
-                fill={hoveredPoint?.month === pt.month ? '#ffffff' : '#64748b'}
+                fill={hoveredPoint?.month === pt.month ? '#ffffff' : (isLightMode ? '#cbd5e1' : '#64748b')}
                 fontWeight={hoveredPoint?.month === pt.month ? '700' : '500'}
                 style={{ transition: 'fill 0.15s ease' }}
               >

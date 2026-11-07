@@ -4,10 +4,9 @@ import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { 
-  ArrowRight, Sparkles, Clock, Globe,
+  ArrowRight, Sparkles, Globe,
   ShoppingBag, Check, Package, BarChart3, Filter
 } from 'lucide-react';
-import CountdownTimer from '../components/CountdownTimer';
 import ProductGraphDashboard from '../components/ProductGraphDashboard';
 import { getProductSpecs } from '../utils/productSpecs';
 
@@ -15,7 +14,6 @@ const Home = () => {
   const { user } = useAuth();
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
-  const [upcomingProducts, setUpcomingProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addedId, setAddedId] = useState(null);
 
@@ -28,12 +26,8 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [prodRes, upRes] = await Promise.all([
-          api.get('/api/products'),
-          api.get('/api/products/upcoming'),
-        ]);
+        const prodRes = await api.get('/api/products');
         setProducts(prodRes.data || []);
-        setUpcomingProducts(upRes.data || []);
       } catch (err) {
         console.error('Failed to fetch home page data', err);
       } finally {
@@ -138,37 +132,6 @@ const Home = () => {
           </div>
         )}
       </section>
-
-      {/* 3. SCHEDULED RELEASES (UPCOMING PRODUCTS) */}
-      {upcomingProducts.length > 0 && (
-        <section className="section-container upcoming-section">
-          <div className="upcoming-banner">
-            <div className="upcoming-header">
-              <div className="upcoming-badge">
-                <Clock size={16} /> Scheduled Product Releases
-              </div>
-              <h2>Exclusive Pre-Releases Countdown</h2>
-              <p>These devices are scheduled for release soon. Bookmark and set your reminders.</p>
-            </div>
-
-            <div className="upcoming-grid">
-              {upcomingProducts.map((product) => (
-                <div key={product.id} className="upcoming-card">
-                  <img src={product.imageUrl} alt={product.name} className="upcoming-thumb" />
-                  <div className="upcoming-info">
-                    <span className="product-category">{product.category?.name}</span>
-                    <h3>{product.name}</h3>
-                    <div className="countdown-wrap">
-                      <span className="countdown-label">Releasing In:</span>
-                      <CountdownTimer targetDate={product.releaseDate} />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   );
 };
