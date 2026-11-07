@@ -15,7 +15,11 @@ import {
   X,
   ExternalLink,
   ShieldCheck,
-  ShieldAlert
+  ShieldAlert,
+  DollarSign,
+  TrendingUp,
+  Sparkles,
+  Layers
 } from 'lucide-react';
 
 const PRESET_IMAGES = [
@@ -27,7 +31,7 @@ const PRESET_IMAGES = [
 ];
 
 const ProductManage = () => {
-  const { isAdmin } = useAuth();
+  const { isAdmin, loginWithGoogle } = useAuth();
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
