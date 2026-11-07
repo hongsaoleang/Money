@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, Package, Clock, CheckCircle, XCircle, Trash2, Edit3, Plus, 
-  Layers, Users, ShoppingCart, DollarSign, MessageSquare, Calendar, Globe, AlertCircle 
+  Layers, Users, ShoppingCart, DollarSign, MessageSquare, Calendar, Globe, AlertCircle,
+  UserPlus, ShieldCheck, Shield, ShieldAlert, UserCheck, UserX, Key, Search, ArrowRight, ExternalLink
 } from 'lucide-react';
 
 const Admin = () => {
@@ -18,7 +20,23 @@ const Admin = () => {
   const [portfolio, setPortfolio] = useState([]);
   const [orders, setOrders] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // User Management state
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [userRoleFilter, setUserRoleFilter] = useState('ALL');
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [userFormSubmitting, setUserFormSubmitting] = useState(false);
+  const [userFormFeedback, setUserFormFeedback] = useState(null);
+  const [newUserForm, setNewUserForm] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    role: 'ROLE_ADMIN',
+    phone: '',
+    address: ''
+  });
 
   // Product CRUD modal state
   const [isEditingProduct, setIsEditingProduct] = useState(false);
@@ -78,6 +96,7 @@ const Admin = () => {
         portRes,
         ordersRes,
         inqRes,
+        usersRes,
       ] = await Promise.all([
         api.get('/api/admin/dashboard'),
         api.get('/api/admin/products'),
@@ -87,6 +106,7 @@ const Admin = () => {
         api.get('/api/portfolio'),
         api.get('/api/admin/orders'),
         api.get('/api/inquiries'),
+        api.get('/api/admin/users').catch(() => ({ data: [] })),
       ]);
 
       setStats(statsRes.data);
@@ -100,6 +120,7 @@ const Admin = () => {
       setPortfolio(portRes.data);
       setOrders(ordersRes.data);
       setInquiries(inqRes.data);
+      setUsers(usersRes.data || []);
     } catch (err) {
       console.error('Error loading admin data', err);
     } finally {
@@ -109,9 +130,19 @@ const Admin = () => {
 
   if (!isAdmin) {
     return (
-      <div className="section-container text-center">
-        <h2>Access Denied</h2>
-        <p>You must have the Administrator role to access this control center.</p>
+      <div className="section-container" style={{ textAlign: 'center', padding: '90px 20px', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: '68px', height: '68px', borderRadius: '50%', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', color: '#ef4444' }}>
+          <ShieldAlert size={36} />
+        </div>
+        <span className="section-badge" style={{ borderColor: 'rgba(239, 68, 68, 0.4)', color: '#ef4444' }}>Restricted Area</span>
+        <h1 style={{ fontSize: '1.9rem', fontWeight: 800, margin: '10px 0', letterSpacing: '-0.5px' }}>Administrator Access Required</h1>
+        <p style={{ color: 'var(--text-muted)', maxWidth: '460px', margin: '0 auto 28px', lineHeight: 1.6, fontSize: '0.95rem' }}>
+          This operations hub is restricted to authorized platform administrators only. Please sign in with administrator credentials.
+        </p>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link to="/login" className="btn-primary" style={{ padding: '10px 22px' }}>Sign In as Admin</Link>
+          <Link to="/" className="btn-secondary" style={{ padding: '10px 22px' }}>Return to Home</Link>
+        </div>
       </div>
     );
   }
@@ -244,6 +275,85 @@ const Admin = () => {
     }
   };
 
+  // Handle Create User / Admin
+  const handleCreateUser = async (e) => {
+    e.preventDefault();
+    setUserFormSubmitting(true);
+    setUserFormFeedback(null);
+    try {
+      const res = await api.post('/api/admin/users', newUserForm);
+      setUsers((prev) => [res.data, ...prev]);
+      setStats((prev) => prev ? { ...prev, totalUsers: (prev.totalUsers || 0) + 1 } : prev);
+      setUserFormFeedback({
+        type: 'success',
+        text: `Account created successfully! ${newUserForm.email} can now sign in as ${newUserForm.role === 'ROLE_ADMIN' ? 'Administrator' : 'Normal User'}.`
+      });
+      setNewUserForm({
+        fullName: '',
+        email: '',
+        password: '',
+        role: 'ROLE_ADMIN',
+        phone: '',
+        address: ''
+      });
+      setTimeout(() => {
+        setIsUserModalOpen(false);
+        setUserFormFeedback(null);
+      }, 1600);
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || err.response?.data || 'Failed to create user. Verify email is unique.';
+      setUserFormFeedback({
+        type: 'error',
+        text: typeof errorMsg === 'string' ? errorMsg : 'Failed to create account.'
+      });
+    } finally {
+      setUserFormSubmitting(false);
+    }
+  };
+
+  // Toggle User Role (Admin <-> Normal User)
+  const handleToggleUserRole = async (userId, currentRole) => {
+    const targetRole = currentRole === 'ROLE_ADMIN' ? 'ROLE_USER' : 'ROLE_ADMIN';
+    const confirmMessage = targetRole === 'ROLE_ADMIN'
+      ? 'Promote this user to Administrator? They will gain full master access to CRUD inventory and dashboard.'
+      : 'Change this user to Normal User? Administrator access will be revoked.';
+    if (!window.confirm(confirmMessage)) return;
+
+    try {
+      await api.patch(`/api/admin/users/${userId}/role?role=${targetRole}`);
+      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, role: targetRole } : u));
+    } catch (err) {
+      alert('Failed to update user role');
+    }
+  };
+
+  // Toggle User Status (Active <-> Suspended)
+  const handleToggleUserStatus = async (userId, currentStatus) => {
+    try {
+      await api.patch(`/api/admin/users/${userId}/status?active=${!currentStatus}`);
+      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, active: !currentStatus } : u));
+    } catch (err) {
+      alert('Failed to update user status');
+    }
+  };
+
+  // Delete User Account
+  const handleDeleteUser = async (userId, email) => {
+    if (email === user?.email) {
+      alert('You cannot delete your own administrative account.');
+      return;
+    }
+    if (!window.confirm(`Are you sure you want to permanently delete user "${email}"?`)) return;
+
+    try {
+      await api.delete(`/api/admin/users/${userId}`);
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+      setStats((prev) => prev ? { ...prev, totalUsers: Math.max(0, (prev.totalUsers || 1) - 1) } : prev);
+    } catch (err) {
+      alert('Failed to delete user');
+    }
+  };
+
   return (
     <div className="admin-page section-container">
       {/* Top Header */}
@@ -255,15 +365,31 @@ const Admin = () => {
             Manage product releases, review merchant listing requests, govern software agency services, and track customer orders.
           </p>
         </div>
-        <div className="admin-actions">
+        <div className="admin-actions flex items-center gap-2">
+          <Link
+            to="/products/manage"
+            className="btn-secondary flex items-center gap-2"
+            title="Open Dedicated Inventory CRUD Hub"
+          >
+            <Package size={16} /> Manage (CRUD)
+          </Link>
+          <button
+            onClick={() => {
+              setUserFormFeedback(null);
+              setIsUserModalOpen(true);
+            }}
+            className="btn-primary flex items-center gap-2"
+          >
+            <UserPlus size={16} /> Add Admin / User
+          </button>
           <button
             onClick={() => {
               resetProductForm();
               setIsEditingProduct(true);
             }}
-            className="btn-primary"
+            className="btn-secondary flex items-center gap-2"
           >
-            <Plus size={16} /> New Product & Schedule
+            <Plus size={16} /> New Product
           </button>
         </div>
       </div>
@@ -275,6 +401,12 @@ const Admin = () => {
           onClick={() => setActiveTab('dashboard')}
         >
           <LayoutDashboard size={16} /> Dashboard & Metrics
+        </button>
+        <button
+          className={`admin-tab-btn ${activeTab === 'users' ? 'active' : ''}`}
+          onClick={() => setActiveTab('users')}
+        >
+          <Users size={16} /> Users & Admins ({users.length})
         </button>
         <button
           className={`admin-tab-btn ${activeTab === 'products' ? 'active' : ''}`}
@@ -346,12 +478,51 @@ const Admin = () => {
               </div>
             </div>
 
+            <div className="kpi-card" onClick={() => setActiveTab('users')} style={{ cursor: 'pointer' }} title="Click to view and manage users & admins">
+              <div className="kpi-icon" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}><Users size={24} /></div>
+              <div>
+                <span className="kpi-title">Users & Admins</span>
+                <h3 className="kpi-value">{users.length || stats.totalUsers}</h3>
+              </div>
+            </div>
+
             <div className="kpi-card">
               <div className="kpi-icon inquiries"><MessageSquare size={24} /></div>
               <div>
                 <span className="kpi-title">Software Inquiries</span>
                 <h3 className="kpi-value">{stats.totalInquiries}</h3>
               </div>
+            </div>
+          </div>
+
+          {/* Quick Hub Launchers */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '0.95rem', color: '#38bdf8' }}>
+                  <Package size={18} /> Product Inventory CRUD
+                </div>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Direct catalog additions, specs editing, stock updates & instant deletions.
+                </p>
+              </div>
+              <Link to="/products/manage" className="btn-primary btn-sm flex items-center gap-1.5 whitespace-nowrap" style={{ padding: '8px 14px' }}>
+                Open CRUD Hub <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '0.95rem', color: '#a78bfa' }}>
+                  <ShieldCheck size={18} /> User & Admin Authorization
+                </div>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Add new admins or normal users, promote accounts, or suspend access.
+                </p>
+              </div>
+              <button onClick={() => { setUserFormFeedback(null); setIsUserModalOpen(true); }} className="btn-secondary btn-sm flex items-center gap-1.5 whitespace-nowrap" style={{ padding: '8px 14px' }}>
+                <UserPlus size={14} /> Add User
+              </button>
             </div>
           </div>
 
@@ -655,6 +826,198 @@ const Admin = () => {
         </div>
       )}
 
+      {/* Tab 6: User & Admin Authorization Management */}
+      {activeTab === 'users' && (
+        <div className="admin-users-view">
+          <div className="sub-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+            <div>
+              <h2>User Authorization & Administration Hub</h2>
+              <p>Create new administrator accounts, manage customer permissions, and toggle access states.</p>
+            </div>
+            <button
+              onClick={() => {
+                setUserFormFeedback(null);
+                setIsUserModalOpen(true);
+              }}
+              className="btn-primary flex items-center gap-2"
+              style={{ padding: '10px 20px', whiteSpace: 'nowrap' }}
+            >
+              <UserPlus size={16} /> Add Admin / User
+            </button>
+          </div>
+
+          {/* User Filters & Stats */}
+          <div className="catalog-toolbar mb-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="category-pills">
+              <button
+                className={`pill-btn ${userRoleFilter === 'ALL' ? 'active' : ''}`}
+                onClick={() => setUserRoleFilter('ALL')}
+              >
+                All Accounts ({users.length})
+              </button>
+              <button
+                className={`pill-btn ${userRoleFilter === 'ROLE_ADMIN' ? 'active' : ''}`}
+                onClick={() => setUserRoleFilter('ROLE_ADMIN')}
+              >
+                👑 Administrators ({users.filter(u => u.role === 'ROLE_ADMIN').length})
+              </button>
+              <button
+                className={`pill-btn ${userRoleFilter === 'ROLE_USER' ? 'active' : ''}`}
+                onClick={() => setUserRoleFilter('ROLE_USER')}
+              >
+                👤 Normal Users ({users.filter(u => u.role === 'ROLE_USER').length})
+              </button>
+              <button
+                className={`pill-btn ${userRoleFilter === 'ROLE_CLIENT' ? 'active' : ''}`}
+                onClick={() => setUserRoleFilter('ROLE_CLIENT')}
+              >
+                💼 Partners ({users.filter(u => u.role === 'ROLE_CLIENT').length})
+              </button>
+            </div>
+
+            <div className="search-bar-wrap" style={{ maxWidth: '320px' }}>
+              <Search size={18} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search user name or email..."
+                value={userSearchQuery}
+                onChange={(e) => setUserSearchQuery(e.target.value)}
+                className="search-input"
+              />
+            </div>
+          </div>
+
+          {/* Users Table */}
+          <div className="table-responsive">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Identity</th>
+                  <th>Role / Access Level</th>
+                  <th>Account Status</th>
+                  <th>Phone / Contact</th>
+                  <th>Created</th>
+                  <th style={{ textAlign: 'right' }}>Authorization Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users
+                  .filter((u) => {
+                    const matchesFilter = userRoleFilter === 'ALL' || u.role === userRoleFilter;
+                    const matchesSearch = !userSearchQuery.trim() ||
+                      u.fullName?.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
+                      u.email?.toLowerCase().includes(userSearchQuery.toLowerCase());
+                    return matchesFilter && matchesSearch;
+                  })
+                  .map((u) => {
+                    const isSelf = u.email === user?.email;
+                    return (
+                      <tr key={u.id}>
+                        <td>
+                          <div className="flex items-center gap-3">
+                            <div
+                              style={{
+                                width: '38px',
+                                height: '38px',
+                                borderRadius: '50%',
+                                background: u.role === 'ROLE_ADMIN' 
+                                  ? 'linear-gradient(135deg, #6366f1, #38bdf8)' 
+                                  : 'linear-gradient(135deg, #10b981, #06b6d4)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontWeight: 800,
+                                color: '#fff',
+                                fontSize: '0.85rem'
+                              }}
+                            >
+                              {u.fullName?.charAt(0) || 'U'}
+                            </div>
+                            <div>
+                              <strong style={{ display: 'block', color: 'var(--text-main, #fff)', fontSize: '0.9rem' }}>
+                                {u.fullName} {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8' }}>(You)</span>}
+                              </strong>
+                              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{u.email}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          {u.role === 'ROLE_ADMIN' && (
+                            <span className="badge-clearance-pill" style={{ background: 'rgba(99, 102, 241, 0.2)', borderColor: 'rgba(99, 102, 241, 0.5)', color: '#818cf8', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                              <ShieldCheck size={12} /> Administrator
+                            </span>
+                          )}
+                          {u.role === 'ROLE_USER' && (
+                            <span className="badge-clearance-pill" style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.4)', color: '#34d399' }}>
+                              Normal User
+                            </span>
+                          )}
+                          {u.role === 'ROLE_CLIENT' && (
+                            <span className="badge-clearance-pill" style={{ background: 'rgba(245, 158, 11, 0.15)', borderColor: 'rgba(245, 158, 11, 0.4)', color: '#fbbf24' }}>
+                              Client / Partner
+                            </span>
+                          )}
+                        </td>
+                        <td>
+                          <span style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            fontSize: '0.78rem',
+                            fontWeight: 600,
+                            color: u.active ? '#10b981' : '#ef4444'
+                          }}>
+                            ● {u.active ? 'Active' : 'Suspended'}
+                          </span>
+                        </td>
+                        <td>
+                          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{u.phone || '—'}</span>
+                        </td>
+                        <td>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                            {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'Active'}
+                          </span>
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => handleToggleUserRole(u.id, u.role)}
+                              disabled={isSelf}
+                              className="btn-secondary btn-sm"
+                              title={u.role === 'ROLE_ADMIN' ? 'Demote to Normal User' : 'Promote to Administrator'}
+                              style={{ fontSize: '0.75rem', padding: '5px 10px' }}
+                            >
+                              {u.role === 'ROLE_ADMIN' ? 'Switch to User' : '👑 Make Admin'}
+                            </button>
+                            <button
+                              onClick={() => handleToggleUserStatus(u.id, u.active)}
+                              disabled={isSelf}
+                              className="btn-secondary btn-sm"
+                              title={u.active ? 'Suspend Account' : 'Activate Account'}
+                              style={{ fontSize: '0.75rem', padding: '5px 10px' }}
+                            >
+                              {u.active ? 'Suspend' : 'Activate'}
+                            </button>
+                            <button
+                              onClick={() => handleDeleteUser(u.id, u.email)}
+                              disabled={isSelf}
+                              className="btn-danger btn-sm"
+                              title={isSelf ? 'Cannot delete own account' : 'Delete user'}
+                              style={{ opacity: isSelf ? 0.35 : 1, padding: '5px 8px' }}
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {/* Modal: Edit / Add Product */}
       {isEditingProduct && (
         <div className="modal-backdrop">
@@ -903,6 +1266,147 @@ const Admin = () => {
               <div className="modal-actions">
                 <button type="button" onClick={() => setIsEditingPortfolio(false)} className="btn-secondary">Cancel</button>
                 <button type="submit" className="btn-primary">Save Project</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Add New User / Administrator */}
+      {isUserModalOpen && (
+        <div className="modal-backdrop">
+          <div className="modal-content" style={{ maxWidth: '520px' }}>
+            <div className="modal-header">
+              <div className="flex items-center gap-2">
+                <UserPlus size={20} className="text-indigo-400" />
+                <h2>Create User or Administrator</h2>
+              </div>
+              <button onClick={() => setIsUserModalOpen(false)} className="close-btn">&times;</button>
+            </div>
+
+            {userFormFeedback && (
+              <div className={`crud-feedback-banner ${userFormFeedback.type}`} style={{ margin: '0 24px 16px 24px' }}>
+                {userFormFeedback.type === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+                <span>{userFormFeedback.text}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleCreateUser} className="modal-form">
+              <div className="form-group">
+                <label>Full Name *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Jane Doe"
+                  value={newUserForm.fullName}
+                  onChange={(e) => setNewUserForm({ ...newUserForm, fullName: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email Address *</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="admin.jane@nexus.com"
+                  value={newUserForm.email}
+                  onChange={(e) => setNewUserForm({ ...newUserForm, email: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Password (Min 6 Characters) *</label>
+                <input
+                  type="password"
+                  required
+                  minLength={6}
+                  placeholder="••••••••"
+                  value={newUserForm.password}
+                  onChange={(e) => setNewUserForm({ ...newUserForm, password: e.target.value })}
+                />
+              </div>
+
+              {/* Role Selection Cards */}
+              <div className="form-group">
+                <label>Assign Account Role *</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginTop: '6px' }}>
+                  <div
+                    onClick={() => setNewUserForm({ ...newUserForm, role: 'ROLE_ADMIN' })}
+                    style={{
+                      padding: '12px',
+                      borderRadius: '10px',
+                      border: newUserForm.role === 'ROLE_ADMIN' ? '2px solid #6366f1' : '1px solid var(--border-color)',
+                      background: newUserForm.role === 'ROLE_ADMIN' ? 'rgba(99, 102, 241, 0.15)' : 'var(--bg-card)',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: '#818cf8', fontSize: '0.88rem' }}>
+                      <ShieldCheck size={16} /> Administrator
+                    </div>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: 1.4 }}>
+                      Full access to Admin Dashboard, Product CRUD, and user management.
+                    </p>
+                  </div>
+
+                  <div
+                    onClick={() => setNewUserForm({ ...newUserForm, role: 'ROLE_USER' })}
+                    style={{
+                      padding: '12px',
+                      borderRadius: '10px',
+                      border: newUserForm.role === 'ROLE_USER' ? '2px solid #10b981' : '1px solid var(--border-color)',
+                      background: newUserForm.role === 'ROLE_USER' ? 'rgba(16, 185, 129, 0.15)' : 'var(--bg-card)',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: '#34d399', fontSize: '0.88rem' }}>
+                      <Users size={16} /> Normal User
+                    </div>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: 1.4 }}>
+                      Customer account with standard catalog browsing, cart, and orders.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Phone Number (Optional)</label>
+                  <input
+                    type="tel"
+                    placeholder="+1 555-0199"
+                    value={newUserForm.phone}
+                    onChange={(e) => setNewUserForm({ ...newUserForm, phone: e.target.value })}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Address (Optional)</label>
+                  <input
+                    type="text"
+                    placeholder="San Francisco, CA"
+                    value={newUserForm.address}
+                    onChange={(e) => setNewUserForm({ ...newUserForm, address: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="modal-actions" style={{ marginTop: '16px' }}>
+                <button
+                  type="button"
+                  onClick={() => setIsUserModalOpen(false)}
+                  className="btn-secondary"
+                  disabled={userFormSubmitting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  disabled={userFormSubmitting}
+                >
+                  {userFormSubmitting ? 'Creating...' : `Create ${newUserForm.role === 'ROLE_ADMIN' ? 'Administrator' : 'User'}`}
+                </button>
               </div>
             </form>
           </div>
