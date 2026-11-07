@@ -104,7 +104,7 @@ public class AuthService {
             user = userRepository.save(user);
         }
 
-        CustomUserDetails userDetails = new CustomUserDetails(user);
+        CustomUserDetails userDetails = CustomUserDetails.build(user);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -115,7 +115,7 @@ public class AuthService {
                 .id(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
-                .role(user.getRole().name())
+                .role(user.getRole())
                 .build();
     }
 }
