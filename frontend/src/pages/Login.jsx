@@ -32,7 +32,7 @@ const Login = () => {
         <div className="auth-header">
           <div className="auth-icon-badge"><LogIn size={24} /></div>
           <h1>Welcome Back</h1>
-          <p>Sign in to your Saoleang Tech account</p>
+          <p>Sign in to your Jomnenh-KH account</p>
         </div>
 
         {error && (
