@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
+import { useAuth } from '../context/AuthContext';
 import { Search, Globe, Clock, Filter, ArrowRight, CheckCircle2, Package, Plus } from 'lucide-react';
 import CountdownTimer from '../components/CountdownTimer';
 
 const Products = () => {
+  const { isAdmin } = useAuth();
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [upcomingProducts, setUpcomingProducts] = useState([]);
@@ -71,9 +73,11 @@ const Products = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <Link to="/products/manage" className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap" style={{ padding: '10px 18px', fontSize: '0.9rem' }}>
-            <Package size={16} /> Manage Products (CRUD)
-          </Link>
+          {isAdmin && (
+            <Link to="/products/manage" className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap" style={{ padding: '10px 18px', fontSize: '0.9rem' }}>
+              <Package size={16} /> Manage Products (CRUD)
+            </Link>
+          )}
           <div className="search-bar-wrap">
             <Search size={18} className="search-icon" />
             <input

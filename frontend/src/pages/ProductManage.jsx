@@ -14,7 +14,8 @@ import {
   ArrowLeft,
   X,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  ShieldAlert
 } from 'lucide-react';
 
 const PRESET_IMAGES = [
@@ -208,6 +209,25 @@ const ProductManage = () => {
 
     return matchesSearch && matchesCat;
   });
+
+  if (!isAdmin) {
+    return (
+      <div className="section-container" style={{ textAlign: 'center', padding: '90px 20px', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: '68px', height: '68px', borderRadius: '50%', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', color: '#ef4444' }}>
+          <ShieldAlert size={36} />
+        </div>
+        <span className="section-badge" style={{ borderColor: 'rgba(239, 68, 68, 0.4)', color: '#ef4444' }}>Security Guard</span>
+        <h1 style={{ fontSize: '1.9rem', fontWeight: 800, margin: '10px 0', letterSpacing: '-0.5px' }}>Administrator Access Required</h1>
+        <p style={{ color: 'var(--text-muted)', maxWidth: '460px', margin: '0 auto 28px', lineHeight: 1.6, fontSize: '0.95rem' }}>
+          The product inventory management hub is reserved exclusively for system administrators. Please sign in with administrator credentials to manage products.
+        </p>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link to="/login" className="btn-primary" style={{ padding: '10px 22px' }}>Sign In as Admin</Link>
+          <Link to="/products" className="btn-secondary" style={{ padding: '10px 22px' }}>Return to Catalog</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="section-container product-manage-page">

@@ -35,11 +35,13 @@ const Navbar = () => {
           <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
             Products
           </NavLink>
-          <NavLink to="/products/manage" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-            <span className="flex items-center gap-1.5">
-              <Package size={15} /> Manage (CRUD)
-            </span>
-          </NavLink>
+          {isAdmin && (
+            <NavLink to="/products/manage" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+              <span className="flex items-center gap-1.5">
+                <Package size={15} /> Manage (CRUD)
+              </span>
+            </NavLink>
+          )}
           <NavLink to="/services" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
             Services
           </NavLink>
@@ -92,9 +94,11 @@ const Navbar = () => {
                   <User size={16} /> Account Settings
                 </Link>
 
-                <Link to="/products/manage" className="dropdown-item">
-                  <Package size={16} /> Manage Products (CRUD)
-                </Link>
+                {isAdmin && (
+                  <Link to="/products/manage" className="dropdown-item">
+                    <Package size={16} /> Manage Products (CRUD)
+                  </Link>
+                )}
 
                 {isClient && (
                   <Link to="/client/deploy" className="dropdown-item">
