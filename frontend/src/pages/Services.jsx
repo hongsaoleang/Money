@@ -1,6 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/client';
-import { Code, Smartphone, Server, Layers, CheckCircle, ExternalLink, Send, Sparkles, Shield, Cpu } from 'lucide-react';
+import { 
+  Code, Smartphone, Server, Layers, CheckCircle2, 
+  ExternalLink, Send, Sparkles, Shield, Cpu, Zap, ArrowRight,
+  Database, Terminal, Check
+} from 'lucide-react';
+
+const SERVICE_FEATURE_SETS = {
+  web: [
+    'React 19 & Vite Architecture',
+    'Spring Boot 3 REST Microservices',
+    'Sub-100ms API Response Times',
+    'Enterprise JWT & RBAC Security',
+    'Automated CI/CD Deployment Pipelines',
+  ],
+  mobile: [
+    'Flutter & React Native Cross-Platform',
+    'Native 60fps Performance on iOS & Android',
+    'Biometric & NFC Hardware Authentication',
+    'Offline-First Local Data Caching',
+    'Push Notifications & Real-Time Sync',
+  ],
+  cloud: [
+    'PostgreSQL Database Indexing & Tuning',
+    'Redis In-Memory Distributed Caching',
+    'Docker Containerization & Kubernetes',
+    'Zero-Downtime Rolling Releases',
+    'Automated Backup & Disaster Recovery',
+  ],
+};
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -25,8 +53,8 @@ const Services = () => {
           api.get('/api/services'),
           api.get('/api/portfolio'),
         ]);
-        setServices(srvRes.data);
-        setPortfolio(portRes.data);
+        setServices(srvRes.data || []);
+        setPortfolio(portRes.data || []);
       } catch (err) {
         console.error('Error fetching services and portfolio', err);
       } finally {
@@ -58,7 +86,7 @@ const Services = () => {
 
   return (
     <div className="services-page">
-      {/* Hero Banner */}
+      {/* 1. HERO BANNER - PUNCHY & METRIC-DRIVEN */}
       <section className="services-hero section-container">
         <div className="services-hero-content text-center">
           <div className="hero-badge-row">
@@ -69,18 +97,21 @@ const Services = () => {
               <span className="pulse-dot green" /> Accepting New Client Projects
             </span>
           </div>
+
           <h1 className="hero-title">
-            We Engineer Enterprise <span className="gradient-text">Web, Mobile &amp; Cloud Systems</span>
+            Enterprise <span className="gradient-text">Web, Mobile &amp; Cloud</span> Engineering
           </h1>
-          <p className="hero-subtitle max-w-2xl mx-auto mb-6 text-slate-300">
-            From high-throughput Spring Boot REST microservices and reactive Vite user interfaces to cross-platform mobile apps, our engineering division builds software designed to scale to millions of users.
+
+          <p className="hero-subtitle max-w-xl mx-auto mb-6 text-slate-300">
+            Production-grade software platforms built to scale. High-performance Spring Boot backends, responsive React frontends, and native mobile apps.
           </p>
+
           <div className="hero-actions justify-center mb-8">
             <a href="#inquiry" className="btn-primary">
-              <Send size={16} /> Request Technical Proposal
+              <Send size={15} /> Request Technical Proposal
             </a>
             <a href="#portfolio" className="btn-secondary">
-              Inspect Shipped Work <ExternalLink size={16} />
+              Inspect Shipped Work <ArrowRight size={15} />
             </a>
           </div>
 
@@ -109,135 +140,157 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Core Capabilities */}
+      {/* 2. CORE CAPABILITIES - FEATURE FOCUS (REDUCED TEXT) */}
       <section className="section-container">
         <div className="section-header text-center">
           <span className="section-badge">Capabilities</span>
-          <h2 className="section-title">What We Build For Our Clients</h2>
+          <h2 className="section-title">Core Engineering Capabilities</h2>
           <p className="section-subtitle">
-            Modern, resilient architectures crafted with React, Spring Boot, PostgreSQL, and native mobile frameworks.
+            Bespoke architectures built with clean code, verified security, and sub-second performance.
           </p>
         </div>
 
         <div className="services-grid">
-          {services.map((srv) => (
-            <div key={srv.id} className="service-detail-card">
-              <div className="service-icon-box">
-                {srv.slug.includes('web') ? <Code size={30} /> : srv.slug.includes('mobile') ? <Smartphone size={30} /> : <Server size={30} />}
+          {services.map((srv) => {
+            const isWeb = srv.slug?.includes('web');
+            const isMobile = srv.slug?.includes('mobile');
+            const featureList = isWeb 
+              ? SERVICE_FEATURE_SETS.web 
+              : isMobile 
+              ? SERVICE_FEATURE_SETS.mobile 
+              : SERVICE_FEATURE_SETS.cloud;
+
+            return (
+              <div key={srv.id} className="service-detail-card">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="service-icon-box">
+                    {isWeb ? <Code size={24} /> : isMobile ? <Smartphone size={24} /> : <Server size={24} />}
+                  </div>
+                  <div>
+                    <h3 className="m-0 text-base font-bold">{srv.title}</h3>
+                    <span className="text-xs text-indigo-400 font-semibold uppercase tracking-wider">
+                      {isWeb ? 'Full-Stack Web' : isMobile ? 'iOS & Android' : 'Cloud Infra & DB'}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="service-summary text-sm text-slate-300 mb-4">{srv.summary}</p>
+
+                {/* Specific Feature Checklist */}
+                <div className="service-features-list">
+                  {featureList.map((feature, idx) => (
+                    <div key={idx} className="service-feature-row">
+                      <CheckCircle2 size={15} className="text-emerald shrink-0" />
+                      <span className="text-xs text-slate-200 font-medium">{feature}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <h3>{srv.title}</h3>
-              <p className="service-summary">{srv.summary}</p>
-              <div className="service-desc-box">
-                <p>{srv.description}</p>
-              </div>
-              <ul className="service-features">
-                <li><CheckCircle size={15} /> Strict clean-code architecture</li>
-                <li><CheckCircle size={15} /> Fully responsive Figma-to-code design</li>
-                <li><CheckCircle size={15} /> Enterprise security & RBAC authentication</li>
-              </ul>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
-      {/* Proof of Capability: Portfolio of Past Work */}
+      {/* 3. TRACK RECORD & PROOF (CLEAN CARDS WITHOUT BLOATED IMAGES) */}
       <section id="portfolio" className="section-container portfolio-section">
         <div className="section-header text-center">
-          <span className="section-badge">Track Record & Proof</span>
-          <h2 className="section-title">Projects We Have Done Before</h2>
+          <span className="section-badge">Track Record</span>
+          <h2 className="section-title">Shipped Enterprise Case Studies</h2>
           <p className="section-subtitle">
-            Real proofs of our engineering capability. These platforms were built, scaled, and deployed to production by our team.
+            Real production platforms engineered, scaled, and deployed by our team.
           </p>
         </div>
 
         {loading ? (
           <div className="loading-spinner">Loading portfolio case studies...</div>
         ) : (
-          <div className="portfolio-grid">
+          <div className="portfolio-compact-grid">
             {portfolio.map((project) => (
-              <div key={project.id} className="portfolio-card">
-                <div className="portfolio-img-container">
-                  <img src={project.imageUrl} alt={project.title} className="portfolio-img" />
-                  <span className="client-badge">Client: {project.clientName}</span>
+              <div key={project.id} className="portfolio-compact-card">
+                <div className="portfolio-card-header">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="client-badge">Client: {project.clientName}</span>
+                    <span className="portfolio-date text-xs text-slate-400">{project.completedDate}</span>
+                  </div>
+                  <h3 className="portfolio-compact-title mt-2">{project.title}</h3>
                 </div>
-                <div className="portfolio-content">
-                  <div className="portfolio-meta">
-                    <span className="portfolio-date">Completed: {project.completedDate}</span>
-                  </div>
-                  <h3>{project.title}</h3>
-                  <p className="portfolio-desc">{project.description}</p>
 
-                  <div className="tech-stack-wrap">
-                    <strong>Tech Stack:</strong>
-                    <div className="tech-tags">
-                      {project.techStack?.split(',').map((tech, idx) => (
-                        <span key={idx} className="tech-tag">{tech.trim()}</span>
-                      ))}
-                    </div>
-                  </div>
+                <p className="portfolio-compact-desc text-xs text-slate-300">
+                  {project.description}
+                </p>
 
-                  {project.liveUrl && (
+                {/* Tech Stack Chips */}
+                <div className="tech-stack-wrap mt-auto">
+                  <div className="tech-tags">
+                    {project.techStack?.split(',').map((tech, idx) => (
+                      <span key={idx} className="tech-tag text-xs">{tech.trim()}</span>
+                    ))}
+                  </div>
+                </div>
+
+                {project.liveUrl && (
+                  <div className="pt-3 border-t border-slate-800 mt-3">
                     <a
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="portfolio-link"
+                      className="portfolio-link text-xs inline-flex items-center gap-1.5"
                     >
-                      View Live Case Study <ExternalLink size={14} />
+                      View Live Case Study <ExternalLink size={13} />
                     </a>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         )}
       </section>
 
-      {/* Engineering Delivery Process */}
+      {/* 4. AGILE METHODOLOGY - COMPACT STEPPER */}
       <section className="section-container process-section">
         <div className="section-header text-center">
           <span className="section-badge">Methodology</span>
-          <h2 className="section-title">How We Build Your Software</h2>
-          <p className="section-subtitle">A transparent, agile workflow ensuring quality and on-time delivery.</p>
+          <h2 className="section-title">Sprint Delivery Pipeline</h2>
+          <p className="section-subtitle">Transparent, predictable, and SLA-guaranteed.</p>
         </div>
 
-        <div className="process-timeline">
-          <div className="process-step">
-            <div className="step-num">01</div>
-            <h4>Discovery & System Design</h4>
-            <p>We review your business requirements, define database schemas, and map out API boundaries.</p>
+        <div className="process-timeline-compact">
+          <div className="process-step-compact">
+            <div className="step-num-badge">01</div>
+            <h4>System Architecture</h4>
+            <p>Database schemas, data flow, and REST API contracts.</p>
           </div>
-          <div className="process-step">
-            <div className="step-num">02</div>
-            <h4>Figma UX/UI Prototyping</h4>
-            <p>High-fidelity wireframes and interactive user journeys designed to convert before writing code.</p>
+          <div className="process-step-compact">
+            <div className="step-num-badge">02</div>
+            <h4>Figma Prototyping</h4>
+            <p>High-fidelity wireframes and interactive UX journeys.</p>
           </div>
-          <div className="process-step">
-            <div className="step-num">03</div>
-            <h4>Agile Sprint Development</h4>
-            <p>Bi-weekly demo releases with continuous automated testing, code reviews, and staging previews.</p>
+          <div className="process-step-compact">
+            <div className="step-num-badge">03</div>
+            <h4>Agile Sprints</h4>
+            <p>Bi-weekly releases with automated tests and code reviews.</p>
           </div>
-          <div className="process-step">
-            <div className="step-num">04</div>
-            <h4>Production Deployment</h4>
-            <p>CI/CD automated deployment, security hardening, cloud hosting configuration, and SLA support.</p>
+          <div className="process-step-compact">
+            <div className="step-num-badge">04</div>
+            <h4>Production Launch</h4>
+            <p>CI/CD automated deployment, security checks, and 99.9% SLA.</p>
           </div>
         </div>
       </section>
 
-      {/* Inquiry Form */}
+      {/* 5. INQUIRY FORM - CLEAN & STREAMLINED */}
       <section id="inquiry" className="section-container inquiry-section">
         <div className="inquiry-box">
           <div className="inquiry-info">
             <span className="section-badge">Get Started</span>
             <h2>Let’s Build Your Software Solution</h2>
-            <p>
-              Tell us about your web platform, mobile app, or backend architecture requirements. Our lead software architect will review your project and schedule a consultation.
+            <p className="text-sm text-slate-300 mb-4">
+              Tell us about your project requirements. Our lead software architect will review your specifications and schedule a consultation within 24 business hours.
             </p>
             <div className="inquiry-perks">
-              <div className="perk-item"><CheckCircle size={18} /> Free technical architecture estimation</div>
-              <div className="perk-item"><CheckCircle size={18} /> Strict NDA and IP confidentiality guarantee</div>
-              <div className="perk-item"><CheckCircle size={18} /> Response within 24 business hours</div>
+              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Free technical architecture estimate</div>
+              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Strict NDA and IP confidentiality</div>
+              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Guaranteed response within 24 hours</div>
             </div>
           </div>
 
@@ -295,18 +348,18 @@ const Services = () => {
             </div>
 
             <div className="form-group">
-              <label>Project Details & Scope *</label>
+              <label>Project Details &amp; Scope *</label>
               <textarea
                 required
-                rows={4}
+                rows={3}
                 value={inquiry.message}
                 onChange={(e) => setInquiry({ ...inquiry, message: e.target.value })}
-                placeholder="Describe your vision, target users, preferred timeline, and key requirements..."
+                placeholder="Briefly describe your vision, timeline, and key requirements..."
               />
             </div>
 
             <button type="submit" disabled={submitting} className="btn-primary submit-btn">
-              <Send size={16} /> {submitting ? 'Submitting...' : 'Send Project Inquiry'}
+              <Send size={15} /> {submitting ? 'Submitting...' : 'Send Project Inquiry'}
             </button>
           </form>
         </div>
