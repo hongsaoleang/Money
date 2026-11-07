@@ -60,18 +60,47 @@ const Services = () => {
     <div className="services-page">
       {/* Hero Banner */}
       <section className="services-hero section-container">
-        <div className="services-hero-content">
-          <span className="section-badge">Custom Software Engineering</span>
+        <div className="services-hero-content text-center">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="section-badge"><Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Engineering Division</span>
+            <span className="hero-status-pill"><span className="pulse-dot green" /> Accepting New Client Projects</span>
+          </div>
           <h1 className="hero-title">
-            We Engineer Enterprise <span className="gradient-text">Web & Mobile Apps</span>
+            We Engineer Enterprise <span className="gradient-text">Web, Mobile &amp; Cloud Systems</span>
           </h1>
-          <div className="hero-actions">
-            <a href="#portfolio" className="btn-secondary">
-              Inspect Our Shipped Work
-            </a>
+          <p className="hero-subtitle max-w-2xl mx-auto mb-6 text-slate-300">
+            From high-throughput Spring Boot REST microservices and reactive Vite user interfaces to cross-platform mobile apps, our engineering division builds software designed to scale to millions of users.
+          </p>
+          <div className="hero-actions justify-center mb-8">
             <a href="#inquiry" className="btn-primary">
-              Request Technical Proposal
+              <Send size={16} /> Request Technical Proposal
             </a>
+            <a href="#portfolio" className="btn-secondary">
+              Inspect Shipped Work <ExternalLink size={16} />
+            </a>
+          </div>
+
+          {/* Software Metrics Bar */}
+          <div className="hero-metrics-bar">
+            <div className="hero-metric-item">
+              <span className="metric-figure">50+</span>
+              <span className="metric-caption">Platforms Shipped</span>
+            </div>
+            <div className="metric-v-sep" />
+            <div className="hero-metric-item">
+              <span className="metric-figure">100%</span>
+              <span className="metric-caption">On-Time Sprint Delivery</span>
+            </div>
+            <div className="metric-v-sep" />
+            <div className="hero-metric-item">
+              <span className="metric-figure">99.9%</span>
+              <span className="metric-caption">Production SLA</span>
+            </div>
+            <div className="metric-v-sep" />
+            <div className="hero-metric-item">
+              <span className="metric-figure">0</span>
+              <span className="metric-caption">Security Breaches</span>
+            </div>
           </div>
         </div>
       </section>
