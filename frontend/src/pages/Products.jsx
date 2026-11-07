@@ -38,9 +38,6 @@ const Products = () => {
       console.error('Error fetching categories', err);
     }
   };
-      console.error('Error fetching upcoming products', err);
-    }
-  };
 
   const fetchProducts = async () => {
     setLoading(true);
