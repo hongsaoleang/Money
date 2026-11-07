@@ -33,7 +33,7 @@ const Home = () => {
           api.get('/api/products/upcoming'),
           api.get('/api/services'),
         ]);
-        setFeaturedProducts(prodRes.data.slice(0, 3));
+        setFeaturedProducts(prodRes.data.slice(0, 4));
         setUpcomingProducts(upRes.data);
         setServices(srvRes.data);
       } catch (err) {
@@ -56,15 +56,12 @@ const Home = () => {
               <span className="featured-live-beacon"><span className="pulse-dot" /> Live Catalog</span>
             </div>
             <h1 className="top-featured-title">
-              Featured <span className="gradient-text">Hardware</span> &amp; Devices
+              Featured <span className="gradient-text">Products</span>
             </h1>
-            <p className="top-featured-subtitle">
-              Verified global origin &bull; Aerospace materials &bull; Ready to ship
-            </p>
           </div>
 
           <Link to="/products" className="view-all-pill">
-            All Products ({featuredProducts.length}+) <ArrowRight size={14} />
+            View All <ArrowRight size={14} />
           </Link>
         </div>
 

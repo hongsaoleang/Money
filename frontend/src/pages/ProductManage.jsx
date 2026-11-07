@@ -420,8 +420,8 @@ const ProductManage = () => {
                   <Package size={20} />
                 </div>
                 <div>
-                  <h3 className="modal-title">{editingId ? 'Edit Product Specs' : 'Register New Hardware Product'}</h3>
-                  <p className="modal-subtitle">{editingId ? `Updating record #${editingId}` : 'Publish new inventory item with verified provenance'}</p>
+                  <h3 className="modal-title">{editingId ? 'Edit Product' : 'Add New Product'}</h3>
+                  <p className="modal-subtitle">{editingId ? `Updating record #${editingId}` : 'Fill in the product details below'}</p>
                 </div>
               </div>
               <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>
