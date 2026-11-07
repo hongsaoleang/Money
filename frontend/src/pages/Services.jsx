@@ -61,9 +61,13 @@ const Services = () => {
       {/* Hero Banner */}
       <section className="services-hero section-container">
         <div className="services-hero-content text-center">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="section-badge"><Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Engineering Division</span>
-            <span className="hero-status-pill"><span className="pulse-dot green" /> Accepting New Client Projects</span>
+          <div className="hero-badge-row">
+            <span className="section-badge">
+              <Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Engineering Division
+            </span>
+            <span className="hero-status-pill">
+              <span className="pulse-dot green" /> Accepting New Client Projects
+            </span>
           </div>
           <h1 className="hero-title">
             We Engineer Enterprise <span className="gradient-text">Web, Mobile &amp; Cloud Systems</span>

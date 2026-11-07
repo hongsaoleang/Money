@@ -43,7 +43,7 @@ const Home = () => {
       {/* 1. HERO SECTION */}
       <section className="home-hero-section section-container">
         <div className="hero-content-wrap text-center">
-          <div className="inline-flex items-center gap-2 mb-4">
+          <div className="hero-badge-row">
             <span className="section-badge">
               <Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Platform
             </span>
