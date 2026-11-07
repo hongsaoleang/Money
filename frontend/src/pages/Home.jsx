@@ -5,10 +5,9 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { 
   ArrowRight, Code, Cpu, Smartphone, ShieldCheck, Sparkles, Clock, Globe,
-  ShoppingBag, Check, Zap, Layers
+  ShoppingBag, Check, Zap, Layers, Users, Terminal
 } from 'lucide-react';
 import CountdownTimer from '../components/CountdownTimer';
-import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 
 const Home = () => {
   const { user } = useAuth();
