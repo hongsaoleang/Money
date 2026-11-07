@@ -84,4 +84,31 @@ public class EmailService {
             log.error("[Gmail Integration] Failed to send inquiry notification: {}", e.getMessage());
         }
     }
+
+    public boolean sendTestEmail(String toEmail) {
+        if (!isConfigured()) {
+            log.warn("[Gmail Integration] Mail password not configured.");
+            return false;
+        }
+
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
+            message.setTo(toEmail);
+            message.setSubject("NexusTech Gmail Integration - Test Success!");
+            message.setText("Hello Hong Saoleang,\n\n" +
+                    "Your NexusTech Gmail integration is working successfully!\n" +
+                    "Authenticated with: " + fromEmail + "\n" +
+                    "Timestamp: " + java.time.LocalDateTime.now() + "\n\n" +
+                    "Automated order confirmations and customer service inquiries will now be sent directly through this address.\n\n" +
+                    "Best regards,\nNexusTech E-Commerce Platform");
+
+            mailSender.send(message);
+            log.info("[Gmail Integration] Successfully sent test email to {}", toEmail);
+            return true;
+        } catch (Exception e) {
+            log.error("[Gmail Integration] Failed to send test email: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to send email via Gmail SMTP: " + e.getMessage(), e);
+        }
+    }
 }

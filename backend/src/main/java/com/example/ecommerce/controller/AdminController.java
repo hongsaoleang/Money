@@ -10,6 +10,7 @@ import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.Role;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.repository.*;
+import com.example.ecommerce.service.EmailService;
 import com.example.ecommerce.service.OrderService;
 import com.example.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
@@ -40,6 +41,7 @@ public class AdminController {
     private final PortfolioProjectRepository portfolioProjectRepository;
     private final ContactInquiryRepository contactInquiryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     // Admin Dashboard Stats
     @GetMapping("/dashboard")
@@ -206,5 +208,30 @@ public class AdminController {
             @RequestParam String status
     ) {
         return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
+    }
+
+    // Admin Tests Gmail Delivery
+    @PostMapping("/mail/test")
+    public ResponseEntity<?> sendTestEmail(@RequestParam(required = false) String email) {
+        String target = (email != null && !email.trim().isEmpty()) ? email : "hongsaoleang@gmail.com";
+        try {
+            boolean sent = emailService.sendTestEmail(target);
+            if (sent) {
+                return ResponseEntity.ok(java.util.Map.of(
+                        "success", true,
+                        "message", "Test email successfully sent via Gmail SMTP to " + target
+                ));
+            } else {
+                return ResponseEntity.badRequest().body(java.util.Map.of(
+                        "success", false,
+                        "error", "Gmail SMTP is not configured"
+                ));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(java.util.Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
+        }
     }
 }
