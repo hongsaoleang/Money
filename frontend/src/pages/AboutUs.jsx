@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu, UserCheck } from 'lucide-react';
+import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu, UserCheck, Pencil, X } from 'lucide-react';
 import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 import api from '../api/client';
+import { useAuth } from '../context/AuthContext';
 
 const DEVELOPERS = [
   {
@@ -44,10 +45,14 @@ const DEVELOPERS = [
 ];
 
 const AboutUs = () => {
+  const { isAdmin } = useAuth();
   // Interactive delivery date preview
   const [selectedOrderDayOffset, setSelectedOrderDayOffset] = useState(0);
   const [developers, setDevelopers] = useState(DEVELOPERS);
   const [selectedDevId, setSelectedDevId] = useState(DEVELOPERS[0].id);
+  const [editingDeveloper, setEditingDeveloper] = useState(null);
+  const [developerSaveError, setDeveloperSaveError] = useState('');
+  const [savingDeveloper, setSavingDeveloper] = useState(false);
 
   useEffect(() => {
     api.get('/api/developers').then(({ data }) => {
@@ -65,6 +70,31 @@ const AboutUs = () => {
   }, []);
 
   const activeDev = developers.find(d => d.id === selectedDevId) || developers[0];
+
+  const openDeveloperEditor = (developer) => {
+    setDeveloperSaveError('');
+    setEditingDeveloper({ ...developer, skills: developer.skills.join(', ') });
+  };
+
+  const saveDeveloper = async (event) => {
+    event.preventDefault();
+    setSavingDeveloper(true);
+    setDeveloperSaveError('');
+    try {
+      const { data } = await api.put(`/api/admin/developers/${editingDeveloper.id}`, editingDeveloper);
+      const savedProfile = {
+        ...data,
+        isLead: data.lead,
+        skills: (data.skills || '').split(',').map((skill) => skill.trim()).filter(Boolean),
+      };
+      setDevelopers((profiles) => profiles.map((profile) => profile.id === savedProfile.id ? savedProfile : profile));
+      setEditingDeveloper(null);
+    } catch (error) {
+      setDeveloperSaveError(error.response?.data?.message || 'Could not save this profile. Please try again.');
+    } finally {
+      setSavingDeveloper(false);
+    }
+  };
 
   const getCalculatedDates = (offsetDays) => {
     const orderDate = new Date();
@@ -285,7 +315,7 @@ const AboutUs = () => {
             <span className="section-badge"><Sparkles size={12} className="text-amber-400" /> Real-Time 3D Physics</span>
             <h3 className="text-lg font-bold text-slate-200 mt-1">Meet the team</h3>
             <p className="text-xs text-slate-400 max-w-xl mx-auto mb-3">
-              Select a profile to see it on the interactive 3D badge.
+              {isAdmin ? 'Select a profile, or choose Edit to update any team member.' : 'Select a profile to see it on the interactive 3D badge.'}
             </p>
 
             {/* Quick Switcher Dock */}
@@ -293,25 +323,31 @@ const AboutUs = () => {
               {developers.map((dev) => {
                 const isActive = selectedDevId === dev.id;
                 return (
-                  <button
-                    key={dev.id}
-                    className={`dev-dock-btn ${isActive ? 'active' : ''}`}
-                    onMouseEnter={() => setSelectedDevId(dev.id)}
-                    onClick={() => setSelectedDevId(dev.id)}
-                    type="button"
-                  >
-                    <img 
-                      src={dev.avatar} 
-                      alt={dev.name} 
-                      className="dev-dock-img" 
-                      style={dev.avatar.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d' } : { objectFit: 'cover' }}
-                    />
-                    <div className="dev-dock-text">
-                      <span className="dev-dock-name">{dev.name}</span>
-                      <span className="dev-dock-role">{dev.pill}</span>
-                    </div>
-                    {isActive && <span className="dev-active-dot" title="Active on 3D Pass" />}
-                  </button>
+                  <div key={dev.id} className="dev-switcher-item">
+                    <button
+                      className={`dev-dock-btn ${isActive ? 'active' : ''}`}
+                      onMouseEnter={() => setSelectedDevId(dev.id)}
+                      onClick={() => setSelectedDevId(dev.id)}
+                      type="button"
+                    >
+                      <img
+                        src={dev.avatar}
+                        alt=""
+                        className="dev-dock-img"
+                        style={dev.avatar.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d' } : { objectFit: 'cover' }}
+                      />
+                      <div className="dev-dock-text">
+                        <span className="dev-dock-name">{dev.name}</span>
+                        <span className="dev-dock-role">{dev.pill}</span>
+                      </div>
+                      {isActive && <span className="dev-active-dot" title="Active on 3D Pass" />}
+                    </button>
+                    {isAdmin && Number.isFinite(Number(dev.id)) && (
+                      <button type="button" className="dev-edit-btn" onClick={() => openDeveloperEditor(dev)}>
+                        <Pencil size={13} /> Edit
+                      </button>
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -339,6 +375,34 @@ const AboutUs = () => {
           <Link to="/services" className="btn-secondary">Explore services</Link>
         </div>
       </section>
+
+      {isAdmin && editingDeveloper && (
+        <div className="developer-edit-overlay" onMouseDown={() => setEditingDeveloper(null)}>
+          <form className="developer-edit-dialog" onSubmit={saveDeveloper} onMouseDown={(event) => event.stopPropagation()}>
+            <div className="developer-edit-heading">
+              <div>
+                <span className="section-badge">Admin editing</span>
+                <h2>Edit {editingDeveloper.name}</h2>
+              </div>
+              <button type="button" className="developer-edit-close" aria-label="Close editor" onClick={() => setEditingDeveloper(null)}><X size={20} /></button>
+            </div>
+            <div className="developer-edit-fields">
+              <label>Name<input required value={editingDeveloper.name} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, name: event.target.value })} /></label>
+              <label>Card label<input required value={editingDeveloper.pill} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, pill: event.target.value })} /></label>
+              <label>Role<input required value={editingDeveloper.role} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, role: event.target.value })} /></label>
+              <label>3D badge role<input required value={editingDeveloper.badgeRole} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, badgeRole: event.target.value })} /></label>
+              <label className="developer-edit-wide">Photo URL<input type="url" required value={editingDeveloper.avatar} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, avatar: event.target.value })} /></label>
+              <label className="developer-edit-wide">Short bio<textarea required rows={3} value={editingDeveloper.bio} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, bio: event.target.value })} /></label>
+              <label className="developer-edit-wide">Skills, separated by commas<textarea rows={2} value={editingDeveloper.skills} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, skills: event.target.value })} /></label>
+            </div>
+            {developerSaveError && <p className="developer-edit-error" role="alert">{developerSaveError}</p>}
+            <div className="developer-edit-actions">
+              <button type="button" className="btn-secondary" onClick={() => setEditingDeveloper(null)}>Cancel</button>
+              <button type="submit" className="btn-primary" disabled={savingDeveloper}>{savingDeveloper ? 'Saving...' : 'Save profile'}</button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

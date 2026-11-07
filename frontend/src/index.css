@@ -6129,6 +6129,24 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
 .pass-status-indicator.active { color: var(--accent); }
 .developers-section .section-title { color: var(--text-main); }
 .developers-section .section-subtitle { color: var(--text-muted); }
+.developers-section .text-slate-200 { color: var(--text-main) !important; }
+.developers-section .text-slate-400 { color: var(--text-muted) !important; }
+.dev-switcher-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.dev-switcher-item .dev-dock-btn { height: 100%; }
+.dev-edit-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 999px; background: var(--bg-card); color: var(--primary); font-size: .78rem; font-weight: 700; cursor: pointer; }
+.dev-edit-btn:hover { background: color-mix(in srgb, var(--primary) 12%, var(--bg-card)); }
+.developer-edit-overlay { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; background: rgba(4, 8, 18, .72); backdrop-filter: blur(10px); }
+.developer-edit-dialog { width: min(100%, 720px); max-height: min(90vh, 900px); overflow: auto; padding: clamp(20px, 4vw, 34px); border: 1px solid var(--border-color); border-radius: 24px; background: var(--bg-card); color: var(--text-main); box-shadow: var(--shadow-lg); }
+.developer-edit-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.developer-edit-heading h2 { margin-top: 10px; color: var(--text-main); }
+.developer-edit-close { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 auto; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-secondary); color: var(--text-main); cursor: pointer; }
+.developer-edit-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.developer-edit-fields label { display: flex; flex-direction: column; gap: 8px; min-width: 0; color: var(--text-muted); font-size: .85rem; font-weight: 700; }
+.developer-edit-fields input, .developer-edit-fields textarea { width: 100%; min-width: 0; padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-primary); color: var(--text-main); }
+.developer-edit-fields textarea { resize: vertical; }
+.developer-edit-wide { grid-column: 1 / -1; }
+.developer-edit-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+.developer-edit-error { margin-top: 16px; color: var(--danger); }
 .developer-admin-card { gap: 14px; }
 .developer-admin-identity { display: flex; align-items: center; gap: 14px; min-width: 0; }
 .developer-admin-identity img { width: 52px; height: 52px; flex: 0 0 auto; object-fit: cover; border-radius: 50%; background: var(--bg-secondary); }
@@ -6149,6 +6167,17 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
 [data-theme="light"] .interactive-lanyard-wrapper { background: linear-gradient(145deg, #f2f5ff, #fff); border-color: #dce3f0; }
 [data-theme="light"] .dev-dock-btn { background: #fff; color: #1f2937; }
 [data-theme="light"] .dev-dock-btn.active { background: #edf0ff; color: #2736a8; }
+[data-theme="light"] .dev-name, [data-theme="light"] .dev-dock-name,
+[data-theme="light"] .developers-section .text-slate-200 { color: #111827 !important; }
+[data-theme="light"] .dev-role, [data-theme="light"] .dev-bio,
+[data-theme="light"] .dev-dock-role,
+[data-theme="light"] .developers-section .text-slate-400 { color: #374151 !important; }
+[data-theme="dark"] .dev-role, [data-theme="dark"] .dev-bio,
+[data-theme="dark"] .dev-skill-tag, [data-theme="dark"] .dev-dock-role,
+[data-theme="dark"] .developers-section .text-slate-200,
+[data-theme="dark"] .developers-section .text-slate-400 { color: #f8fafc !important; }
+[data-theme="dark"] .developer-edit-fields label { color: #f8fafc; }
+[data-theme="light"] .developer-edit-fields label { color: #111827; }
 
 @media (max-width: 640px) {
   .dashboard-kpi-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
@@ -6170,4 +6199,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   #developers .interactive-lanyard-wrapper > .text-center { gap: 12px; margin-bottom: 22px !important; }
   #developers .dev-switcher-dock { gap: 8px; }
   .developer-edit-modal { width: min(96vw, 680px); }
+  .dev-switcher-item .dev-dock-btn { width: min(78vw, 260px); }
+  .developer-edit-overlay { padding: 10px; }
+  .developer-edit-dialog { padding: 20px 16px; border-radius: 18px; }
+  .developer-edit-fields { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .developer-edit-wide { grid-column: auto; }
 }
