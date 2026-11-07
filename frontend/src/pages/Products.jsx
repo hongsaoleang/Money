@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { Search, Globe, Clock, Filter, ArrowRight, CheckCircle2, Package, Plus, ShoppingBag, Check } from 'lucide-react';
 import CountdownTimer from '../components/CountdownTimer';
+import { getProductSpecs } from '../utils/productSpecs';
 
 const Products = () => {
   const { isAdmin } = useAuth();
@@ -147,50 +148,62 @@ const Products = () => {
             </div>
           ) : (
             <div className="products-grid">
-              {products.map((product) => (
-                <div key={product.id} className="product-card">
-                  <div className="product-image-wrap">
-                    <img src={product.imageUrl} alt={product.name} className="product-image" />
-                    <span className="origin-badge">
-                      <Globe size={13} /> {product.originCountry || 'Verified'}
-                    </span>
-                    {product.stockQuantity > 0 ? (
-                      <span className="stock-badge in-stock">In Stock ({product.stockQuantity})</span>
-                    ) : (
-                      <span className="stock-badge out-stock">Backorder</span>
-                    )}
-                  </div>
-                  <div className="product-details">
-                    <span className="product-category">{product.category?.name}</span>
-                    <h3 className="product-title">{product.name}</h3>
+              {products.map((product) => {
+                const specs = getProductSpecs(product);
+                return (
+                  <div key={product.id} className="product-card">
+                    <div className="product-image-wrap">
+                      <img src={product.imageUrl} alt={product.name} className="product-image" />
+                      <span className="origin-badge">
+                        <Globe size={12} /> {product.originCountry || 'Verified'}
+                      </span>
+                      {product.stockQuantity > 0 ? (
+                        <span className="stock-badge in-stock">{product.stockQuantity} in stock</span>
+                      ) : (
+                        <span className="stock-badge out-stock">Backorder</span>
+                      )}
+                    </div>
+                    <div className="product-details">
+                      <div className="spotlight-top-meta">
+                        <span className="product-category">{product.category?.name}</span>
+                        <span className="spotlight-sku">{specs.modelId}</span>
+                      </div>
+                      <h3 className="product-title">{product.name}</h3>
 
-                    <div className="product-footer">
-                      <span className="product-price">${parseFloat(product.price).toFixed(2)}</span>
-                      <div className="product-card-actions">
-                        <button 
-                          onClick={() => handleQuickAdd(product)}
-                          disabled={product.stockQuantity <= 0}
-                          className={`spotlight-cart-btn ${addedId === product.id ? 'added' : ''}`}
-                          title="Add to shopping cart"
-                        >
-                          {addedId === product.id ? (
-                            <>
-                              <Check size={15} /> Added!
-                            </>
-                          ) : (
-                            <>
-                              <ShoppingBag size={15} /> Add to Cart
-                            </>
-                          )}
-                        </button>
-                        <Link to={`/products/${product.id}`} className="spotlight-inspect-btn" title="View Specifications">
-                          <ArrowRight size={15} />
-                        </Link>
+                      {/* Specific Hardware Attributes */}
+                      <div className="spotlight-specs-row">
+                        <span className="spec-feature-tag">{specs.spec1}</span>
+                        <span className="spec-origin-tag"><Globe size={11} /> {specs.origin}</span>
+                      </div>
+
+                      <div className="product-footer">
+                        <span className="product-price">${parseFloat(product.price).toFixed(2)}</span>
+                        <div className="product-card-actions">
+                          <button 
+                            onClick={() => handleQuickAdd(product)}
+                            disabled={product.stockQuantity <= 0}
+                            className={`spotlight-cart-btn ${addedId === product.id ? 'added' : ''}`}
+                            title="Add to shopping cart"
+                          >
+                            {addedId === product.id ? (
+                              <>
+                                <Check size={15} /> Added!
+                              </>
+                            ) : (
+                              <>
+                                <ShoppingBag size={15} /> Add to Cart
+                              </>
+                            )}
+                          </button>
+                          <Link to={`/products/${product.id}`} className="spotlight-inspect-btn" title="View Specifications">
+                            <ArrowRight size={15} />
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </>
