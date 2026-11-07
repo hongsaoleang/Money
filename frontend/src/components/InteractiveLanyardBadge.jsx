@@ -674,7 +674,7 @@ const InteractiveLanyardBadge = ({
             <div className="badge-specs-grid">
               <div className="spec-cell">
                 <span className="spec-key">Pass Serial</span>
-                <span className="spec-val">#NX-9042-PRO</span>
+                <span className="spec-val">#JKH-2026</span>
               </div>
               <div className="spec-cell">
                 <span className="spec-key">Protocol</span>
@@ -715,13 +715,9 @@ const InteractiveLanyardBadge = ({
             <div className="badge-magnetic-stripe" />
 
             <div className="badge-back-terms">
-              <strong>OFFICIAL SECURITY PASS</strong><br />
-              This credentials card remains the exclusive property of Jomnenh-KH Core Engineering. 
-              Holders are granted access to restricted hardware synthesis facilities, quantum compiler clusters, 
-              and enterprise cloud clusters according to Tier Clearance.
-              <br /><br />
-              <strong>EMERGENCY OVERRIDE:</strong> 1-800-JOMNENH-KH<br />
-              <strong>HASH:</strong> e3b0c44298fc1c149afbf4c8996fb92427ae
+              <strong>JOMNENH-KH ID PASS</strong><br />
+              Authorized Security Clearance<br />
+              ID: #JKH-2026-STAFF
             </div>
 
             {/* Security Tamper Seal & Verification QR */}

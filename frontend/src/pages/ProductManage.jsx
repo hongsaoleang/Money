@@ -238,13 +238,10 @@ const ProductManage = () => {
             <ArrowLeft size={16} /> Back to Catalog
           </Link>
           <div className="flex items-center gap-3 mt-2">
-            <span className="section-badge">Management Portal</span>
-            {isAdmin && <span className="admin-status-badge"><ShieldCheck size={13} /> Admin Authorized</span>}
+            <span className="section-badge">Management</span>
+            {isAdmin && <span className="admin-status-badge"><ShieldCheck size={13} /> Admin</span>}
           </div>
-          <h1 className="page-title mt-1">Product Inventory (CRUD Hub)</h1>
-          <p className="page-desc">
-            Directly create, inspect, update specs, adjust stock levels, verify provenance, and delete items from the catalog.
-          </p>
+          <h1 className="page-title mt-1">Product Inventory (CRUD)</h1>
         </div>
 
         <button 

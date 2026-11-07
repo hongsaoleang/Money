@@ -40,13 +40,13 @@ const Home = () => {
         <div className="hero-grid">
           <div className="hero-content hero-content-split">
             <div className="hero-badge">
-              <Sparkles size={16} /> Premium Hardware & Software Engineering
+              <Sparkles size={14} /> Hardware &amp; Software
             </div>
             <h1 className="hero-title">
               Where Precision <span className="gradient-text">Hardware</span> Meets Enterprise <span className="gradient-text">Software</span>.
             </h1>
             <p className="hero-subtitle">
-              Explore meticulously crafted electronic devices with verified global provenance, or partner with our senior engineering team to design, build, and deploy high-performance web & mobile applications.
+              Curated tech hardware and bespoke software engineering.
             </p>
             <div className="hero-actions">
               <Link to="/products" className="btn-primary hero-btn">
@@ -60,17 +60,17 @@ const Home = () => {
             <div className="hero-metrics">
               <div className="metric-item">
                 <span className="metric-val">100%</span>
-                <span className="metric-lbl">Traceable Provenance</span>
+                <span className="metric-lbl">Provenance</span>
               </div>
               <div className="metric-divider" />
               <div className="metric-item">
                 <span className="metric-val">50+</span>
-                <span className="metric-lbl">Apps & Platforms Shipped</span>
+                <span className="metric-lbl">Apps Shipped</span>
               </div>
               <div className="metric-divider" />
               <div className="metric-item">
-                <span className="metric-val">99.98%</span>
-                <span className="metric-lbl">Uptime SLA Guaranteed</span>
+                <span className="metric-val">99.9%</span>
+                <span className="metric-lbl">Uptime SLA</span>
               </div>
             </div>
           </div>
@@ -90,12 +90,11 @@ const Home = () => {
       <section className="section-container">
         <div className="section-header">
           <div>
-            <span className="section-badge">Flagship Store</span>
-            <h2 className="section-title">Engineered For Professionals</h2>
-            <p className="section-subtitle">Transparent origins, sustainable aerospace alloys, and precision calibrated.</p>
+            <span className="section-badge">Store</span>
+            <h2 className="section-title">Featured Products</h2>
           </div>
           <Link to="/products" className="view-all-link">
-            View All Products <ArrowRight size={16} />
+            View All <ArrowRight size={16} />
           </Link>
         </div>
 
@@ -165,10 +164,10 @@ const Home = () => {
       {/* Software Development Capabilities Overview */}
       <section className="section-container software-agency-banner">
         <div className="section-header text-center">
-          <span className="section-badge">Engineering Division</span>
-          <h2 className="section-title">We Build Software For Forward-Thinking Businesses</h2>
+          <span className="section-badge">Engineering</span>
+          <h2 className="section-title">Software Development</h2>
           <p className="section-subtitle">
-            Need a scalable web application or mobile app? Our in-house engineering team crafts bespoke software tailored to your workflows.
+            Scalable web, mobile, and cloud software engineering.
           </p>
         </div>
 
@@ -181,7 +180,7 @@ const Home = () => {
               <h3 className="service-title">{srv.title}</h3>
               <p className="service-desc">{srv.summary}</p>
               <Link to="/services" className="service-learn-more">
-                Explore capabilities & case studies <ArrowRight size={14} />
+                Learn more <ArrowRight size={14} />
               </Link>
             </div>
           ))}
@@ -190,10 +189,10 @@ const Home = () => {
         <div className="agency-cta-box">
           <div className="cta-text">
             <h3>Have a software project in mind?</h3>
-            <p>Review our portfolio of shipped client projects and receive a technical proposal.</p>
+            <p>Let's build your next digital product.</p>
           </div>
           <Link to="/services#inquiry" className="btn-primary cta-btn">
-            Request Technical Discovery
+            Request Discovery
           </Link>
         </div>
       </section>
@@ -202,13 +201,13 @@ const Home = () => {
       <section className="section-container merchant-callout">
         <div className="merchant-box">
           <div className="merchant-content">
-            <span className="section-badge">Client Partnership</span>
-            <h2>Sell Your Hardware & Products On Our Platform</h2>
+            <span className="section-badge">Partnership</span>
+            <h2>Sell on Jomnenh-KH</h2>
             <p>
-              Are you a manufacturer, inventor, or brand? You can deploy your products directly on our website! Submit your product specs, provenance, and pricing for our review process to get approved and featured.
+              List your hardware with verified origin and instant customer reach.
             </p>
             <Link to="/client/deploy" className="btn-secondary">
-              Deploy Your Product <ArrowRight size={16} />
+              Deploy Product <ArrowRight size={16} />
             </Link>
           </div>
         </div>

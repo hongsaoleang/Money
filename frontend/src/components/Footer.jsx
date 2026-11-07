@@ -9,22 +9,22 @@ const Footer = () => {
         <div className="feature-item">
           <Truck size={24} className="feature-icon" />
           <div>
-            <h4>Global Direct Shipping</h4>
-            <p>Transparent order-to-doorstep tracking with accurate delivery dates</p>
+            <h4>Fast Delivery</h4>
+            <p>Direct tracking on every order</p>
           </div>
         </div>
         <div className="feature-item">
           <ShieldCheck size={24} className="feature-icon" />
           <div>
-            <h4>Verified Provenance</h4>
-            <p>100% genuine origin traceability for all electronics and hardware</p>
+            <h4>Verified Origin</h4>
+            <p>100% genuine components</p>
           </div>
         </div>
         <div className="feature-item">
           <Code size={24} className="feature-icon" />
           <div>
-            <h4>Engineering Excellence</h4>
-            <p>Bespoke web and mobile applications delivered by senior engineers</p>
+            <h4>Custom Software</h4>
+            <p>Production web and mobile apps</p>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@ const Footer = () => {
             <span className="logo-text">Jomnenh<span className="logo-accent">-KH</span></span>
           </div>
           <p className="footer-desc">
-            A dual-engine platform delivering flagship engineering hardware with complete origin transparency, alongside enterprise custom software development.
+            Hardware &amp; bespoke software engineering.
           </p>
           <div className="footer-contact">
             <p><MapPin size={16} /> 100 Innovation Way, Suite 400, San Francisco, CA</p>
@@ -79,7 +79,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Jomnenh-KH Inc. All rights reserved. Built with React.js, Spring Boot, PostgreSQL & Spring Security.</p>
+        <p>&copy; {new Date().getFullYear()} Jomnenh-KH Inc. All rights reserved.</p>
       </div>
     </footer>
   );
