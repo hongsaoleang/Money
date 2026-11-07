@@ -5242,3 +5242,273 @@ button, input, select, textarea {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ==========================================================================
+   Executive Modern Polish: Home Hero, Pillars, Metrics & Interactive Badges
+   ========================================================================== */
+.home-hero-section {
+  padding: 56px 24px 32px;
+  position: relative;
+}
+
+.hero-content-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.hero-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+.hero-main-title {
+  font-size: 3rem;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  color: var(--text-main);
+  margin-bottom: 18px;
+}
+
+.hero-main-subtitle {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 720px;
+  margin: 0 auto 28px;
+}
+
+.hero-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 38px;
+}
+
+.hero-btn {
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  border-radius: 8px !important;
+}
+
+/* Glassmorphism Metrics Bar */
+.hero-metrics-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  margin-top: 10px;
+}
+
+.hero-metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.metric-figure {
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.metric-caption {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-v-sep {
+  width: 1px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Pillars Section */
+.home-pillars-section {
+  padding: 48px 24px 64px;
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.pillar-card {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pillar-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+}
+
+.pillar-card:hover::before {
+  opacity: 1;
+}
+
+.pillar-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pillar-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.pillar-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  flex: 1;
+}
+
+.pillar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #818cf8;
+  transition: color 0.2s ease;
+  margin-top: 4px;
+}
+
+.pillar-link:hover {
+  color: #a5b4fc;
+  gap: 8px;
+}
+
+/* Interactive Lanyard Stage Box in About Us */
+.interactive-lanyard-wrapper {
+  background: radial-gradient(circle at center, #151d32 0%, #090e1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 28px 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.lanyard-stage-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+/* Light Theme Overrides for Hero, Pillars, Metrics */
+[data-theme="light"] .hero-main-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .hero-main-subtitle {
+  color: #475569;
+}
+
+[data-theme="light"] .hero-metrics-bar {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .metric-figure {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .metric-caption {
+  color: #64748b;
+}
+
+[data-theme="light"] .metric-v-sep {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .pillar-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .pillar-card h3 {
+  color: #0f172a;
+}
+
+[data-theme="light"] .pillar-card p {
+  color: #475569;
+}
+
+@media (max-width: 900px) {
+  .hero-main-title {
+    font-size: 2.2rem;
+  }
+  .pillars-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-metrics-bar {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+  }
+  .metric-v-sep {
+    display: none;
+  }
+  .hero-metric-item {
+    width: 45%;
+  }
+}

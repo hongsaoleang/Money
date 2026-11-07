@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { Search, Globe, Filter, ArrowRight, CheckCircle2, Package, Plus, ShoppingBag, Check } from 'lucide-react';
+import { Search, Globe, Filter, ArrowRight, CheckCircle2, Package, Plus, ShoppingBag, Check, X, Sparkles } from 'lucide-react';
 import { getProductSpecs } from '../utils/productSpecs';
 
 const Products = () => {
@@ -62,8 +62,11 @@ const Products = () => {
       {/* Header & Search */}
       <div className="products-page-header">
         <div>
-          <span className="section-badge">Catalog</span>
-          <h1 className="page-title">Products</h1>
+          <span className="section-badge"><Sparkles size={13} className="text-amber-400" /> Curated Store</span>
+          <h1 className="page-title">Hardware Catalog</h1>
+          <p className="text-sm text-slate-400 mt-1 max-w-xl">
+            Audited origin ledgers, precision technical specs, and instant door-to-door delivery tracking.
+          </p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -72,7 +75,7 @@ const Products = () => {
               <Package size={16} /> Manage Products (CRUD)
             </Link>
           )}
-          <div className="search-bar-wrap">
+          <div className="search-bar-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <Search size={18} className="search-icon" />
             <input
               type="text"
@@ -81,6 +84,24 @@ const Products = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
             />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                title="Clear search"
+              >
+                <X size={14} />
+              </button>
+            )}
           </div>
         </div>
       </div>
