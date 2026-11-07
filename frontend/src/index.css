@@ -6147,6 +6147,18 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
 .developer-edit-wide { grid-column: 1 / -1; }
 .developer-edit-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
 .developer-edit-error { margin-top: 16px; color: var(--danger); }
+.developer-photo-field { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.developer-photo-label { color: var(--text-muted); font-size: .85rem; font-weight: 700; }
+.developer-photo-picker { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; column-gap: 14px; row-gap: 5px; min-width: 0; padding: 12px; border: 1px dashed var(--border-color); border-radius: 14px; background: var(--bg-primary); }
+.developer-photo-preview { grid-row: span 2; width: 64px; height: 64px; display: grid; place-items: center; overflow: hidden; border-radius: 50%; background: var(--bg-secondary); color: var(--text-dim); }
+.developer-photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+.developer-photo-choose { display: inline-flex; align-items: center; justify-self: start; gap: 8px; padding: 9px 13px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-card); color: var(--text-main); font-size: .85rem; font-weight: 700; cursor: pointer; }
+.developer-photo-choose:hover { border-color: var(--primary); color: var(--primary); }
+.developer-photo-choose input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+.developer-photo-hint { color: var(--text-dim); font-size: .75rem; }
+.developer-photo-error { color: var(--danger); font-size: .82rem; }
+.developer-photo-spinner { animation: developer-photo-spin 1s linear infinite; }
+@keyframes developer-photo-spin { to { transform: rotate(360deg); } }
 .developer-admin-card { gap: 14px; }
 .developer-admin-identity { display: flex; align-items: center; gap: 14px; min-width: 0; }
 .developer-admin-identity img { width: 52px; height: 52px; flex: 0 0 auto; object-fit: cover; border-radius: 50%; background: var(--bg-secondary); }
@@ -6204,4 +6216,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   .developer-edit-dialog { padding: 20px 16px; border-radius: 18px; }
   .developer-edit-fields { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .developer-edit-wide { grid-column: auto; }
+  .developer-photo-picker { grid-template-columns: 52px minmax(0, 1fr); column-gap: 10px; padding: 10px; }
+  .developer-photo-preview { width: 52px; height: 52px; }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu, UserCheck, Pencil, X } from 'lucide-react';
 import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
+import DeveloperPhotoPicker from '../components/DeveloperPhotoPicker';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 
@@ -391,7 +392,7 @@ const AboutUs = () => {
               <label>Card label<input required value={editingDeveloper.pill} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, pill: event.target.value })} /></label>
               <label>Role<input required value={editingDeveloper.role} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, role: event.target.value })} /></label>
               <label>3D badge role<input required value={editingDeveloper.badgeRole} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, badgeRole: event.target.value })} /></label>
-              <label className="developer-edit-wide">Photo URL<input type="url" required value={editingDeveloper.avatar} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, avatar: event.target.value })} /></label>
+              <div className="developer-edit-wide"><DeveloperPhotoPicker value={editingDeveloper.avatar} onChange={(avatar) => setEditingDeveloper((profile) => ({ ...profile, avatar }))} /></div>
               <label className="developer-edit-wide">Short bio<textarea required rows={3} value={editingDeveloper.bio} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, bio: event.target.value })} /></label>
               <label className="developer-edit-wide">Skills, separated by commas<textarea rows={2} value={editingDeveloper.skills} onChange={(event) => setEditingDeveloper({ ...editingDeveloper, skills: event.target.value })} /></label>
             </div>

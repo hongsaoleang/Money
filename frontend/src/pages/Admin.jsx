@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import DeveloperPhotoPicker from '../components/DeveloperPhotoPicker';
 import { 
   LayoutDashboard, Package, Clock, CheckCircle, XCircle, Trash2, Edit3, Plus, 
   Layers, Users, ShoppingCart, DollarSign, MessageSquare, Calendar, Globe, AlertCircle,
@@ -1268,10 +1269,7 @@ const Admin = () => {
                 <label>3D badge role *</label>
                 <input required value={developerForm.badgeRole} onChange={(e) => setDeveloperForm({ ...developerForm, badgeRole: e.target.value })} />
               </div>
-              <div className="form-group">
-                <label>Photo URL *</label>
-                <input type="url" required value={developerForm.avatar} onChange={(e) => setDeveloperForm({ ...developerForm, avatar: e.target.value })} />
-              </div>
+              <DeveloperPhotoPicker value={developerForm.avatar} onChange={(avatar) => setDeveloperForm((profile) => ({ ...profile, avatar }))} />
               <div className="form-group">
                 <label>Short bio *</label>
                 <textarea required rows={3} value={developerForm.bio} onChange={(e) => setDeveloperForm({ ...developerForm, bio: e.target.value })} />
