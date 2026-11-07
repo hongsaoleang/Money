@@ -154,11 +154,6 @@ const Products = () => {
                   <div className="product-details">
                     <span className="product-category">{product.category?.name}</span>
                     <h3 className="product-title">{product.name}</h3>
-                    <p className="product-desc">{product.description?.substring(0, 95)}...</p>
-
-                    <div className="provenance-chip">
-                      <strong>Origin:</strong> {product.provenanceDetails?.substring(0, 65)}...
-                    </div>
 
                     <div className="product-footer">
                       <span className="product-price">${parseFloat(product.price).toFixed(2)}</span>

@@ -70,47 +70,28 @@ const Home = () => {
           <div className="loading-spinner">Loading featured hardware...</div>
         ) : (
           <div className="featured-showcase-grid">
-            {featuredProducts.map((product, idx) => (
+            {featuredProducts.map((product) => (
               <div 
                 key={product.id} 
-                className={`featured-spotlight-card ${idx === 0 ? 'spotlight-lead' : ''}`}
+                className="featured-spotlight-card"
               >
                 {/* Visual Thumbnail Wrap */}
                 <div className="spotlight-thumb-wrap">
                   <img src={product.imageUrl} alt={product.name} className="spotlight-img" />
                   <div className="spotlight-badge-row">
-                    <span className="spotlight-origin-badge">
-                      <Globe size={12} /> {product.originCountry || 'Imported'}
-                    </span>
                     <span className={`spotlight-stock-badge ${product.stockQuantity > 0 ? 'in-stock' : 'out-stock'}`}>
-                      {product.stockQuantity > 0 ? `● In Stock (${product.stockQuantity})` : 'Backorder'}
+                      {product.stockQuantity > 0 ? `In Stock (${product.stockQuantity})` : 'Backorder'}
                     </span>
                   </div>
-                  {idx === 0 && <span className="spotlight-flagship-tag">Flagship</span>}
                 </div>
 
                 {/* Card Content Body */}
                 <div className="spotlight-content">
-                  <div className="spotlight-category-row">
-                    <span className="spotlight-category">{product.category?.name}</span>
-                    <span className="spotlight-id">#JKH-0{product.id}</span>
-                  </div>
-
+                  <span className="spotlight-category">{product.category?.name}</span>
                   <h3 className="spotlight-title">{product.name}</h3>
 
-                  <p className="spotlight-desc">
-                    {product.description?.substring(0, idx === 0 ? 110 : 80)}...
-                  </p>
-
-                  <div className="spotlight-provenance-tag">
-                    <strong>Origin:</strong> {product.provenanceDetails?.substring(0, 55)}...
-                  </div>
-
                   <div className="spotlight-footer">
-                    <div className="spotlight-price-col">
-                      <span className="price-label">Price</span>
-                      <span className="spotlight-price">${parseFloat(product.price).toFixed(2)}</span>
-                    </div>
+                    <span className="spotlight-price">${parseFloat(product.price).toFixed(2)}</span>
 
                     <div className="spotlight-actions">
                       <button 
@@ -201,7 +182,6 @@ const Home = () => {
                   <div className="upcoming-info">
                     <span className="product-category">{product.category?.name}</span>
                     <h3>{product.name}</h3>
-                    <p className="upcoming-origin">Provenance: {product.originCountry} &bull; {product.provenanceDetails?.substring(0, 60)}...</p>
                     <div className="countdown-wrap">
                       <span className="countdown-label">Releasing In:</span>
                       <CountdownTimer targetDate={product.releaseDate} />
