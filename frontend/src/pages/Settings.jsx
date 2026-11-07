@@ -38,7 +38,9 @@ const Settings = () => {
     <div className="settings-page section-container">
       <div className="settings-header">
         <div className="user-profile-badge">
-          <div className="profile-avatar">{user.fullName.charAt(0)}</div>
+          <div className="profile-avatar">
+            <img src="/JomnenhKH.jpg" alt={user.fullName} className="profile-avatar-img" />
+          </div>
           <div>
             <h1>{user.fullName}</h1>
             <p className="profile-meta">{user.email} &bull; <span className="role-tag">{user.role}</span></p>

@@ -32,7 +32,11 @@ const Footer = () => {
       <div className="footer-main">
         <div className="footer-col brand-col">
           <div className="navbar-logo">
-            <div className="logo-icon"><Code size={20} /></div>
+            <img 
+              src="/JomnenhKH.jpg" 
+              alt="JomnenhKH Logo" 
+              className="navbar-brand-logo-img" 
+            />
             <span className="logo-text">Jomnenh<span className="logo-accent">-KH</span></span>
           </div>
           <p className="footer-desc">

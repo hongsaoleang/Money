@@ -32,9 +32,11 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo" onClick={() => setMobileMenuOpen(false)}>
-          <div className="logo-icon">
-            <Code size={20} />
-          </div>
+          <img 
+            src="/JomnenhKH.jpg" 
+            alt="JomnenhKH Logo" 
+            className="navbar-brand-logo-img" 
+          />
           <span className="logo-text">Jomnenh<span className="logo-accent">-KH</span></span>
         </Link>
 
@@ -87,7 +89,7 @@ const Navbar = () => {
           {user ? (
             <div className="user-dropdown desktop-only-auth">
               <div className="user-pill">
-                <span className="user-avatar">{user.fullName.charAt(0)}</span>
+                <img src="/JomnenhKH.jpg" alt={user.fullName} className="user-avatar-img" />
                 <span className="user-name">{user.fullName.split(' ')[0]}</span>
                 {isAdmin && <span className="role-tag admin">Admin</span>}
                 {!isAdmin && isClient && <span className="role-tag client">Client</span>}
@@ -156,7 +158,7 @@ const Navbar = () => {
             {/* User Profile Banner (if logged in) */}
             {user ? (
               <div className="mobile-user-card">
-                <div className="mobile-user-avatar">{user.fullName.charAt(0)}</div>
+                <img src="/JomnenhKH.jpg" alt={user.fullName} className="mobile-user-avatar-img" />
                 <div className="mobile-user-info">
                   <div className="mobile-user-name">{user.fullName}</div>
                   <div className="mobile-user-email">{user.email}</div>
