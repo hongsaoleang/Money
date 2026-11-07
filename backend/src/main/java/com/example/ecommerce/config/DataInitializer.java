@@ -21,12 +21,14 @@ public class DataInitializer implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final ServiceOfferingRepository serviceOfferingRepository;
     private final PortfolioProjectRepository portfolioProjectRepository;
+    private final DeveloperProfileRepository developerProfileRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
         // Always ensure the primary administrator account hongsaoleang@gmail.com is synchronized
         syncPrimaryAdminAccount();
+        seedDeveloperProfiles();
 
         if (productRepository.count() > 0) {
             return; // Remaining seed data already initialized
@@ -234,6 +236,47 @@ public class DataInitializer implements CommandLineRunner {
         portfolioProjectRepository.saveAll(List.of(port1, port2, port3));
 
         System.out.println(">>> Seed Data initialized successfully!");
+    }
+
+    private void seedDeveloperProfiles() {
+        if (developerProfileRepository.count() > 0) return;
+
+        developerProfileRepository.saveAll(List.of(
+                DeveloperProfile.builder()
+                        .name("Hong Saoleang")
+                        .role("Full-Stack Architect & System Designer")
+                        .badgeRole("Founder & Full-Stack Architect")
+                        .pill("Founder & Lead")
+                        .avatar("/JomnenhKH.jpg")
+                        .tier(0)
+                        .lead(true)
+                        .displayOrder(0)
+                        .bio("Built the platform architecture, APIs, authentication, and data models.")
+                        .skills("Spring Boot 3,React.js,PostgreSQL,REST APIs,JWT Security")
+                        .build(),
+                DeveloperProfile.builder()
+                        .name("Alex Rivera")
+                        .role("Frontend & UI Systems Lead")
+                        .badgeRole("Frontend & UI Systems Lead")
+                        .pill("Frontend Lead")
+                        .avatar("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80")
+                        .tier(1)
+                        .displayOrder(1)
+                        .bio("Built the responsive interface, navigation, and shopping experience.")
+                        .skills("Vite,Responsive CSS,State Management,UI/UX")
+                        .build(),
+                DeveloperProfile.builder()
+                        .name("Devon Vance")
+                        .role("Database & Infrastructure Engineer")
+                        .badgeRole("Database & Infrastructure Engineer")
+                        .pill("Database & Cloud")
+                        .avatar("https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80")
+                        .tier(2)
+                        .displayOrder(2)
+                        .bio("Maintains the database, cloud infrastructure, and platform security.")
+                        .skills("PostgreSQL,Docker,Mail Servers,DevOps")
+                        .build()
+        ));
     }
 
     private void syncPrimaryAdminAccount() {

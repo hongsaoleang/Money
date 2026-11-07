@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu, UserCheck } from 'lucide-react';
 import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
+import api from '../api/client';
 
 const DEVELOPERS = [
   {
@@ -45,9 +46,25 @@ const DEVELOPERS = [
 const AboutUs = () => {
   // Interactive delivery date preview
   const [selectedOrderDayOffset, setSelectedOrderDayOffset] = useState(0);
-  const [selectedDevId, setSelectedDevId] = useState('hong');
+  const [developers, setDevelopers] = useState(DEVELOPERS);
+  const [selectedDevId, setSelectedDevId] = useState(DEVELOPERS[0].id);
 
-  const activeDev = DEVELOPERS.find(d => d.id === selectedDevId) || DEVELOPERS[0];
+  useEffect(() => {
+    api.get('/api/developers').then(({ data }) => {
+      if (!Array.isArray(data) || data.length === 0) return;
+      const profiles = data.map((profile) => ({
+        ...profile,
+        isLead: profile.lead,
+        skills: (profile.skills || '').split(',').map((skill) => skill.trim()).filter(Boolean),
+      }));
+      setDevelopers(profiles);
+      setSelectedDevId((current) => profiles.some((profile) => profile.id === current) ? current : profiles[0].id);
+    }).catch((error) => {
+      console.error('Could not load developer profiles', error);
+    });
+  }, []);
+
+  const activeDev = developers.find(d => d.id === selectedDevId) || developers[0];
 
   const getCalculatedDates = (offsetDays) => {
     const orderDate = new Date();
@@ -273,7 +290,7 @@ const AboutUs = () => {
 
             {/* Quick Switcher Dock */}
             <div className="dev-switcher-dock">
-              {DEVELOPERS.map((dev) => {
+              {developers.map((dev) => {
                 const isActive = selectedDevId === dev.id;
                 return (
                   <button
@@ -313,7 +330,7 @@ const AboutUs = () => {
 
         {/* Developer Profiles Grid with Hover Linking to 3D Pass */}
         <div className="dev-team-grid">
-          {DEVELOPERS.map((dev) => {
+          {developers.map((dev) => {
             const isSelected = selectedDevId === dev.id;
             return (
               <div 

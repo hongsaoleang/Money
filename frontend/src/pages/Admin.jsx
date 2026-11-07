@@ -19,6 +19,7 @@ const Admin = () => {
   const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
   const [portfolio, setPortfolio] = useState([]);
+  const [teamProfiles, setTeamProfiles] = useState([]);
   const [orders, setOrders] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [users, setUsers] = useState([]);
@@ -102,6 +103,11 @@ const Admin = () => {
     completedDate: '',
   });
 
+  const [isEditingDeveloper, setIsEditingDeveloper] = useState(false);
+  const [developerForm, setDeveloperForm] = useState({
+    id: null, name: '', role: '', badgeRole: '', pill: '', avatar: '', bio: '', skills: '',
+  });
+
   useEffect(() => {
     if (isAdmin) {
       loadAllData();
@@ -121,6 +127,7 @@ const Admin = () => {
         ordersRes,
         inqRes,
         usersRes,
+        developersRes,
       ] = await Promise.all([
         api.get('/api/admin/dashboard'),
         api.get('/api/admin/products'),
@@ -131,6 +138,7 @@ const Admin = () => {
         api.get('/api/admin/orders'),
         api.get('/api/inquiries'),
         api.get('/api/admin/users').catch(() => ({ data: [] })),
+        api.get('/api/admin/developers'),
       ]);
 
       setStats(statsRes.data);
@@ -145,6 +153,7 @@ const Admin = () => {
       setOrders(ordersRes.data);
       setInquiries(inqRes.data);
       setUsers(usersRes.data || []);
+      setTeamProfiles(developersRes.data || []);
     } catch (err) {
       console.error('Error loading admin data', err);
     } finally {
@@ -296,6 +305,17 @@ const Admin = () => {
       loadAllData();
     } catch (err) {
       alert('Failed to save portfolio project');
+    }
+  };
+
+  const handleSaveDeveloper = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await api.put(`/api/admin/developers/${developerForm.id}`, developerForm);
+      setTeamProfiles((profiles) => profiles.map((profile) => profile.id === data.id ? data : profile));
+      setIsEditingDeveloper(false);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Could not save developer profile.');
     }
   };
 

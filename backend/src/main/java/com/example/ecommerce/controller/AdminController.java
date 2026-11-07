@@ -5,6 +5,7 @@ import com.example.ecommerce.dto.DashboardStatsDto;
 import com.example.ecommerce.dto.ProductApprovalRequest;
 import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.model.Category;
+import com.example.ecommerce.model.DeveloperProfile;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.Role;
@@ -40,8 +41,32 @@ public class AdminController {
     private final ServiceOfferingRepository serviceOfferingRepository;
     private final PortfolioProjectRepository portfolioProjectRepository;
     private final ContactInquiryRepository contactInquiryRepository;
+    private final DeveloperProfileRepository developerProfileRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+
+    // Developer profiles shown on the public About page
+    @GetMapping("/developers")
+    public ResponseEntity<List<DeveloperProfile>> getDeveloperProfiles() {
+        return ResponseEntity.ok(developerProfileRepository.findAll());
+    }
+
+    @PutMapping("/developers/{id}")
+    public ResponseEntity<DeveloperProfile> updateDeveloperProfile(
+            @PathVariable Long id,
+            @RequestBody DeveloperProfile updated
+    ) {
+        return developerProfileRepository.findById(id).map(profile -> {
+            profile.setName(updated.getName());
+            profile.setRole(updated.getRole());
+            profile.setBadgeRole(updated.getBadgeRole());
+            profile.setPill(updated.getPill());
+            profile.setAvatar(updated.getAvatar());
+            profile.setBio(updated.getBio());
+            profile.setSkills(updated.getSkills());
+            return ResponseEntity.ok(developerProfileRepository.save(profile));
+        }).orElse(ResponseEntity.notFound().build());
+    }
 
     // Admin Dashboard Stats
     @GetMapping("/dashboard")
