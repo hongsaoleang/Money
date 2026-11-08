@@ -570,7 +570,7 @@ const Settings = () => {
       {/* 7. TAB CONTENT: REGISTERED USERS DIRECTORY (ADMIN) */}
       {isAdmin && activeTab === 'users' && (
         <div className="settings-tab-pane">
-          <div className="settings-panel-card mb-6" style={{ marginBottom: '1.5rem' }}>
+          <div className="settings-users-card">
             <div className="panel-card-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
                 <div className="flex items-center gap-2">
@@ -588,18 +588,9 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="panel-card-body">
-              {/* Filter pills and Search */}
-              <div 
-                className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4" 
-                style={{ 
-                  marginTop: '1.75rem', 
-                  marginBottom: '2rem',
-                  paddingTop: '0.5rem',
-                  paddingBottom: '0.5rem',
-                  rowGap: '1.25rem'
-                }}
-              >
+            <div className="panel-card-body" style={{ gap: '0' }}>
+              {/* Filter pills and Search Toolbar */}
+              <div className="users-toolbar-wrap">
                 <div className="category-pills flex flex-wrap" style={{ gap: '10px', rowGap: '12px' }}>
                   <button
                     className={`pill-btn ${userRoleFilter === 'ALL' ? 'active' : ''}`}
@@ -644,182 +635,165 @@ const Settings = () => {
                 </div>
               </div>
 
-              {/* Table */}
+              {/* Table Container with Smooth Borders and Spacing */}
               {loadingUsers ? (
-                <div className="loading-spinner py-8 text-center">Loading platform registered users...</div>
+                <div className="loading-spinner py-12 text-center">Loading platform registered users...</div>
               ) : (
-                <div className="table-responsive" style={{ overflowX: 'auto' }}>
-                  <table className="admin-table w-full">
-                    <thead>
-                      <tr>
-                        <th># ID</th>
-                        <th>Username</th>
-                        <th>Gmail / Email Address</th>
-                        <th>Role / Access Level</th>
-                        <th>Account Status</th>
-                        <th>Registered Date</th>
-                        <th style={{ textAlign: 'right' }}>Authorization Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {registeredUsers
-                        .filter((u) => {
-                          const matchesFilter = userRoleFilter === 'ALL' || u.role === userRoleFilter;
-                          const matchesSearch = !userSearchQuery.trim() ||
-                            u.fullName?.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
-                            u.email?.toLowerCase().includes(userSearchQuery.toLowerCase());
-                          return matchesFilter && matchesSearch;
-                        })
-                        .map((u) => {
-                          const isSelf = u.email === user?.email;
-                          return (
-                            <tr key={u.id}>
-                              <td>
-                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-dim)' }}>
-                                  #USR-{String(u.id).padStart(4, '0')}
-                                </span>
-                              </td>
-                              <td>
-                                <div className="flex items-center gap-3">
-                                  <div
-                                    style={{
-                                      width: '34px',
-                                      height: '34px',
-                                      borderRadius: '50%',
-                                      background: u.role === 'ROLE_ADMIN'
-                                        ? 'linear-gradient(135deg, #6366f1, #38bdf8)'
-                                        : 'linear-gradient(135deg, #10b981, #06b6d4)',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center',
-                                      fontWeight: 800,
-                                      color: '#fff',
-                                      fontSize: '0.82rem',
-                                      flexShrink: 0
-                                    }}
-                                  >
-                                    {u.fullName?.charAt(0) || 'U'}
+                <div className="users-table-container">
+                  <div className="table-responsive" style={{ overflowX: 'auto' }}>
+                    <table className="users-custom-table">
+                      <thead>
+                        <tr>
+                          <th># ID</th>
+                          <th>Username</th>
+                          <th>Gmail / Email Address</th>
+                          <th>Role / Access Level</th>
+                          <th>Account Status</th>
+                          <th>Registered Date</th>
+                          <th style={{ textAlign: 'right' }}>Authorization Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {registeredUsers
+                          .filter((u) => {
+                            const matchesFilter = userRoleFilter === 'ALL' || u.role === userRoleFilter;
+                            const matchesSearch = !userSearchQuery.trim() ||
+                              u.fullName?.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
+                              u.email?.toLowerCase().includes(userSearchQuery.toLowerCase());
+                            return matchesFilter && matchesSearch;
+                          })
+                          .map((u) => {
+                            const isSelf = u.email === user?.email;
+                            return (
+                              <tr key={u.id}>
+                                <td>
+                                  <span className="user-id-chip">
+                                    #USR-{String(u.id).padStart(4, '0')}
+                                  </span>
+                                </td>
+                                <td>
+                                  <div className="flex items-center gap-3">
+                                    <div
+                                      className="user-avatar-circle"
+                                      style={{
+                                        background: u.role === 'ROLE_ADMIN'
+                                          ? 'linear-gradient(135deg, #6366f1, #38bdf8)'
+                                          : 'linear-gradient(135deg, #10b981, #06b6d4)'
+                                      }}
+                                    >
+                                      {u.fullName?.charAt(0) || 'U'}
+                                    </div>
+                                    <div>
+                                      <strong style={{ display: 'block', color: 'var(--text-main)', fontSize: '0.92rem' }}>
+                                        {u.fullName}
+                                      </strong>
+                                      {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontWeight: 600 }}>(You / Logged In)</span>}
+                                    </div>
                                   </div>
-                                  <div>
-                                    <strong style={{ display: 'block', color: 'var(--text-main, #fff)', fontSize: '0.9rem' }}>
-                                      {u.fullName}
-                                    </strong>
-                                    {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontWeight: 600 }}>(You / Logged In)</span>}
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="flex items-center gap-2">
-                                  <Mail size={14} className="text-indigo-400" />
+                                </td>
+                                <td>
                                   <a
                                     href={`mailto:${u.email}`}
-                                    style={{
-                                      fontSize: '0.85rem',
-                                      color: '#38bdf8',
-                                      fontFamily: 'var(--font-mono)',
-                                      textDecoration: 'none'
-                                    }}
-                                    title={`Send email to ${u.email}`}
+                                    className="user-email-chip"
+                                    title={`Send direct email to ${u.email}`}
                                   >
-                                    {u.email}
+                                    <Mail size={14} />
+                                    <span>{u.email}</span>
                                   </a>
-                                </div>
-                              </td>
-                              <td>
-                                {u.role === 'ROLE_ADMIN' && (
-                                  <span className="badge-clearance-pill" style={{ background: 'rgba(99, 102, 241, 0.2)', borderColor: 'rgba(99, 102, 241, 0.5)', color: '#818cf8', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                                    <ShieldCheck size={12} /> Administrator
-                                  </span>
-                                )}
-                                {u.role === 'ROLE_USER' && (
-                                  <span className="badge-clearance-pill" style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.4)', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                                    <Users size={12} /> Normal User
-                                  </span>
-                                )}
-                                {u.role === 'ROLE_CLIENT' && (
-                                  <span className="badge-clearance-pill" style={{ background: 'rgba(245, 158, 11, 0.15)', borderColor: 'rgba(245, 158, 11, 0.4)', color: '#fbbf24', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                                    <Shield size={12} /> Client / Partner
-                                  </span>
-                                )}
-                              </td>
-                              <td>
-                                <span style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '5px',
-                                  fontSize: '0.8rem',
-                                  fontWeight: 600,
-                                  color: u.active !== false ? '#34d399' : '#f87171'
-                                }}>
-                                  <span style={{
-                                    width: '7px',
-                                    height: '7px',
-                                    borderRadius: '50%',
-                                    background: u.active !== false ? '#34d399' : '#f87171'
-                                  }} />
-                                  {u.active !== false ? 'Active Account' : 'Suspended'}
-                                </span>
-                              </td>
-                              <td>
-                                <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
-                                  {u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Verified Member'}
-                                </span>
-                              </td>
-                              <td style={{ textAlign: 'right' }}>
-                                <div className="flex items-center justify-end gap-2">
-                                  {!isSelf && (
-                                    <>
-                                      <button
-                                        onClick={() => handleToggleUserRole(u)}
-                                        className="btn-outline"
-                                        style={{ padding: '5px 10px', fontSize: '0.75rem', borderColor: 'rgba(99, 102, 241, 0.4)' }}
-                                        title={`Switch role to ${u.role === 'ROLE_ADMIN' ? 'User' : 'Admin'}`}
-                                      >
-                                        {u.role === 'ROLE_ADMIN' ? 'Demote to User' : 'Promote to Admin'}
-                                      </button>
-                                      <button
-                                        onClick={() => handleToggleUserStatus(u)}
-                                        className="btn-outline"
-                                        style={{
-                                          padding: '5px 10px',
-                                          fontSize: '0.75rem',
-                                          borderColor: u.active !== false ? 'rgba(239, 68, 68, 0.4)' : 'rgba(16, 185, 129, 0.4)',
-                                          color: u.active !== false ? '#f87171' : '#34d399'
-                                        }}
-                                        title={u.active !== false ? 'Suspend Account' : 'Activate Account'}
-                                      >
-                                        {u.active !== false ? <UserX size={13} /> : <UserCheck size={13} />}
-                                        <span className="hidden sm:inline">{u.active !== false ? 'Suspend' : 'Activate'}</span>
-                                      </button>
-                                      <button
-                                        onClick={() => handleDeleteUser(u)}
-                                        className="btn-outline"
-                                        style={{
-                                          padding: '5px 8px',
-                                          fontSize: '0.75rem',
-                                          borderColor: 'rgba(239, 68, 68, 0.3)',
-                                          color: '#f87171'
-                                        }}
-                                        title="Delete User"
-                                      >
-                                        <Trash2 size={13} />
-                                      </button>
-                                    </>
-                                  )}
-                                  {isSelf && (
-                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontStyle: 'italic' }}>
-                                      Active Primary Session
+                                </td>
+                                <td>
+                                  {u.role === 'ROLE_ADMIN' && (
+                                    <span className="badge-clearance-pill" style={{ background: 'rgba(99, 102, 241, 0.16)', borderColor: 'rgba(99, 102, 241, 0.4)', color: '#818cf8', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '20px' }}>
+                                      <ShieldCheck size={12} /> Administrator
                                     </span>
                                   )}
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
+                                  {u.role === 'ROLE_USER' && (
+                                    <span className="badge-clearance-pill" style={{ background: 'rgba(16, 185, 129, 0.12)', borderColor: 'rgba(16, 185, 129, 0.35)', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '20px' }}>
+                                      <Users size={12} /> Normal User
+                                    </span>
+                                  )}
+                                  {u.role === 'ROLE_CLIENT' && (
+                                    <span className="badge-clearance-pill" style={{ background: 'rgba(245, 158, 11, 0.12)', borderColor: 'rgba(245, 158, 11, 0.35)', color: '#fbbf24', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '20px' }}>
+                                      <Shield size={12} /> Client / Partner
+                                    </span>
+                                  )}
+                                </td>
+                                <td>
+                                  <span className={`user-status-chip ${u.active !== false ? 'active' : 'suspended'}`}>
+                                    <span style={{
+                                      width: '6px',
+                                      height: '6px',
+                                      borderRadius: '50%',
+                                      background: u.active !== false ? '#34d399' : '#f87171'
+                                    }} />
+                                    {u.active !== false ? 'Active' : 'Suspended'}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
+                                    {u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Verified Member'}
+                                  </span>
+                                </td>
+                                <td style={{ textAlign: 'right' }}>
+                                  <div className="user-actions-cluster">
+                                    {!isSelf && (
+                                      <>
+                                        <button
+                                          onClick={() => handleToggleUserRole(u)}
+                                          className="btn-outline"
+                                          style={{ padding: '6px 12px', fontSize: '0.75rem', borderColor: 'rgba(99, 102, 241, 0.35)' }}
+                                          title={`Switch role to ${u.role === 'ROLE_ADMIN' ? 'User' : 'Admin'}`}
+                                        >
+                                          {u.role === 'ROLE_ADMIN' ? 'Demote to User' : 'Promote to Admin'}
+                                        </button>
+                                        <button
+                                          onClick={() => handleToggleUserStatus(u)}
+                                          className="btn-outline"
+                                          style={{
+                                            padding: '6px 12px',
+                                            fontSize: '0.75rem',
+                                            borderColor: u.active !== false ? 'rgba(239, 68, 68, 0.35)' : 'rgba(16, 185, 129, 0.35)',
+                                            color: u.active !== false ? '#f87171' : '#34d399'
+                                          }}
+                                          title={u.active !== false ? 'Suspend Account' : 'Activate Account'}
+                                        >
+                                          {u.active !== false ? <UserX size={13} /> : <UserCheck size={13} />}
+                                          <span className="hidden sm:inline">{u.active !== false ? 'Suspend' : 'Activate'}</span>
+                                        </button>
+                                        <button
+                                          onClick={() => handleDeleteUser(u)}
+                                          className="btn-outline"
+                                          style={{
+                                            padding: '6px 10px',
+                                            fontSize: '0.75rem',
+                                            borderColor: 'rgba(239, 68, 68, 0.3)',
+                                            color: '#f87171'
+                                          }}
+                                          title="Delete User"
+                                        >
+                                          <Trash2 size={13} />
+                                        </button>
+                                      </>
+                                    )}
+                                    {isSelf && (
+                                      <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                                        Active Primary Session
+                                      </span>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
             </div>
           </div>
         </div>
