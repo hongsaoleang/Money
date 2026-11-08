@@ -69,13 +69,13 @@ const Products = () => {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="catalog-actions-row">
           {isAdmin && (
-            <Link to="/products/manage" className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap" style={{ padding: '10px 18px', fontSize: '0.9rem' }}>
-              <Package size={16} /> Manage Products (CRUD)
+            <Link to="/products/manage" className="btn-primary catalog-manage-btn">
+              <Package size={17} /> Manage Products (CRUD)
             </Link>
           )}
-          <div className="search-bar-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div className="search-bar-wrap">
             <Search size={18} className="search-icon" />
             <input
               type="text"
@@ -87,19 +87,10 @@ const Products = () => {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                style={{
-                  position: 'absolute',
-                  right: '12px',
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
+                className="search-clear-btn"
                 title="Clear search"
               >
-                <X size={14} />
+                <X size={15} />
               </button>
             )}
           </div>
