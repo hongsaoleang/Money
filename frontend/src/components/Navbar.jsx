@@ -167,7 +167,7 @@ const Navbar = () => {
           <div className="mobile-drawer-sheet" onClick={(e) => e.stopPropagation()}>
             {/* User Profile Banner (if logged in) */}
             {user ? (
-              <div className="mobile-user-card">
+              <Link to="/settings" className="mobile-user-card" onClick={() => setMobileMenuOpen(false)} title="View My Account">
                 <img src="/JomnenhKH.jpg" alt={user.fullName} className="mobile-user-avatar-img" />
                 <div className="mobile-user-info">
                   <div className="mobile-user-name">{user.fullName}</div>
@@ -177,7 +177,7 @@ const Navbar = () => {
                     {!isAdmin && isClient && <span className="role-tag client">Client</span>}
                   </div>
                 </div>
-              </div>
+              </Link>
             ) : (
               <div className="mobile-auth-actions">
                 <Link to="/login" className="btn-secondary w-full text-center" onClick={() => setMobileMenuOpen(false)}>
