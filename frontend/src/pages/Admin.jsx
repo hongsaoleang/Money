@@ -991,11 +991,13 @@ const Admin = () => {
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Identity</th>
+                  <th># ID</th>
+                  <th>Username</th>
+                  <th>Gmail / Email Address</th>
                   <th>Role / Access Level</th>
                   <th>Account Status</th>
                   <th>Phone / Contact</th>
-                  <th>Created</th>
+                  <th>Registered Date</th>
                   <th style={{ textAlign: 'right' }}>Authorization Actions</th>
                 </tr>
               </thead>
@@ -1013,11 +1015,16 @@ const Admin = () => {
                     return (
                       <tr key={u.id}>
                         <td>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-dim)' }}>
+                            #USR-{String(u.id).padStart(4, '0')}
+                          </span>
+                        </td>
+                        <td>
                           <div className="flex items-center gap-3">
                             <div
                               style={{
-                                width: '38px',
-                                height: '38px',
+                                width: '36px',
+                                height: '36px',
                                 borderRadius: '50%',
                                 background: u.role === 'ROLE_ADMIN' 
                                   ? 'linear-gradient(135deg, #6366f1, #38bdf8)' 
@@ -1027,17 +1034,26 @@ const Admin = () => {
                                 justifyContent: 'center',
                                 fontWeight: 800,
                                 color: '#fff',
-                                fontSize: '0.85rem'
+                                fontSize: '0.85rem',
+                                flexShrink: 0
                               }}
                             >
                               {u.fullName?.charAt(0) || 'U'}
                             </div>
                             <div>
-                              <strong style={{ display: 'block', color: 'var(--text-main, #fff)', fontSize: '0.9rem' }}>
-                                {u.fullName} {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8' }}>(You)</span>}
+                              <strong style={{ display: 'block', color: 'var(--text-main, #fff)', fontSize: '0.92rem' }}>
+                                {u.fullName}
                               </strong>
-                              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{u.email}</span>
+                              {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontWeight: 600 }}>(You / Logged In)</span>}
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex items-center gap-2">
+                            <Mail size={14} className="text-indigo-400" />
+                            <span style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontFamily: 'var(--font-mono)' }}>
+                              {u.email}
+                            </span>
                           </div>
                         </td>
                         <td>
@@ -1047,13 +1063,13 @@ const Admin = () => {
                             </span>
                           )}
                           {u.role === 'ROLE_USER' && (
-                            <span className="badge-clearance-pill" style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.4)', color: '#34d399' }}>
-                              Normal User
+                            <span className="badge-clearance-pill" style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.4)', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                              <Users size={12} /> Normal User
                             </span>
                           )}
                           {u.role === 'ROLE_CLIENT' && (
-                            <span className="badge-clearance-pill" style={{ background: 'rgba(245, 158, 11, 0.15)', borderColor: 'rgba(245, 158, 11, 0.4)', color: '#fbbf24' }}>
-                              Client / Partner
+                            <span className="badge-clearance-pill" style={{ background: 'rgba(245, 158, 11, 0.15)', borderColor: 'rgba(245, 158, 11, 0.4)', color: '#fbbf24', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                              <Shield size={12} /> Client / Partner
                             </span>
                           )}
                         </td>
@@ -1064,7 +1080,11 @@ const Admin = () => {
                             gap: '5px',
                             fontSize: '0.78rem',
                             fontWeight: 600,
-                            color: u.active ? '#10b981' : '#ef4444'
+                            padding: '3px 8px',
+                            borderRadius: '999px',
+                            background: u.active ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+                            color: u.active ? '#10b981' : '#ef4444',
+                            border: u.active ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(239, 68, 68, 0.25)'
                           }}>
                             ● {u.active ? 'Active' : 'Suspended'}
                           </span>

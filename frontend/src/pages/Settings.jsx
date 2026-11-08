@@ -5,7 +5,8 @@ import api from '../api/client';
 import { 
   User, Package, Calendar, MapPin, Phone, Mail, Shield, Clock, 
   CheckCircle, ArrowRight, ShoppingBag, ShieldCheck, Truck, LogOut,
-  Sparkles, ExternalLink, Settings as SettingsIcon, AlertCircle, Edit3, Save, Check
+  Sparkles, ExternalLink, Settings as SettingsIcon, AlertCircle, Edit3, Save, Check,
+  Users, UserCheck, UserX, Search, Trash2
 } from 'lucide-react';
 
 const Settings = () => {
@@ -13,7 +14,13 @@ const Settings = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
-  const [activeTab, setActiveTab] = useState('orders'); // 'orders', 'profile', 'security'
+  const [activeTab, setActiveTab] = useState('orders'); // 'orders', 'profile', 'security', 'users'
+
+  // Registered users state for admin view
+  const [registeredUsers, setRegisteredUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [userRoleFilter, setUserRoleFilter] = useState('ALL');
 
   // Editable address state
   const [isEditingAddress, setIsEditingAddress] = useState(false);
@@ -39,6 +46,63 @@ const Settings = () => {
     return 'Registered Member';
   };
 
+  const fetchRegisteredUsers = async () => {
+    if (!isAdmin) return;
+    setLoadingUsers(true);
+    try {
+      const res = await api.get('/api/admin/users');
+      setRegisteredUsers(res.data || []);
+    } catch (err) {
+      console.error('Failed to load registered users', err);
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  const handleToggleUserRole = async (targetUser) => {
+    if (targetUser.email === user?.email) {
+      alert("You cannot change your own authorization role.");
+      return;
+    }
+    const newRole = targetUser.role === 'ROLE_ADMIN' ? 'ROLE_USER' : 'ROLE_ADMIN';
+    if (!window.confirm(`Switch ${targetUser.fullName}'s role to ${newRole}?`)) return;
+    try {
+      await api.patch(`/api/admin/users/${targetUser.id}/role?role=${newRole}`);
+      fetchRegisteredUsers();
+    } catch (err) {
+      alert('Failed to update user role');
+    }
+  };
+
+  const handleToggleUserStatus = async (targetUser) => {
+    if (targetUser.email === user?.email) {
+      alert("You cannot suspend your own administrative session.");
+      return;
+    }
+    const newStatus = !targetUser.active;
+    if (!window.confirm(`${newStatus ? 'Activate' : 'Suspend'} account for ${targetUser.fullName}?`)) return;
+    try {
+      await api.patch(`/api/admin/users/${targetUser.id}/status?active=${newStatus}`);
+      fetchRegisteredUsers();
+    } catch (err) {
+      alert('Failed to update user status');
+    }
+  };
+
+  const handleDeleteUser = async (targetUser) => {
+    if (targetUser.email === user?.email) {
+      alert("You cannot delete your own account.");
+      return;
+    }
+    if (!window.confirm(`Permanently delete account for ${targetUser.fullName} (${targetUser.email})?`)) return;
+    try {
+      await api.delete(`/api/admin/users/${targetUser.id}`);
+      fetchRegisteredUsers();
+    } catch (err) {
+      alert('Failed to delete user');
+    }
+  };
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -53,7 +117,10 @@ const Settings = () => {
     if (user) {
       fetchOrders();
     }
-  }, [user]);
+    if (user && isAdmin) {
+      fetchRegisteredUsers();
+    }
+  }, [user, isAdmin]);
 
   if (!user) {
     return (
@@ -103,9 +170,14 @@ const Settings = () => {
 
         <div className="settings-hero-actions">
           {isAdmin && (
-            <Link to="/products/manage" className="btn-secondary settings-action-btn">
-              <Package size={15} /> Manage Products
-            </Link>
+            <>
+              <Link to="/admin" className="btn-secondary settings-action-btn">
+                <Shield size={15} /> Admin Hub
+              </Link>
+              <Link to="/products/manage" className="btn-secondary settings-action-btn">
+                <Package size={15} /> Manage Products
+              </Link>
+            </>
           )}
           <Link to="/products" className="btn-primary settings-action-btn">
             <ShoppingBag size={15} /> Browse Catalog
@@ -183,6 +255,14 @@ const Settings = () => {
         >
           <Shield size={16} /> Security &amp; Privileges
         </button>
+        {isAdmin && (
+          <button
+            className={`settings-tab-pill ${activeTab === 'users' ? 'active' : ''}`}
+            onClick={() => setActiveTab('users')}
+          >
+            <Users size={16} /> Registered Users ({registeredUsers.length})
+          </button>
+        )}
       </div>
 
       {/* 4. TAB CONTENT: ORDERS */}
