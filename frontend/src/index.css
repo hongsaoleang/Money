@@ -7518,129 +7518,397 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   border-bottom-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Mobile Responsiveness for Settings */
+/* Mobile Responsiveness for Settings - Reduced Size, Exact Desktop Window Layout */
 @media (max-width: 900px) {
   .settings-kpi-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px;
   }
 
   .settings-cards-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px;
   }
 }
 
 @media (max-width: 640px) {
   .settings-page {
-    padding-top: 18px;
-    padding-bottom: 40px;
+    padding-top: 14px;
+    padding-bottom: 30px;
   }
 
+  /* 1. Hero Card: Preserves Row Layout from Desktop Window */
   .settings-hero-card {
-    padding: 20px 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-    border-radius: 14px;
+    padding: 14px 16px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    border-radius: 14px !important;
+    flex-wrap: nowrap !important;
   }
 
   .settings-hero-main {
-    flex-direction: row;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
   }
 
   .settings-avatar-wrapper {
-    width: 62px;
-    height: 62px;
-    border-radius: 16px;
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .settings-avatar-img {
+    border-radius: 10px !important;
+  }
+
+  .avatar-status-dot {
+    width: 10px !important;
+    height: 10px !important;
+    border-width: 1.5px !important;
+  }
+
+  .settings-hero-info {
+    gap: 2px !important;
+    min-width: 0 !important;
+  }
+
+  .settings-badge-row {
+    gap: 4px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .settings-badge-row .section-badge,
+  .settings-badge-row .hero-status-pill {
+    font-size: 0.62rem !important;
+    padding: 2px 6px !important;
   }
 
   .settings-user-name {
-    font-size: 1.35rem;
+    font-size: 1.1rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .settings-user-meta {
-    font-size: 0.75rem;
-    gap: 8px;
+    font-size: 0.68rem !important;
+    gap: 5px !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .settings-user-meta span {
+    gap: 3px !important;
   }
 
   .settings-hero-actions {
-    width: 100%;
-    flex-direction: column;
-    gap: 8px;
+    width: auto !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+    justify-content: flex-end !important;
   }
 
   .settings-action-btn {
-    width: 100%;
-    justify-content: center;
-    padding: 9px 14px !important;
+    width: auto !important;
+    padding: 6px 10px !important;
+    font-size: 0.72rem !important;
+    border-radius: 6px !important;
+    gap: 4px !important;
   }
 
+  .settings-action-btn svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  /* 2. KPI Stat Cards: Preserves 4-Column Window Layout */
   .settings-kpi-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin-bottom: 22px;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    margin-bottom: 16px !important;
   }
 
   .settings-kpi-card {
-    padding: 12px;
-    gap: 10px;
+    padding: 8px 6px !important;
+    gap: 4px !important;
+    border-radius: 10px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
   }
 
   .settings-kpi-icon-wrap {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 7px !important;
   }
 
   .settings-kpi-icon-wrap svg {
-    width: 16px;
-    height: 16px;
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .settings-kpi-lbl {
+    font-size: 0.55rem !important;
+    letter-spacing: 0.02em !important;
   }
 
   .settings-kpi-val {
-    font-size: 0.95rem;
+    font-size: 0.78rem !important;
+    white-space: nowrap !important;
+  }
+
+  .settings-kpi-sub {
+    display: none !important;
+  }
+
+  /* 3. Tabs Bar: Horizontal Window Flow */
+  .settings-tabs-bar {
+    gap: 6px !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 8px !important;
   }
 
   .settings-tab-pill {
-    padding: 8px 14px;
-    font-size: 0.78rem;
+    padding: 6px 12px !important;
+    font-size: 0.74rem !important;
+    gap: 5px !important;
   }
 
-  .settings-empty-orders-card {
-    padding: 38px 16px;
-    gap: 14px;
+  .settings-tab-pill svg {
+    width: 13px !important;
+    height: 13px !important;
   }
 
-  .empty-orders-icon-wrap {
-    width: 58px;
-    height: 58px;
-    border-radius: 14px;
-  }
-
-  .empty-orders-icon-wrap svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .empty-orders-title {
-    font-size: 1.2rem;
-  }
-
-  .empty-orders-desc {
-    font-size: 0.82rem;
-    line-height: 1.5;
-  }
-
-  .empty-orders-perks {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding-top: 20px;
+  /* 4. Panels Grid (Profile & Security): Preserves 2-Column Window Layout */
+  .settings-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
   }
 
   .settings-panel-card {
-    padding: 18px 16px;
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
+    gap: 10px !important;
+  }
+
+  .panel-card-header {
+    padding-bottom: 8px !important;
+  }
+
+  .panel-card-header h3 {
+    font-size: 0.85rem !important;
+  }
+
+  .panel-card-tag {
+    font-size: 0.65rem !important;
+    padding: 2px 7px !important;
+  }
+
+  .profile-field-row {
+    padding-bottom: 6px !important;
+    gap: 2px !important;
+  }
+
+  .field-lbl {
+    font-size: 0.64rem !important;
+  }
+
+  .field-val {
+    font-size: 0.78rem !important;
+  }
+
+  .field-val.highlight {
+    font-size: 0.88rem !important;
+  }
+
+  .security-privilege-item {
+    gap: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .security-privilege-item strong {
+    font-size: 0.76rem !important;
+  }
+
+  .security-privilege-item p {
+    font-size: 0.66rem !important;
+    line-height: 1.35 !important;
+  }
+
+  /* 5. Registered Users Card & Toolbar: Preserves Window Locations */
+  .settings-users-card {
+    padding: 16px 14px !important;
+    border-radius: 14px !important;
+    gap: 12px !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .users-toolbar-wrap {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin: 0.75rem 0 1rem 0 !important;
+    padding: 0 !important;
+  }
+
+  .category-pills {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 6px !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .category-pills .pill-btn {
+    padding: 5px 10px !important;
+    font-size: 0.7rem !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .search-bar-wrap {
+    max-width: 170px !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+  }
+
+  .search-input {
+    padding: 6px 8px 6px 28px !important;
+    font-size: 0.72rem !important;
+    border-radius: 8px !important;
+  }
+
+  .search-icon {
+    width: 13px !important;
+    height: 13px !important;
+    left: 8px !important;
+  }
+
+  /* 6. Users Table: Preserves Table Columns, Scaled Down */
+  .users-custom-table th {
+    padding: 10px 12px !important;
+    font-size: 0.66rem !important;
+  }
+
+  .users-custom-table td {
+    padding: 10px 12px !important;
+    font-size: 0.76rem !important;
+  }
+
+  .user-id-chip {
+    padding: 3px 6px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .user-avatar-circle {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.75rem !important;
+    border-radius: 8px !important;
+  }
+
+  .user-email-chip {
+    padding: 4px 8px !important;
+    font-size: 0.72rem !important;
+    gap: 5px !important;
+  }
+
+  .user-email-chip svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .user-status-chip {
+    padding: 3px 7px !important;
+    font-size: 0.66rem !important;
+  }
+
+  .badge-clearance-pill {
+    padding: 3px 7px !important;
+    font-size: 0.66rem !important;
+  }
+
+  .user-actions-cluster {
+    gap: 4px !important;
+  }
+
+  .user-actions-cluster button {
+    padding: 4px 7px !important;
+    font-size: 0.68rem !important;
+  }
+
+  /* 7. Empty Orders Card & 3-Column Perks */
+  .settings-empty-orders-card {
+    padding: 24px 14px !important;
+    gap: 10px !important;
+    border-radius: 12px !important;
+  }
+
+  .empty-orders-icon-wrap {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 10px !important;
+  }
+
+  .empty-orders-icon-wrap svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .empty-orders-title {
+    font-size: 1.05rem !important;
+  }
+
+  .empty-orders-desc {
+    font-size: 0.76rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .empty-orders-btn {
+    padding: 8px 16px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .empty-orders-perks {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding-top: 14px !important;
+    margin-top: 8px !important;
+  }
+
+  .perk-item {
+    gap: 6px !important;
+    align-items: flex-start !important;
+  }
+
+  .perk-item svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .perk-item strong {
+    font-size: 0.7rem !important;
+  }
+
+  .perk-item span {
+    font-size: 0.62rem !important;
+    line-height: 1.25 !important;
   }
 }
 

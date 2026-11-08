@@ -95,7 +95,7 @@ const Register = () => {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="+1 (555) 012-3456"
+                  placeholder="+855 12 345 678"
                 />
               </div>
             </div>

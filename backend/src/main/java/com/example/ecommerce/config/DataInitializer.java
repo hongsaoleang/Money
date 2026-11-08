@@ -43,19 +43,22 @@ public class DataInitializer implements CommandLineRunner {
                     .password(passwordEncoder.encode("saoleang9259"))
                     .fullName("Hong Saoleang")
                     .role(Role.ROLE_ADMIN)
-                    .phone("+1 555-0100")
+                    .phone("+855 12 019 2834")
                     .address("100 Innovation Way, Suite 400, San Francisco, CA")
                     .active(true)
                     .build();
             return userRepository.save(newAdmin);
         });
+        if (admin.getPhone() == null || admin.getPhone().startsWith("+1")) {
+            admin.setPhone("+855 12 019 2834");
+        }
 
         User client = User.builder()
                 .email("client@ecommerce.com")
                 .password(passwordEncoder.encode("client123"))
                 .fullName("Apex Tech Partner LLC")
                 .role(Role.ROLE_CLIENT)
-                .phone("+1 555-0200")
+                .phone("+855 23 555 200")
                 .address("250 Tech Hub Boulevard, Austin, TX")
                 .active(true)
                 .build();
@@ -65,7 +68,7 @@ public class DataInitializer implements CommandLineRunner {
                 .password(passwordEncoder.encode("user123"))
                 .fullName("Alex Morgan")
                 .role(Role.ROLE_USER)
-                .phone("+1 555-0300")
+                .phone("+855 12 555 300")
                 .address("742 Evergreen Terrace, Springfield, OR")
                 .active(true)
                 .build();
@@ -296,6 +299,9 @@ public class DataInitializer implements CommandLineRunner {
                     legacyAdmin.setPassword(passwordEncoder.encode("saoleang9259"));
                     legacyAdmin.setRole(Role.ROLE_ADMIN);
                     legacyAdmin.setActive(true);
+                    if (legacyAdmin.getPhone() == null || legacyAdmin.getPhone().startsWith("+1")) {
+                        legacyAdmin.setPhone("+855 12 019 2834");
+                    }
                     userRepository.save(legacyAdmin);
                 } else {
                     User newAdmin = User.builder()
@@ -303,7 +309,7 @@ public class DataInitializer implements CommandLineRunner {
                             .password(passwordEncoder.encode("saoleang9259"))
                             .fullName("Hong Saoleang")
                             .role(Role.ROLE_ADMIN)
-                            .phone("+1 555-0100")
+                            .phone("+855 12 019 2834")
                             .address("100 Innovation Way, Suite 400, San Francisco, CA")
                             .active(true)
                             .build();

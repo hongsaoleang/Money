@@ -45,7 +45,7 @@ const Footer = () => {
           <div className="footer-contact">
             <p><MapPin size={16} /> 100 Innovation Way, Suite 400, San Francisco, CA</p>
             <p><Mail size={16} /> hongsaoleang@gmail.com</p>
-            <p><Phone size={16} /> +1 (555) 019-2834</p>
+            <p><Phone size={16} /> +855 12 019 2834</p>
           </div>
         </div>
 

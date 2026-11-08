@@ -25,7 +25,7 @@ const Settings = () => {
   // Editable address state
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [address, setAddress] = useState(user?.address || '100 Innovation Way, Suite 400, San Francisco, CA 94105');
-  const [phone, setPhone] = useState('+1 (555) 019-2834');
+  const [phone, setPhone] = useState(user?.phone || '+855 12 019 2834');
   const [savedNotice, setSavedNotice] = useState(false);
 
   const handleSaveAddress = (e) => {
@@ -790,10 +790,6 @@ const Settings = () => {
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-      )}
             </div>
           </div>
         </div>
