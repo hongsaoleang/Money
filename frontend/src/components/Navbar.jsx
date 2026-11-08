@@ -85,15 +85,25 @@ const Navbar = () => {
             {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
           </Link>
 
+          {/* Quick Profile Link (Mobile & Desktop) */}
+          <Link 
+            to={user ? "/settings" : "/login"} 
+            className="cart-btn mobile-only-profile" 
+            title={user ? "View My Account" : "Sign In"} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <User size={19} />
+          </Link>
+
           {/* Desktop User State */}
           {user ? (
             <div className="user-dropdown desktop-only-auth">
-              <div className="user-pill">
+              <Link to="/settings" className="user-pill" title="View My Account">
                 <img src="/JomnenhKH.jpg" alt={user.fullName} className="user-avatar-img" />
                 <span className="user-name">{user.fullName.split(' ')[0]}</span>
                 {isAdmin && <span className="role-tag admin">Admin</span>}
                 {!isAdmin && isClient && <span className="role-tag client">Client</span>}
-              </div>
+              </Link>
 
               <div className="dropdown-menu">
                 <div className="dropdown-header">
