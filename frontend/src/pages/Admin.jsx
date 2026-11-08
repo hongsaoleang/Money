@@ -947,38 +947,34 @@ const Admin = () => {
 
           {/* User Filters & Stats */}
           <div className="users-toolbar-wrap">
-            <div className="category-pills flex flex-wrap" style={{ gap: '10px', rowGap: '12px' }}>
+            <div className="category-pills">
               <button
                 className={`pill-btn ${userRoleFilter === 'ALL' ? 'active' : ''}`}
                 onClick={() => setUserRoleFilter('ALL')}
-                style={{ padding: '8px 16px', fontSize: '0.8rem' }}
               >
                 All Accounts ({users.length})
               </button>
               <button
                 className={`pill-btn ${userRoleFilter === 'ROLE_ADMIN' ? 'active' : ''}`}
                 onClick={() => setUserRoleFilter('ROLE_ADMIN')}
-                style={{ padding: '8px 16px', fontSize: '0.8rem' }}
               >
                 👑 Administrators ({users.filter(u => u.role === 'ROLE_ADMIN').length})
               </button>
               <button
                 className={`pill-btn ${userRoleFilter === 'ROLE_USER' ? 'active' : ''}`}
                 onClick={() => setUserRoleFilter('ROLE_USER')}
-                style={{ padding: '8px 16px', fontSize: '0.8rem' }}
               >
                 👤 Normal Users ({users.filter(u => u.role === 'ROLE_USER').length})
               </button>
               <button
                 className={`pill-btn ${userRoleFilter === 'ROLE_CLIENT' ? 'active' : ''}`}
                 onClick={() => setUserRoleFilter('ROLE_CLIENT')}
-                style={{ padding: '8px 16px', fontSize: '0.8rem' }}
               >
                 💼 Partners ({users.filter(u => u.role === 'ROLE_CLIENT').length})
               </button>
             </div>
 
-            <div className="search-bar-wrap" style={{ maxWidth: '320px', width: '100%' }}>
+            <div className="search-bar-wrap">
               <Search size={18} className="search-icon" />
               <input
                 type="text"
@@ -986,15 +982,13 @@ const Admin = () => {
                 value={userSearchQuery}
                 onChange={(e) => setUserSearchQuery(e.target.value)}
                 className="search-input"
-                style={{ padding: '10px 14px 10px 38px', fontSize: '0.85rem' }}
               />
             </div>
           </div>
 
           {/* Users Table */}
           <div className="users-table-container">
-            <div className="table-responsive" style={{ overflowX: 'auto' }}>
-              <table className="users-custom-table">
+            <table className="users-custom-table">
                 <thead>
                   <tr>
                     <th># ID</th>
@@ -1127,7 +1121,6 @@ const Admin = () => {
                     })}
                 </tbody>
               </table>
-            </div>
           </div>
         </div>
       )}

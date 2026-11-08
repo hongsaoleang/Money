@@ -582,47 +582,43 @@ const Settings = () => {
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <Link to="/admin" className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.8rem' }}>
+                <Link to="/admin" className="btn-secondary">
                   <Shield size={14} /> Full Admin Center
                 </Link>
               </div>
             </div>
 
-            <div className="panel-card-body" style={{ gap: '0' }}>
+            <div className="panel-card-body">
               {/* Filter pills and Search Toolbar */}
               <div className="users-toolbar-wrap">
-                <div className="category-pills flex flex-wrap" style={{ gap: '10px', rowGap: '12px' }}>
+                <div className="category-pills">
                   <button
                     className={`pill-btn ${userRoleFilter === 'ALL' ? 'active' : ''}`}
                     onClick={() => setUserRoleFilter('ALL')}
-                    style={{ padding: '8px 16px', fontSize: '0.8rem' }}
                   >
                     All Accounts ({registeredUsers.length})
                   </button>
                   <button
                     className={`pill-btn ${userRoleFilter === 'ROLE_ADMIN' ? 'active' : ''}`}
                     onClick={() => setUserRoleFilter('ROLE_ADMIN')}
-                    style={{ padding: '8px 16px', fontSize: '0.8rem' }}
                   >
                     👑 Admins ({registeredUsers.filter(u => u.role === 'ROLE_ADMIN').length})
                   </button>
                   <button
                     className={`pill-btn ${userRoleFilter === 'ROLE_USER' ? 'active' : ''}`}
                     onClick={() => setUserRoleFilter('ROLE_USER')}
-                    style={{ padding: '8px 16px', fontSize: '0.8rem' }}
                   >
                     👤 Normal Users ({registeredUsers.filter(u => u.role === 'ROLE_USER').length})
                   </button>
                   <button
                     className={`pill-btn ${userRoleFilter === 'ROLE_CLIENT' ? 'active' : ''}`}
                     onClick={() => setUserRoleFilter('ROLE_CLIENT')}
-                    style={{ padding: '8px 16px', fontSize: '0.8rem' }}
                   >
                     💼 Partners ({registeredUsers.filter(u => u.role === 'ROLE_CLIENT').length})
                   </button>
                 </div>
 
-                <div className="search-bar-wrap" style={{ maxWidth: '320px', width: '100%' }}>
+                <div className="search-bar-wrap">
                   <Search size={16} className="search-icon" />
                   <input
                     type="text"
@@ -630,7 +626,6 @@ const Settings = () => {
                     value={userSearchQuery}
                     onChange={(e) => setUserSearchQuery(e.target.value)}
                     className="search-input"
-                    style={{ padding: '10px 14px 10px 36px', fontSize: '0.85rem' }}
                   />
                 </div>
               </div>
@@ -640,8 +635,7 @@ const Settings = () => {
                 <div className="loading-spinner py-12 text-center">Loading platform registered users...</div>
               ) : (
                 <div className="users-table-container">
-                  <div className="table-responsive" style={{ overflowX: 'auto' }}>
-                    <table className="users-custom-table">
+                  <table className="users-custom-table">
                       <thead>
                         <tr>
                           <th># ID</th>
@@ -787,7 +781,6 @@ const Settings = () => {
                           })}
                       </tbody>
                     </table>
-                  </div>
                 </div>
               )}
             </div>

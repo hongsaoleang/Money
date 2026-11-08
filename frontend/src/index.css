@@ -208,6 +208,20 @@
   padding: 0;
 }
 
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+#root, .app-layout {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);
@@ -7518,463 +7532,258 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   border-bottom-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Mobile Responsiveness for Settings - Reduced Size, Exact Desktop Window Layout */
-@media (max-width: 900px) {
-  .settings-kpi-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 8px;
-  }
-
-  .settings-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 14px;
-  }
-}
-
-@media (max-width: 640px) {
-  .settings-page {
-    padding-top: 14px;
-    padding-bottom: 30px;
-  }
-
-  /* 1. Hero Card: Preserves Row Layout from Desktop Window */
-  .settings-hero-card {
-    padding: 14px 16px !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 12px !important;
-    border-radius: 14px !important;
-    flex-wrap: nowrap !important;
-  }
-
-  .settings-hero-main {
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 10px !important;
-    min-width: 0 !important;
-    flex: 1 1 auto !important;
-  }
-
-  .settings-avatar-wrapper {
-    width: 46px !important;
-    height: 46px !important;
-    border-radius: 12px !important;
-    flex-shrink: 0 !important;
-  }
-
-  .settings-avatar-img {
-    border-radius: 10px !important;
-  }
-
-  .avatar-status-dot {
-    width: 10px !important;
-    height: 10px !important;
-    border-width: 1.5px !important;
-  }
-
-  .settings-hero-info {
-    gap: 2px !important;
-    min-width: 0 !important;
-  }
-
-  .settings-badge-row {
-    gap: 4px !important;
-    margin-bottom: 0 !important;
-  }
-
-  .settings-badge-row .section-badge,
-  .settings-badge-row .hero-status-pill {
-    font-size: 0.62rem !important;
-    padding: 2px 6px !important;
-  }
-
-  .settings-user-name {
-    font-size: 1.1rem !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  .settings-user-meta {
-    font-size: 0.68rem !important;
-    gap: 5px !important;
-    flex-wrap: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-  }
-
-  .settings-user-meta span {
-    gap: 3px !important;
-  }
-
-  .settings-hero-actions {
-    width: auto !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    gap: 6px !important;
-    flex-shrink: 0 !important;
-    justify-content: flex-end !important;
-  }
-
-  .settings-action-btn {
-    width: auto !important;
-    padding: 6px 10px !important;
-    font-size: 0.72rem !important;
-    border-radius: 6px !important;
-    gap: 4px !important;
-  }
-
-  .settings-action-btn svg {
-    width: 12px !important;
-    height: 12px !important;
-  }
-
-  /* 2. KPI Stat Cards: Preserves 4-Column Window Layout */
-  .settings-kpi-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 6px !important;
-    margin-bottom: 16px !important;
-  }
-
-  .settings-kpi-card {
-    padding: 8px 6px !important;
-    gap: 4px !important;
-    border-radius: 10px !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-
-  .settings-kpi-icon-wrap {
-    width: 28px !important;
-    height: 28px !important;
-    border-radius: 7px !important;
-  }
-
-  .settings-kpi-icon-wrap svg {
-    width: 14px !important;
-    height: 14px !important;
-  }
-
-  .settings-kpi-lbl {
-    font-size: 0.55rem !important;
-    letter-spacing: 0.02em !important;
-  }
-
-  .settings-kpi-val {
-    font-size: 0.78rem !important;
-    white-space: nowrap !important;
-  }
-
-  .settings-kpi-sub {
-    display: none !important;
-  }
-
-  /* 3. Tabs Bar: Horizontal Window Flow */
-  .settings-tabs-bar {
-    gap: 6px !important;
-    margin-bottom: 16px !important;
-    padding-bottom: 8px !important;
-  }
-
-  .settings-tab-pill {
-    padding: 6px 12px !important;
-    font-size: 0.74rem !important;
-    gap: 5px !important;
-  }
-
-  .settings-tab-pill svg {
-    width: 13px !important;
-    height: 13px !important;
-  }
-
-  /* 4. Panels Grid (Profile & Security): Preserves 2-Column Window Layout */
-  .settings-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-  }
-
-  .settings-panel-card {
-    padding: 14px 12px !important;
-    border-radius: 12px !important;
-    gap: 10px !important;
-  }
-
-  .panel-card-header {
-    padding-bottom: 8px !important;
-  }
-
-  .panel-card-header h3 {
-    font-size: 0.85rem !important;
-  }
-
-  .panel-card-tag {
-    font-size: 0.65rem !important;
-    padding: 2px 7px !important;
-  }
-
-  .profile-field-row {
-    padding-bottom: 6px !important;
-    gap: 2px !important;
-  }
-
-  .field-lbl {
-    font-size: 0.64rem !important;
-  }
-
-  .field-val {
-    font-size: 0.78rem !important;
-  }
-
-  .field-val.highlight {
-    font-size: 0.88rem !important;
-  }
-
-  .security-privilege-item {
-    gap: 8px !important;
-    padding-bottom: 8px !important;
-  }
-
-  .security-privilege-item strong {
-    font-size: 0.76rem !important;
-  }
-
-  .security-privilege-item p {
-    font-size: 0.66rem !important;
-    line-height: 1.35 !important;
-  }
-
-  /* 5. Registered Users Card & Toolbar: Preserves Window Locations */
-  .settings-users-card {
-    padding: 16px 14px !important;
-    border-radius: 14px !important;
-    gap: 12px !important;
-    margin-bottom: 1.5rem !important;
-  }
-
-  .users-toolbar-wrap {
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-    margin: 0.75rem 0 1rem 0 !important;
-    padding: 0 !important;
-  }
-
-  .category-pills {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    gap: 6px !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-  }
-
-  .category-pills .pill-btn {
-    padding: 5px 10px !important;
-    font-size: 0.7rem !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-  }
-
-  .search-bar-wrap {
-    max-width: 170px !important;
-    width: auto !important;
-    flex-shrink: 0 !important;
-    margin: 0 !important;
-  }
-
-  .search-input {
-    padding: 6px 8px 6px 28px !important;
-    font-size: 0.72rem !important;
-    border-radius: 8px !important;
-  }
-
-  .search-icon {
-    width: 13px !important;
-    height: 13px !important;
-    left: 8px !important;
-  }
-
-  /* 6. Users Table: Preserves Table Columns, Scaled Down */
-  .users-custom-table th {
-    padding: 10px 12px !important;
-    font-size: 0.66rem !important;
-  }
-
-  .users-custom-table td {
-    padding: 10px 12px !important;
-    font-size: 0.76rem !important;
-  }
-
-  .user-id-chip {
-    padding: 3px 6px !important;
-    font-size: 0.68rem !important;
-  }
-
-  .user-avatar-circle {
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 0.75rem !important;
-    border-radius: 8px !important;
-  }
-
-  .user-email-chip {
-    padding: 4px 8px !important;
-    font-size: 0.72rem !important;
-    gap: 5px !important;
-  }
-
-  .user-email-chip svg {
-    width: 12px !important;
-    height: 12px !important;
-  }
-
-  .user-status-chip {
-    padding: 3px 7px !important;
-    font-size: 0.66rem !important;
-  }
-
-  .badge-clearance-pill {
-    padding: 3px 7px !important;
-    font-size: 0.66rem !important;
-  }
-
-  .user-actions-cluster {
-    gap: 4px !important;
-  }
-
-  .user-actions-cluster button {
-    padding: 4px 7px !important;
-    font-size: 0.68rem !important;
-  }
-
-  /* 7. Empty Orders Card & 3-Column Perks */
-  .settings-empty-orders-card {
-    padding: 24px 14px !important;
-    gap: 10px !important;
-    border-radius: 12px !important;
-  }
-
-  .empty-orders-icon-wrap {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 10px !important;
-  }
-
-  .empty-orders-icon-wrap svg {
-    width: 22px !important;
-    height: 22px !important;
-  }
-
-  .empty-orders-title {
-    font-size: 1.05rem !important;
-  }
-
-  .empty-orders-desc {
-    font-size: 0.76rem !important;
-    line-height: 1.45 !important;
-  }
-
-  .empty-orders-btn {
-    padding: 8px 16px !important;
-    font-size: 0.78rem !important;
-  }
-
-  .empty-orders-perks {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 8px !important;
-    padding-top: 14px !important;
-    margin-top: 8px !important;
-  }
-
-  .perk-item {
-    gap: 6px !important;
-    align-items: flex-start !important;
-  }
-
-  .perk-item svg {
-    width: 14px !important;
-    height: 14px !important;
-  }
-
-  .perk-item strong {
-    font-size: 0.7rem !important;
-  }
-
-  .perk-item span {
-    font-size: 0.62rem !important;
-    line-height: 1.25 !important;
-  }
-}
-
 /* ==========================================================================
-   EXECUTIVE USER DIRECTORY & TABLE UI POLISH (SPACING & GAPS)
+   FLUID RESPONSIVE SYSTEM (CLAMP SPACING, FLEXIBLE WRAPPING & CONTAINMENT)
    ========================================================================== */
+
+/* Responsive Hero Card: Fluid Clamp Spacing & Flexible Wrapping */
+.settings-hero-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: clamp(14px, 2.5vw, 28px) clamp(16px, 3vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 24px);
+  flex-wrap: wrap; /* Flexible container: wraps cleanly so buttons don't clip off the screen */
+  margin-bottom: clamp(16px, 2.5vw, 28px);
+  border-radius: clamp(14px, 2vw, 20px);
+  overflow: hidden;
+}
+
+.settings-hero-main {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 22px);
+  min-width: min(100%, 260px);
+  flex: 1 1 auto;
+}
+
+.settings-avatar-wrapper {
+  position: relative;
+  width: clamp(52px, 7vw, 76px);
+  height: clamp(52px, 7vw, 76px);
+  border-radius: clamp(14px, 2vw, 20px);
+  flex-shrink: 0;
+}
+
+.settings-user-name {
+  font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+  word-break: break-word;
+}
+
+.settings-user-meta {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.2vw, 12px);
+  font-size: clamp(0.72rem, 0.95vw, 0.85rem);
+  flex-wrap: wrap;
+}
+
+.settings-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* Proper wrapping: action buttons wrap gracefully without overflowing */
+  gap: clamp(6px, 1vw, 10px);
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
+.settings-action-btn {
+  padding: clamp(7px, 1vw, 10px) clamp(10px, 1.5vw, 18px) !important;
+  font-size: clamp(0.74rem, 0.9vw, 0.85rem) !important;
+  border-radius: 8px !important;
+  white-space: nowrap !important;
+}
+
+/* Fluid KPI Stat Cards: Responsive Auto-fit Grid */
+.settings-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(130px, 22vw, 240px), 1fr));
+  gap: clamp(8px, 1.5vw, 14px);
+  margin-bottom: clamp(16px, 2.5vw, 30px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.settings-kpi-card {
+  padding: clamp(10px, 1.5vw, 18px) clamp(10px, 1.8vw, 20px);
+  gap: clamp(8px, 1.2vw, 14px);
+  border-radius: clamp(10px, 1.4vw, 14px);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.settings-kpi-icon-wrap {
+  width: clamp(34px, 4.5vw, 44px);
+  height: clamp(34px, 4.5vw, 44px);
+  border-radius: clamp(8px, 1.2vw, 12px);
+  flex-shrink: 0;
+}
+
+.settings-kpi-lbl {
+  font-size: clamp(0.6rem, 0.78vw, 0.72rem);
+}
+
+.settings-kpi-val {
+  font-size: clamp(0.88rem, 1.3vw, 1.15rem);
+  white-space: nowrap;
+}
+
+.settings-kpi-sub {
+  font-size: clamp(0.62rem, 0.76vw, 0.72rem);
+}
+
+/* Tabs Bar */
+.settings-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1vw, 10px);
+  margin-bottom: clamp(14px, 2vw, 24px);
+  padding-bottom: clamp(8px, 1.2vw, 12px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.settings-tab-pill {
+  padding: clamp(7px, 1vw, 10px) clamp(12px, 1.8vw, 20px);
+  font-size: clamp(0.74rem, 0.9vw, 0.88rem);
+  flex-shrink: 0;
+}
+
+/* Panels Grid (Profile & Security) */
+.settings-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 45vw, 560px), 1fr));
+  gap: clamp(12px, 2vw, 22px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.settings-panel-card {
+  padding: clamp(16px, 2.5vw, 26px);
+  border-radius: clamp(12px, 1.8vw, 16px);
+  gap: clamp(10px, 1.5vw, 18px);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Registered Users Card: Strict Viewport Containment */
 .settings-users-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 30px 32px;
+  border-radius: clamp(14px, 2vw, 20px);
+  padding: clamp(16px, 2.5vw, 32px);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: clamp(12px, 2vw, 20px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  margin-bottom: 2rem;
+  margin-bottom: clamp(16px, 2.5vw, 32px);
+  overflow: hidden; /* Strict containment: no elements push outside screen */
 }
 
+/* Toolbar: Flexible Container & Balanced Spacing */
 .users-toolbar-wrap {
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin: 1.5rem 0 2rem 0;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  flex-wrap: wrap; /* Proper wrapping: adapts to mobile widths without clipping */
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(10px, 1.8vw, 16px);
+  margin: clamp(12px, 2vw, 24px) 0 clamp(16px, 2.5vw, 28px) 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  .users-toolbar-wrap {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
+.category-pills {
+  display: flex;
+  flex-wrap: wrap; /* Wraps cleanly on mobile instead of cutting off */
+  gap: clamp(6px, 1vw, 10px);
+  align-items: center;
+  min-width: 0;
 }
 
-.users-table-container {
-  background: rgba(15, 23, 42, 0.35);
+.category-pills .pill-btn {
+  padding: clamp(6px, 0.9vw, 8px) clamp(10px, 1.4vw, 16px);
+  font-size: clamp(0.72rem, 0.85vw, 0.8rem);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.search-bar-wrap {
+  position: relative;
+  width: clamp(180px, 100%, 320px);
+  max-width: 100%;
+  flex: 1 1 200px;
+  box-sizing: border-box;
+}
+
+.search-input {
+  width: 100%;
+  padding: clamp(7px, 1vw, 10px) 14px clamp(7px, 1vw, 10px) 36px;
+  font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+  box-sizing: border-box;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+/* Table Container: Viewport Containment - Stops Header & Cell Clipping */
+.users-table-container,
+.table-responsive,
+.admin-table-wrap,
+.crud-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; /* Contains table strictly within container frame */
+  -webkit-overflow-scrolling: touch;
+  border-radius: clamp(10px, 1.4vw, 16px);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
-  overflow: hidden;
+  box-sizing: border-box;
+  background: rgba(15, 23, 42, 0.35);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.users-custom-table {
+.users-custom-table,
+.admin-table,
+.crud-table {
   width: 100%;
+  min-width: 680px; /* Preserves column integrity, contained within scrollable box */
   border-collapse: collapse;
   text-align: left;
 }
 
-.users-custom-table th {
-  padding: 16px 20px;
+.users-custom-table th,
+.admin-table th {
+  padding: clamp(10px, 1.4vw, 16px) clamp(12px, 1.8vw, 20px);
   background: rgba(15, 23, 42, 0.6);
   border-bottom: 1px solid var(--border-color);
   color: var(--text-dim);
-  font-size: 0.74rem;
+  font-size: clamp(0.68rem, 0.8vw, 0.74rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
 
-.users-custom-table td {
-  padding: 16px 20px;
+.users-custom-table td,
+.admin-table td {
+  padding: clamp(10px, 1.4vw, 16px) clamp(12px, 1.8vw, 20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   vertical-align: middle;
-  font-size: 0.88rem;
+  font-size: clamp(0.76rem, 0.9vw, 0.88rem);
   color: var(--text-main);
   transition: background 0.15s ease;
 }
@@ -7983,31 +7792,32 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   border-bottom: none;
 }
 
-.users-custom-table tr:hover td {
+.users-custom-table tr:hover td,
+.admin-table tr:hover td {
   background: rgba(99, 102, 241, 0.045);
 }
 
 .user-id-chip {
   display: inline-block;
-  padding: 4px 10px;
+  padding: clamp(3px, 0.5vw, 4px) clamp(6px, 0.8vw, 10px);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-color);
-  font-size: 0.76rem;
+  font-size: clamp(0.68rem, 0.8vw, 0.76rem);
   color: var(--text-dim);
   white-space: nowrap;
 }
 
 .user-avatar-circle {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
+  width: clamp(28px, 4vw, 38px);
+  height: clamp(28px, 4vw, 38px);
+  border-radius: clamp(8px, 1.2vw, 12px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
   color: #ffffff;
-  font-size: 0.88rem;
+  font-size: clamp(0.75rem, 0.95vw, 0.88rem);
   flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
@@ -8015,13 +7825,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
 .user-email-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
+  gap: 7px;
+  padding: clamp(4px, 0.6vw, 6px) clamp(8px, 1vw, 14px);
   border-radius: 8px;
   background: rgba(99, 102, 241, 0.08);
   border: 1px solid rgba(99, 102, 241, 0.22);
   color: #818cf8;
-  font-size: 0.84rem;
+  font-size: clamp(0.72rem, 0.88vw, 0.84rem);
   text-decoration: none;
   transition: all 0.18s ease;
   white-space: nowrap;
@@ -8038,9 +7848,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 11px;
+  padding: clamp(3px, 0.5vw, 4px) clamp(7px, 1vw, 11px);
   border-radius: 20px;
-  font-size: 0.78rem;
+  font-size: clamp(0.66rem, 0.8vw, 0.78rem);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -8061,8 +7871,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: clamp(4px, 0.8vw, 8px);
+  flex-wrap: wrap; /* Proper button wrapping */
 }
 
 /* Light Theme Adjustments */
