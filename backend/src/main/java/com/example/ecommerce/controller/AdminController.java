@@ -56,16 +56,22 @@ public class AdminController {
             @PathVariable Long id,
             @RequestBody DeveloperProfile updated
     ) {
-        return developerProfileRepository.findById(id).map(profile -> {
-            profile.setName(updated.getName());
-            profile.setRole(updated.getRole());
-            profile.setBadgeRole(updated.getBadgeRole());
-            profile.setPill(updated.getPill());
-            profile.setAvatar(updated.getAvatar());
-            profile.setBio(updated.getBio());
-            profile.setSkills(updated.getSkills());
-            return ResponseEntity.ok(developerProfileRepository.save(profile));
-        }).orElse(ResponseEntity.notFound().build());
+        DeveloperProfile profile = developerProfileRepository.findById(id).orElseGet(() -> {
+            DeveloperProfile newProfile = new DeveloperProfile();
+            newProfile.setId(id);
+            return newProfile;
+        });
+        profile.setName(updated.getName());
+        profile.setRole(updated.getRole());
+        profile.setBadgeRole(updated.getBadgeRole());
+        profile.setPill(updated.getPill());
+        profile.setAvatar(updated.getAvatar());
+        profile.setBio(updated.getBio());
+        profile.setSkills(updated.getSkills());
+        if (updated.getTier() >= 0) profile.setTier(updated.getTier());
+        profile.setLead(updated.isLead());
+        profile.setActive(true);
+        return ResponseEntity.ok(developerProfileRepository.save(profile));
     }
 
     // Admin Dashboard Stats

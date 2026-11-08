@@ -36,13 +36,13 @@ public class DeveloperProfile {
     @Column(nullable = false)
     private String pill;
 
-    @Column(nullable = false, length = 1000)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String avatar;
 
-    @Column(nullable = false, length = 1000)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String bio;
 
-    @Column(length = 1000)
+    @Column(columnDefinition = "TEXT")
     private String skills;
 
     @Builder.Default
