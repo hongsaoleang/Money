@@ -13,6 +13,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const isUpcoming = Boolean(product?.isUpcoming || (product?.releaseDate && new Date(product.releaseDate) > new Date()));
 
   useEffect(() => {
     const fetchProduct = async () => {
