@@ -6,6 +6,19 @@ import {
   Database, Terminal, Check
 } from 'lucide-react';
 
+const TelegramIcon = ({ size = 20, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    style={{ display: 'inline-block', verticalAlign: 'middle' }}
+  >
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
+  </svg>
+);
+
 const SERVICE_FEATURE_SETS = {
   web: [
     'React and modern frontend architecture',
@@ -44,7 +57,6 @@ const Services = () => {
     message: '',
   });
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,9 +79,22 @@ const Services = () => {
   const handleInquirySubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+
+    let tgMsg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
+    tgMsg += `I have a project inquiry for you:\n\n`;
+    tgMsg += `👤 Name: ${inquiry.name}\n`;
+    tgMsg += `📧 Email: ${inquiry.email}\n`;
+    if (inquiry.phone) tgMsg += `📱 Phone: ${inquiry.phone}\n`;
+    tgMsg += `🛠 Service Type: ${inquiry.serviceType}\n\n`;
+    tgMsg += `📝 Project Details:\n${inquiry.message}\n\n`;
+    tgMsg += `Looking forward to your reply. Thank you!`;
+
     try {
       await api.post('/api/inquiries', inquiry);
-      setSubmitted(true);
+    } catch (err) {
+      console.warn('Inquiry auto-sync notice:', err);
+    } finally {
+      setSubmitting(false);
       setInquiry({
         name: '',
         email: '',
@@ -77,10 +102,10 @@ const Services = () => {
         serviceType: 'Custom Web Application Development',
         message: '',
       });
-    } catch (err) {
-      alert('Failed to send inquiry. Please try again.');
-    } finally {
-      setSubmitting(false);
+
+      // ALWAYS open direct Telegram chat with Hong Saoleang (@hongsaoleang)
+      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMsg)}`;
+      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -290,12 +315,6 @@ const Services = () => {
           </div>
 
           <form onSubmit={handleInquirySubmit} className="inquiry-form">
-            {submitted && (
-              <div className="alert-success">
-                Thank you! Your project inquiry has been received. Our team will contact you shortly.
-              </div>
-            )}
-
             <div className="form-group">
               <label>Your Name *</label>
               <input
@@ -353,8 +372,25 @@ const Services = () => {
               />
             </div>
 
-            <button type="submit" disabled={submitting} className="btn-primary submit-btn">
-              <Send size={15} /> {submitting ? 'Sending...' : 'Send inquiry'}
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-telegram"
+              style={{
+                width: '100%',
+                padding: '14px 20px',
+                fontSize: '1rem',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                marginTop: '10px',
+              }}
+              title="Send project inquiry to Telegram"
+            >
+              <TelegramIcon size={22} />
+              <span>{submitting ? 'Connecting...' : 'Send Message to Telegram'}</span>
             </button>
           </form>
         </div>

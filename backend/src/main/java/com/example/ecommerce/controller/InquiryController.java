@@ -18,6 +18,7 @@ public class InquiryController {
 
     private final ContactInquiryRepository contactInquiryRepository;
     private final com.example.ecommerce.service.EmailService emailService;
+    private final com.example.ecommerce.service.TelegramBotService telegramBotService;
 
     @PostMapping
     public ResponseEntity<ContactInquiry> submitInquiry(@Valid @RequestBody InquiryRequest request) {
@@ -33,6 +34,10 @@ public class InquiryController {
         ContactInquiry savedInquiry = contactInquiryRepository.save(inquiry);
         try {
             emailService.sendInquiryNotification(savedInquiry);
+        } catch (Exception ignored) {}
+
+        try {
+            telegramBotService.sendInquiryNotification(savedInquiry);
         } catch (Exception ignored) {}
 
         return ResponseEntity.ok(savedInquiry);

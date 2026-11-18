@@ -101,6 +101,31 @@ public class TelegramBotService {
         }
     }
 
+    public void sendInquiryNotification(com.example.ecommerce.model.ContactInquiry inquiry) {
+        if (!enabled || botToken == null || botToken.isBlank() || chatId == null || chatId.isBlank()) {
+            return;
+        }
+
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("📩 <b>NEW PROJECT INQUIRY RECEIVED!</b>\n");
+            sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
+            sb.append("👤 <b>Name:</b> ").append(escapeHtml(inquiry.getName())).append("\n");
+            sb.append("📧 <b>Email:</b> ").append(escapeHtml(inquiry.getEmail())).append("\n");
+            if (inquiry.getPhone() != null && !inquiry.getPhone().isBlank()) {
+                sb.append("📱 <b>Phone:</b> ").append(escapeHtml(inquiry.getPhone())).append("\n");
+            }
+            sb.append("🛠 <b>Service Type:</b> ").append(escapeHtml(inquiry.getServiceType())).append("\n\n");
+            sb.append("📝 <b>Project Details:</b>\n");
+            sb.append(escapeHtml(inquiry.getMessage())).append("\n");
+            sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+
+            sendMessage(chatId, sb.toString());
+        } catch (Exception e) {
+            log.error("Failed to send inquiry Telegram notification", e);
+        }
+    }
+
     public boolean sendMessage(String targetChatId, String htmlText) {
         try {
             String url = "https://api.telegram.org/bot" + botToken + "/sendMessage";

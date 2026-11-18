@@ -81,7 +81,7 @@ const ProductTelegramSelectionBar = ({ selectedProducts = [], onClear, onAddToCa
             title="Open Telegram chat with Hong Saoleang with selected products"
           >
             <TelegramIcon size={17} />
-            <span>Contact Me on Telegram (@hongsaoleang)</span>
+            <span>Chat on Telegram</span>
             <ExternalLink size={13} />
           </button>
 
