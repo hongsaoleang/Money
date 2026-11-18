@@ -30,8 +30,9 @@ public class DataInitializer implements CommandLineRunner {
         syncPrimaryAdminAccount();
         seedDeveloperProfiles();
 
-        if (productRepository.count() > 0) {
-            return; // Remaining seed data already initialized
+        // Disabled auto-seeding mock products to maintain user's clean empty shop
+        if (true) {
+            return;
         }
 
         System.out.println(">>> Initializing E-Commerce & Agency Platform Seed Data...");
