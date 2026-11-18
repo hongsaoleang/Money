@@ -78,6 +78,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/developers/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/developer-photos/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/inquiries/**").permitAll()
+                        .requestMatchers("/api/payment/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         // Client / Vendor Endpoints
                         .requestMatchers("/api/client/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_ADMIN")

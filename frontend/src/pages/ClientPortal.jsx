@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
-import { PlusCircle, Package, Clock, CheckCircle2, XCircle, Globe, ShieldAlert, ArrowRight } from 'lucide-react';
+import { PlusCircle, Package, Clock, CheckCircle2, XCircle, Globe, ShieldAlert, ArrowRight, FolderOpen, FileImage } from 'lucide-react';
 
 const ClientPortal = () => {
   const { user } = useAuth();
   const [categories, setCategories] = useState([]);
   const [myProducts, setMyProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const fileInputRef = useRef(null);
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +24,26 @@ const ClientPortal = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
+
+  const handleImageFileSelect = (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file.');
+      return;
+    }
+
+    const sizeKB = Math.round(file.size / 1024);
+    setSelectedFileName(`${file.name} (${sizeKB} KB)`);
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setFormData(prev => ({ ...prev, imageUrl: e.target.result }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     fetchData();
@@ -161,14 +183,35 @@ const ClientPortal = () => {
               </div>
 
               <div className="form-group">
-                <label>Product Image URL *</label>
-                <input
-                  type="url"
-                  required
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  placeholder="https://images.unsplash.com/photo-..."
-                />
+                <div className="flex items-center justify-between mb-1">
+                  <label className="mb-0">Product Image *</label>
+                  {selectedFileName && <span className="text-xs text-indigo-400 font-semibold">{selectedFileName}</span>}
+                </div>
+                <div className="flex gap-2 items-center">
+                  <button
+                    type="button"
+                    className="btn-primary flex items-center gap-2"
+                    onClick={() => fileInputRef.current?.click()}
+                    style={{ padding: '8px 14px', fontSize: '0.85rem' }}
+                  >
+                    <FolderOpen size={15} /> Choose from Folder
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handleImageFileSelect}
+                  />
+                  <input
+                    type="text"
+                    required
+                    value={formData.imageUrl}
+                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    placeholder="Or paste image URL (https://...)"
+                    style={{ flex: 1 }}
+                  />
+                </div>
               </div>
             </div>
 

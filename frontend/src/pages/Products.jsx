@@ -68,8 +68,8 @@ const Products = () => {
 
         <div className="catalog-actions-row">
           {isAdmin && (
-            <Link to="/products/manage" className="btn-primary catalog-manage-btn">
-              <Package size={17} /> Manage Products (CRUD)
+            <Link to="/products/manage?create=true" className="btn-primary catalog-manage-btn">
+              <Plus size={17} /> Add New Product
             </Link>
           )}
           <div className="search-bar-wrap">

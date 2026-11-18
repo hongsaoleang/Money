@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -19,7 +19,10 @@ import {
   DollarSign,
   TrendingUp,
   Sparkles,
-  Layers
+  Layers,
+  FolderOpen,
+  Upload,
+  FileImage
 } from 'lucide-react';
 
 const PRESET_IMAGES = [
@@ -32,6 +35,7 @@ const PRESET_IMAGES = [
 
 const ProductManage = () => {
   const { isAdmin, loginWithGoogle } = useAuth();
+  const location = useLocation();
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -43,6 +47,59 @@ const ProductManage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleImageFileSelect = (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (JPG, PNG, WebP, GIF, SVG).');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Image file size must be less than 10 MB.');
+      return;
+    }
+
+    const sizeKB = Math.round(file.size / 1024);
+    setSelectedFileName(`${file.name} (${sizeKB} KB)`);
+
+    // 1. Immediately preview and use via FileReader data URL
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      setFormData(prev => ({ ...prev, imageUrl: dataUrl }));
+    };
+    reader.readAsDataURL(file);
+
+    // 2. Also attempt upload to server if admin session active
+    const uploadData = new FormData();
+    uploadData.append('image', file);
+    setIsUploadingImage(true);
+    api.post('/api/admin/products/image', uploadData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }).then(({ data }) => {
+      if (data && data.imageUrl) {
+        setFormData(prev => ({ ...prev, imageUrl: data.imageUrl }));
+        setSelectedFileName(`${file.name} (Saved to server)`);
+      }
+    }).catch((err) => {
+      console.warn('Server upload notice (using direct file data):', err);
+    }).finally(() => {
+      setIsUploadingImage(false);
+    });
+  };
+
+  useEffect(() => {
+    if (location.search.includes('create=true') && categories.length > 0) {
+      handleOpenCreateModal();
+    }
+  }, [location.search, categories]);
   const [feedbackMessage, setFeedbackMessage] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -84,6 +141,7 @@ const ProductManage = () => {
 
   const handleOpenCreateModal = () => {
     setEditingId(null);
+    setSelectedFileName('');
     setFormData({
       name: '',
       categoryId: categories.length > 0 ? categories[0].id : '',
@@ -100,6 +158,7 @@ const ProductManage = () => {
 
   const handleOpenEditModal = (product) => {
     setEditingId(product.id);
+    setSelectedFileName(product.imageUrl ? 'Existing Product Image' : '');
     setFormData({
       name: product.name || '',
       categoryId: product.category?.id || (categories.length > 0 ? categories[0].id : ''),
@@ -568,24 +627,120 @@ const ProductManage = () => {
               </div>
 
               <div className="form-group">
-                <label>Image URL</label>
-                <div className="flex gap-2">
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="mb-0">Product Image *</label>
+                  {selectedFileName && (
+                    <span className="text-xs text-indigo-400 font-semibold">
+                      {selectedFileName}
+                    </span>
+                  )}
+                </div>
+
+                {/* Local Folder Image Selector & Live Preview Box */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '6px',
+                  padding: '12px 14px',
+                }}>
+                  <div style={{
+                    width: '74px',
+                    height: '74px',
+                    borderRadius: '6px',
+                    overflow: 'hidden',
+                    flexShrink: 0,
+                    border: '1px solid rgba(99, 102, 241, 0.4)',
+                    background: '#0d131f',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    {formData.imageUrl ? (
+                      <img 
+                        src={formData.imageUrl} 
+                        alt="Product preview" 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <FileImage size={28} className="text-muted" />
+                    )}
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div className="flex gap-2 flex-wrap items-center">
+                      <button
+                        type="button"
+                        className="btn-primary flex items-center gap-2"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={isUploadingImage}
+                        style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                      >
+                        <FolderOpen size={16} />
+                        <span>{isUploadingImage ? 'Uploading...' : 'Choose Image from Folder'}</span>
+                      </button>
+
+                      <input 
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+                        style={{ display: 'none' }}
+                        onChange={handleImageFileSelect}
+                      />
+
+                      {formData.imageUrl && (
+                        <button
+                          type="button"
+                          className="btn-outline flex items-center gap-1.5"
+                          onClick={() => {
+                            setFormData(prev => ({ ...prev, imageUrl: '' }));
+                            setSelectedFileName('');
+                          }}
+                          style={{ padding: '8px 12px', fontSize: '0.8rem', color: '#ef4444' }}
+                          title="Remove image"
+                        >
+                          <Trash2 size={13} /> Remove
+                        </button>
+                      )}
+                    </div>
+
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '6px 0 0' }}>
+                      Click to browse and select any image file from your computer folder.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Optional Image URL / Presets */}
+                <div style={{ marginTop: '10px' }}>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', display: 'block', marginBottom: '4px' }}>
+                    Or paste direct image URL / choose preset:
+                  </span>
                   <input 
                     type="url"
                     placeholder="https://..."
                     value={formData.imageUrl}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, imageUrl: e.target.value });
+                      setSelectedFileName('Web Image URL');
+                    }}
+                    style={{ fontSize: '0.82rem', padding: '6px 10px' }}
                   />
                 </div>
+
                 {/* Image presets */}
-                <div className="preset-images-row">
+                <div className="preset-images-row mt-2">
                   <span className="preset-lbl">Presets:</span>
                   {PRESET_IMAGES.map((img, i) => (
                     <button 
                       key={i} 
                       type="button" 
                       className="preset-img-chip"
-                      onClick={() => setFormData({ ...formData, imageUrl: img.url })}
+                      onClick={() => {
+                        setFormData({ ...formData, imageUrl: img.url });
+                        setSelectedFileName(`Preset: ${img.label}`);
+                      }}
                     >
                       {img.label}
                     </button>

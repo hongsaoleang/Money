@@ -59,6 +59,33 @@ public class DeveloperPhotoController {
         return ResponseEntity.ok(Map.of("avatar", "/api/developer-photos/" + filename));
     }
 
+    @PostMapping(value = "/admin/products/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Map<String, String>> uploadProductImage(@RequestPart("image") MultipartFile image) {
+        if (image.isEmpty() || image.getSize() > MAX_FILE_SIZE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose an image smaller than 5 MB.");
+        }
+
+        String extension = switch (image.getContentType() == null ? "" : image.getContentType().toLowerCase()) {
+            case "image/jpeg" -> ".jpg";
+            case "image/png" -> ".png";
+            case "image/webp" -> ".webp";
+            case "image/gif" -> ".gif";
+            default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose a JPG, PNG, WebP, or GIF image.");
+        };
+
+        String filename = UUID.randomUUID() + extension;
+        Path destination = photoDirectory().resolve(filename);
+        try {
+            Files.createDirectories(destination.getParent());
+            image.transferTo(destination);
+        } catch (IOException error) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not save the image.", error);
+        }
+
+        return ResponseEntity.ok(Map.of("imageUrl", "/api/developer-photos/" + filename));
+    }
+
     @GetMapping("/developer-photos/{filename}")
     public ResponseEntity<Resource> getPhoto(@PathVariable String filename) {
         if (!filename.matches("[a-f0-9-]{36}\\.(jpg|png|webp|gif)")) {
