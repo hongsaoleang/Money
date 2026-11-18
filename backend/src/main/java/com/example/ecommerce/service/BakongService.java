@@ -1,7 +1,5 @@
 package com.example.ecommerce.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +11,8 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -37,7 +37,8 @@ public class BakongService {
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Pattern CODE_PATTERN = Pattern.compile("\"responseCode\"\\s*:\\s*(\\d+)");
+    private static final Pattern MSG_PATTERN = Pattern.compile("\"responseMessage\"\\s*:\\s*\"([^\"]+)\"");
 
     public Map<String, Object> getMerchantConfig() {
         Map<String, Object> config = new HashMap<>();
@@ -51,8 +52,7 @@ public class BakongService {
         Map<String, Object> result = new HashMap<>();
         try {
             String url = baseUrl + "/check_transaction_by_md5";
-            Map<String, String> bodyMap = Map.of("md5", md5);
-            String jsonPayload = objectMapper.writeValueAsString(bodyMap);
+            String jsonPayload = "{\"md5\":\"" + md5.replace("\"", "") + "\"}";
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
@@ -65,14 +65,28 @@ public class BakongService {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             log.info("Bakong check_transaction_by_md5 status: {}, body: {}", response.statusCode(), response.body());
 
-            JsonNode root = objectMapper.readTree(response.body());
-            int responseCode = root.path("responseCode").asInt(1);
+            String body = response.body();
+            int responseCode = 1;
+            String responseMessage = "Unknown status";
+
+            if (body != null) {
+                Matcher codeMatcher = CODE_PATTERN.matcher(body);
+                if (codeMatcher.find()) {
+                    responseCode = Integer.parseInt(codeMatcher.group(1));
+                }
+
+                Matcher msgMatcher = MSG_PATTERN.matcher(body);
+                if (msgMatcher.find()) {
+                    responseMessage = msgMatcher.group(1);
+                }
+            }
+
             boolean isSuccess = (responseCode == 0);
 
             result.put("success", isSuccess);
             result.put("responseCode", responseCode);
-            result.put("responseMessage", root.path("responseMessage").asText());
-            result.put("data", root.path("data"));
+            result.put("responseMessage", responseMessage);
+            result.put("raw", body);
             return result;
         } catch (Exception e) {
             log.error("Error verifying Bakong transaction with MD5: " + md5, e);
