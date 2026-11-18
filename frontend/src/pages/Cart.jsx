@@ -127,16 +127,13 @@ const Cart = () => {
 
   // 1. Order via Telegram (@hongsaoleang)
   const handleOrderViaTelegram = async () => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
     if (selectedItems.length === 0) {
       alert('Please select at least one product to order.');
       return;
     }
 
     setSubmitting(true);
+    let createdOrder = null;
     try {
       const orderPayload = {
         shippingAddress,
@@ -148,36 +145,32 @@ const Cart = () => {
 
       // Place order in backend (deducts stock, updates sales graph, triggers Telegram bot notification)
       const res = await api.post('/api/orders', orderPayload);
-      const createdOrder = res.data;
+      createdOrder = res.data;
 
       // Remove only the ordered products from cart
       removeItemsFromCart(selectedIds);
       setOrderConfirmed(createdOrder);
-
-      // Generate pre-filled message and redirect customer to Hong Saoleang's personal Telegram chat
-      const tgMessage = buildTelegramMessage(createdOrder.id);
-      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
-      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     } catch (err) {
-      alert('Order error: ' + (err.response?.data?.message || 'Failed to place order.'));
+      console.warn('Backend order auto-sync notice:', err);
     } finally {
       setSubmitting(false);
+      // ALWAYS open Telegram directly to Hong Saoleang (@hongsaoleang)!
+      const tgMessage = buildTelegramMessage(createdOrder ? createdOrder.id : null);
+      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
+      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
   // 2. Standard Instant Checkout
   const handleStandardCheckout = async (e) => {
     if (e) e.preventDefault();
-    if (!user) {
-      navigate('/login');
-      return;
-    }
     if (selectedItems.length === 0) {
       alert('Please select at least one product to checkout.');
       return;
     }
 
     setSubmitting(true);
+    let createdOrder = null;
     try {
       const orderPayload = {
         shippingAddress,
@@ -188,17 +181,17 @@ const Cart = () => {
       };
 
       const res = await api.post('/api/orders', orderPayload);
+      createdOrder = res.data;
       removeItemsFromCart(selectedIds);
-      setOrderConfirmed(res.data);
-
-      // Open direct Telegram chat with Hong Saoleang (@hongsaoleang)
-      const tgMessage = buildTelegramMessage(res.data.id);
-      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
-      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+      setOrderConfirmed(createdOrder);
     } catch (err) {
-      alert('Checkout error: ' + (err.response?.data?.message || 'Failed to place order.'));
+      console.warn('Standard checkout sync notice:', err);
     } finally {
       setSubmitting(false);
+      // Open direct Telegram chat with Hong Saoleang (@hongsaoleang)
+      const tgMessage = buildTelegramMessage(createdOrder ? createdOrder.id : null);
+      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
+      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
