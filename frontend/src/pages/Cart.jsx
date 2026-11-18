@@ -190,6 +190,11 @@ const Cart = () => {
       const res = await api.post('/api/orders', orderPayload);
       removeItemsFromCart(selectedIds);
       setOrderConfirmed(res.data);
+
+      // Open direct Telegram chat with Hong Saoleang (@hongsaoleang)
+      const tgMessage = buildTelegramMessage(res.data.id);
+      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
+      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     } catch (err) {
       alert('Checkout error: ' + (err.response?.data?.message || 'Failed to place order.'));
     } finally {
@@ -543,18 +548,18 @@ const Cart = () => {
               <Sparkles size={14} className="text-sky-400" /> Choose Checkout Method:
             </div>
 
-            {/* 1. ORDER VIA TELEGRAM (@hongsaoleang) */}
+            {/* 1. ORDER & PURCHASE VIA TELEGRAM (@hongsaoleang) */}
             <button
               type="button"
               onClick={handleOrderViaTelegram}
               disabled={submitting || selectedItems.length === 0}
               className="btn-telegram"
-              title="Place order, notify bot, and open chat with Hong Saoleang"
+              title="Purchase selected items and open chat with Hong Saoleang"
             >
               <TelegramIcon size={20} />
               {submitting
-                ? 'Processing Order...'
-                : `Order via Telegram (@hongsaoleang)`}
+                ? 'Processing Purchase...'
+                : `Purchase & Chat via Telegram (@hongsaoleang)`}
             </button>
 
             {/* 2. PAY WITH BAKONG KHQR */}
@@ -579,7 +584,7 @@ const Cart = () => {
               Pay with Bakong KHQR (${selectedTotalPrice.toFixed(2)})
             </button>
 
-            {/* 3. STANDARD CHECKOUT */}
+            {/* 3. STANDARD PURCHASE CHECKOUT */}
             <button
               type="button"
               onClick={handleStandardCheckout}
@@ -587,7 +592,7 @@ const Cart = () => {
               className="btn-secondary"
               style={{ width: '100%', marginTop: '10px', padding: '12px', fontSize: '0.9rem' }}
             >
-              <CreditCard size={16} /> Standard Instant Checkout
+              <CreditCard size={16} /> Complete Purchase &amp; Open Telegram
             </button>
 
             {/* Pre-purchase Chat Hint */}
