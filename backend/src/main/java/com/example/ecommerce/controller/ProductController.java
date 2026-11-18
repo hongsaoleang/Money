@@ -34,7 +34,7 @@ public class ProductController {
     // Public Sales & Profit Analytics
     @GetMapping("/products/analytics")
     public ResponseEntity<Map<String, Object>> getSalesAnalytics() {
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderRepository.findAllWithItems();
         List<Product> products = productService.getPublicProducts();
 
         BigDecimal totalMoney = orders.stream()
