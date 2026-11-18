@@ -13,37 +13,37 @@ import './InteractiveLanyardBadge.css';
 
 const TIERS = [
   {
-    id: 'founder',
-    name: 'Founder & Architect',
+    id: 'tier-1',
+    name: 'Theme 1',
     clearance: 'ROOT // LEVEL-0',
     dept: 'Executive & Systems Architecture',
     accentColor: '#38bdf8',
     glowColor: 'rgba(56, 189, 248, 0.45)',
     strapColor1: '#1e1b4b',
     strapColor2: '#312e81',
-    strapText: 'JOMNENH-KH // FOUNDER & LEAD ARCHITECT // HONG SAOLEANG // ROOT CLEARANCE',
+    strapText: 'JOMNENH-KH // ARCHITECT // HONG SAOLEANG // ROOT CLEARANCE',
   },
   {
-    id: 'frontend',
-    name: 'Frontend Lead',
+    id: 'tier-2',
+    name: 'Theme 2',
     clearance: 'CLEARANCE LV.5',
     dept: 'UI & Ergonomic Systems',
     accentColor: '#f59e0b',
     glowColor: 'rgba(245, 158, 11, 0.45)',
     strapColor1: '#292524',
     strapColor2: '#44403c',
-    strapText: 'JOMNENH-KH // FRONTEND SYSTEMS LEAD // ALEX RIVERA // REACT & VITE',
+    strapText: 'JOMNENH-KH // UI SYSTEMS // ALEX RIVERA // REACT & VITE',
   },
   {
-    id: 'infra',
-    name: 'Database & Infra',
+    id: 'tier-3',
+    name: 'Theme 3',
     clearance: 'SPECOPS TIER-1',
-    dept: 'Cloud Infrastructure & Database',
+    dept: 'Cloud Infrastructure',
     accentColor: '#10b981',
     glowColor: 'rgba(16, 185, 129, 0.45)',
     strapColor1: '#09090b',
     strapColor2: '#18181b',
-    strapText: 'JOMNENH-KH // DATABASE & CLOUD INFRA // DEVON VANCE // POSTGRESQL & DOCKER',
+    strapText: 'JOMNENH-KH // CLOUD INFRA // DEVON VANCE // POSTGRESQL & DOCKER',
   },
 ];
 
@@ -694,8 +694,6 @@ const InteractiveLanyardBadge = ({
                   {name}
                 </div>
               )}
-
-              <div className="badge-person-role">{role || initialRole}</div>
             </div>
 
             {/* Barcode with Animated Laser Scan */}
@@ -766,7 +764,7 @@ const InteractiveLanyardBadge = ({
           title="Switch Pass Tier & Colorway"
         >
           <Layers size={13} />
-          <span>{activeTier.name.split(' ')[0]}</span>
+          <span>Theme {tier + 1}</span>
         </button>
       </div>
     </div>
