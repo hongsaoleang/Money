@@ -8406,3 +8406,499 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   }
 }
 
+
+
+/* =========================================================
+   CART PRODUCT SELECTION & TELEGRAM CHECKOUT STYLES
+   ========================================================= */
+
+.cart-select-all-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  margin-bottom: 16px;
+}
+
+.cart-select-all-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  user-select: none;
+}
+
+.cart-select-count-badge {
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #818cf8;
+  font-weight: 600;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.cart-item-card {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.cart-item-card.is-selected {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.08);
+}
+
+.cart-item-card.is-unselected {
+  opacity: 0.65;
+  border-style: dashed;
+}
+
+.cart-item-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #6366f1;
+  transition: transform 0.15s ease;
+}
+
+.cart-item-checkbox:hover {
+  transform: scale(1.1);
+}
+
+.cart-item-checkbox.unchecked {
+  color: var(--text-dim);
+}
+
+/* Telegram Ordering Buttons & Banners */
+.btn-telegram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: linear-gradient(135deg, #229ed9 0%, #0088cc 100%);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.98rem;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(34, 158, 217, 0.35);
+  transition: all 0.22s ease;
+  margin-top: 10px;
+}
+
+.btn-telegram:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2cb0f0 0%, #0099e6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(34, 158, 217, 0.5);
+}
+
+.btn-telegram:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-bakong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 13px 20px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(225, 29, 72, 0.3);
+  transition: all 0.22s ease;
+  margin-top: 10px;
+}
+
+.btn-bakong:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(225, 29, 72, 0.45);
+}
+
+.cart-payment-options-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  margin: 18px 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.telegram-direct-chat-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #38bdf8;
+  margin-top: 14px;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px dashed rgba(56, 189, 248, 0.25);
+  transition: all 0.2s ease;
+}
+
+.telegram-direct-chat-hint:hover {
+  background: rgba(56, 189, 248, 0.15);
+  text-decoration: underline;
+}
+
+/* Success Confirmation Screen Telegram Cards */
+.telegram-alerts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+@media (max-width: 640px) {
+  .telegram-alerts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.telegram-channel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.telegram-channel-card.bot-card {
+  border-color: rgba(99, 102, 241, 0.35);
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.06) 0%, rgba(15, 23, 42, 0.2) 100%);
+}
+
+.telegram-channel-card.owner-card {
+  border-color: rgba(34, 158, 217, 0.4);
+  background: linear-gradient(180deg, rgba(34, 158, 217, 0.07) 0%, rgba(15, 23, 42, 0.2) 100%);
+}
+
+.telegram-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.telegram-card-header h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.telegram-card-desc {
+  font-size: 0.83rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+/* BAKONG MODAL STYLES */
+.bakong-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.bakong-modal-card {
+  background: #0f172a;
+  border: 1px solid rgba(225, 29, 72, 0.4);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 25px 60px -12px rgba(225, 29, 72, 0.25), 0 0 40px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.bakong-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: #fff;
+}
+
+.bakong-branding {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bakong-logo-tag {
+  background: #ffffff;
+  color: #e11d48;
+  font-weight: 900;
+  font-size: 0.95rem;
+  padding: 4px 10px;
+  border-radius: 8px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.bakong-brand-text h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0;
+  color: #fff;
+}
+
+.bakong-brand-text span {
+  font-size: 0.72rem;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bakong-close-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.bakong-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.bakong-merchant-info {
+  padding: 16px 20px 10px 20px;
+  background: rgba(15, 23, 42, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bakong-merchant-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  margin-bottom: 6px;
+}
+
+.bakong-merchant-row .label {
+  color: var(--text-dim);
+}
+
+.bakong-merchant-row .value {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.bakong-merchant-row .value-id {
+  font-family: monospace;
+  color: #f43f5e;
+  font-weight: 600;
+  background: rgba(244, 63, 94, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.bakong-amount-box {
+  background: rgba(225, 29, 72, 0.1);
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.bakong-amount-label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  color: #fda4af;
+  font-weight: 600;
+}
+
+.bakong-amount-number {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.bakong-qr-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  margin: 16px 20px;
+  border-radius: 16px;
+  position: relative;
+}
+
+.bakong-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bakong-canvas {
+  display: block;
+  border-radius: 8px;
+}
+
+.bakong-frame-center-badge {
+  position: absolute;
+  background: #e11d48;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.72rem;
+  padding: 4px 6px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px #ffffff;
+  pointer-events: none;
+}
+
+.bakong-timer-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+  color: #334155;
+  margin-top: 12px;
+}
+
+.bakong-scan-instruction {
+  font-size: 0.78rem;
+  color: #64748b;
+  text-align: center;
+  margin: 8px 0 0 0;
+  line-height: 1.4;
+}
+
+.bakong-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  padding: 0 20px 12px 20px;
+}
+
+.bakong-footer-actions {
+  padding: 0 20px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bakong-verify-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border: none;
+  padding: 13px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.bakong-verify-btn:hover {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  transform: translateY(-1px);
+}
+
+.bakong-cancel-btn {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bakong-cancel-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.bakong-security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: #64748b;
+  padding: 0 20px 16px 20px;
+  text-align: center;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
