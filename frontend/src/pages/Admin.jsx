@@ -404,10 +404,9 @@ const Admin = () => {
       {/* Top Header */}
       <div className="admin-header">
         <div>
-          <span className="section-badge">Master Control</span>
-          <h1 className="page-title">Administration Operations Hub</h1>
+          <h1 className="page-title">Administration</h1>
           <p className="page-desc">
-            Manage product releases, review merchant listing requests, govern software agency services, and track customer orders.
+            Manage products, requests, services, orders, and users.
           </p>
         </div>
         <div className="admin-actions flex items-center gap-2">
@@ -416,7 +415,7 @@ const Admin = () => {
             className="btn-secondary flex items-center gap-2"
             title="Open Dedicated Inventory CRUD Hub"
           >
-            <Package size={16} /> Manage (CRUD)
+            <Package size={16} /> Manage
           </Link>
           <button
             onClick={() => {

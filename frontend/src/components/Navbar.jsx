@@ -51,7 +51,7 @@ const Navbar = () => {
           {isAdmin && (
             <NavLink to="/products/manage" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="flex items-center gap-1.5">
-                <Package size={15} /> Manage (CRUD)
+                <Package size={15} /> Manage
               </span>
             </NavLink>
           )}
@@ -119,7 +119,7 @@ const Navbar = () => {
 
                 {isAdmin && (
                   <Link to="/products/manage" className="dropdown-item">
-                    <Package size={16} /> Manage Products (CRUD)
+                    <Package size={16} /> Manage
                   </Link>
                 )}
 
@@ -198,7 +198,7 @@ const Navbar = () => {
               </NavLink>
               {isAdmin && (
                 <NavLink to="/products/manage" className={({ isActive }) => `mobile-nav-item highlight-admin ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
-                  <Package size={17} /> Manage (CRUD)
+                  <Package size={17} /> Manage
                 </NavLink>
               )}
               {isAdmin && (

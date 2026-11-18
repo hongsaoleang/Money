@@ -42,6 +42,12 @@ const SERVICE_FEATURE_SETS = {
   ],
 };
 
+const HIDDEN_SAMPLE_CLIENTS = new Set([
+  'Nordic Retail Group',
+  'LogiFleet Express',
+  'Vanguard Health Systems',
+]);
+
 const Services = () => {
   const [services, setServices] = useState([]);
   const [portfolio, setPortfolio] = useState([]);
@@ -52,10 +58,11 @@ const Services = () => {
     name: '',
     email: '',
     phone: '',
-    serviceType: 'Custom Web Application Development',
+    serviceType: '',
     message: '',
   });
   const [submitting, setSubmitting] = useState(false);
+  const visiblePortfolio = portfolio.filter((project) => !HIDDEN_SAMPLE_CLIENTS.has(project.clientName));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,7 +105,7 @@ const Services = () => {
       name: '',
       email: '',
       phone: '',
-      serviceType: 'Custom Web Application Development',
+      serviceType: '',
       message: '',
     });
 
@@ -177,7 +184,7 @@ const Services = () => {
       </section>
 
       {/* 3. TRACK RECORD & PROOF (CLEAN CARDS WITHOUT BLOATED IMAGES) */}
-      <section id="portfolio" className="section-container portfolio-section">
+      {visiblePortfolio.length > 0 && <section id="portfolio" className="section-container portfolio-section">
         <div className="section-header text-center">
           <span className="section-badge">Track Record</span>
           <h2 className="section-title">Shipped Enterprise Case Studies</h2>
@@ -190,7 +197,7 @@ const Services = () => {
           <div className="loading-spinner">Loading portfolio case studies...</div>
         ) : (
           <div className="portfolio-compact-grid">
-            {portfolio.map((project) => (
+            {visiblePortfolio.map((project) => (
               <div key={project.id} className="portfolio-compact-card">
                 <div className="portfolio-card-header">
                   <div className="flex items-center justify-between gap-2">
@@ -229,7 +236,7 @@ const Services = () => {
             ))}
           </div>
         )}
-      </section>
+      </section>}
 
       {/* INQUIRY FORM */}
       <section id="inquiry" className="section-container inquiry-section">
@@ -277,15 +284,13 @@ const Services = () => {
 
             <div className="form-group">
               <label>Service Type *</label>
-              <select
+              <input
+                type="text"
+                required
                 value={inquiry.serviceType}
                 onChange={(e) => setInquiry({ ...inquiry, serviceType: e.target.value })}
-              >
-                <option value="Custom Web Application Development">Custom Web Application Development</option>
-                <option value="Cross-Platform Mobile App Development">Cross-Platform Mobile App Development</option>
-                <option value="Enterprise Cloud & Backend Systems">Enterprise Cloud & Backend Systems</option>
-                <option value="Full Digital Transformation">Full digital product</option>
-              </select>
+                placeholder="e.g. Website, mobile app, or custom software"
+              />
             </div>
 
             <div className="form-group">

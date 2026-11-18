@@ -1,48 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Check, LoaderCircle, Sparkles, FileImage, Trash2, ShieldCheck } from 'lucide-react';
+import { Upload, LoaderCircle, FileImage, Trash2 } from 'lucide-react';
 import api from '../api/client';
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
-
-export const PRESET_DATA_PHOTOS = [
-  {
-    id: 'jomnenh',
-    name: 'Hong Saoleang',
-    tag: 'Lead Architect',
-    src: '/JomnenhKH.jpg',
-  },
-  {
-    id: 'alex',
-    name: 'Alex Rivera',
-    tag: 'UI Engineer',
-    src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'devon',
-    name: 'Devon Vance',
-    tag: 'Cloud Infra',
-    src: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'architect',
-    name: 'System Architect',
-    tag: 'Core & Security',
-    src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'devops',
-    name: 'DevOps Specialist',
-    tag: 'CI/CD & Infra',
-    src: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'ai-specialist',
-    name: 'AI Engineer',
-    tag: 'Algorithms & Models',
-    src: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-  },
-];
 
 const DeveloperPhotoPicker = ({ value, onChange }) => {
   const [preview, setPreview] = useState(value || '');
@@ -68,7 +29,7 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
 
     setError('');
     const fileSizeKB = Math.round(file.size / 1024);
-    setFileMeta(`${file.name} (${fileSizeKB} KB · Local Data)`);
+    setFileMeta(`${file.name} · ${fileSizeKB} KB`);
 
     // 1. Instantly read as Base64 Data URL so photo works immediately offline/locally
     const reader = new FileReader();
@@ -105,13 +66,6 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
     if (file) processFileData(file);
   };
 
-  const handleSelectPreset = (preset) => {
-    setError('');
-    setPreview(preset.src);
-    setFileMeta(`Preset: ${preset.name} (${preset.tag})`);
-    onChange(preset.src);
-  };
-
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
@@ -135,20 +89,16 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
     setError('');
   };
 
-  // Determine current source type
-  const isDataUrl = currentPhoto && currentPhoto.startsWith('data:');
-  const isPresetMatch = PRESET_DATA_PHOTOS.some((p) => p.src === currentPhoto);
-
   return (
     <div className="developer-photo-section">
       <div className="developer-photo-header">
-        <label className="developer-photo-label">Choose Developer Photo from Data</label>
+        <label className="developer-photo-label">Profile photo</label>
         <span className="developer-photo-badge">
-          {isDataUrl ? 'Local File Data' : isPresetMatch ? 'Data Preset' : 'Active Photo'}
+          {fileMeta ? 'Selected' : 'Current photo'}
         </span>
       </div>
 
-      {/* Main Dropzone & Upload from Device Data */}
+      {/* Choose an image from the device */}
       <div 
         className={`developer-photo-dropzone ${isDragging ? 'is-dragging' : ''}`}
         onDragOver={handleDragOver}
@@ -184,7 +134,7 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
               disabled={uploading}
             >
               {uploading ? <LoaderCircle size={16} className="developer-photo-spinner" /> : <Upload size={16} />}
-              <span>Choose Photo from Device Data</span>
+              <span>Choose image</span>
             </button>
 
             {currentPhoto && currentPhoto !== '/JomnenhKH.jpg' && (
@@ -209,52 +159,13 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
           </div>
 
           <p className="developer-photo-meta-text">
-            {fileMeta || 'Choose an image file from your device, or drag & drop here. Loaded directly as image data.'}
+            {fileMeta || 'Choose an image from your device, or drag it here. JPG, PNG, WebP, or GIF · up to 10 MB.'}
           </p>
         </div>
       </div>
 
       {error && <p className="developer-photo-error" role="alert">{error}</p>}
 
-      {/* Preset Data Photos Gallery */}
-      <div className="developer-photo-presets-block">
-        <div className="developer-photo-presets-title">
-          <Sparkles size={14} className="developer-presets-icon" />
-          <span>Or Choose from Preset Data Photos</span>
-        </div>
-
-        <div className="developer-photo-presets-grid">
-          {PRESET_DATA_PHOTOS.map((preset) => {
-            const isSelected = currentPhoto === preset.src;
-            return (
-              <button
-                key={preset.id}
-                type="button"
-                className={`developer-preset-card ${isSelected ? 'is-selected' : ''}`}
-                onClick={() => handleSelectPreset(preset)}
-                title={`${preset.name} - ${preset.tag}`}
-              >
-                <div className="developer-preset-thumb-wrapper">
-                  <img
-                    src={preset.src}
-                    alt={preset.name}
-                    className="developer-preset-thumb"
-                    style={{ objectFit: 'cover' }}
-                  />
-                  {isSelected && (
-                    <span className="developer-preset-selected-check" title="Active">
-                      <Check size={12} strokeWidth={3} />
-                    </span>
-                  )}
-                </div>
-                <div className="developer-preset-info">
-                  <span className="developer-preset-name">{preset.name}</span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
     </div>
   );
 };

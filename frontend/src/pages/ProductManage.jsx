@@ -108,7 +108,7 @@ const ProductManage = () => {
     price: '',
     stockQuantity: '',
     originCountry: 'Japan',
-    provenanceDetails: 'Calibrated in Kyoto Precision Labs with ISO-9001 aerospace alloys.',
+    provenanceDetails: '',
     imageUrl: PRESET_IMAGES[0].url,
     description: '',
     releaseDate: '',
@@ -148,7 +148,7 @@ const ProductManage = () => {
       price: '',
       stockQuantity: '',
       originCountry: 'Japan',
-      provenanceDetails: 'Certified aerospace-grade electronic architecture with zero conflict minerals.',
+      provenanceDetails: '',
       imageUrl: PRESET_IMAGES[Math.floor(Math.random() * PRESET_IMAGES.length)].url,
       description: '',
       releaseDate: '',
@@ -311,7 +311,7 @@ const ProductManage = () => {
             <span className="section-badge">Management</span>
             {isAdmin && <span className="admin-status-badge"><ShieldCheck size={13} /> Admin</span>}
           </div>
-          <h1 className="page-title mt-1">Product Inventory (CRUD)</h1>
+          <h1 className="page-title mt-1">Product inventory</h1>
         </div>
 
         <button 
@@ -544,7 +544,7 @@ const ProductManage = () => {
                 </div>
                 <div>
                   <h3 className="modal-title">{editingId ? 'Edit Product' : 'Add New Product'}</h3>
-                  <p className="modal-subtitle">{editingId ? `Updating record #${editingId}` : 'Fill in the product details below'}</p>
+                  <p className="modal-subtitle">{editingId ? `Editing product #${editingId}` : 'Add product details'}</p>
                 </div>
               </div>
               <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>
@@ -712,60 +712,6 @@ const ProductManage = () => {
                   </div>
                 </div>
 
-                {/* Optional Image URL / Presets */}
-                <div style={{ marginTop: '10px' }}>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', display: 'block', marginBottom: '4px' }}>
-                    Or paste direct image URL / choose preset:
-                  </span>
-                  <input 
-                    type="url"
-                    placeholder="https://..."
-                    value={formData.imageUrl}
-                    onChange={(e) => {
-                      setFormData({ ...formData, imageUrl: e.target.value });
-                      setSelectedFileName('Web Image URL');
-                    }}
-                    style={{ fontSize: '0.82rem', padding: '6px 10px' }}
-                  />
-                </div>
-
-                {/* Image presets */}
-                <div className="preset-images-row mt-2">
-                  <span className="preset-lbl">Presets:</span>
-                  {PRESET_IMAGES.map((img, i) => (
-                    <button 
-                      key={i} 
-                      type="button" 
-                      className="preset-img-chip"
-                      onClick={() => {
-                        setFormData({ ...formData, imageUrl: img.url });
-                        setSelectedFileName(`Preset: ${img.label}`);
-                      }}
-                    >
-                      {img.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Provenance & Calibration Specs</label>
-                <textarea 
-                  rows={2}
-                  placeholder="Detail factory lineage, audit certifications, testing standards..."
-                  value={formData.provenanceDetails}
-                  onChange={(e) => setFormData({ ...formData, provenanceDetails: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Product Overview & Features</label>
-                <textarea 
-                  rows={3}
-                  placeholder="Comprehensive description of engineering capabilities..."
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                />
               </div>
 
               <div className="modal-actions-bar">

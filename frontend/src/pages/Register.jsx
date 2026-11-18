@@ -33,7 +33,7 @@ const Register = () => {
         <div className="auth-header">
           <div className="auth-icon-badge"><UserPlus size={24} /></div>
           <h1>Create an Account</h1>
-          <p>Join Jomnenh-KH as a customer or partner merchant</p>
+          <p>Create your customer or merchant account</p>
         </div>
 
         {error && (
@@ -101,20 +101,20 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label>Account Type / Role</label>
+              <label>Account type</label>
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                 className="role-select"
               >
-                <option value="ROLE_USER">Customer (Shop & Order)</option>
-                <option value="ROLE_CLIENT">Merchant / Client (Deploy Products)</option>
+                <option value="ROLE_USER">Customer</option>
+                <option value="ROLE_CLIENT">Merchant</option>
               </select>
             </div>
           </div>
 
           <div className="form-group">
-            <label>Delivery / Company Address</label>
+            <label>Delivery or business address</label>
             <div className="input-with-icon">
               <MapPin size={16} className="input-icon" />
               <input
