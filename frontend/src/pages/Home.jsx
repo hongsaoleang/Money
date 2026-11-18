@@ -10,6 +10,19 @@ import {
 } from 'lucide-react';
 import ProductGraphDashboard from '../components/ProductGraphDashboard';
 import { getProductSpecs } from '../utils/productSpecs';
+import ProductTelegramSelectionBar from '../components/ProductTelegramSelectionBar';
+
+const TelegramIcon = ({ size = 16 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    style={{ display: 'inline-block', verticalAlign: 'middle' }}
+  >
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
+  </svg>
+);
 
 const Home = () => {
   const { user } = useAuth();
@@ -17,11 +30,23 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addedId, setAddedId] = useState(null);
+  const [selectedCardIds, setSelectedCardIds] = useState([]);
 
   const handleQuickAdd = (product) => {
     addToCart(product, 1);
     setAddedId(product.id);
     setTimeout(() => setAddedId(null), 1800);
+  };
+
+  const toggleSelectCard = (productId) => {
+    setSelectedCardIds((prev) =>
+      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+    );
+  };
+
+  const contactSingleProduct = (product) => {
+    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI am interested in this product from your store:\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
+    window.open(`https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
   };
 
   useEffect(() => {
@@ -37,6 +62,8 @@ const Home = () => {
     };
     fetchData();
   }, []);
+
+  const selectedProducts = products.filter((p) => selectedCardIds.includes(p.id));
 
   return (
     <div className="home-page">
@@ -109,6 +136,9 @@ const Home = () => {
             <h2 className="top-featured-title">
               Available <span className="gradient-text">Hardware</span> Products
             </h2>
+            <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', marginTop: '4px' }}>
+              Select any product card below to contact <strong>Hong Saoleang (@hongsaoleang)</strong> directly on Telegram.
+            </p>
           </div>
 
           <Link to="/products" className="view-all-pill">
@@ -123,13 +153,34 @@ const Home = () => {
           <div className="featured-showcase-grid">
             {products.map((product) => {
               const specs = getProductSpecs(product);
+              const isSelected = selectedCardIds.includes(product.id);
+
               return (
                 <div 
                   key={product.id} 
-                  className="featured-spotlight-card"
+                  className={`featured-spotlight-card ${isSelected ? 'card-selected' : ''}`}
+                  onClick={() => toggleSelectCard(product.id)}
+                  style={{ cursor: 'pointer' }}
                 >
                   {/* Visual Thumbnail Wrap */}
                   <div className="spotlight-thumb-wrap">
+                    {/* Card Selection Toggle Button */}
+                    <button
+                      type="button"
+                      className={`card-select-checkbox ${isSelected ? 'selected' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSelectCard(product.id);
+                      }}
+                      title={isSelected ? 'Deselect this product' : 'Select product card'}
+                    >
+                      {isSelected ? (
+                        <Check size={16} />
+                      ) : (
+                        <div style={{ width: 10, height: 10, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.6)' }} />
+                      )}
+                    </button>
+
                     <img src={product.imageUrl} alt={product.name} className="spotlight-img" />
                     <div className="spotlight-badge-row">
                       <span className={`spotlight-stock-badge ${product.stockQuantity > 0 ? 'in-stock' : 'out-stock'}`}>
@@ -156,7 +207,18 @@ const Home = () => {
                     <div className="spotlight-footer">
                       <span className="spotlight-price">${parseFloat(product.price).toFixed(2)}</span>
 
-                      <div className="spotlight-actions">
+                      <div className="spotlight-actions" onClick={(e) => e.stopPropagation()}>
+                        {/* Direct Telegram Contact for this Card */}
+                        <button
+                          type="button"
+                          onClick={() => contactSingleProduct(product)}
+                          className="spotlight-telegram-btn"
+                          title="Contact Hong Saoleang on Telegram for this product"
+                        >
+                          <TelegramIcon size={16} />
+                        </button>
+
+                        {/* Add to Cart */}
                         <button 
                           onClick={() => handleQuickAdd(product)}
                           disabled={product.stockQuantity <= 0}
@@ -224,6 +286,16 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Floating Telegram Selection Bar (appears when any card is selected) */}
+      <ProductTelegramSelectionBar
+        selectedProducts={selectedProducts}
+        onClear={() => setSelectedCardIds([])}
+        onAddToCart={(items) => {
+          items.forEach((p) => addToCart(p, 1));
+          setSelectedCardIds([]);
+        }}
+      />
     </div>
   );
 };
