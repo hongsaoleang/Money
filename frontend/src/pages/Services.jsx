@@ -102,9 +102,7 @@ const Services = () => {
             Software built <span className="gradient-text">to scale</span>
           </h1>
 
-          <p className="hero-subtitle max-w-xl mx-auto mb-6 text-slate-300">
-            Web, mobile, and cloud products designed for speed, security, and growth.
-          </p>
+
 
           <div className="hero-actions justify-center mb-8">
             <a href="#inquiry" className="btn-primary">
@@ -145,9 +143,6 @@ const Services = () => {
         <div className="section-header text-center">
           <span className="section-badge">Capabilities</span>
           <h2 className="section-title">Core Engineering Capabilities</h2>
-          <p className="section-subtitle">
-            Practical, secure software shaped around your needs.
-          </p>
         </div>
 
         <div className="services-grid">

@@ -162,7 +162,7 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
                 src={currentPhoto} 
                 alt="Selected profile" 
                 className="developer-photo-img" 
-                style={currentPhoto.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d' } : { objectFit: 'cover' }}
+                style={{ objectFit: 'cover' }}
               />
             ) : (
               <FileImage size={32} className="developer-photo-placeholder-icon" />
@@ -239,7 +239,7 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
                     src={preset.src}
                     alt={preset.name}
                     className="developer-preset-thumb"
-                    style={preset.src.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d' } : { objectFit: 'cover' }}
+                    style={{ objectFit: 'cover' }}
                   />
                   {isSelected && (
                     <span className="developer-preset-selected-check" title="Active">
@@ -249,7 +249,6 @@ const DeveloperPhotoPicker = ({ value, onChange }) => {
                 </div>
                 <div className="developer-preset-info">
                   <span className="developer-preset-name">{preset.name}</span>
-                  <span className="developer-preset-tag">{preset.tag}</span>
                 </div>
               </button>
             );

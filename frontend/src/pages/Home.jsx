@@ -56,10 +56,6 @@ const Home = () => {
             Precision Hardware &amp; <span className="gradient-text">Bespoke Software Systems</span>
           </h1>
 
-          <p className="hero-main-subtitle">
-            Direct-from-factory audited provenance, aerospace micro-engineering, and mission-critical cloud software systems crafted for modern enterprises.
-          </p>
-
           <div className="hero-actions-row">
             <Link to="/products" className="btn-primary hero-btn">
               Browse Hardware Catalog <ArrowRight size={16} />
@@ -113,9 +109,6 @@ const Home = () => {
             <h2 className="top-featured-title">
               Available <span className="gradient-text">Hardware</span> Products
             </h2>
-            <p className="section-subtitle">
-              Engineered with audited origin ledgers, warranty certificates, and instant checkout.
-            </p>
           </div>
 
           <Link to="/products" className="view-all-pill">

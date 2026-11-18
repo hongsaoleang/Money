@@ -162,9 +162,7 @@ const AboutUs = () => {
         <h1 className="hero-title">
           Know where it’s made. <span className="gradient-text">Know when it arrives.</span>
         </h1>
-        <p className="hero-subtitle">
-          Clear product origins and delivery dates, from checkout to your door.
-        </p>
+
       </section>
 
       {/* Sourcing & Provenance Detail Section */}
@@ -172,9 +170,6 @@ const AboutUs = () => {
         <div className="section-header text-center">
           <span className="section-badge">Product Provenance</span>
           <h2 className="section-title">Made with care, sourced with clarity</h2>
-          <p className="section-subtitle">
-            We review our suppliers for quality and responsible manufacturing.
-          </p>
         </div>
 
         <div className="provenance-cards-grid">
@@ -369,11 +364,10 @@ const AboutUs = () => {
                         src={dev.avatar}
                         alt=""
                         className="dev-dock-img"
-                        style={dev.avatar.includes('JomnenhKH') ? { objectFit: 'contain', background: '#0a0f1d' } : { objectFit: 'cover' }}
+                        style={{ objectFit: 'cover' }}
                       />
                       <div className="dev-dock-text">
                         <span className="dev-dock-name">{dev.name}</span>
-                        <span className="dev-dock-role">{dev.pill}</span>
                       </div>
                       {isActive && <span className="dev-active-dot" title="Active on 3D Pass" />}
                     </button>

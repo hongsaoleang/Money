@@ -64,9 +64,6 @@ const Products = () => {
         <div>
           <span className="section-badge"><Sparkles size={13} className="text-amber-400" /> Curated Store</span>
           <h1 className="page-title">Hardware Catalog</h1>
-          <p className="text-sm text-slate-400 mt-1 max-w-xl">
-            Audited origin ledgers, precision technical specs, and instant door-to-door delivery tracking.
-          </p>
         </div>
 
         <div className="catalog-actions-row">

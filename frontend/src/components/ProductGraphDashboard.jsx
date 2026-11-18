@@ -150,16 +150,12 @@ const ProductGraphDashboard = ({ products = [] }) => {
             </span>
           </div>
           <h2 className="dashboard-main-title">
-            Product <span className="gradient-text">Analytics</span> &amp; Market Trends
+            Product <span className="gradient-text">Analytics</span>
           </h2>
-          <p className="dashboard-sub-title">
-            Real-time price trajectory, inventory stock curve, and demand monitoring.
-          </p>
         </div>
 
         {/* Product Selector Dropdown */}
         <div className="dashboard-selector-wrap">
-          <label className="selector-label">Select Hardware Item:</label>
           <div className="selector-box">
             <select
               value={selectedProductId}

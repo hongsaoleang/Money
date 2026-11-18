@@ -293,7 +293,7 @@
   font-weight: 800;
   letter-spacing: 0.8px;
   padding: 3px 8px;
-  border-radius: 9999px;
+  border-radius: 6px;
   text-transform: uppercase;
   background: rgba(99, 102, 241, 0.18);
   border: 1px solid rgba(99, 102, 241, 0.35);
@@ -361,23 +361,26 @@
 
 .badge-avatar-frame {
   position: relative;
-  width: 104px;
-  height: 78px;
-  border-radius: 12px;
-  padding: 3px;
-  background: linear-gradient(135deg, #6366f1 0%, #38bdf8 50%, #ec4899 100%);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+  width: 90px;
+  height: 90px;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 0;
+  border: 2px solid rgba(99, 102, 241, 0.5);
+  background: transparent;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
   margin-bottom: 10px;
 }
 
 .badge-avatar-img {
   width: 100%;
   height: 100%;
-  border-radius: 9px;
-  object-fit: contain;
-  background: #0d131f;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 3px;
+  border-radius: 4px;
+  object-fit: cover !important;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: block;
 }
 
 .badge-avatar-status-beacon {
@@ -424,7 +427,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   background: rgba(15, 23, 42, 0.6);
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 8px 10px;
   margin-bottom: 12px;
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -796,18 +799,18 @@
   .lanyard-badge-stage {
     max-width: 100%;
     width: 100%;
-    height: 450px;
+    height: 360px;
     margin: 0 auto;
   }
 
   .lanyard-card-assembly {
-    width: 220px;
-    height: 335px;
+    width: 200px;
+    height: 300px;
     border-radius: 8px;
   }
 
   .lanyard-card-face {
-    padding: 14px 14px 12px;
+    padding: 12px 12px 10px;
     border-radius: 8px;
   }
 
@@ -838,13 +841,13 @@
   }
 
   .badge-avatar-wrap {
-    width: 54px;
-    height: 54px;
+    width: 50px;
+    height: 50px;
     border-width: 2px;
   }
 
   .badge-user-name {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .badge-user-handle {
@@ -865,14 +868,14 @@
   }
 
   .badge-barcode-line {
-    height: 18px;
+    height: 16px;
   }
 
   .badge-control-dock {
-    margin-top: 350px;
+    margin-top: 312px;
     gap: 4px;
     padding: 4px 8px;
-    border-radius: 20px;
+    border-radius: 6px;
   }
 
   .badge-action-btn {
@@ -889,7 +892,7 @@
     right: 6px;
     padding: 3px 8px;
     font-size: 0.65rem;
-    border-radius: 12px;
+    border-radius: 6px;
   }
 
   .hud-metrics {
