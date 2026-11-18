@@ -2,8 +2,8 @@ package com.example.ecommerce.service;
 
 import com.example.ecommerce.model.ContactInquiry;
 import com.example.ecommerce.model.Order;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    @Autowired(required = false)
+    private JavaMailSender mailSender;
 
     @Value("${spring.mail.username:hongsaoleang@gmail.com}")
     private String fromEmail;
@@ -27,7 +27,7 @@ public class EmailService {
     private String adminEmail;
 
     public boolean isConfigured() {
-        return mailPassword != null && !mailPassword.trim().isEmpty();
+        return mailSender != null && mailPassword != null && !mailPassword.trim().isEmpty();
     }
 
     @Async

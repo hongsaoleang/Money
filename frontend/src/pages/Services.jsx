@@ -77,7 +77,6 @@ const Services = () => {
 
   const handleInquirySubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
 
     let tgMsg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
     tgMsg += `I have a project inquiry for you:\n\n`;
@@ -86,25 +85,29 @@ const Services = () => {
     if (inquiry.phone) tgMsg += `📱 Phone: ${inquiry.phone}\n`;
     tgMsg += `🛠 Service Type: ${inquiry.serviceType}\n\n`;
     tgMsg += `📝 Project Details:\n${inquiry.message}\n\n`;
+    tgMsg += `------------------------------------\n`;
     tgMsg += `Looking forward to your reply. Thank you!`;
 
+    const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMsg)}`;
+    // Open Telegram immediately upon submission so browser never blocks it as an async popup
+    window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+
+    setSubmitting(true);
+    const inquiryPayload = { ...inquiry };
+    setInquiry({
+      name: '',
+      email: '',
+      phone: '',
+      serviceType: 'Custom Web Application Development',
+      message: '',
+    });
+
     try {
-      await api.post('/api/inquiries', inquiry);
+      await api.post('/api/inquiries', inquiryPayload);
     } catch (err) {
       console.warn('Inquiry auto-sync notice:', err);
     } finally {
       setSubmitting(false);
-      setInquiry({
-        name: '',
-        email: '',
-        phone: '',
-        serviceType: 'Custom Web Application Development',
-        message: '',
-      });
-
-      // ALWAYS open direct Telegram chat with Hong Saoleang (@hongsaoleang)
-      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMsg)}`;
-      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     }
   };
 

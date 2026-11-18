@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../api/client';
 import { useCart } from '../context/CartContext';
-import { Globe, Truck, ShieldCheck, ArrowLeft, ShoppingBag, CheckCircle2, Calendar, Clock, MapPin, Package } from 'lucide-react';
+import { Globe, ArrowLeft, ShoppingBag } from 'lucide-react';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -42,15 +42,6 @@ const ProductDetail = () => {
     );
   }
 
-  // Calculate estimated delivery date: 4 days from today
-  const estimatedDelivery = new Date();
-  estimatedDelivery.setDate(estimatedDelivery.getDate() + 4);
-  const deliveryDateString = estimatedDelivery.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -155,19 +146,6 @@ const ProductDetail = () => {
               </svg>
               Chat on Telegram
             </a>
-
-          {/* Platform Trust Highlights */}
-          <div className="trust-features-list">
-            <div className="trust-item">
-              <CheckCircle2 size={16} /> 30-Day Hassle-Free Returns
-            </div>
-            <div className="trust-item">
-              <CheckCircle2 size={16} /> Official 2-Year Hardware Warranty
-            </div>
-            <div className="trust-item">
-              <CheckCircle2 size={16} /> Encrypted Checkout & Secure Payments
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Globe, ShieldCheck, Truck, Calendar, MapPin, CheckCircle, PackageCheck, Box, Clock, ArrowRight, Sparkles, Code, Cpu, UserCheck, Pencil, X } from 'lucide-react';
+import { Sparkles, Code, Cpu, UserCheck, Pencil, X } from 'lucide-react';
 import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 import DeveloperPhotoPicker from '../components/DeveloperPhotoPicker';
 import api from '../api/client';
@@ -47,8 +47,6 @@ const DEVELOPERS = [
 
 const AboutUs = () => {
   const { isAdmin } = useAuth();
-  // Interactive delivery date preview
-  const [selectedOrderDayOffset, setSelectedOrderDayOffset] = useState(0);
   const [developers, setDevelopers] = useState(DEVELOPERS);
   const [selectedDevId, setSelectedDevId] = useState(DEVELOPERS[0].id);
   const [editingDeveloper, setEditingDeveloper] = useState(null);
@@ -131,202 +129,14 @@ const AboutUs = () => {
     }
   };
 
-  const getCalculatedDates = (offsetDays) => {
-    const orderDate = new Date();
-    orderDate.setDate(orderDate.getDate() + offsetDays);
-
-    const packDate = new Date(orderDate);
-    packDate.setDate(packDate.getDate() + 1);
-
-    const dispatchDate = new Date(orderDate);
-    dispatchDate.setDate(dispatchDate.getDate() + 2);
-
-    const deliveryDate = new Date(orderDate);
-    deliveryDate.setDate(deliveryDate.getDate() + 4);
-
-    return {
-      orderFormatted: orderDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-      packFormatted: packDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-      dispatchFormatted: dispatchDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-      deliveryFormatted: deliveryDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }),
-    };
-  };
-
-  const dates = getCalculatedDates(selectedOrderDayOffset);
 
   return (
     <div className="about-us-page">
       {/* Hero */}
       <section className="about-hero section-container">
-        <span className="section-badge">Company & Philosophy</span>
         <h1 className="hero-title">
-          Know where it’s made. <span className="gradient-text">Know when it arrives.</span>
+          About <span className="gradient-text">Jomnenh-KH</span>
         </h1>
-
-      </section>
-
-      {/* Sourcing & Provenance Detail Section */}
-      <section id="provenance" className="section-container">
-        <div className="section-header text-center">
-          <span className="section-badge">Product Provenance</span>
-          <h2 className="section-title">Made with care, sourced with clarity</h2>
-        </div>
-
-        <div className="provenance-cards-grid">
-          <div className="provenance-country-card">
-            <div className="country-flag-icon"><Globe size={28} /></div>
-            <h3>Germany</h3>
-            <span className="provenance-focus">Precision engineering</span>
-            <p>
-              Recycled aluminum components from audited German suppliers.
-            </p>
-          </div>
-
-          <div className="provenance-country-card">
-            <div className="country-flag-icon"><Globe size={28} /></div>
-            <h3>Japan</h3>
-            <span className="provenance-focus">Audio components</span>
-            <p>
-              Carefully tuned drivers and acoustic components from Japan.
-            </p>
-          </div>
-
-          <div className="provenance-country-card">
-            <div className="country-flag-icon"><Globe size={28} /></div>
-            <h3>Taiwan</h3>
-            <span className="provenance-focus">Electronics</span>
-            <p>
-              Semiconductors, controllers, and precision keyboard parts.
-            </p>
-          </div>
-
-          <div className="provenance-country-card">
-            <div className="country-flag-icon"><Globe size={28} /></div>
-            <h3>Switzerland</h3>
-            <span className="provenance-focus">Medical-Grade Micro-Sensors</span>
-            <p>
-              Smart ring sensors and biometric hardware crafted in Neuchâtel, featuring grade-5 titanium and hypoallergenic ceramic interiors.
-            </p>
-          </div>
-        </div>
-
-        {/* Quality Audit Checklist */}
-        <div className="audit-checklist-box">
-          <div className="checklist-col">
-            <div className="check-row">
-              <ShieldCheck size={20} className="text-emerald" />
-              <div>
-                <strong>Zero Conflict Minerals</strong>
-                <p>Suppliers verify responsible mineral sourcing.</p>
-              </div>
-            </div>
-            <div className="check-row">
-              <ShieldCheck size={20} className="text-emerald" />
-              <div>
-                <strong>Factory Audit Certification</strong>
-                <p>Factories are reviewed for quality and environmental standards.</p>
-              </div>
-            </div>
-          </div>
-          <div className="checklist-col">
-            <div className="check-row">
-              <ShieldCheck size={20} className="text-emerald" />
-              <div>
-                <strong>Third-Party Merchant Review</strong>
-                <p>Every partner product is reviewed before it goes live.</p>
-              </div>
-            </div>
-            <div className="check-row">
-              <ShieldCheck size={20} className="text-emerald" />
-              <div>
-                <strong>Full Provenance Ledger</strong>
-                <p>Product pages show origin details and key specifications.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Post-Purchase Order-to-Delivery Timeline */}
-      <section id="delivery" className="section-container delivery-timeline-section">
-        <div className="section-header text-center">
-          <span className="section-badge">Post-Order Logistics</span>
-          <h2 className="section-title">Your order, step by step</h2>
-          <p className="section-subtitle">
-            See each delivery stage and your estimated arrival date.
-          </p>
-        </div>
-
-        {/* Interactive Order Date Picker */}
-        <div className="interactive-delivery-tester">
-          <div className="tester-header">
-              <h4>When will you order?</h4>
-            <div className="date-selector-buttons">
-              <button
-                className={`date-pill ${selectedOrderDayOffset === 0 ? 'active' : ''}`}
-                onClick={() => setSelectedOrderDayOffset(0)}
-              >
-                Order Today
-              </button>
-              <button
-                className={`date-pill ${selectedOrderDayOffset === 1 ? 'active' : ''}`}
-                onClick={() => setSelectedOrderDayOffset(1)}
-              >
-                Order Tomorrow
-              </button>
-              <button
-                className={`date-pill ${selectedOrderDayOffset === 3 ? 'active' : ''}`}
-                onClick={() => setSelectedOrderDayOffset(3)}
-              >
-                Order in 3 Days
-              </button>
-            </div>
-          </div>
-
-          {/* Timeline Display */}
-          <div className="order-progress-stepper">
-            <div className="step-point completed">
-              <div className="point-icon"><Calendar size={20} /></div>
-              <span className="step-title">1. Order Placed</span>
-              <span className="step-date">{dates.orderFormatted}</span>
-              <p className="step-desc">Payment confirmed and order received.</p>
-            </div>
-
-            <div className="step-connector" />
-
-            <div className="step-point">
-              <div className="point-icon"><Box size={20} /></div>
-              <span className="step-title">2. Processing & QA</span>
-              <span className="step-date">{dates.packFormatted}</span>
-              <p className="step-desc">Your item is checked and packed.</p>
-            </div>
-
-            <div className="step-connector" />
-
-            <div className="step-point">
-              <div className="point-icon"><Truck size={20} /></div>
-              <span className="step-title">3. Express Dispatch</span>
-              <span className="step-date">{dates.dispatchFormatted}</span>
-              <p className="step-desc">Your package is dispatched with tracking.</p>
-            </div>
-
-            <div className="step-connector" />
-
-            <div className="step-point arrival">
-              <div className="point-icon"><PackageCheck size={20} /></div>
-              <span className="step-title">4. Doorstep Delivery</span>
-              <span className="step-date delivery-highlight">{dates.deliveryFormatted}</span>
-              <p className="step-desc">Delivered to your address.</p>
-            </div>
-          </div>
-
-          <div className="delivery-summary-banner">
-            <Clock size={20} className="text-indigo" />
-            <div>
-              Most orders arrive within <strong>4 days</strong>.
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Meet the Developers Who Built Jomnenh-KH */}

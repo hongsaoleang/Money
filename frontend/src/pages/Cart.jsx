@@ -40,6 +40,22 @@ const Cart = () => {
   const [submitting, setSubmitting] = useState(false);
   const [orderConfirmed, setOrderConfirmed] = useState(null);
 
+  // Validate cart items against live catalog to prune old deleted items
+  useEffect(() => {
+    api.get('/api/products')
+      .then((res) => {
+        const liveProducts = res.data || [];
+        const liveIds = new Set(liveProducts.map((p) => p.id));
+        const deadIds = cartItems
+          .filter((item) => !liveIds.has(item.product.id))
+          .map((item) => item.product.id);
+        if (deadIds.length > 0) {
+          removeItemsFromCart(deadIds);
+        }
+      })
+      .catch((err) => console.warn('Cart product validation notice:', err));
+  }, []);
+
   // Selected item IDs for checkout (default: all items selected)
   const [selectedIds, setSelectedIds] = useState(() => cartItems.map((item) => item.product.id));
 
@@ -79,42 +95,53 @@ const Cart = () => {
   );
   const selectedTotalQty = selectedItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  // Delivery calculation: 4 days after order date
-  const estimatedDelivery = new Date();
-  estimatedDelivery.setDate(estimatedDelivery.getDate() + 4);
-  const deliveryDateString = estimatedDelivery.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
   // Construct message for direct Telegram chat with Hong Saoleang (@hongsaoleang)
-  const buildTelegramMessage = (orderId = null) => {
+  const buildTelegramMessage = (order = null, fallbackItems = selectedItems, fallbackTotal = selectedTotalPrice, fallbackAddress = shippingAddress) => {
     const customerName = user?.fullName || 'Customer';
-    const customerEmail = user?.email || 'N/A';
-    const idText = orderId ? `#${orderId}` : '(Direct Order)';
+    const customerEmail = user?.email || '';
+    const orderId = order?.id;
+    const idText = orderId ? `#${orderId}` : '';
+    const destination = order?.shippingAddress || fallbackAddress || '';
+
+    // If order has items from backend response, use them; otherwise use fallback
+    const itemsList = order?.items && order.items.length > 0
+      ? order.items.map((it) => ({
+          name: it.product?.name || `Product #${it.product?.id}`,
+          quantity: it.quantity,
+          price: parseFloat(it.unitPrice || it.product?.price || 0),
+        }))
+      : fallbackItems.map((it) => ({
+          name: it.product.name,
+          quantity: it.quantity,
+          price: parseFloat(it.product.price || 0),
+        }));
+
+    const total = order?.totalAmount != null
+      ? parseFloat(order.totalAmount)
+      : fallbackTotal;
 
     let msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
     msg += `Here is my Order Summary:\n\n`;
-    msg += `📦 Order: ${idText}\n`;
+    if (idText) {
+      msg += `📦 Order: ${idText}\n`;
+    }
     if (customerName && customerName !== 'Customer') {
-      msg += `👤 Customer: ${customerName} (${customerEmail})\n`;
+      msg += `👤 Customer: ${customerName}${customerEmail ? ` (${customerEmail})` : ''}\n`;
     }
-    if (shippingAddress) {
-      msg += `📍 Destination: ${shippingAddress}\n\n`;
+    if (destination) {
+      msg += `📍 Destination: ${destination}\n\n`;
     }
-    msg += `🛒 Products Added (${selectedItems.length} items):\n`;
+    msg += `🛒 Products Added (${itemsList.length} item${itemsList.length > 1 ? 's' : ''}):\n`;
 
-    selectedItems.forEach((item, idx) => {
-      const itemSubtotal = (item.quantity * parseFloat(item.product.price)).toFixed(2);
-      msg += `  ${idx + 1}. ${item.product.name}\n`;
-      msg += `     • Qty: ${item.quantity} unit(s) @ $${parseFloat(item.product.price).toFixed(2)}\n`;
+    itemsList.forEach((it, idx) => {
+      const itemSubtotal = (it.quantity * it.price).toFixed(2);
+      msg += `  ${idx + 1}. ${it.name}\n`;
+      msg += `     • Qty: ${it.quantity} unit(s) @ $${it.price.toFixed(2)}\n`;
       msg += `     • Subtotal: $${itemSubtotal}\n`;
     });
 
-    msg += `\n💰 Total: $${selectedTotalPrice.toFixed(2)} USD\n`;
-    msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+    msg += `\n💰 Total: $${total.toFixed(2)} USD\n`;
+    msg += `------------------------------------\n`;
     msg += `Please confirm my order and let me know the payment details. Thank you!`;
 
     return msg;
@@ -127,12 +154,21 @@ const Cart = () => {
       return;
     }
 
+    const itemsSnapshot = [...selectedItems];
+    const totalSnapshot = selectedTotalPrice;
+    const addressSnapshot = shippingAddress;
+
+    // Build immediate Telegram message and open in new tab BEFORE async calls to prevent browser popup block
+    const immediateTgMessage = buildTelegramMessage(null, itemsSnapshot, totalSnapshot, addressSnapshot);
+    const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(immediateTgMessage)}`;
+    const tgWindow = window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+
     setSubmitting(true);
     let createdOrder = null;
     try {
       const orderPayload = {
-        shippingAddress,
-        items: selectedItems.map((item) => ({
+        shippingAddress: addressSnapshot,
+        items: itemsSnapshot.map((item) => ({
           productId: item.product.id,
           quantity: item.quantity,
         })),
@@ -142,6 +178,12 @@ const Cart = () => {
       const res = await api.post('/api/orders', orderPayload);
       createdOrder = res.data;
 
+      // Update opened Telegram tab with the official order ID
+      if (createdOrder && createdOrder.id && tgWindow && !tgWindow.closed) {
+        const finalTgMessage = buildTelegramMessage(createdOrder, itemsSnapshot, totalSnapshot, addressSnapshot);
+        tgWindow.location.href = `https://t.me/hongsaoleang?text=${encodeURIComponent(finalTgMessage)}`;
+      }
+
       // Remove only the ordered products from cart
       removeItemsFromCart(selectedIds);
       setOrderConfirmed(createdOrder);
@@ -149,10 +191,6 @@ const Cart = () => {
       console.warn('Backend order auto-sync notice:', err);
     } finally {
       setSubmitting(false);
-      // ALWAYS open Telegram directly to Hong Saoleang (@hongsaoleang) with the order summary!
-      const tgMessage = buildTelegramMessage(createdOrder ? createdOrder.id : null);
-      const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
-      window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -160,7 +198,7 @@ const Cart = () => {
   // CONFIRMATION SUCCESS VIEW
   // ==========================================
   if (orderConfirmed) {
-    const tgMessage = buildTelegramMessage(orderConfirmed.id);
+    const tgMessage = buildTelegramMessage(orderConfirmed);
     const telegramOwnerUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
 
     return (

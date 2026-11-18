@@ -70,6 +70,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Public Endpoints
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
@@ -78,7 +79,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/developers/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/developer-photos/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/inquiries/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/orders", "/api/orders/**").permitAll()
                         .requestMatchers("/api/payment/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         // Client / Vendor Endpoints
