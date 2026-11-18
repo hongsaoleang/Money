@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/client';
 import { 
-  Code, Smartphone, Server, Layers, CheckCircle2, 
-  ExternalLink, Send, Sparkles, Shield, Cpu, Zap, ArrowRight,
-  Database, Terminal, Check
+  Code, Smartphone, Server, CheckCircle2, 
+  ExternalLink, Send, ArrowRight
 } from 'lucide-react';
 
 const TelegramIcon = ({ size = 20, className = "" }) => (
@@ -111,54 +110,17 @@ const Services = () => {
 
   return (
     <div className="services-page">
-      {/* 1. HERO BANNER - PUNCHY & METRIC-DRIVEN */}
+      {/* 1. HERO BANNER */}
       <section className="services-hero section-container">
         <div className="services-hero-content text-center">
-          <div className="hero-badge-row">
-            <span className="section-badge">
-              <Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Engineering
-            </span>
-            <span className="hero-status-pill">
-              <span className="pulse-dot green" /> Taking new projects
-            </span>
-          </div>
-
           <h1 className="hero-title">
-            Software built <span className="gradient-text">to scale</span>
+            Software <span className="gradient-text">Services</span>
           </h1>
-
-
 
           <div className="hero-actions justify-center mb-8">
             <a href="#inquiry" className="btn-primary">
-              <Send size={15} /> Start a project
+              <Send size={15} /> Contact Us
             </a>
-            <a href="#portfolio" className="btn-secondary">
-              View our work <ArrowRight size={15} />
-            </a>
-          </div>
-
-          {/* Software Metrics Bar */}
-          <div className="hero-metrics-bar">
-            <div className="hero-metric-item">
-              <span className="metric-figure">50+</span>
-              <span className="metric-caption">Platforms Shipped</span>
-            </div>
-            <div className="metric-v-sep" />
-            <div className="hero-metric-item">
-              <span className="metric-figure">100%</span>
-              <span className="metric-caption">On-time delivery</span>
-            </div>
-            <div className="metric-v-sep" />
-            <div className="hero-metric-item">
-              <span className="metric-figure">99.9%</span>
-              <span className="metric-caption">Production SLA</span>
-            </div>
-            <div className="metric-v-sep" />
-            <div className="hero-metric-item">
-              <span className="metric-figure">0</span>
-              <span className="metric-caption">Security Breaches</span>
-            </div>
           </div>
         </div>
       </section>
@@ -266,52 +228,14 @@ const Services = () => {
         )}
       </section>
 
-      {/* 4. AGILE METHODOLOGY - COMPACT STEPPER */}
-      <section className="section-container process-section">
-        <div className="section-header text-center">
-          <span className="section-badge">Methodology</span>
-          <h2 className="section-title">Sprint Delivery Pipeline</h2>
-          <p className="section-subtitle">Clear steps, steady progress, reliable launches.</p>
-        </div>
-
-        <div className="process-timeline-compact">
-          <div className="process-step-compact">
-            <div className="step-num-badge">01</div>
-            <h4>System Architecture</h4>
-            <p>Plan the data, system, and APIs.</p>
-          </div>
-          <div className="process-step-compact">
-            <div className="step-num-badge">02</div>
-            <h4>Figma Prototyping</h4>
-            <p>Shape and test the user experience.</p>
-          </div>
-          <div className="process-step-compact">
-            <div className="step-num-badge">03</div>
-            <h4>Agile Sprints</h4>
-            <p>Ship updates with reviews and checks.</p>
-          </div>
-          <div className="process-step-compact">
-            <div className="step-num-badge">04</div>
-            <h4>Production Launch</h4>
-            <p>Launch with security and monitoring.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. INQUIRY FORM - CLEAN & STREAMLINED */}
+      {/* INQUIRY FORM */}
       <section id="inquiry" className="section-container inquiry-section">
         <div className="inquiry-box">
           <div className="inquiry-info">
-            <span className="section-badge">Get Started</span>
-            <h2>Let’s build your next product</h2>
+            <h2>Start a Project</h2>
             <p className="text-sm text-slate-300 mb-4">
-              Share your goals. We’ll review them and reply within one business day.
+              Send your project inquiry directly to Hong Saoleang on Telegram.
             </p>
-            <div className="inquiry-perks">
-              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Free project estimate</div>
-              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Your ideas stay confidential</div>
-              <div className="perk-item"><CheckCircle2 size={16} className="text-emerald" /> Reply within one business day</div>
-            </div>
           </div>
 
           <form onSubmit={handleInquirySubmit} className="inquiry-form">

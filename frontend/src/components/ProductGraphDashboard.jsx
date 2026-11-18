@@ -234,16 +234,8 @@ const ProductGraphDashboard = ({ products = [] }) => {
       {/* Dashboard Header */}
       <div className="dashboard-header-row">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="section-badge">
-              <BarChart3 size={13} className="text-indigo-400" /> Dynamic Sales &amp; Profit Intelligence
-            </span>
-            <span className="live-telemetry-badge">
-              <span className="pulse-dot green" /> Live Store Data (Starts from $0)
-            </span>
-          </div>
           <h2 className="dashboard-main-title">
-            Product <span className="gradient-text">Sales &amp; Profit Analytics</span>
+            Sales &amp; <span className="gradient-text">Profit Analytics</span>
           </h2>
         </div>
 
@@ -256,7 +248,7 @@ const ProductGraphDashboard = ({ products = [] }) => {
               className="product-select-dropdown"
             >
               <option value="all">
-                All Hardware Products (Combined Store Sales)
+                All Products
               </option>
               {products.map(p => (
                 <option key={p.id} value={p.id}>
@@ -277,16 +269,17 @@ const ProductGraphDashboard = ({ products = [] }) => {
             <DollarSign size={18} />
           </div>
           <div className="kpi-content">
-            <span className="kpi-lbl">Money from Selling</span>
+            <span className="kpi-lbl">Revenue</span>
             <div className="flex items-baseline gap-2">
               <span className="kpi-val">
                 ${salesSummary.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
-              <span className="kpi-trend positive">
-                <ArrowUpRight size={13} /> {trendPercent}
-              </span>
+              {salesSummary.revenue > 0 && (
+                <span className="kpi-trend positive">
+                  <ArrowUpRight size={13} /> {trendPercent}
+                </span>
+              )}
             </div>
-            <span className="kpi-sub">Total gross sales revenue</span>
           </div>
         </div>
 
@@ -296,14 +289,12 @@ const ProductGraphDashboard = ({ products = [] }) => {
             <TrendingUp size={18} />
           </div>
           <div className="kpi-content">
-            <span className="kpi-lbl">Profit from Selling</span>
+            <span className="kpi-lbl">Profit</span>
             <div className="flex items-baseline gap-2">
               <span className="kpi-val text-emerald">
                 +${salesSummary.profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
-              <span className="kpi-status in-stock">38% Net Margin</span>
             </div>
-            <span className="kpi-sub">Net profit earned from your orders</span>
           </div>
         </div>
 
@@ -313,16 +304,12 @@ const ProductGraphDashboard = ({ products = [] }) => {
             <Tag size={18} />
           </div>
           <div className="kpi-content">
-            <span className="kpi-lbl">Hardware Price</span>
+            <span className="kpi-lbl">Price</span>
             <div className="flex items-baseline gap-2">
               <span className="kpi-val">
                 ${salesSummary.price.toFixed(2)}
               </span>
-              <span className="kpi-status" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#a5b4fc', fontSize: '0.65rem', padding: '1px 6px', borderRadius: '3px' }}>
-                Unit Value
-              </span>
             </div>
-            <span className="kpi-sub">{salesSummary.isAll ? 'Average item catalog price' : 'Direct factory catalog price'}</span>
           </div>
         </div>
 
@@ -338,7 +325,6 @@ const ProductGraphDashboard = ({ products = [] }) => {
                 {salesSummary.unitsSold} Sold · {salesSummary.stock} Left
               </span>
             </div>
-            <span className="kpi-sub">Increases only with verified orders</span>
           </div>
         </div>
       </div>
@@ -534,30 +520,8 @@ const ProductGraphDashboard = ({ products = [] }) => {
           <div className="flex items-center gap-2">
             <span className="summary-dot" style={{ background: activeColorTheme.stroke }} />
             <span className="summary-text">
-              Active Curve: <strong>{salesSummary.name}</strong> ·{' '}
-              {salesSummary.revenue === 0 ? (
-                'Starts at $0.00 — Place an order to see money and profit rise!'
-              ) : (
-                <>
-                  {activeMetric === 'revenue' && 'Showing Money & Sales Trajectory'}
-                  {activeMetric === 'profit' && 'Showing Net Profit Generated from Selling'}
-                  {activeMetric === 'price' && 'Showing Hardware Unit Price'}
-                  {activeMetric === 'stock' && 'Showing Warehouse Inventory & Fulfillment'}
-                </>
-              )}
+              <strong>{salesSummary.name}</strong>
             </span>
-          </div>
-
-          <div className="summary-specs-chips">
-            <span className="chip-spec">38% Profit Margin</span>
-            {currentSpecs ? (
-              <>
-                <span className="chip-spec">{currentSpecs.modelId}</span>
-                <span className="chip-spec">{currentSpecs.origin}</span>
-              </>
-            ) : (
-              <span className="chip-spec">Total Store Portfolio</span>
-            )}
           </div>
         </div>
       </div>

@@ -70,40 +70,15 @@ const ProductDetail = () => {
       </Link>
 
       <div className="product-detail-layout">
-        {/* Left: Gallery & Provenance Badges */}
+        {/* Left: Product Image */}
         <div className="product-media-column">
           <div className="main-image-container">
             <img src={product.imageUrl} alt={product.name} className="detail-image" />
-            <span className="origin-badge large">
-              <Globe size={16} /> Manufactured in: {product.originCountry || 'Verified Global Sourcing'}
-            </span>
-          </div>
-
-          {/* Sourcing & Provenance Section */}
-          <div className="provenance-detail-card">
-            <div className="provenance-header">
-              <ShieldCheck size={22} className="text-emerald" />
-              <div>
-                <h3>Authentic Origin & Traceability</h3>
-                <p>Where this product is made and sourced</p>
-              </div>
-            </div>
-            <div className="provenance-body">
-              <div className="provenance-item">
-                <MapPin size={18} className="provenance-icon" />
-                <div>
-                  <strong>Country of Manufacture:</strong>
-                  <p>{product.originCountry || 'Audited International Facility'}</p>
-                </div>
-              </div>
-              <div className="provenance-item">
-                <Package size={18} className="provenance-icon" />
-                <div>
-                  <strong>Materials & Craftsmanship:</strong>
-                  <p>{product.provenanceDetails || 'Crafted using certified zero-conflict alloys, sustainable packaging, and passed strict ISO quality verification.'}</p>
-                </div>
-              </div>
-            </div>
+            {product.originCountry && (
+              <span className="origin-badge large">
+                <Globe size={16} /> {product.originCountry}
+              </span>
+            )}
           </div>
         </div>
 
@@ -126,22 +101,6 @@ const ProductDetail = () => {
           <div className="detail-description">
             <h3>Overview</h3>
             <p>{product.description}</p>
-          </div>
-
-          {/* Delivery Date Tracker Information */}
-          <div className="delivery-estimator-card">
-            <div className="delivery-header">
-              <Truck size={20} className="text-indigo" />
-              <div>
-                <h4>Expected Delivery Timeline</h4>
-                <p>If you order today, your estimated delivery date is:</p>
-              </div>
-            </div>
-            <div className="delivery-date-highlight">
-              <Calendar size={18} />
-              <span>{deliveryDateString}</span>
-              <span className="delivery-subtext">(Includes priority dispatch & express courier)</span>
-            </div>
           </div>
 
           {/* Purchase Actions */}

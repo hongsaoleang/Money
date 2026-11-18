@@ -195,27 +195,6 @@ const Cart = () => {
             </a>
           </div>
 
-          {/* Delivery Promise */}
-          <div className="post-order-delivery-box">
-            <div className="delivery-icon-col">
-              <Calendar size={28} className="text-indigo" />
-            </div>
-            <div>
-              <h3>Estimated Arrival Date:</h3>
-              <p className="delivery-big-date">
-                {new Date(orderConfirmed.estimatedDeliveryDate).toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric',
-                })}
-              </p>
-              <p className="delivery-subtext">
-                Your order is currently being packed. Live status and tracking updates are available in your account settings.
-              </p>
-            </div>
-          </div>
-
           {/* Ordered Products Breakdown */}
           {orderConfirmed.items && orderConfirmed.items.length > 0 && (
             <div className="order-items-preview-box" style={{ marginTop: '20px', textAlign: 'left' }}>
@@ -305,10 +284,7 @@ const Cart = () => {
     <div className="cart-page section-container">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="page-title" style={{ margin: 0 }}>Review Shopping Cart</h1>
-          <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', marginTop: '4px' }}>
-            Select the specific products you want to checkout or send via Telegram.
-          </p>
+          <h1 className="page-title" style={{ margin: 0 }}>Shopping Cart</h1>
         </div>
         <div className="cart-select-count-badge">
           {selectedItems.length} of {cartItems.length} product(s) selected

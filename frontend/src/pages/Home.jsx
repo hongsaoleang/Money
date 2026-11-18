@@ -4,9 +4,8 @@ import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { 
-  ArrowRight, Sparkles, Globe,
-  ShoppingBag, Check, Package, BarChart3, Filter,
-  ShieldCheck, Truck, Code, Users, ChevronRight, Zap
+  ArrowRight, Globe,
+  ShoppingBag, Check, Package, Code
 } from 'lucide-react';
 import ProductGraphDashboard from '../components/ProductGraphDashboard';
 import { getProductSpecs } from '../utils/productSpecs';
@@ -70,52 +69,17 @@ const Home = () => {
       {/* 1. HERO SECTION */}
       <section className="home-hero-section section-container">
         <div className="hero-content-wrap text-center">
-          <div className="hero-badge-row">
-            <span className="section-badge">
-              <Sparkles size={13} className="text-amber-400" /> Jomnenh-KH Platform
-            </span>
-            <span className="hero-status-pill">
-              <span className="pulse-dot green" /> System Operational
-            </span>
-          </div>
-
           <h1 className="hero-main-title">
-            Precision Hardware &amp; <span className="gradient-text">Bespoke Software Systems</span>
+            Hardware &amp; <span className="gradient-text">Software Services</span>
           </h1>
 
           <div className="hero-actions-row">
             <Link to="/products" className="btn-primary hero-btn">
-              Browse Hardware Catalog <ArrowRight size={16} />
+              Browse Products <ArrowRight size={16} />
             </Link>
             <Link to="/services" className="btn-secondary hero-btn">
-              Custom Software Services <Code size={16} />
+              Services <Code size={16} />
             </Link>
-            <Link to="/about-us" className="btn-outline hero-btn">
-              Meet Our Engineers <Users size={16} />
-            </Link>
-          </div>
-
-          {/* Quick Metrics & SLA Bar */}
-          <div className="hero-metrics-bar">
-            <div className="hero-metric-item">
-              <span className="metric-figure">100%</span>
-              <span className="metric-caption">Audited Provenance</span>
-            </div>
-            <div className="metric-v-sep" />
-            <div className="hero-metric-item">
-              <span className="metric-figure">50+</span>
-              <span className="metric-caption">Platforms Shipped</span>
-            </div>
-            <div className="metric-v-sep" />
-            <div className="hero-metric-item">
-              <span className="metric-figure">99.9%</span>
-              <span className="metric-caption">Production SLA</span>
-            </div>
-            <div className="metric-v-sep" />
-            <div className="hero-metric-item">
-              <span className="metric-figure">&lt; 4-Day</span>
-              <span className="metric-caption">Express Delivery</span>
-            </div>
           </div>
         </div>
       </section>
@@ -129,16 +93,9 @@ const Home = () => {
       <section className="top-featured-section section-container">
         <div className="top-featured-header">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="section-badge"><Package size={13} className="text-indigo-400" /> Curated Store</span>
-              <span className="featured-live-beacon"><span className="pulse-dot" /> In Stock &amp; Ready</span>
-            </div>
             <h2 className="top-featured-title">
-              Available <span className="gradient-text">Hardware</span> Products
+              Available <span className="gradient-text">Products</span>
             </h2>
-            <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', marginTop: '4px' }}>
-              Select any product card below to contact <strong>Hong Saoleang (@hongsaoleang)</strong> directly on Telegram.
-            </p>
           </div>
 
           <Link to="/products" className="view-all-pill">
@@ -249,43 +206,6 @@ const Home = () => {
         )}
       </section>
 
-      {/* 4. PLATFORM VALUE PILLARS */}
-      <section className="section-container home-pillars-section">
-        <div className="pillars-grid">
-          <div className="pillar-card">
-            <div className="pillar-icon-box">
-              <ShieldCheck size={24} className="text-emerald" />
-            </div>
-            <h3>100% Audited Sourcing</h3>
-            <p>Every product originates from verified ethical factories in Germany, Japan, Taiwan, and Switzerland with zero conflict minerals.</p>
-            <Link to="/about-us" className="pillar-link">
-              Read Provenance Charter <ChevronRight size={14} />
-            </Link>
-          </div>
-
-          <div className="pillar-card">
-            <div className="pillar-icon-box">
-              <Truck size={24} className="text-indigo" />
-            </div>
-            <h3>Guaranteed 4-Day Delivery</h3>
-            <p>Direct express courier routing with air waybill tracking and signature receipt guaranteed for every customer.</p>
-            <Link to="/about-us#delivery" className="pillar-link">
-              Calculate Delivery Date <ChevronRight size={14} />
-            </Link>
-          </div>
-
-          <div className="pillar-card">
-            <div className="pillar-icon-box">
-              <Code size={24} className="text-cyan" />
-            </div>
-            <h3>Engineering Division</h3>
-            <p>Need custom enterprise software? Our team designs and deploys scalable Spring Boot backends and React web apps.</p>
-            <Link to="/services" className="pillar-link">
-              Explore Shipped Work <ChevronRight size={14} />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Floating Telegram Selection Bar (appears when any card is selected) */}
       <ProductTelegramSelectionBar

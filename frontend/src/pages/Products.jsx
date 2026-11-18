@@ -89,11 +89,7 @@ const Products = () => {
       {/* Header & Search */}
       <div className="products-page-header">
         <div>
-          <span className="section-badge"><Sparkles size={13} className="text-amber-400" /> Curated Store</span>
-          <h1 className="page-title">Hardware Catalog</h1>
-          <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', marginTop: '4px' }}>
-            Click on any product card to select it and contact <strong>Hong Saoleang (@hongsaoleang)</strong> directly on Telegram.
-          </p>
+          <h1 className="page-title">Products</h1>
         </div>
 
         <div className="catalog-actions-row">
