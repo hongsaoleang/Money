@@ -26,6 +26,7 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final TelegramBotService telegramBotService;
 
     @Transactional
     public Order placeOrder(CreateOrderRequest request, String userEmail) {
@@ -75,6 +76,10 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
         try {
             emailService.sendOrderConfirmation(savedOrder);
+        } catch (Exception ignored) {}
+
+        try {
+            telegramBotService.sendOrderNotification(savedOrder);
         } catch (Exception ignored) {}
 
         return savedOrder;

@@ -84,7 +84,7 @@ export const calculateDirection = (dx, dy) => {
 
 const InteractiveLanyardBadge = ({
   initialName = 'Hong Saoleang',
-  initialRole = 'Founder & Full-Stack Architect',
+  initialRole = 'Full-Stack Architect',
   initialAvatar = '/JomnenhKH.jpg',
   initialTier = 0,
   stageHeight = 620,
@@ -764,7 +764,7 @@ const InteractiveLanyardBadge = ({
           title="Switch Pass Tier & Colorway"
         >
           <Layers size={13} />
-          <span>Theme {tier + 1}</span>
+          <span>Theme {tierIndex + 1}</span>
         </button>
       </div>
     </div>

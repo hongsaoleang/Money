@@ -9,19 +9,19 @@ export const PRESET_DATA_PHOTOS = [
   {
     id: 'jomnenh',
     name: 'Hong Saoleang',
-    tag: 'Founder & Lead',
+    tag: 'Lead Architect',
     src: '/JomnenhKH.jpg',
   },
   {
     id: 'alex',
     name: 'Alex Rivera',
-    tag: 'Frontend Lead',
+    tag: 'UI Engineer',
     src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'devon',
     name: 'Devon Vance',
-    tag: 'Database & Cloud',
+    tag: 'Cloud Infra',
     src: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80',
   },
   {
