@@ -13,7 +13,7 @@ import './InteractiveLanyardBadge.css';
 
 const TIERS = [
   {
-    id: 'tier-1',
+    id: 'staff',
     name: 'Theme 1',
     clearance: 'ROOT // LEVEL-0',
     dept: 'Executive & Systems Architecture',
@@ -24,7 +24,7 @@ const TIERS = [
     strapText: 'JOMNENH-KH // ARCHITECT // HONG SAOLEANG // ROOT CLEARANCE',
   },
   {
-    id: 'tier-2',
+    id: 'vip',
     name: 'Theme 2',
     clearance: 'CLEARANCE LV.5',
     dept: 'UI & Ergonomic Systems',
@@ -35,7 +35,7 @@ const TIERS = [
     strapText: 'JOMNENH-KH // UI SYSTEMS // ALEX RIVERA // REACT & VITE',
   },
   {
-    id: 'tier-3',
+    id: 'stealth',
     name: 'Theme 3',
     clearance: 'SPECOPS TIER-1',
     dept: 'Cloud Infrastructure',
