@@ -24,7 +24,8 @@ public class OrderController {
             @Valid @RequestBody CreateOrderRequest request,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(orderService.placeOrder(request, userDetails.getUsername()));
+        String email = (userDetails != null) ? userDetails.getUsername() : null;
+        return ResponseEntity.ok(orderService.placeOrder(request, email));
     }
 
     @GetMapping("/my")
