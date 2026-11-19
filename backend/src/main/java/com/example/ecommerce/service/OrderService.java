@@ -31,23 +31,11 @@ public class OrderService {
 
     @Transactional
     public Order placeOrder(CreateOrderRequest request, String userEmail) {
-        User user = null;
-        if (userEmail != null && !userEmail.isBlank()) {
-            user = userRepository.findByEmail(userEmail).orElse(null);
+        if (userEmail == null || userEmail.isBlank()) {
+            throw new IllegalArgumentException("Authentication required: order cannot be placed without a registered user account.");
         }
-        if (user == null) {
-            user = userRepository.findByEmail("hongsaoleang@gmail.com")
-                    .orElseGet(() -> userRepository.findAll().stream().findFirst().orElse(null));
-        }
-        if (user == null) {
-            user = userRepository.save(User.builder()
-                    .email("hongsaoleang@gmail.com")
-                    .fullName("Hong Saoleang")
-                    .password("$2a$10$wQ6c1YtGzXzL5yqW4rJ0.uA9Nl9.n0kL8a4c8g2j1b0v6d4f8h0j")
-                    .role(Role.ROLE_ADMIN)
-                    .address("Phnom Penh, Cambodia")
-                    .build());
-        }
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Registered user account not found: " + userEmail));
 
         BigDecimal total = BigDecimal.ZERO;
         List<OrderItem> items = new ArrayList<>();
