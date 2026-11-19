@@ -282,17 +282,10 @@ const ProductManage = () => {
         <span className="section-badge" style={{ borderColor: 'rgba(239, 68, 68, 0.4)', color: '#ef4444' }}>Security Guard</span>
         <h1 style={{ fontSize: '1.9rem', fontWeight: 800, margin: '10px 0', letterSpacing: '-0.5px' }}>Administrator Access Required</h1>
         <p style={{ color: 'var(--text-muted)', maxWidth: '460px', margin: '0 auto 28px', lineHeight: 1.6, fontSize: '0.95rem' }}>
-          The product inventory management hub is reserved exclusively for system administrators. Sign in with administrator credentials or activate instant access below.
+          The product inventory management hub is reserved exclusively for system administrators. Please sign in with administrator credentials.
         </p>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <button 
-            onClick={() => loginWithGoogle('hongsaoleang@gmail.com', 'Hong Saoleang')} 
-            className="btn-primary" 
-            style={{ padding: '10px 22px' }}
-          >
-            <ShieldCheck size={16} /> Instant Admin Access (Hong Saoleang)
-          </button>
-          <Link to="/login" className="btn-secondary" style={{ padding: '10px 22px' }}>Sign In</Link>
+          <Link to="/login" className="btn-primary" style={{ padding: '10px 22px' }}>Sign In</Link>
           <Link to="/products" className="btn-outline" style={{ padding: '10px 22px' }}>Return to Catalog</Link>
         </div>
       </div>
