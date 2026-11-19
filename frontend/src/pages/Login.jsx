@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Key, Mail, AlertCircle, Info } from 'lucide-react';
+import { Key, Mail, AlertCircle, Info } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,12 +28,6 @@ const Login = () => {
   return (
     <div className="auth-page section-container">
       <div className="auth-card">
-        <div className="auth-header">
-          <div className="auth-icon-badge"><LogIn size={24} /></div>
-          <h1>Welcome Back</h1>
-          <p>Sign in to your account</p>
-        </div>
-
         {infoMessage && !error && (
           <div className="alert-info" style={{
             background: 'rgba(99, 102, 241, 0.12)',
@@ -69,7 +63,7 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@company.com"
+                placeholder="name@gmail.com"
                 autoComplete="email"
               />
             </div>
