@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../api/client';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { Globe, ArrowLeft, ShoppingBag } from 'lucide-react';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { addToCart } = useCart();
+  const { user } = useAuth();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,12 +47,30 @@ const ProductDetail = () => {
 
 
   const handleAddToCart = () => {
+    if (!user) {
+      navigate('/login', {
+        state: {
+          from: location,
+          message: 'Please sign in to add items to your cart.',
+        },
+      });
+      return;
+    }
     addToCart(product, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 2500);
   };
 
   const handleBuyNow = () => {
+    if (!user) {
+      navigate('/login', {
+        state: {
+          from: location,
+          message: 'Please sign in to add items to your cart and proceed to checkout.',
+        },
+      });
+      return;
+    }
     addToCart(product, quantity);
     navigate('/cart');
   };

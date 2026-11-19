@@ -197,6 +197,23 @@ const Cart = () => {
   // ==========================================
   // CONFIRMATION SUCCESS VIEW
   // ==========================================
+  if (!user) {
+    return (
+      <div className="section-container text-center" style={{ padding: '80px 20px', minHeight: '50vh' }}>
+        <div className="settings-empty-orders-card max-w-md mx-auto">
+          <div className="empty-orders-icon-wrap" style={{ margin: '0 auto 16px' }}>
+            <ShoppingBag size={38} className="text-indigo-400" />
+          </div>
+          <h3>Authentication Required</h3>
+          <p>Please sign in to access your shopping cart and place orders.</p>
+          <Link to="/login" state={{ message: 'Please sign in to access your shopping cart.' }} className="btn-primary mt-4">
+            Sign In to Your Account
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (orderConfirmed) {
     const tgMessage = buildTelegramMessage(orderConfirmed);
     const telegramOwnerUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Key, Mail, Shield, User, Briefcase, AlertCircle } from 'lucide-react';
+import { LogIn, Key, Mail, Shield, User, Briefcase, AlertCircle, Info } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,13 +9,17 @@ const Login = () => {
   const [error, setError] = useState(null);
   const { login, loginWithGoogle, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const destination = location.state?.from?.pathname || '/';
+  const infoMessage = location.state?.message;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     const res = await login(email, password);
     if (res.success) {
-      navigate('/');
+      navigate(destination, { replace: true });
     } else {
       setError(res.error);
     }
@@ -32,8 +36,27 @@ const Login = () => {
         <div className="auth-header">
           <div className="auth-icon-badge"><LogIn size={24} /></div>
           <h1>Welcome Back</h1>
-          <p>Sign in to continue</p>
+          <p>Sign in to your account</p>
         </div>
+
+        {infoMessage && !error && (
+          <div className="alert-info" style={{
+            background: 'rgba(99, 102, 241, 0.12)',
+            border: '1px solid rgba(99, 102, 241, 0.35)',
+            borderRadius: '10px',
+            padding: '12px 14px',
+            marginBottom: '18px',
+            color: '#a5b4fc',
+            fontSize: '0.9rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            lineHeight: 1.4
+          }}>
+            <Info size={18} style={{ flexShrink: 0, color: '#818cf8' }} />
+            <span>{infoMessage}</span>
+          </div>
+        )}
 
         {error && (
           <div className="alert-error">
@@ -86,7 +109,7 @@ const Login = () => {
             setError(null);
             const res = await loginWithGoogle('hongsaoleang@gmail.com', 'Hong Saoleang');
             if (res.success) {
-              navigate('/');
+              navigate(destination, { replace: true });
             } else {
               setError(res.error);
             }
@@ -146,7 +169,7 @@ const Login = () => {
         </div>
 
         <div className="auth-footer">
-          Don't have an account? <Link to="/register">Create one</Link>
+          Don't have an account? <Link to="/register" state={location.state}>Create one</Link>
         </div>
       </div>
     </div>

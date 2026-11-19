@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -20,8 +20,10 @@ const TelegramIcon = ({ size = 16 }) => (
 );
 
 const Products = () => {
-  const { isAdmin } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -31,6 +33,15 @@ const Products = () => {
   const [selectedCardIds, setSelectedCardIds] = useState([]);
 
   const handleQuickAdd = (product) => {
+    if (!user) {
+      navigate('/login', {
+        state: {
+          from: location,
+          message: 'Please sign in to add items to your cart.',
+        },
+      });
+      return;
+    }
     addToCart(product, 1);
     setAddedId(product.id);
     setTimeout(() => setAddedId(null), 1800);
@@ -256,6 +267,15 @@ const Products = () => {
         selectedProducts={selectedProducts}
         onClear={() => setSelectedCardIds([])}
         onAddToCart={(items) => {
+          if (!user) {
+            navigate('/login', {
+              state: {
+                from: location,
+                message: 'Please sign in to add items to your cart.',
+              },
+            });
+            return;
+          }
           items.forEach((p) => addToCart(p, 1));
           setSelectedCardIds([]);
         }}

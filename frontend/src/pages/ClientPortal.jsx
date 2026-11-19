@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { PlusCircle, Package, Clock, CheckCircle2, XCircle, Globe, ShieldAlert, ArrowRight, FolderOpen, FileImage } from 'lucide-react';
@@ -98,6 +99,20 @@ const ClientPortal = () => {
       setSubmitting(false);
     }
   };
+
+  if (!user) {
+    return (
+      <div className="section-container text-center" style={{ padding: '80px 20px', minHeight: '50vh' }}>
+        <h2>Authentication Required</h2>
+        <p style={{ marginTop: '8px', color: 'var(--text-dim)' }}>
+          Please sign in with a verified merchant or client account to deploy products.
+        </p>
+        <Link to="/login" state={{ message: 'Please sign in to access the merchant portal.' }} className="btn-primary" style={{ marginTop: '16px', display: 'inline-block' }}>
+          Sign In
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="client-portal-page section-container">
