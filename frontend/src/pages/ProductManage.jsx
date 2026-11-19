@@ -34,7 +34,7 @@ const PRESET_IMAGES = [
 ];
 
 const ProductManage = () => {
-  const { isAdmin, loginWithGoogle } = useAuth();
+  const { isAdmin } = useAuth();
   const location = useLocation();
 
   const [products, setProducts] = useState([]);
