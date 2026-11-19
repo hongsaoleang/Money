@@ -21,6 +21,7 @@ public class CustomUserDetails implements UserDetails {
     private final String fullName;
     private final Role role;
     private final boolean active;
+    private final String avatar;
 
     public static CustomUserDetails build(User user) {
         return new CustomUserDetails(
@@ -29,7 +30,8 @@ public class CustomUserDetails implements UserDetails {
                 user.getPassword(),
                 user.getFullName(),
                 user.getRole(),
-                user.isActive()
+                user.isActive(),
+                user.getAvatar()
         );
     }
 

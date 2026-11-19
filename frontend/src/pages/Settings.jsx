@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
@@ -6,15 +6,20 @@ import {
   User, Package, Calendar, MapPin, Phone, Mail, Shield, Clock, 
   CheckCircle, ArrowRight, ShoppingBag, ShieldCheck, Truck, LogOut,
   Sparkles, ExternalLink, Settings as SettingsIcon, AlertCircle, Edit3, Save, Check,
-  Users, UserCheck, UserX, Search, Trash2
+  Users, UserCheck, UserX, Search, Trash2, Plus, Camera, Upload
 } from 'lucide-react';
 
 const Settings = () => {
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout, isAdmin, updateAvatar } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [activeTab, setActiveTab] = useState('orders'); // 'orders', 'profile', 'security', 'users'
+
+  // Avatar upload state
+  const avatarFileRef = useRef(null);
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const [avatarNotice, setAvatarNotice] = useState('');
 
   // Registered users state for admin view
   const [registeredUsers, setRegisteredUsers] = useState([]);
@@ -27,6 +32,40 @@ const Settings = () => {
   const [address, setAddress] = useState(user?.address || '100 Innovation Way, Suite 400, San Francisco, CA 94105');
   const [phone, setPhone] = useState(user?.phone || '+855 12 019 2834');
   const [savedNotice, setSavedNotice] = useState(false);
+
+  const handleAvatarFileSelect = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Please select an image smaller than 5 MB.');
+      return;
+    }
+    setAvatarUploading(true);
+    try {
+      const res = await updateAvatar(file);
+      if (res?.success) {
+        setAvatarNotice('Profile photo updated successfully!');
+        setTimeout(() => setAvatarNotice(''), 3000);
+      }
+    } catch {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        await updateAvatar(reader.result);
+        setAvatarNotice('Profile photo updated!');
+        setTimeout(() => setAvatarNotice(''), 3000);
+      };
+      reader.readAsDataURL(file);
+    } finally {
+      setAvatarUploading(false);
+      if (avatarFileRef.current) avatarFileRef.current.value = '';
+    }
+  };
+
+  const handleRemoveAvatar = async () => {
+    await updateAvatar(null);
+    setAvatarNotice('Profile photo removed.');
+    setTimeout(() => setAvatarNotice(''), 2500);
+  };
 
   const handleSaveAddress = (e) => {
     e.preventDefault();
@@ -145,7 +184,40 @@ const Settings = () => {
       <div className="settings-hero-card">
         <div className="settings-hero-main">
           <div className="settings-avatar-wrapper">
-            <img src="/JomnenhKH.jpg" alt={user.fullName} className="settings-avatar-img" />
+            <input
+              type="file"
+              ref={avatarFileRef}
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleAvatarFileSelect}
+            />
+            {user?.avatar ? (
+              <div 
+                className="settings-avatar-has-img" 
+                onClick={() => avatarFileRef.current?.click()}
+                title="Click to change your profile photo"
+              >
+                <img src={user.avatar} alt={user.fullName} className="settings-avatar-img" />
+                <div className="avatar-hover-overlay">
+                  <Camera size={14} />
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => avatarFileRef.current?.click()}
+                className="settings-avatar-empty-btn"
+                title="Click to add profile photo (+)"
+                aria-label="Add profile photo"
+                disabled={avatarUploading}
+              >
+                {avatarUploading ? (
+                  <span style={{ fontSize: '0.65rem', color: '#818cf8' }}>...</span>
+                ) : (
+                  <Plus size={22} className="avatar-plus-icon" />
+                )}
+              </button>
+            )}
             <span className="avatar-status-dot" title="Active Enterprise Session" />
           </div>
           <div className="settings-hero-info">
@@ -385,6 +457,76 @@ const Settings = () => {
       {activeTab === 'profile' && (
         <div className="settings-tab-pane">
           <div className="settings-cards-grid">
+            {/* Profile Avatar Card */}
+            <div className="settings-panel-card">
+              <div className="panel-card-header">
+                <div className="flex items-center gap-2">
+                  <Camera size={18} className="text-indigo-400" />
+                  <h3>Profile Photo</h3>
+                </div>
+                <span className="panel-card-tag">{user?.avatar ? 'Custom Photo' : 'No Photo (Default)'}</span>
+              </div>
+
+              <div className="panel-card-body">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                  <div style={{ width: '64px', height: '64px', position: 'relative', flexShrink: 0 }}>
+                    {user?.avatar ? (
+                      <div 
+                        className="settings-avatar-has-img" 
+                        onClick={() => avatarFileRef.current?.click()}
+                        style={{ width: '64px', height: '64px', borderRadius: '12px' }}
+                      >
+                        <img src={user.avatar} alt={user.fullName} className="settings-avatar-img" />
+                        <div className="avatar-hover-overlay">
+                          <Camera size={18} />
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => avatarFileRef.current?.click()}
+                        className="settings-avatar-empty-btn"
+                        style={{ width: '64px', height: '64px', borderRadius: '12px' }}
+                        title="Click to add profile photo (+)"
+                      >
+                        <Plus size={24} className="avatar-plus-icon" />
+                      </button>
+                    )}
+                  </div>
+                  <div style={{ flex: 1, minWidth: '180px' }}>
+                    <p style={{ margin: '0 0 8px 0', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                      {user?.avatar ? 'Your custom profile photo is active.' : 'No photo uploaded. Click the plus (+) icon to upload your personal picture.'}
+                    </p>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button
+                        type="button"
+                        onClick={() => avatarFileRef.current?.click()}
+                        className="btn-primary"
+                        style={{ padding: '6px 12px', fontSize: '0.76rem', borderRadius: '6px' }}
+                      >
+                        <Upload size={13} /> {user?.avatar ? 'Change Photo' : 'Add Photo (+)'}
+                      </button>
+                      {user?.avatar && (
+                        <button
+                          type="button"
+                          onClick={handleRemoveAvatar}
+                          className="btn-outline"
+                          style={{ padding: '6px 12px', fontSize: '0.76rem', borderRadius: '6px', color: '#f87171', borderColor: 'rgba(239, 68, 68, 0.3)' }}
+                        >
+                          <Trash2 size={13} /> Remove
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                {avatarNotice && (
+                  <div style={{ marginTop: '10px', fontSize: '0.75rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <Check size={13} /> {avatarNotice}
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Identity Card */}
             <div className="settings-panel-card">
               <div className="panel-card-header">

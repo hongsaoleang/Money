@@ -10022,3 +10022,123 @@ select option { background: #151f33; color: #f4f6ff; }
   background: rgba(2, 132, 199, 0.1) !important;
   border-color: rgba(2, 132, 199, 0.25) !important;
 }
+
+/* ========================================================
+   Custom Profile Avatar & "Nothing Like A Plus" Styles
+   ======================================================== */
+.settings-avatar-wrapper {
+  position: relative !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 10px !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.settings-avatar-empty-btn {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px !important;
+  border: 1.5px dashed rgba(99, 102, 241, 0.5) !important;
+  background: rgba(99, 102, 241, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  color: #818cf8 !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  outline: none !important;
+}
+
+.settings-avatar-empty-btn:hover {
+  border-color: #6366f1 !important;
+  background: rgba(99, 102, 241, 0.2) !important;
+  color: #ffffff !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+}
+
+.settings-avatar-has-img {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  border: 1.5px solid rgba(99, 102, 241, 0.4) !important;
+}
+
+.settings-avatar-has-img .settings-avatar-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.avatar-hover-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(15, 23, 42, 0.65) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #ffffff !important;
+  opacity: 0 !important;
+  transition: opacity 0.2s ease !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+.settings-avatar-has-img:hover .avatar-hover-overlay {
+  opacity: 1 !important;
+}
+
+.user-avatar-nav-placeholder {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 5px !important;
+  border: 1px dashed rgba(99, 102, 241, 0.5) !important;
+  background: rgba(99, 102, 241, 0.1) !important;
+  color: #818cf8 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  transition: all 0.15s ease !important;
+}
+
+.user-pill:hover .user-avatar-nav-placeholder {
+  border-color: #818cf8 !important;
+  color: #ffffff !important;
+}
+
+.mobile-user-avatar-placeholder {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 10px !important;
+  border: 1.5px dashed rgba(99, 102, 241, 0.5) !important;
+  background: rgba(99, 102, 241, 0.1) !important;
+  color: #818cf8 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+[data-theme="light"] .settings-avatar-empty-btn {
+  border-color: rgba(99, 102, 241, 0.45) !important;
+  background: rgba(99, 102, 241, 0.06) !important;
+  color: #4f46e5 !important;
+}
+
+[data-theme="light"] .settings-avatar-empty-btn:hover {
+  background: rgba(99, 102, 241, 0.16) !important;
+  border-color: #4f46e5 !important;
+  color: #4338ca !important;
+}
+
+[data-theme="light"] .user-avatar-nav-placeholder {
+  border-color: rgba(99, 102, 241, 0.35) !important;
+  background: rgba(99, 102, 241, 0.08) !important;
+  color: #4f46e5 !important;
+}

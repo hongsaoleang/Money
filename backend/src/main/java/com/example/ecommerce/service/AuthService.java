@@ -9,6 +9,7 @@ import com.example.ecommerce.repository.UserRepository;
 import com.example.ecommerce.security.CustomUserDetails;
 import com.example.ecommerce.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -85,6 +86,7 @@ public class AuthService {
                 .email(userDetails.getUsername())
                 .fullName(userDetails.getFullName())
                 .role(userDetails.getRole())
+                .avatar(userDetails.getAvatar())
                 .build();
     }
 
@@ -103,6 +105,7 @@ public class AuthService {
                 .email(userDetails.getUsername())
                 .fullName(userDetails.getFullName())
                 .role(userDetails.getRole())
+                .avatar(userDetails.getAvatar())
                 .build();
     }
 
@@ -138,6 +141,44 @@ public class AuthService {
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .role(user.getRole())
+                .avatar(user.getAvatar())
                 .build();
+    }
+
+    @Transactional
+    public ResponseEntity<?> updateAvatar(String email, String avatar) {
+        return userRepository.findByEmail(email).map(user -> {
+            user.setAvatar(avatar);
+            userRepository.save(user);
+            return ResponseEntity.ok(java.util.Map.of("success", true, "avatar", avatar != null ? avatar : ""));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @Transactional
+    public ResponseEntity<?> uploadAvatar(String email, org.springframework.web.multipart.MultipartFile image) {
+        if (image == null || image.isEmpty() || image.getSize() > 5L * 1024 * 1024) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("error", "Choose an image smaller than 5 MB."));
+        }
+        String extension = switch (image.getContentType() == null ? "" : image.getContentType().toLowerCase()) {
+            case "image/jpeg" -> ".jpg";
+            case "image/png" -> ".png";
+            case "image/webp" -> ".webp";
+            case "image/gif" -> ".gif";
+            default -> ".jpg";
+        };
+        String filename = "avatar-" + java.util.UUID.randomUUID() + extension;
+        java.nio.file.Path destinationDir = java.nio.file.Paths.get("uploads", "developers").toAbsolutePath().normalize();
+        try {
+            java.nio.file.Files.createDirectories(destinationDir);
+            image.transferTo(destinationDir.resolve(filename));
+            String avatarUrl = "/api/developer-photos/" + filename;
+            return userRepository.findByEmail(email).map(user -> {
+                user.setAvatar(avatarUrl);
+                userRepository.save(user);
+                return ResponseEntity.ok(java.util.Map.of("success", true, "avatar", avatarUrl));
+            }).orElse(ResponseEntity.notFound().build());
+        } catch (java.io.IOException e) {
+            return ResponseEntity.internalServerError().body(java.util.Map.of("error", "Could not save avatar file."));
+        }
     }
 }

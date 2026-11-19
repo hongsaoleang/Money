@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { 
   ShoppingBag, User, Shield, LogOut, Code, Package, PlusCircle, Sun, Moon,
-  Menu, X, Home as HomeIcon, Layers, Info, LayoutDashboard
+  Menu, X, Home as HomeIcon, Layers, Info, LayoutDashboard, Plus
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -107,7 +107,13 @@ const Navbar = () => {
           {user ? (
             <div className="user-dropdown desktop-only-auth">
               <Link to="/settings" className="user-pill" title="View My Account">
-                <img src="/JomnenhKH.jpg" alt={user.fullName} className="user-avatar-img" />
+                {user.avatar ? (
+                  <img src={user.avatar} alt={user.fullName} className="user-avatar-img" />
+                ) : (
+                  <span className="user-avatar-nav-placeholder" title="Add profile photo in Settings">
+                    <Plus size={12} />
+                  </span>
+                )}
                 <span className="user-name">{user.fullName.split(' ')[0]}</span>
                 {isAdmin && <span className="role-tag admin">Admin</span>}
                 {!isAdmin && isClient && <span className="role-tag client">Client</span>}
@@ -176,7 +182,13 @@ const Navbar = () => {
             {/* User Profile Banner (if logged in) */}
             {user ? (
               <Link to="/settings" className="mobile-user-card" onClick={() => setMobileMenuOpen(false)} title="View My Account">
-                <img src="/JomnenhKH.jpg" alt={user.fullName} className="mobile-user-avatar-img" />
+                {user.avatar ? (
+                  <img src={user.avatar} alt={user.fullName} className="mobile-user-avatar-img" />
+                ) : (
+                  <div className="mobile-user-avatar-placeholder" title="Add profile photo in Settings">
+                    <Plus size={18} />
+                  </div>
+                )}
                 <div className="mobile-user-info">
                   <div className="mobile-user-name">{user.fullName}</div>
                   <div className="mobile-user-email">{user.email}</div>

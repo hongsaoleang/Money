@@ -36,6 +36,9 @@ public class User {
 
     private String address;
 
+    @Column(columnDefinition = "TEXT")
+    private String avatar;
+
     @Builder.Default
     private boolean active = true;
 
