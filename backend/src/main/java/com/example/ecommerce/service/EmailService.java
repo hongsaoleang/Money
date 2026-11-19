@@ -111,4 +111,36 @@ public class EmailService {
             throw new RuntimeException("Failed to send email via Gmail SMTP: " + e.getMessage(), e);
         }
     }
+
+    public void sendRegistrationOtp(String toEmail, String fullName, String otpCode) {
+        log.info("[Gmail Integration] Sending registration OTP to: {}", toEmail);
+        String name = (fullName != null && !fullName.trim().isEmpty()) ? fullName.trim() : "Valued Customer";
+
+        if (!isConfigured()) {
+            log.warn("[Gmail Integration] Mail sender not configured. Demo OTP for {}: {}", toEmail, otpCode);
+            return;
+        }
+
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
+            message.setTo(toEmail);
+            message.setSubject("Jomnenh-KH - Your Verification Code: " + otpCode);
+            message.setText("Dear " + name + ",\n\n" +
+                    "Thank you for registering on Jomnenh-KH!\n\n" +
+                    "Your 6-digit verification code (OTP) is:\n\n" +
+                    "   " + otpCode + "\n\n" +
+                    "This code will expire in 10 minutes.\n\n" +
+                    "Please paste or enter this code in the registration screen to complete creating your account.\n\n" +
+                    "If you did not request this verification, please safely ignore this message.\n\n" +
+                    "Best regards,\n" +
+                    "Jomnenh-KH Security Team");
+
+            mailSender.send(message);
+            log.info("[Gmail Integration] Successfully sent OTP code to {}", toEmail);
+        } catch (Exception e) {
+            log.error("[Gmail Integration] Failed to send OTP email to {}: {}", toEmail, e.getMessage(), e);
+            throw new RuntimeException("Failed to send verification code to your email. Please verify your address and try again.");
+        }
+    }
 }

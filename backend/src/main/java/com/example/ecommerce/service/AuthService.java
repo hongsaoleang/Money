@@ -25,11 +25,33 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final OtpService otpService;
+    private final EmailService emailService;
+
+    public void sendRegistrationOtp(com.example.ecommerce.dto.SendOtpRequest request) {
+        String cleanEmail = request.getEmail().trim().toLowerCase();
+        if (userRepository.existsByEmail(cleanEmail)) {
+            throw new IllegalArgumentException("This email is already registered: " + cleanEmail);
+        }
+
+        String otp = otpService.generateAndSaveOtp(cleanEmail);
+        emailService.sendRegistrationOtp(cleanEmail, request.getFullName(), otp);
+    }
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email is already registered: " + request.getEmail());
+        String cleanEmail = request.getEmail().trim().toLowerCase();
+        if (userRepository.existsByEmail(cleanEmail)) {
+            throw new IllegalArgumentException("Email is already registered: " + cleanEmail);
+        }
+
+        if (request.getOtp() == null || request.getOtp().trim().isEmpty()) {
+            throw new IllegalArgumentException("Verification code (OTP) is required.");
+        }
+
+        boolean validOtp = otpService.verifyOtp(cleanEmail, request.getOtp().trim());
+        if (!validOtp) {
+            throw new IllegalArgumentException("Invalid or expired verification code. Please check your email and try again.");
         }
 
         Role userRole = request.getRole() != null ? request.getRole() : Role.ROLE_USER;
@@ -39,7 +61,7 @@ public class AuthService {
         }
 
         User user = User.builder()
-                .email(request.getEmail().trim().toLowerCase())
+                .email(cleanEmail)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName().trim())
                 .phone(request.getPhone())

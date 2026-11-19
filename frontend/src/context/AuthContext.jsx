@@ -39,6 +39,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const sendRegistrationOtp = async (email, fullName) => {
+    setLoading(true);
+    try {
+      const res = await api.post('/api/auth/register/send-otp', { email, fullName });
+      return { success: true, message: res.data?.message || 'Verification code sent to your email.' };
+    } catch (err) {
+      const message = err.response?.data?.message || 'Failed to send verification code. Please try again.';
+      return { success: false, error: message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const register = async (userData) => {
     setLoading(true);
     try {
@@ -92,7 +105,7 @@ export const AuthProvider = ({ children }) => {
   const isClient = user?.role === 'ROLE_CLIENT' || user?.role === 'ROLE_ADMIN';
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, loginWithGoogle, logout, isAdmin, isClient }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, sendRegistrationOtp, loginWithGoogle, logout, isAdmin, isClient }}>
       {children}
     </AuthContext.Provider>
   );

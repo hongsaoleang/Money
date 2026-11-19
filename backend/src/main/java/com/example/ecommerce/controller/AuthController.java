@@ -16,6 +16,15 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @PostMapping("/register/send-otp")
+    public ResponseEntity<?> sendRegistrationOtp(@Valid @RequestBody com.example.ecommerce.dto.SendOtpRequest request) {
+        authService.sendRegistrationOtp(request);
+        return ResponseEntity.ok(java.util.Map.of(
+                "success", true,
+                "message", "A 6-digit verification code has been sent to " + request.getEmail()
+        ));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));

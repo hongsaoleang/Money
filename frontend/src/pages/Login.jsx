@@ -143,9 +143,12 @@ const Login = () => {
         </form>
 
         {/* Card Footer */}
-        <div className="login-footer-row" style={{ justifyContent: 'center' }}>
+        <div className="login-footer-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>
           <Link to="/products" className="login-back-link">
             <ArrowLeft size={14} /> Back to products
+          </Link>
+          <Link to="/register" state={location.state} className="login-back-link" style={{ color: '#818cf8', fontWeight: 600 }}>
+            Create account
           </Link>
         </div>
       </div>

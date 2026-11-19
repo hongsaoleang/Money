@@ -150,20 +150,20 @@ const Settings = () => {
           </div>
           <div className="settings-hero-info">
             <div className="settings-badge-row">
-              <span className="section-badge">
-                <Sparkles size={12} className="text-amber-400" /> Account Operations
+              <span className="section-badge compact">
+                <Sparkles size={11} className="text-amber-400" /> Account Operations
               </span>
-              <span className="hero-status-pill">
+              <span className="hero-status-pill compact">
                 <span className="pulse-dot green" /> {formatRole(user.role)}
               </span>
             </div>
             <h1 className="settings-user-name">{user.fullName}</h1>
             <div className="settings-user-meta">
-              <span><Mail size={14} className="text-indigo-400" /> {user.email}</span>
+              <span><Mail size={12} className="text-indigo-400" /> {user.email}</span>
               <span className="meta-sep">&bull;</span>
-              <span><MapPin size={14} className="text-emerald" /> {address.split(',')[0]}</span>
+              <span><MapPin size={12} className="text-emerald" /> {address.split(',')[0]}</span>
               <span className="meta-sep">&bull;</span>
-              <span><ShieldCheck size={14} className="text-indigo-400" /> Enterprise Verified</span>
+              <span><ShieldCheck size={12} className="text-indigo-400" /> Enterprise Verified</span>
             </div>
           </div>
         </div>
@@ -172,18 +172,18 @@ const Settings = () => {
           {isAdmin && (
             <>
               <Link to="/admin" className="btn-secondary settings-action-btn">
-                <Shield size={15} /> Admin Hub
+                <Shield size={13} /> Admin Hub
               </Link>
               <Link to="/products/manage" className="btn-secondary settings-action-btn">
-                <Package size={15} /> Manage Products
+                <Package size={13} /> Manage Products
               </Link>
             </>
           )}
           <Link to="/products" className="btn-primary settings-action-btn">
-            <ShoppingBag size={15} /> Browse Catalog
+            <ShoppingBag size={13} /> Browse Catalog
           </Link>
           <button onClick={handleLogout} className="btn-outline settings-action-btn logout-btn" title="Sign out of session">
-            <LogOut size={15} /> Sign Out
+            <LogOut size={13} /> Sign Out
           </button>
         </div>
       </div>
@@ -192,7 +192,7 @@ const Settings = () => {
       <div className="settings-kpi-grid">
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap orders">
-            <Package size={20} />
+            <Package size={16} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Total Orders</span>
@@ -203,7 +203,7 @@ const Settings = () => {
 
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap status">
-            <ShieldCheck size={20} />
+            <ShieldCheck size={16} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Account Status</span>
@@ -214,7 +214,7 @@ const Settings = () => {
 
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap role">
-            <Shield size={20} />
+            <Shield size={16} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Role Clearance</span>
@@ -225,7 +225,7 @@ const Settings = () => {
 
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap logistics">
-            <Truck size={20} />
+            <Truck size={16} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Courier SLA</span>
@@ -666,23 +666,11 @@ const Settings = () => {
                                   </span>
                                 </td>
                                 <td>
-                                  <div className="flex items-center gap-3">
-                                    <div
-                                      className="user-avatar-circle"
-                                      style={{
-                                        background: u.role === 'ROLE_ADMIN'
-                                          ? 'linear-gradient(135deg, #6366f1, #38bdf8)'
-                                          : 'linear-gradient(135deg, #10b981, #06b6d4)'
-                                      }}
-                                    >
-                                      {u.fullName?.charAt(0) || 'U'}
-                                    </div>
-                                    <div>
-                                      <strong style={{ display: 'block', color: 'var(--text-main)', fontSize: '0.92rem' }}>
-                                        {u.fullName}
-                                      </strong>
-                                      {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontWeight: 600 }}>(You / Logged In)</span>}
-                                    </div>
+                                  <div style={{ minWidth: 0 }}>
+                                    <strong style={{ display: 'inline-block', color: 'var(--text-main)', fontSize: '0.82rem', fontWeight: 600 }}>
+                                      {u.fullName}
+                                    </strong>
+                                    {isSelf && <span style={{ fontSize: '0.66rem', color: '#38bdf8', fontWeight: 600, marginLeft: '6px' }}>(You / Logged In)</span>}
                                   </div>
                                 </td>
                                 <td>
@@ -691,32 +679,32 @@ const Settings = () => {
                                     className="user-email-chip"
                                     title={`Send direct email to ${u.email}`}
                                   >
-                                    <Mail size={14} />
+                                    <Mail size={12} />
                                     <span>{u.email}</span>
                                   </a>
                                 </td>
                                 <td>
                                   {u.role === 'ROLE_ADMIN' && (
-                                    <span className="badge-clearance-pill" style={{ background: 'rgba(99, 102, 241, 0.16)', borderColor: 'rgba(99, 102, 241, 0.4)', color: '#818cf8', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '20px' }}>
-                                      <ShieldCheck size={12} /> Administrator
+                                    <span className="badge-clearance-pill admin" style={{ background: 'rgba(99, 102, 241, 0.16)', borderColor: 'rgba(99, 102, 241, 0.4)', color: '#818cf8', display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600 }}>
+                                      <ShieldCheck size={11} /> Administrator
                                     </span>
                                   )}
                                   {u.role === 'ROLE_USER' && (
-                                    <span className="badge-clearance-pill" style={{ background: 'rgba(16, 185, 129, 0.12)', borderColor: 'rgba(16, 185, 129, 0.35)', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '20px' }}>
-                                      <Users size={12} /> Normal User
+                                    <span className="badge-clearance-pill user" style={{ background: 'rgba(16, 185, 129, 0.12)', borderColor: 'rgba(16, 185, 129, 0.35)', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600 }}>
+                                      <Users size={11} /> Normal User
                                     </span>
                                   )}
                                   {u.role === 'ROLE_CLIENT' && (
-                                    <span className="badge-clearance-pill" style={{ background: 'rgba(245, 158, 11, 0.12)', borderColor: 'rgba(245, 158, 11, 0.35)', color: '#fbbf24', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '20px' }}>
-                                      <Shield size={12} /> Client / Partner
+                                    <span className="badge-clearance-pill client" style={{ background: 'rgba(245, 158, 11, 0.12)', borderColor: 'rgba(245, 158, 11, 0.35)', color: '#fbbf24', display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600 }}>
+                                      <Shield size={11} /> Client / Partner
                                     </span>
                                   )}
                                 </td>
                                 <td>
-                                  <span className={`user-status-chip ${u.active !== false ? 'active' : 'suspended'}`}>
+                                  <span className={`user-status-chip ${u.active !== false ? 'active' : 'suspended'}`} style={{ padding: '2px 7px', fontSize: '0.7rem', gap: '5px' }}>
                                     <span style={{
-                                      width: '6px',
-                                      height: '6px',
+                                      width: '5px',
+                                      height: '5px',
                                       borderRadius: '50%',
                                       background: u.active !== false ? '#34d399' : '#f87171'
                                     }} />
@@ -724,53 +712,55 @@ const Settings = () => {
                                   </span>
                                 </td>
                                 <td>
-                                  <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
+                                  <span style={{ fontSize: '0.74rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
                                     {u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Verified Member'}
                                   </span>
                                 </td>
                                 <td style={{ textAlign: 'right' }}>
-                                  <div className="user-actions-cluster">
+                                  <div className="user-actions-cluster" style={{ gap: '5px' }}>
                                     {!isSelf && (
                                       <>
                                         <button
                                           onClick={() => handleToggleUserRole(u)}
                                           className="btn-outline"
-                                          style={{ padding: '6px 12px', fontSize: '0.75rem', borderColor: 'rgba(99, 102, 241, 0.35)' }}
+                                          style={{ padding: '3px 8px', fontSize: '0.7rem', borderColor: 'rgba(99, 102, 241, 0.35)', borderRadius: '5px' }}
                                           title={`Switch role to ${u.role === 'ROLE_ADMIN' ? 'User' : 'Admin'}`}
                                         >
-                                          {u.role === 'ROLE_ADMIN' ? 'Demote to User' : 'Promote to Admin'}
+                                          {u.role === 'ROLE_ADMIN' ? 'Demote' : 'Promote'}
                                         </button>
                                         <button
                                           onClick={() => handleToggleUserStatus(u)}
                                           className="btn-outline"
                                           style={{
-                                            padding: '6px 12px',
-                                            fontSize: '0.75rem',
+                                            padding: '3px 8px',
+                                            fontSize: '0.7rem',
                                             borderColor: u.active !== false ? 'rgba(239, 68, 68, 0.35)' : 'rgba(16, 185, 129, 0.35)',
-                                            color: u.active !== false ? '#f87171' : '#34d399'
+                                            color: u.active !== false ? '#f87171' : '#34d399',
+                                            borderRadius: '5px'
                                           }}
                                           title={u.active !== false ? 'Suspend Account' : 'Activate Account'}
                                         >
-                                          {u.active !== false ? <UserX size={13} /> : <UserCheck size={13} />}
+                                          {u.active !== false ? <UserX size={11} /> : <UserCheck size={11} />}
                                           <span className="hidden sm:inline">{u.active !== false ? 'Suspend' : 'Activate'}</span>
                                         </button>
                                         <button
                                           onClick={() => handleDeleteUser(u)}
                                           className="btn-outline"
                                           style={{
-                                            padding: '6px 10px',
-                                            fontSize: '0.75rem',
+                                            padding: '3px 7px',
+                                            fontSize: '0.7rem',
                                             borderColor: 'rgba(239, 68, 68, 0.3)',
-                                            color: '#f87171'
+                                            color: '#f87171',
+                                            borderRadius: '5px'
                                           }}
                                           title="Delete User"
                                         >
-                                          <Trash2 size={13} />
+                                          <Trash2 size={11} />
                                         </button>
                                       </>
                                     )}
                                     {isSelf && (
-                                      <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                                      <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontStyle: 'italic', fontWeight: 500 }}>
                                         Active Primary Session
                                       </span>
                                     )}

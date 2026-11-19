@@ -24,4 +24,7 @@ public class RegisterRequest {
 
     // Optional role requested by user (defaults to ROLE_USER; can request ROLE_CLIENT)
     private Role role;
+
+    // 6-digit email verification OTP
+    private String otp;
 }
