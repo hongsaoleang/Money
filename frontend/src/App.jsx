@@ -19,6 +19,12 @@ import Admin from './pages/Admin';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
+import { useAuth } from './context/AuthContext';
+
+const HomeRoute = () => {
+  const { user } = useAuth();
+  return user ? <Home /> : <Navigate to="/products" replace />;
+};
 
 function App() {
   return (
@@ -30,8 +36,8 @@ function App() {
               <Navbar />
               <main className="main-content">
                 <Routes>
-                  {/* Public Catalog & Content - Unregistered guests can freely browse */}
-                  <Route path="/" element={<Home />} />
+                  {/* Home Route: Registered users see Home, unregistered visitors go straight to Products */}
+                  <Route path="/" element={<HomeRoute />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/products/:id" element={<ProductDetail />} />
                   <Route path="/services" element={<Services />} />

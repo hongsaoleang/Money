@@ -34,6 +34,9 @@ public class OrderController {
     public ResponseEntity<List<Order>> getMyOrders(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
+        if (userDetails == null) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).build();
+        }
         return ResponseEntity.ok(orderService.getUserOrders(userDetails.getUsername()));
     }
 }

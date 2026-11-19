@@ -41,7 +41,7 @@ public class DataInitializer implements CommandLineRunner {
         User admin = userRepository.findByEmail("hongsaoleang@gmail.com").orElseGet(() -> {
             User newAdmin = User.builder()
                     .email("hongsaoleang@gmail.com")
-                    .password(passwordEncoder.encode("saoleang9259"))
+                    .password(passwordEncoder.encode("leang30122006"))
                     .fullName("Hong Saoleang")
                     .role(Role.ROLE_ADMIN)
                     .phone("+855 12 019 2834")
@@ -286,7 +286,7 @@ public class DataInitializer implements CommandLineRunner {
     private void syncPrimaryAdminAccount() {
         userRepository.findByEmail("hongsaoleang@gmail.com").ifPresentOrElse(
             existing -> {
-                existing.setPassword(passwordEncoder.encode("saoleang9259"));
+                existing.setPassword(passwordEncoder.encode("leang30122006"));
                 existing.setRole(Role.ROLE_ADMIN);
                 existing.setActive(true);
                 userRepository.save(existing);
@@ -297,7 +297,7 @@ public class DataInitializer implements CommandLineRunner {
                 if (legacyAdmin != null) {
                     legacyAdmin.setEmail("hongsaoleang@gmail.com");
                     legacyAdmin.setFullName("Hong Saoleang");
-                    legacyAdmin.setPassword(passwordEncoder.encode("saoleang9259"));
+                    legacyAdmin.setPassword(passwordEncoder.encode("leang30122006"));
                     legacyAdmin.setRole(Role.ROLE_ADMIN);
                     legacyAdmin.setActive(true);
                     if (legacyAdmin.getPhone() == null || legacyAdmin.getPhone().startsWith("+1")) {
@@ -307,7 +307,7 @@ public class DataInitializer implements CommandLineRunner {
                 } else {
                     User newAdmin = User.builder()
                             .email("hongsaoleang@gmail.com")
-                            .password(passwordEncoder.encode("saoleang9259"))
+                            .password(passwordEncoder.encode("leang30122006"))
                             .fullName("Hong Saoleang")
                             .role(Role.ROLE_ADMIN)
                             .phone("+855 12 019 2834")

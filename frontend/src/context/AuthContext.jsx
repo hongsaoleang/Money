@@ -22,7 +22,17 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data));
       return { success: true };
     } catch (err) {
-      const message = err.response?.data?.message || 'Login failed. Please check your credentials.';
+      let message = err.response?.data?.message;
+      const status = err.response?.status;
+      if (
+        !message ||
+        status === 401 ||
+        status === 403 ||
+        message.toLowerCase() === 'forbidden' ||
+        message.toLowerCase().includes('bad credentials')
+      ) {
+        message = 'Incorrect email or password. Please try again.';
+      }
       return { success: false, error: message };
     } finally {
       setLoading(false);
@@ -40,7 +50,10 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data));
       return { success: true };
     } catch (err) {
-      const message = err.response?.data?.message || 'Registration failed.';
+      let message = err.response?.data?.message;
+      if (!message || message.toLowerCase() === 'forbidden') {
+        message = 'Registration failed. Please verify your information.';
+      }
       return { success: false, error: message };
     } finally {
       setLoading(false);
@@ -58,7 +71,10 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data));
       return { success: true };
     } catch (err) {
-      const message = err.response?.data?.message || 'Google authentication failed.';
+      let message = err.response?.data?.message;
+      if (!message || message.toLowerCase() === 'forbidden') {
+        message = 'Google sign-in failed. Please try again.';
+      }
       return { success: false, error: message };
     } finally {
       setLoading(false);

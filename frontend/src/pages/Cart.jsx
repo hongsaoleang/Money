@@ -149,6 +149,15 @@ const Cart = () => {
 
   // Chat via Telegram Order Summary (Submits order, alerts bot, opens @hongsaoleang)
   const handleChatViaTelegramOrderSummary = async () => {
+    if (!user) {
+      navigate('/login', {
+        state: {
+          message: 'Please sign in to place orders or send messages via Telegram.',
+        },
+      });
+      return;
+    }
+
     if (selectedItems.length === 0) {
       alert('Please select at least one product to order.');
       return;

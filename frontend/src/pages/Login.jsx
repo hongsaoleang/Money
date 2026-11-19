@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, AlertCircle, Info, Eye, EyeOff, ArrowRight, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Info, Eye, EyeOff, ArrowRight, ArrowLeft } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +31,7 @@ const Login = () => {
       <div className="login-card-modern">
         {/* Brand Logo & Clean Header */}
         <div className="login-brand-header">
-          <Link to="/" className="login-logo-link" title="Return to Home">
+          <Link to="/products" className="login-logo-link" title="Return to Products">
             <img 
               src="/JomnenhKH.jpg" 
               alt="Jomnenh-KH Logo" 
@@ -40,7 +40,6 @@ const Login = () => {
             <span className="login-logo-text">Jomnenh<span className="logo-accent">-KH</span></span>
           </Link>
           <h1 className="login-title">Sign In</h1>
-          <p className="login-subtitle">Enter your email and password to access your account</p>
         </div>
 
         {/* Redirect Notice Banner (e.g. from Add to Cart) */}
@@ -144,13 +143,10 @@ const Login = () => {
         </form>
 
         {/* Card Footer */}
-        <div className="login-footer-row">
-          <Link to="/" className="login-back-link">
-            <ArrowLeft size={14} /> Back to store
+        <div className="login-footer-row" style={{ justifyContent: 'center' }}>
+          <Link to="/products" className="login-back-link">
+            <ArrowLeft size={14} /> Back to products
           </Link>
-          <span className="login-ssl-badge">
-            <ShieldCheck size={13} className="text-emerald" /> 256-bit Secure
-          </span>
         </div>
       </div>
     </div>

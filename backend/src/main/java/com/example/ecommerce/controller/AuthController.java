@@ -22,8 +22,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        try {
+            return ResponseEntity.ok(authService.login(request));
+        } catch (org.springframework.security.authentication.BadCredentialsException |
+                 org.springframework.security.core.userdetails.UsernameNotFoundException ex) {
+            java.util.Map<String, Object> error = new java.util.LinkedHashMap<>();
+            error.put("timestamp", java.time.Instant.now().toString());
+            error.put("status", org.springframework.http.HttpStatus.UNAUTHORIZED.value());
+            error.put("error", "Unauthorized");
+            error.put("message", "Incorrect email or password. Please try again.");
+            return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).body(error);
+        }
     }
 
     @PostMapping("/google")

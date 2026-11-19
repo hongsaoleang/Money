@@ -9444,10 +9444,10 @@ select option { background: #151f33; color: #f4f6ff; }
 }
 
 .login-brand-logo {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
 }
 
 .login-logo-text {

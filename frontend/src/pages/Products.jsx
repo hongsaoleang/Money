@@ -54,6 +54,15 @@ const Products = () => {
   };
 
   const contactSingleProduct = (product) => {
+    if (!user) {
+      navigate('/login', {
+        state: {
+          from: location,
+          message: 'Please sign in to send messages or contact via Telegram.',
+        },
+      });
+      return;
+    }
     const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI am interested in this product from your store:\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
     window.open(`https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
   };

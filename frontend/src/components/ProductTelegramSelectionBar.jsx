@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { ShoppingBag, X, Check, MessageSquare, ExternalLink } from 'lucide-react';
 
 const TelegramIcon = ({ size = 18 }) => (
@@ -14,6 +16,10 @@ const TelegramIcon = ({ size = 18 }) => (
 );
 
 const ProductTelegramSelectionBar = ({ selectedProducts = [], onClear, onAddToCart }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   if (!selectedProducts || selectedProducts.length === 0) return null;
 
   const totalAmount = selectedProducts.reduce(
@@ -22,6 +28,15 @@ const ProductTelegramSelectionBar = ({ selectedProducts = [], onClear, onAddToCa
   );
 
   const handleContactTelegram = () => {
+    if (!user) {
+      navigate('/login', {
+        state: {
+          from: location,
+          message: 'Please sign in to send messages or contact via Telegram.',
+        },
+      });
+      return;
+    }
     let msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
     msg += `I have selected the following product(s) on your store and would like to contact you:\n\n`;
 

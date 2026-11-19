@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../api/client';
+import { useAuth } from '../context/AuthContext';
 import { 
   Code, Smartphone, Server, CheckCircle2, 
   ExternalLink, Send, ArrowRight
@@ -49,6 +51,9 @@ const HIDDEN_SAMPLE_CLIENTS = new Set([
 ]);
 
 const Services = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [services, setServices] = useState([]);
   const [portfolio, setPortfolio] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -84,6 +89,16 @@ const Services = () => {
 
   const handleInquirySubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      navigate('/login', {
+        state: {
+          from: location,
+          message: 'Please sign in to send messages or inquiries via Telegram.',
+        },
+      });
+      return;
+    }
 
     let tgMsg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
     tgMsg += `I have a project inquiry for you:\n\n`;
@@ -268,7 +283,7 @@ const Services = () => {
                   required
                   value={inquiry.email}
                   onChange={(e) => setInquiry({ ...inquiry, email: e.target.value })}
-                  placeholder="jane@company.com"
+                  placeholder="jane@gmail.com"
                 />
               </div>
               <div className="form-group">

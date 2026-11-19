@@ -31,7 +31,7 @@ const Navbar = () => {
     <header className="navbar-wrapper">
       <div className="navbar-container">
         {/* Logo */}
-        <Link to="/" className="navbar-logo" onClick={() => setMobileMenuOpen(false)}>
+        <Link to={user ? "/" : "/products"} className="navbar-logo" onClick={() => setMobileMenuOpen(false)}>
           <img 
             src="/JomnenhKH.jpg" 
             alt="JomnenhKH Logo" 
@@ -42,9 +42,11 @@ const Navbar = () => {
 
         {/* Desktop Navigation Links */}
         <nav className="navbar-links">
-          <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
-            Home
-          </NavLink>
+          {user && (
+            <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
+              Home
+            </NavLink>
+          )}
           <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
             Products
           </NavLink>
@@ -196,9 +198,11 @@ const Navbar = () => {
             )}
 
             <div className="mobile-nav-list">
-              <NavLink to="/" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} end onClick={() => setMobileMenuOpen(false)}>
-                <HomeIcon size={17} /> Home
-              </NavLink>
+              {user && (
+                <NavLink to="/" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} end onClick={() => setMobileMenuOpen(false)}>
+                  <HomeIcon size={17} /> Home
+                </NavLink>
+              )}
               <NavLink to="/products" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} end onClick={() => setMobileMenuOpen(false)}>
                 <Package size={17} /> Products & Hardware
               </NavLink>
