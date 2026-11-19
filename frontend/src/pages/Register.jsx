@@ -13,7 +13,7 @@ const Register = () => {
     role: 'ROLE_USER', // or 'ROLE_CLIENT'
   });
   const [error, setError] = useState(null);
-  const { register, loginWithGoogle, loading } = useAuth();
+  const { register, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
