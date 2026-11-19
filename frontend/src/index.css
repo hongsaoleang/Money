@@ -9772,23 +9772,29 @@ select option { background: #151f33; color: #f4f6ff; }
   height: 14px !important;
 }
 
-/* High-Clarity Compact Table */
+/* High-Clarity Uniform User Table */
 .users-table-container {
   border-radius: 8px !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   background: rgba(15, 23, 42, 0.5) !important;
   overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 .users-custom-table {
   width: 100% !important;
-  min-width: 720px !important;
+  min-width: 820px !important;
   border-collapse: collapse !important;
   text-align: left !important;
 }
 
-.users-custom-table th {
-  padding: 7px 10px !important;
+.users-custom-table thead tr {
+  height: 38px !important;
+}
+
+.users-custom-table thead th {
+  height: 38px !important;
+  padding: 0 10px !important;
   background: #0f172a !important;
   border-bottom: 1px solid rgba(99, 102, 241, 0.35) !important;
   color: #94a3b8 !important;
@@ -9797,18 +9803,33 @@ select option { background: #151f33; color: #f4f6ff; }
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   white-space: nowrap !important;
+  vertical-align: middle !important;
+  box-sizing: border-box !important;
   position: sticky !important;
   top: 0 !important;
   z-index: 5 !important;
 }
 
-.users-custom-table td {
-  padding: 6px 10px !important;
+/* Strictly enforce uniform row and cell sizing for EVERY row */
+.users-custom-table tbody tr {
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  box-sizing: border-box !important;
+}
+
+.users-custom-table tbody td {
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  padding: 0 10px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
   vertical-align: middle !important;
   font-size: 0.76rem !important;
   color: var(--text-main) !important;
-  line-height: 1.3 !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
 }
 
 .users-custom-table tbody tr:nth-child(even) {
@@ -9820,8 +9841,11 @@ select option { background: #151f33; color: #f4f6ff; }
 }
 
 .user-id-chip {
-  display: inline-block !important;
-  padding: 2px 5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 22px !important;
+  padding: 0 6px !important;
   border-radius: 4px !important;
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -9829,27 +9853,15 @@ select option { background: #151f33; color: #f4f6ff; }
   font-family: var(--font-mono) !important;
   color: #cbd5e1 !important;
   white-space: nowrap !important;
-}
-
-.user-avatar-circle {
-  width: 24px !important;
-  height: 24px !important;
-  border-radius: 5px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-weight: 750 !important;
-  color: #ffffff !important;
-  font-size: 0.7rem !important;
-  flex-shrink: 0 !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+  box-sizing: border-box !important;
 }
 
 .user-email-chip {
   display: inline-flex !important;
   align-items: center !important;
+  height: 24px !important;
   gap: 5px !important;
-  padding: 2px 7px !important;
+  padding: 0 7px !important;
   border-radius: 4px !important;
   background: rgba(99, 102, 241, 0.08) !important;
   border: 1px solid rgba(99, 102, 241, 0.2) !important;
@@ -9858,6 +9870,7 @@ select option { background: #151f33; color: #f4f6ff; }
   text-decoration: none !important;
   transition: all 0.15s ease !important;
   white-space: nowrap !important;
+  box-sizing: border-box !important;
 }
 
 .user-email-chip:hover {
@@ -9869,12 +9882,43 @@ select option { background: #151f33; color: #f4f6ff; }
 .user-status-chip {
   display: inline-flex !important;
   align-items: center !important;
+  height: 22px !important;
   gap: 5px !important;
-  padding: 2px 7px !important;
+  padding: 0 7px !important;
   border-radius: 12px !important;
   font-size: 0.68rem !important;
   font-weight: 600 !important;
   white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.badge-clearance-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 22px !important;
+  gap: 5px !important;
+  padding: 0 8px !important;
+  border-radius: 12px !important;
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.user-self-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 18px !important;
+  padding: 0 5px !important;
+  border-radius: 4px !important;
+  font-size: 0.64rem !important;
+  font-weight: 600 !important;
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.12) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
 }
 
 .user-actions-cluster {
@@ -9883,6 +9927,40 @@ select option { background: #151f33; color: #f4f6ff; }
   justify-content: flex-end !important;
   gap: 4px !important;
   flex-wrap: nowrap !important;
+  height: 24px !important;
+  white-space: nowrap !important;
+}
+
+.user-actions-cluster .btn-outline,
+.user-actions-cluster .btn-secondary,
+.user-actions-cluster .btn-danger {
+  height: 24px !important;
+  padding: 0 7px !important;
+  font-size: 0.69rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  border-radius: 5px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+.user-primary-session-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 24px !important;
+  padding: 0 8px !important;
+  font-size: 0.68rem !important;
+  font-weight: 500 !important;
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.08) !important;
+  border: 1px solid rgba(56, 189, 248, 0.22) !important;
+  border-radius: 5px !important;
+  font-style: italic !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
 }
 
 /* Light Theme overrides for compact user table */
@@ -9903,7 +9981,12 @@ select option { background: #151f33; color: #f4f6ff; }
   border-bottom-color: rgba(0, 0, 0, 0.08) !important;
 }
 
-[data-theme="light"] .users-custom-table td {
+[data-theme="light"] .users-custom-table tbody tr {
+  height: 42px !important;
+}
+
+[data-theme="light"] .users-custom-table tbody td {
+  height: 42px !important;
   border-bottom-color: rgba(0, 0, 0, 0.04) !important;
   color: #0f172a !important;
 }
@@ -9926,4 +10009,16 @@ select option { background: #151f33; color: #f4f6ff; }
   background: rgba(99, 102, 241, 0.07) !important;
   border-color: rgba(99, 102, 241, 0.22) !important;
   color: #4f46e5 !important;
+}
+
+[data-theme="light"] .user-primary-session-chip {
+  color: #0284c7 !important;
+  background: rgba(2, 132, 199, 0.08) !important;
+  border-color: rgba(2, 132, 199, 0.22) !important;
+}
+
+[data-theme="light"] .user-self-pill {
+  color: #0284c7 !important;
+  background: rgba(2, 132, 199, 0.1) !important;
+  border-color: rgba(2, 132, 199, 0.25) !important;
 }

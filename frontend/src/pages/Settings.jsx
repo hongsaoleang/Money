@@ -638,13 +638,13 @@ const Settings = () => {
                   <table className="users-custom-table">
                       <thead>
                         <tr>
-                          <th># ID</th>
-                          <th>Username</th>
-                          <th>Gmail / Email Address</th>
-                          <th>Role / Access Level</th>
-                          <th>Account Status</th>
-                          <th>Registered Date</th>
-                          <th style={{ textAlign: 'right' }}>Authorization Actions</th>
+                          <th style={{ width: '90px' }}># ID</th>
+                          <th style={{ minWidth: '170px' }}>Username</th>
+                          <th style={{ minWidth: '200px' }}>Gmail / Email Address</th>
+                          <th style={{ width: '135px' }}>Role / Access Level</th>
+                          <th style={{ width: '100px' }}>Account Status</th>
+                          <th style={{ width: '115px' }}>Registered Date</th>
+                          <th style={{ minWidth: '190px', textAlign: 'right' }}>Authorization Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -666,11 +666,11 @@ const Settings = () => {
                                   </span>
                                 </td>
                                 <td>
-                                  <div style={{ minWidth: 0 }}>
-                                    <strong style={{ display: 'inline-block', color: 'var(--text-main)', fontSize: '0.82rem', fontWeight: 600 }}>
+                                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}>
+                                    <strong style={{ color: 'var(--text-main)', fontSize: '0.82rem', fontWeight: 600 }}>
                                       {u.fullName}
                                     </strong>
-                                    {isSelf && <span style={{ fontSize: '0.66rem', color: '#38bdf8', fontWeight: 600, marginLeft: '6px' }}>(You / Logged In)</span>}
+                                    {isSelf && <span className="user-self-pill">(You / Logged In)</span>}
                                   </div>
                                 </td>
                                 <td>
@@ -685,23 +685,23 @@ const Settings = () => {
                                 </td>
                                 <td>
                                   {u.role === 'ROLE_ADMIN' && (
-                                    <span className="badge-clearance-pill admin" style={{ background: 'rgba(99, 102, 241, 0.16)', borderColor: 'rgba(99, 102, 241, 0.4)', color: '#818cf8', display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600 }}>
+                                    <span className="badge-clearance-pill admin" style={{ background: 'rgba(99, 102, 241, 0.16)', borderColor: 'rgba(99, 102, 241, 0.4)', color: '#818cf8' }}>
                                       <ShieldCheck size={11} /> Administrator
                                     </span>
                                   )}
                                   {u.role === 'ROLE_USER' && (
-                                    <span className="badge-clearance-pill user" style={{ background: 'rgba(16, 185, 129, 0.12)', borderColor: 'rgba(16, 185, 129, 0.35)', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600 }}>
+                                    <span className="badge-clearance-pill user" style={{ background: 'rgba(16, 185, 129, 0.12)', borderColor: 'rgba(16, 185, 129, 0.35)', color: '#34d399' }}>
                                       <Users size={11} /> Normal User
                                     </span>
                                   )}
                                   {u.role === 'ROLE_CLIENT' && (
-                                    <span className="badge-clearance-pill client" style={{ background: 'rgba(245, 158, 11, 0.12)', borderColor: 'rgba(245, 158, 11, 0.35)', color: '#fbbf24', display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600 }}>
+                                    <span className="badge-clearance-pill client" style={{ background: 'rgba(245, 158, 11, 0.12)', borderColor: 'rgba(245, 158, 11, 0.35)', color: '#fbbf24' }}>
                                       <Shield size={11} /> Client / Partner
                                     </span>
                                   )}
                                 </td>
                                 <td>
-                                  <span className={`user-status-chip ${u.active !== false ? 'active' : 'suspended'}`} style={{ padding: '2px 7px', fontSize: '0.7rem', gap: '5px' }}>
+                                  <span className={`user-status-chip ${u.active !== false ? 'active' : 'suspended'}`}>
                                     <span style={{
                                       width: '5px',
                                       height: '5px',
@@ -717,13 +717,13 @@ const Settings = () => {
                                   </span>
                                 </td>
                                 <td style={{ textAlign: 'right' }}>
-                                  <div className="user-actions-cluster" style={{ gap: '5px' }}>
-                                    {!isSelf && (
+                                  <div className="user-actions-cluster">
+                                    {!isSelf ? (
                                       <>
                                         <button
                                           onClick={() => handleToggleUserRole(u)}
                                           className="btn-outline"
-                                          style={{ padding: '3px 8px', fontSize: '0.7rem', borderColor: 'rgba(99, 102, 241, 0.35)', borderRadius: '5px' }}
+                                          style={{ borderColor: 'rgba(99, 102, 241, 0.35)' }}
                                           title={`Switch role to ${u.role === 'ROLE_ADMIN' ? 'User' : 'Admin'}`}
                                         >
                                           {u.role === 'ROLE_ADMIN' ? 'Demote' : 'Promote'}
@@ -732,11 +732,8 @@ const Settings = () => {
                                           onClick={() => handleToggleUserStatus(u)}
                                           className="btn-outline"
                                           style={{
-                                            padding: '3px 8px',
-                                            fontSize: '0.7rem',
                                             borderColor: u.active !== false ? 'rgba(239, 68, 68, 0.35)' : 'rgba(16, 185, 129, 0.35)',
-                                            color: u.active !== false ? '#f87171' : '#34d399',
-                                            borderRadius: '5px'
+                                            color: u.active !== false ? '#f87171' : '#34d399'
                                           }}
                                           title={u.active !== false ? 'Suspend Account' : 'Activate Account'}
                                         >
@@ -747,20 +744,16 @@ const Settings = () => {
                                           onClick={() => handleDeleteUser(u)}
                                           className="btn-outline"
                                           style={{
-                                            padding: '3px 7px',
-                                            fontSize: '0.7rem',
                                             borderColor: 'rgba(239, 68, 68, 0.3)',
-                                            color: '#f87171',
-                                            borderRadius: '5px'
+                                            color: '#f87171'
                                           }}
                                           title="Delete User"
                                         >
                                           <Trash2 size={11} />
                                         </button>
                                       </>
-                                    )}
-                                    {isSelf && (
-                                      <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontStyle: 'italic', fontWeight: 500 }}>
+                                    ) : (
+                                      <span className="user-primary-session-chip">
                                         Active Primary Session
                                       </span>
                                     )}
