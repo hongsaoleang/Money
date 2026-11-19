@@ -80,9 +80,15 @@ const Navbar = () => {
           </button>
 
           {/* Cart */}
-          <Link to="/cart" className="cart-btn" title="View Cart" onClick={() => setMobileMenuOpen(false)}>
+          <Link 
+            to={user ? "/cart" : "/login"} 
+            state={!user ? { message: 'Please sign in to access your shopping cart.' } : undefined}
+            className="cart-btn" 
+            title={user ? "View Cart" : "Sign in to view cart"} 
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <ShoppingBag size={19} />
-            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+            {user && totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
           </Link>
 
           {/* Quick Profile Link (Mobile & Desktop) */}
@@ -212,6 +218,11 @@ const Navbar = () => {
               <NavLink to="/about-us" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
                 <Info size={17} /> About Us
               </NavLink>
+              {user && (
+                <NavLink to="/cart" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
+                  <ShoppingBag size={17} /> Shopping Cart {totalItems > 0 ? `(${totalItems})` : ''}
+                </NavLink>
+              )}
               {user && (
                 <NavLink to="/settings" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
                   <User size={17} /> Account Settings
