@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { ProtectedRoute, PublicOnlyRoute } from './components/ProtectedRoute';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -29,18 +30,81 @@ function App() {
               <Navbar />
               <main className="main-content">
                 <Routes>
+                  {/* Public Catalog & Content - Unregistered guests can freely browse */}
                   <Route path="/" element={<Home />} />
                   <Route path="/products" element={<Products />} />
-                  <Route path="/products/manage" element={<ProductManage />} />
                   <Route path="/products/:id" element={<ProductDetail />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/client/deploy" element={<ClientPortal />} />
-                  <Route path="/admin" element={<Admin />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/cart" element={<Cart />} />
+
+                  {/* Public Auth Pages - Redirect away if already signed in */}
+                  <Route
+                    path="/login"
+                    element={
+                      <PublicOnlyRoute>
+                        <Login />
+                      </PublicOnlyRoute>
+                    }
+                  />
+                  <Route
+                    path="/register"
+                    element={
+                      <PublicOnlyRoute>
+                        <Register />
+                      </PublicOnlyRoute>
+                    }
+                  />
+
+                  {/* Customer Protected Route - Sign-in required for Cart & Checkout */}
+                  <Route
+                    path="/cart"
+                    element={
+                      <ProtectedRoute>
+                        <Cart />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* Customer Protected Route - Sign-in required for Account & Orders */}
+                  <Route
+                    path="/settings"
+                    element={
+                      <ProtectedRoute>
+                        <Settings />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* Client Merchant Route */}
+                  <Route
+                    path="/client/deploy"
+                    element={
+                      <ProtectedRoute requiredRole="ROLE_CLIENT">
+                        <ClientPortal />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* Admin Protected Routes */}
+                  <Route
+                    path="/products/manage"
+                    element={
+                      <ProtectedRoute requiredRole="ROLE_ADMIN">
+                        <ProductManage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute requiredRole="ROLE_ADMIN">
+                        <Admin />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* Catch-all fallback */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>
               <Footer />

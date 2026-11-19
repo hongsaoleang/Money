@@ -1,18 +1,65 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
+  const { user } = useAuth();
+  const storageKey = user ? `cart_${user.id || user.email}` : null;
+
   const [cartItems, setCartItems] = useState(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
+    if (!user || !storageKey) return [];
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) return JSON.parse(saved);
+      // Legacy fallback: check un-prefixed cart
+      const legacy = localStorage.getItem('cart');
+      if (legacy) {
+        localStorage.removeItem('cart');
+        return JSON.parse(legacy);
+      }
+      return [];
+    } catch {
+      return [];
+    }
   });
 
+  // Keep cart in sync with active user session
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (!user || !storageKey) {
+      setCartItems([]);
+      return;
+    }
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        setCartItems(JSON.parse(saved));
+      } else {
+        const legacy = localStorage.getItem('cart');
+        if (legacy) {
+          localStorage.removeItem('cart');
+          setCartItems(JSON.parse(legacy));
+        } else {
+          setCartItems([]);
+        }
+      }
+    } catch {
+      setCartItems([]);
+    }
+  }, [user?.id, user?.email, storageKey]);
+
+  useEffect(() => {
+    if (user && storageKey) {
+      localStorage.setItem(storageKey, JSON.stringify(cartItems));
+    }
+  }, [cartItems, user, storageKey]);
 
   const addToCart = (product, quantity = 1) => {
+    // Only registered and logged-in customers can hold items in cart
+    if (!user) {
+      return false;
+    }
+
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
@@ -24,6 +71,7 @@ export const CartProvider = ({ children }) => {
       }
       return [...prev, { product, quantity }];
     });
+    return true;
   };
 
   const removeFromCart = (productId) => {
@@ -47,13 +95,20 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  const clearCart = () => setCartItems([]);
+  const clearCart = () => {
+    setCartItems([]);
+    if (storageKey) {
+      localStorage.removeItem(storageKey);
+    }
+  };
 
-  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.quantity * parseFloat(item.product.price),
-    0
-  );
+  const totalItems = user ? cartItems.reduce((acc, item) => acc + item.quantity, 0) : 0;
+  const totalPrice = user
+    ? cartItems.reduce(
+        (acc, item) => acc + item.quantity * parseFloat(item.product.price),
+        0
+      )
+    : 0;
 
   return (
     <CartContext.Provider
