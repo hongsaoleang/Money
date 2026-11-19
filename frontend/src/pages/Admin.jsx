@@ -1019,23 +1019,11 @@ const Admin = () => {
                             </span>
                           </td>
                           <td>
-                            <div className="flex items-center gap-3">
-                              <div
-                                className="user-avatar-circle"
-                                style={{
-                                  background: u.role === 'ROLE_ADMIN' 
-                                    ? 'linear-gradient(135deg, #6366f1, #38bdf8)' 
-                                    : 'linear-gradient(135deg, #10b981, #06b6d4)'
-                                }}
-                              >
-                                {u.fullName?.charAt(0) || 'U'}
-                              </div>
-                              <div>
-                                <strong style={{ display: 'block', color: 'var(--text-main)', fontSize: '0.92rem' }}>
-                                  {u.fullName}
-                                </strong>
-                                {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontWeight: 600 }}>(You / Logged In)</span>}
-                              </div>
+                            <div>
+                              <strong style={{ display: 'block', color: 'var(--text-main)', fontSize: '0.92rem' }}>
+                                {u.fullName}
+                              </strong>
+                              {isSelf && <span style={{ fontSize: '0.7rem', color: '#38bdf8', fontWeight: 600 }}>(You / Logged In)</span>}
                             </div>
                           </td>
                           <td>
