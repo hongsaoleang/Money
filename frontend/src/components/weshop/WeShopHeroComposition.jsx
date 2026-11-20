@@ -39,7 +39,7 @@ const WeShopHeroComposition = () => {
         {/* Floating Trust Verification Badge */}
         <div className="weshop-hero-floating-badge top-right">
           <div className="weshop-badge-icon-box">
-            <ShieldCheck size={16} className="text-emerald-500" />
+            <ShieldCheck size={16} className="text-indigo-600 dark:text-cyan-400" />
           </div>
           <div className="weshop-badge-text-box">
             <span className="weshop-badge-label">{t('hero.badgeCertified')}</span>
@@ -49,7 +49,7 @@ const WeShopHeroComposition = () => {
 
         {/* Floating Order / Dispatch Pill */}
         <div className="weshop-hero-floating-badge bottom-left">
-          <div className="weshop-badge-icon-box bg-emerald-50 text-emerald-600">
+          <div className="weshop-badge-icon-box bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-cyan-400">
             <CheckCircle2 size={16} />
           </div>
           <div className="weshop-badge-text-box">
