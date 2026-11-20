@@ -1,25 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { 
-  Menu, X, ChevronDown, ArrowRight, Home, Shirt, Laptop, Armchair, Coffee
+  Menu, X, ChevronDown, ArrowRight, Home, Shirt, Laptop, Armchair, Coffee,
+  ShoppingBag, User, LogOut, LayoutDashboard
 } from 'lucide-react';
 import WeShopSearchBar from './WeShopSearchBar';
 import WeShopThemeToggle from './WeShopThemeToggle';
 import WeShopLanguageSelector from './WeShopLanguageSelector';
 import WeShopPrimaryButton from './WeShopPrimaryButton';
-
-const MARKETPLACE_CATEGORIES = [
-  { name: 'Home & Living', count: '450+ items', icon: Home, path: '/products?category=Home' },
-  { name: 'Apparel & Textiles', count: '320+ items', icon: Shirt, path: '/products?category=Apparel' },
-  { name: 'Office & Tech', count: '180+ items', icon: Laptop, path: '/products?category=Hardware' },
-  { name: 'Furniture & Decor', count: '210+ items', icon: Armchair, path: '/products?category=Furniture' },
-  { name: 'Ceramics & Tableware', count: '140+ items', icon: Coffee, path: '/products?category=Kitchen' },
-];
+import { useLanguage } from '../../context/LanguageContext';
+import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 
 const WeShopNavbar = ({ onExploreStoresClick }) => {
+  const { t } = useLanguage();
+  const { user, logout, isAdmin } = useAuth();
+  const { totalItems } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const navigate = useNavigate();
+
+  const marketplaceCategories = [
+    { name: t('cat.home'), count: t('cat.homeCount'), icon: Home, path: '/products?category=Home' },
+    { name: t('cat.apparel'), count: t('cat.apparelCount'), icon: Shirt, path: '/products?category=Apparel' },
+    { name: t('cat.office'), count: t('cat.officeCount'), icon: Laptop, path: '/products?category=Hardware' },
+    { name: t('cat.furniture'), count: t('cat.furnitureCount'), icon: Armchair, path: '/products?category=Furniture' },
+    { name: t('cat.ceramics'), count: t('cat.ceramicsCount'), icon: Coffee, path: '/products?category=Kitchen' },
+  ];
 
   // Close categories when clicking outside or resizing
   useEffect(() => {
@@ -52,10 +59,10 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
       <div className="weshop-navbar-container">
         {/* LEFT: Brand Logo & Main Nav Links */}
         <div className="weshop-nav-left">
-          {/* Green Script-style Logo */}
-          <Link to="/weshop" className="weshop-logo-link" aria-label="WeShop Home">
+          {/* Green Script-style Logo linking directly to root / */}
+          <Link to="/" className="weshop-logo-link" aria-label="JomnenhKH-Shop Home">
             <span className="weshop-logo-script">
-              We<span className="weshop-logo-accent">Shop</span>
+              JomnenhKH<span className="weshop-logo-accent">-Shop</span>
             </span>
             <span className="weshop-logo-leaf" aria-hidden="true">🌱</span>
           </Link>
@@ -66,7 +73,7 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
               to="/products"
               className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
             >
-              Browse Products
+              {t('nav.browseProducts')}
             </NavLink>
 
             <a
@@ -74,7 +81,7 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
               onClick={handleExploreStores}
               className="weshop-nav-link"
             >
-              Explore Stores
+              {t('nav.exploreStores')}
             </a>
 
             <div className="weshop-categories-trigger-wrap">
@@ -84,7 +91,7 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
                 onClick={() => setCategoriesOpen(!categoriesOpen)}
                 aria-expanded={categoriesOpen}
               >
-                <span>Categories</span>
+                <span>{t('nav.categories')}</span>
                 <ChevronDown size={14} className={`transition-transform duration-200 ${categoriesOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -95,7 +102,7 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
                   onMouseLeave={() => setCategoriesOpen(false)}
                 >
                   <div className="weshop-categories-grid">
-                    {MARKETPLACE_CATEGORIES.map((cat, idx) => {
+                    {marketplaceCategories.map((cat, idx) => {
                       const Icon = cat.icon;
                       return (
                         <Link
@@ -117,7 +124,7 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
                   </div>
                   <div className="weshop-categories-footer">
                     <Link to="/products" className="weshop-cat-footer-link" onClick={() => setCategoriesOpen(false)}>
-                      View All 24+ Marketplace Categories <ArrowRight size={13} />
+                      {t('nav.allCategories')} <ArrowRight size={13} />
                     </Link>
                   </div>
                 </div>
@@ -128,25 +135,60 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
 
         {/* CENTER: Wide Rounded Search Bar */}
         <div className="weshop-nav-center">
-          <WeShopSearchBar placeholder="Search products or suppliers" />
+          <WeShopSearchBar placeholder={t('nav.searchPlaceholder')} />
         </div>
 
-        {/* RIGHT: Actions (Theme, Language, Separator, Get Started) */}
+        {/* RIGHT: Actions (Theme, Language, Cart, Auth) */}
         <div className="weshop-nav-right">
           <WeShopThemeToggle />
           <WeShopLanguageSelector />
+
+          {/* Cart Icon */}
+          <Link to="/cart" className="weshop-cart-action-btn" title="View Cart" aria-label="Cart">
+            <ShoppingBag size={18} />
+            {totalItems > 0 && <span className="weshop-cart-count-badge">{totalItems}</span>}
+          </Link>
           
           <div className="weshop-nav-separator" aria-hidden="true" />
 
-          <WeShopPrimaryButton
-            size="md"
-            variant="primary"
-            asLink={true}
-            to="/register"
-            className="weshop-get-started-btn"
-          >
-            Get Started
-          </WeShopPrimaryButton>
+          {/* User Auth Controls */}
+          {user ? (
+            <div className="flex items-center gap-2">
+              <Link to="/settings" className="weshop-user-pill" title="My Account">
+                <User size={15} />
+                <span className="truncate max-w-[100px]">{user.fullName || 'Account'}</span>
+              </Link>
+              {isAdmin && (
+                <Link to="/admin" className="weshop-user-pill" title="Admin Dashboard">
+                  <LayoutDashboard size={15} />
+                </Link>
+              )}
+              <button
+                type="button"
+                className="weshop-theme-toggle-btn"
+                onClick={logout}
+                title="Sign Out"
+                aria-label="Sign Out"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link to="/login" className="weshop-signin-link">
+                Sign In
+              </Link>
+              <WeShopPrimaryButton
+                size="md"
+                variant="primary"
+                asLink={true}
+                to="/register"
+                className="weshop-get-started-btn"
+              >
+                {t('nav.getStarted')}
+              </WeShopPrimaryButton>
+            </div>
+          )}
 
           {/* Mobile Menu Hamburger */}
           <button
@@ -166,7 +208,7 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
           <div className="weshop-mobile-drawer-inner">
             <div className="weshop-mobile-search-wrap">
               <WeShopSearchBar
-                placeholder="Search products or suppliers"
+                placeholder={t('nav.searchPlaceholder')}
                 onSearch={() => setMobileMenuOpen(false)}
               />
             </div>
@@ -177,21 +219,28 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
                 className="weshop-mobile-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Browse Products
+                {t('nav.browseProducts')}
               </Link>
               <a
                 href="#featured-stores"
                 className="weshop-mobile-link"
                 onClick={handleExploreStores}
               >
-                Explore Stores
+                {t('nav.exploreStores')}
               </a>
               <Link
                 to="/products"
                 className="weshop-mobile-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                All Categories
+                {t('nav.categories')}
+              </Link>
+              <Link
+                to="/cart"
+                className="weshop-mobile-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Cart ({totalItems})
               </Link>
             </nav>
 
@@ -200,14 +249,45 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
                 <WeShopThemeToggle />
                 <WeShopLanguageSelector />
               </div>
-              <WeShopPrimaryButton
-                size="md"
-                asLink={true}
-                to="/register"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </WeShopPrimaryButton>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/settings"
+                    className="weshop-user-pill"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {user.fullName || 'Account'}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="weshop-theme-toggle-btn"
+                  >
+                    <LogOut size={16} />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/login"
+                    className="weshop-signin-link"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <WeShopPrimaryButton
+                    size="md"
+                    asLink={true}
+                    to="/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {t('nav.getStarted')}
+                  </WeShopPrimaryButton>
+                </div>
+              )}
             </div>
           </div>
         </div>

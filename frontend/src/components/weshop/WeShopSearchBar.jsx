@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, Sparkles, Store, Package } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const SUGGESTIONS = [
   { label: 'Minimalist ceramic vases', type: 'product', category: 'HomeStyle' },
@@ -10,11 +11,14 @@ const SUGGESTIONS = [
   { label: 'Handcrafted stoneware coffee cups', type: 'product', category: 'Daily Goods' },
 ];
 
-const WeShopSearchBar = ({ placeholder = 'Search products or suppliers', onSearch }) => {
+const WeShopSearchBar = ({ placeholder, onSearch }) => {
+  const { t } = useLanguage();
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
   const navigate = useNavigate();
+
+  const currentPlaceholder = placeholder || t('nav.searchPlaceholder');
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -60,7 +64,7 @@ const WeShopSearchBar = ({ placeholder = 'Search products or suppliers', onSearc
           <input
             type="text"
             className="weshop-search-input"
-            placeholder={placeholder}
+            placeholder={currentPlaceholder}
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -91,7 +95,7 @@ const WeShopSearchBar = ({ placeholder = 'Search products or suppliers', onSearc
           <div className="weshop-search-dropdown-header">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
               <Sparkles size={12} className="text-emerald-500" />
-              {query ? 'Suggested Matches' : 'Popular Marketplace Searches'}
+              {query ? t('search.suggested') : t('search.popular')}
             </span>
           </div>
           <ul className="weshop-search-dropdown-list">
@@ -113,7 +117,7 @@ const WeShopSearchBar = ({ placeholder = 'Search products or suppliers', onSearc
               ))
             ) : (
               <li className="weshop-search-empty-state">
-                Press Enter to search for &ldquo;<strong>{query}</strong>&rdquo;
+                {t('search.pressEnter')} &ldquo;<strong>{query}</strong>&rdquo;
               </li>
             )}
           </ul>

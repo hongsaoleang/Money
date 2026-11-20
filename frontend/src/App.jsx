@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { ProtectedRoute, PublicOnlyRoute } from './components/ProtectedRoute';
@@ -130,13 +131,15 @@ const AppLayout = () => {
 function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Router>
-            <AppLayout />
-          </Router>
-        </CartProvider>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Router>
+              <AppLayout />
+            </Router>
+          </CartProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

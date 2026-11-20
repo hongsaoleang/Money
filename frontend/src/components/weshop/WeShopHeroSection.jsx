@@ -2,8 +2,11 @@ import React from 'react';
 import WeShopPrimaryButton from './WeShopPrimaryButton';
 import WeShopHeroComposition from './WeShopHeroComposition';
 import { Sparkles } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const WeShopHeroSection = () => {
+  const { t, language } = useLanguage();
+
   return (
     <section className="weshop-hero-section">
       <div className="weshop-hero-container">
@@ -12,20 +15,30 @@ const WeShopHeroSection = () => {
           {/* Subtle B2B / Marketplace Pill Tag */}
           <div className="weshop-hero-tag">
             <Sparkles size={13} className="text-emerald-500" />
-            <span>Modern B2B &amp; Direct Marketplace</span>
+            <span>{t('hero.tag')}</span>
           </div>
 
           {/* Main 2-Line Headline */}
           <h1 className="weshop-hero-heading">
-            <span className="weshop-heading-line">Source smarter.</span>
+            <span className="weshop-heading-line">{t('hero.heading1')}</span>
             <span className="weshop-heading-line">
-              Grow <span className="weshop-brand-w">W</span> together.
+              {language === 'KH' ? (
+                <>រីកចម្រើន <span className="weshop-brand-w">W</span> ជាមួយគ្នា។</>
+              ) : language === 'FR' ? (
+                <>Grandissez <span className="weshop-brand-w">W</span> ensemble.</>
+              ) : language === 'ES' ? (
+                <>Crece <span className="weshop-brand-w">W</span> juntos.</>
+              ) : language === 'ZH' ? (
+                <>共赢共创 <span className="weshop-brand-w">W</span> 卓越未来。</>
+              ) : (
+                <>Grow <span className="weshop-brand-w">W</span> together.</>
+              )}
             </span>
           </h1>
 
           {/* Supporting Description */}
           <p className="weshop-hero-description">
-            Wholesale products. Independent suppliers. New possibilities for your business.
+            {t('hero.description')}
           </p>
 
           {/* Green Rounded CTA Button */}
@@ -38,11 +51,11 @@ const WeShopHeroSection = () => {
               arrow={true}
               className="weshop-hero-cta-btn"
             >
-              Explore Products
+              {t('hero.cta')}
             </WeShopPrimaryButton>
 
             <a href="#featured-stores" className="weshop-hero-secondary-link">
-              View Featured Stores
+              {t('hero.secondaryCta')}
             </a>
           </div>
 
@@ -50,17 +63,17 @@ const WeShopHeroSection = () => {
           <div className="weshop-hero-stats-row">
             <div className="weshop-hero-stat-item">
               <span className="weshop-stat-num">2,400+</span>
-              <span className="weshop-stat-label">Independent Makers</span>
+              <span className="weshop-stat-label">{t('hero.statMakers')}</span>
             </div>
             <div className="weshop-stat-divider" aria-hidden="true" />
             <div className="weshop-hero-stat-item">
               <span className="weshop-stat-num">50k+</span>
-              <span className="weshop-stat-label">Vetted Products</span>
+              <span className="weshop-stat-label">{t('hero.statProducts')}</span>
             </div>
             <div className="weshop-stat-divider" aria-hidden="true" />
             <div className="weshop-hero-stat-item">
               <span className="weshop-stat-num">99.8%</span>
-              <span className="weshop-stat-label">Fulfillment Rate</span>
+              <span className="weshop-stat-label">{t('hero.statFulfillment')}</span>
             </div>
           </div>
         </div>

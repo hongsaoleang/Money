@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const WeShopHeroComposition = () => {
+  const { t } = useLanguage();
   const [imageLoaded, setImageLoaded] = useState(false);
 
   // High-resolution photography of minimalist packaging and curated lifestyle goods
@@ -26,7 +28,7 @@ const WeShopHeroComposition = () => {
               }
             }}
             onLoad={() => setImageLoaded(true)}
-            alt="WeShop commercial product arrangement featuring branded shipping box, cream tote bag, reusable green bottle, and folded apparel"
+            alt="JomnenhKH-Shop commercial product arrangement featuring branded shipping box, cream tote bag, reusable green bottle, and folded apparel"
             className={`weshop-hero-product-img ${imageLoaded ? 'loaded' : ''}`}
           />
 
@@ -40,8 +42,8 @@ const WeShopHeroComposition = () => {
             <ShieldCheck size={16} className="text-emerald-500" />
           </div>
           <div className="weshop-badge-text-box">
-            <span className="weshop-badge-label">WeShop Certified</span>
-            <span className="weshop-badge-sub">Quality Inspected</span>
+            <span className="weshop-badge-label">{t('hero.badgeCertified')}</span>
+            <span className="weshop-badge-sub">{t('hero.badgeInspected')}</span>
           </div>
         </div>
 
@@ -51,8 +53,8 @@ const WeShopHeroComposition = () => {
             <CheckCircle2 size={16} />
           </div>
           <div className="weshop-badge-text-box">
-            <span className="weshop-badge-label">Direct From Makers</span>
-            <span className="weshop-badge-sub">Wholesale pricing</span>
+            <span className="weshop-badge-label">{t('hero.badgeDirect')}</span>
+            <span className="weshop-badge-sub">{t('hero.badgeWholesale')}</span>
           </div>
         </div>
       </div>

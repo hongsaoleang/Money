@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Globe, Check } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const LANGUAGES = [
   { code: 'EN', name: 'English (US)', flag: '🇺🇸' },
@@ -10,7 +11,7 @@ const LANGUAGES = [
 ];
 
 const WeShopLanguageSelector = () => {
-  const [selectedLang, setSelectedLang] = useState('EN');
+  const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -25,11 +26,11 @@ const WeShopLanguageSelector = () => {
   }, []);
 
   const handleSelect = (code) => {
-    setSelectedLang(code);
+    setLanguage(code);
     setIsOpen(false);
   };
 
-  const current = LANGUAGES.find((l) => l.code === selectedLang) || LANGUAGES[0];
+  const current = LANGUAGES.find((l) => l.code === language) || LANGUAGES[0];
 
   return (
     <div className="weshop-lang-selector-container" ref={dropdownRef}>
@@ -48,18 +49,18 @@ const WeShopLanguageSelector = () => {
       {isOpen && (
         <div className="weshop-lang-dropdown">
           <div className="weshop-lang-dropdown-header">
-            Select Language
+            {language === 'KH' ? 'ជ្រើសរើសភាសា' : 'Select Language'}
           </div>
           <ul className="weshop-lang-list">
             {LANGUAGES.map((lang) => (
               <li
                 key={lang.code}
-                className={`weshop-lang-item ${lang.code === selectedLang ? 'selected' : ''}`}
+                className={`weshop-lang-item ${lang.code === language ? 'selected' : ''}`}
                 onClick={() => handleSelect(lang.code)}
               >
                 <span className="weshop-lang-flag">{lang.flag}</span>
                 <span className="weshop-lang-item-name">{lang.name}</span>
-                {lang.code === selectedLang && (
+                {lang.code === language && (
                   <Check size={14} className="weshop-lang-check text-emerald-500" />
                 )}
               </li>

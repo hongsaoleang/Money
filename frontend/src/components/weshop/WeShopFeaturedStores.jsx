@@ -5,21 +5,20 @@ import {
 } from 'lucide-react';
 import WeShopStoreCard from './WeShopStoreCard';
 import WeShopStoreModal from './WeShopStoreModal';
+import { useLanguage } from '../../context/LanguageContext';
 
-// Five exact stores from specification with matching images, icons, and product counts
-export const FEATURED_STORES = [
+export const RAW_STORES = [
   {
     id: 'homestyle',
     name: 'HomeStyle',
-    productsCount: '128 products',
-    category: 'Home Decor',
+    countNum: '128',
+    categoryKey: 'store.homestyle.category',
+    descKey: 'store.homestyle.desc',
     icon: Home,
-    // Elegant home decoration and ceramic products on wooden shelves
     image: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Elegant home decoration and ceramic products on wooden shelves',
     rating: '4.95',
     location: 'Copenhagen, Denmark',
-    description: 'Bespoke ceramics, sculpted stoneware vases, and minimalist home accessories crafted from natural Nordic clay.',
     samples: [
       { name: 'Fluted Ceramic Vase', price: '$34.00' },
       { name: 'Nordic Oak Floating Shelf', price: '$58.00' },
@@ -29,15 +28,14 @@ export const FEATURED_STORES = [
   {
     id: 'trendwear',
     name: 'TrendWear',
-    productsCount: '94 products',
-    category: 'Apparel',
+    countNum: '94',
+    categoryKey: 'store.trendwear.category',
+    descKey: 'store.trendwear.desc',
     icon: Shirt,
-    // Minimalist clothing displayed on a wooden clothes rack
     image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Minimalist clothing displayed on a wooden clothes rack',
     rating: '4.91',
     location: 'Kyoto, Japan',
-    description: 'Consciously made unisex apparel, heavyweight organic cotton basics, and relaxed linen workwear for mindful wardrobes.',
     samples: [
       { name: 'Oversized Linen Shirt', price: '$46.00' },
       { name: 'Relaxed Tailored Chino', price: '$64.00' },
@@ -47,15 +45,14 @@ export const FEATURED_STORES = [
   {
     id: 'officepro',
     name: 'OfficePro',
-    productsCount: '76 products',
-    category: 'Workspace',
+    countNum: '76',
+    categoryKey: 'store.officepro.category',
+    descKey: 'store.officepro.desc',
     icon: Leaf,
-    // Modern workspace with a laptop and green plant
     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Modern workspace with a laptop and green plant',
     rating: '4.88',
     location: 'Berlin, Germany',
-    description: 'Ergonomic workspace accessories, walnut laptop risers, desk pads, and biophilic office accents engineered for peak focus.',
     samples: [
       { name: 'Solid Walnut Laptop Stand', price: '$52.00' },
       { name: 'Felt Desk Mat (Large)', price: '$30.00' },
@@ -65,15 +62,14 @@ export const FEATURED_STORES = [
   {
     id: 'comfort-living',
     name: 'Comfort Living',
-    productsCount: '110 products',
-    category: 'Living',
+    countNum: '110',
+    categoryKey: 'store.comfort.category',
+    descKey: 'store.comfort.desc',
     icon: Armchair,
-    // Cozy living room with a green cushion on a beige sofa
     image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Cozy living room with a green cushion on a beige sofa',
     rating: '4.93',
     location: 'Stockholm, Sweden',
-    description: 'Tactile wool blankets, sage green cushions, and heirloom soft furnishings designed to infuse spaces with warmth and tranquility.',
     samples: [
       { name: 'Sage Linen Throw Cushion', price: '$38.00' },
       { name: 'Waffle Knit Wool Blanket', price: '$72.00' },
@@ -83,15 +79,14 @@ export const FEATURED_STORES = [
   {
     id: 'daily-goods',
     name: 'Daily Goods',
-    productsCount: '132 products',
-    category: 'Tableware',
+    countNum: '132',
+    categoryKey: 'store.daily.category',
+    descKey: 'store.daily.desc',
     icon: Coffee,
-    // Minimalist ceramic cups and a decorative vase
     image: 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Minimalist ceramic cups and a decorative vase',
     rating: '4.97',
     location: 'Portland, OR, USA',
-    description: 'Everyday ritual essentials, matte glazed espresso tumblers, drippers, and sculptural vessels made to elevate daily moments.',
     samples: [
       { name: 'Matte Glazed Espresso Cup', price: '$16.00' },
       { name: 'Ceramic Pour-Over Dripper', price: '$32.00' },
@@ -101,6 +96,7 @@ export const FEATURED_STORES = [
 ];
 
 const WeShopFeaturedStores = () => {
+  const { t } = useLanguage();
   const [selectedStore, setSelectedStore] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -114,15 +110,22 @@ const WeShopFeaturedStores = () => {
     navigate('/products');
   };
 
+  const localizedStores = RAW_STORES.map((s) => ({
+    ...s,
+    category: t(s.categoryKey),
+    description: t(s.descKey),
+    productsCount: `${s.countNum} ${t('stores.productsSuffix')}`,
+  }));
+
   return (
     <section id="featured-stores" className="weshop-featured-stores-section">
       <div className="weshop-stores-container">
         {/* Section Header */}
         <div className="weshop-stores-header">
           <div className="weshop-stores-title-group">
-            <h2 className="weshop-stores-heading">Stores worth knowing</h2>
+            <h2 className="weshop-stores-heading">{t('stores.heading')}</h2>
             <p className="weshop-stores-subtitle">
-              Meet the people behind your next good find.
+              {t('stores.subtitle')}
             </p>
           </div>
 
@@ -131,16 +134,16 @@ const WeShopFeaturedStores = () => {
             type="button"
             className="weshop-explore-stores-btn"
             onClick={handleExploreStoresClick}
-            aria-label="Explore all stores"
+            aria-label={t('stores.explore')}
           >
-            <span>Explore stores</span>
+            <span>{t('stores.explore')}</span>
             <ArrowRight size={16} className="weshop-explore-arrow" />
           </button>
         </div>
 
         {/* Store Card Grid: Exactly 5 Cards Horizontally in One Row on Desktop */}
         <div className="weshop-stores-grid">
-          {FEATURED_STORES.map((store) => (
+          {localizedStores.map((store) => (
             <WeShopStoreCard
               key={store.id}
               store={store}

@@ -5,8 +5,10 @@ import {
   Clock, Award
 } from 'lucide-react';
 import WeShopPrimaryButton from './WeShopPrimaryButton';
+import { useLanguage } from '../../context/LanguageContext';
 
 const WeShopStoreModal = ({ store, isOpen, onClose }) => {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   if (!isOpen || !store) return null;
@@ -47,7 +49,7 @@ const WeShopStoreModal = ({ store, isOpen, onClose }) => {
               <div className="flex items-center gap-2">
                 <h2 className="weshop-modal-title">{store.name}</h2>
                 <span className="weshop-modal-verified-badge">
-                  <ShieldCheck size={14} /> Verified Maker
+                  <ShieldCheck size={14} /> {t('modal.verifiedMaker')}
                 </span>
               </div>
               <p className="weshop-modal-sub-info">
@@ -68,7 +70,7 @@ const WeShopStoreModal = ({ store, isOpen, onClose }) => {
         {/* Modal Body */}
         <div className="weshop-modal-body">
           <div className="weshop-modal-section">
-            <h4 className="weshop-modal-section-title">About This Supplier</h4>
+            <h4 className="weshop-modal-section-title">{t('modal.aboutSupplier')}</h4>
             <p className="weshop-modal-description">
               {store.description ||
                 `${store.name} specializes in high-quality, sustainable production with fair wholesale conditions for boutique retailers and independent businesses worldwide.`}
@@ -80,29 +82,29 @@ const WeShopStoreModal = ({ store, isOpen, onClose }) => {
             <div className="weshop-modal-metric-card">
               <Clock size={16} className="text-emerald-500" />
               <div>
-                <span className="metric-val">2–4 Days</span>
-                <span className="metric-lbl">Lead Time</span>
+                <span className="metric-val">{t('modal.leadTimeVal')}</span>
+                <span className="metric-lbl">{t('modal.leadTime')}</span>
               </div>
             </div>
             <div className="weshop-modal-metric-card">
               <Award size={16} className="text-emerald-500" />
               <div>
                 <span className="metric-val">99.4%</span>
-                <span className="metric-lbl">Positive Reviews</span>
+                <span className="metric-lbl">{t('modal.positiveReviews')}</span>
               </div>
             </div>
             <div className="weshop-modal-metric-card">
               <Package size={16} className="text-emerald-500" />
               <div>
-                <span className="metric-val">Low MOQ</span>
-                <span className="metric-lbl">5 Units Min</span>
+                <span className="metric-val">{t('modal.lowMoqVal')}</span>
+                <span className="metric-lbl">{t('modal.lowMoq')}</span>
               </div>
             </div>
           </div>
 
           {/* Sample Products */}
           <div className="weshop-modal-section">
-            <h4 className="weshop-modal-section-title">Popular Items from {store.name}</h4>
+            <h4 className="weshop-modal-section-title">{t('modal.popularItems')} {store.name}</h4>
             <div className="weshop-modal-samples-row">
               {store.samples?.map((sample, idx) => (
                 <div key={idx} className="weshop-sample-pill">
@@ -125,7 +127,7 @@ const WeShopStoreModal = ({ store, isOpen, onClose }) => {
             size="md"
             onClick={onClose}
           >
-            Close
+            {t('modal.close')}
           </WeShopPrimaryButton>
 
           <WeShopPrimaryButton
@@ -134,7 +136,7 @@ const WeShopStoreModal = ({ store, isOpen, onClose }) => {
             arrow={true}
             onClick={handleBrowseStoreProducts}
           >
-            Explore {store.name} Products
+            {t('modal.exploreStore')}
           </WeShopPrimaryButton>
         </div>
       </div>
