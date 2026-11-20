@@ -25,8 +25,48 @@ import Cart from './pages/Cart';
 const AppLayout = () => {
   return (
     <div className="app-container">
+      {/* Global Blurred Brand Watermark Background across the entire website */}
+      <div className="site-global-watermark-layer" aria-hidden="true">
+        <div className="site-watermark-item watermark-top-right">
+          <img
+            src="/jomnenhkh-icon.jpg"
+            onError={(e) => {
+              if (e.currentTarget.src !== '/JomnenhKH.jpg') {
+                e.currentTarget.src = '/JomnenhKH.jpg';
+              }
+            }}
+            alt=""
+            className="site-watermark-img"
+          />
+        </div>
+        <div className="site-watermark-item watermark-mid-left">
+          <img
+            src="/jomnenhkh-icon.jpg"
+            onError={(e) => {
+              if (e.currentTarget.src !== '/JomnenhKH.jpg') {
+                e.currentTarget.src = '/JomnenhKH.jpg';
+              }
+            }}
+            alt=""
+            className="site-watermark-img"
+          />
+        </div>
+        <div className="site-watermark-item watermark-bottom-right">
+          <img
+            src="/jomnenhkh-icon.jpg"
+            onError={(e) => {
+              if (e.currentTarget.src !== '/JomnenhKH.jpg') {
+                e.currentTarget.src = '/JomnenhKH.jpg';
+              }
+            }}
+            alt=""
+            className="site-watermark-img"
+          />
+        </div>
+      </div>
+
       <Navbar />
-      <main className="main-content">
+      <main className="main-content relative z-10">
         <Routes>
           {/* Main JomnenhKH-Shop Modern Marketplace Homepage */}
           <Route path="/" element={<Home />} />

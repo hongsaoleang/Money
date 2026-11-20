@@ -1,8 +1,21 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { 
+  ArrowUpRight, Edit3, Trash2,
+  Home, Shirt, Leaf, Armchair, Coffee, Package, Store 
+} from 'lucide-react';
 
-const WeShopStoreCard = ({ store, onClick }) => {
-  const IconComponent = store.icon;
+const ICON_MAP = {
+  Home,
+  Shirt,
+  Leaf,
+  Armchair,
+  Coffee,
+  Package,
+  Store,
+};
+
+const WeShopStoreCard = ({ store, onClick, isAdmin, onEdit, onDelete }) => {
+  const IconComponent = (store.iconName && ICON_MAP[store.iconName]) || store.icon || Store;
 
   return (
     <article
@@ -30,11 +43,49 @@ const WeShopStoreCard = ({ store, onClick }) => {
         <div className="weshop-store-category-chip">
           {store.category}
         </div>
+
+        {/* Admin Quick Action Controls */}
+        {isAdmin && (
+          <div className="weshop-card-admin-bar" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="weshop-card-admin-action"
+              onClick={() => onEdit && onEdit(store)}
+              title="Edit store and image"
+              aria-label="Edit store"
+            >
+              <Edit3 size={14} />
+            </button>
+            <button
+              type="button"
+              className="weshop-card-admin-action delete"
+              onClick={() => onDelete && onDelete(store)}
+              title="Delete this store"
+              aria-label="Delete store"
+            >
+              <Trash2 size={14} />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 2. Store Information Area Underneath */}
-      <div className="weshop-store-info-box">
-        <div className="weshop-store-info-left">
+      <div className="weshop-store-info-box relative overflow-hidden">
+        {/* Subtle blurred card background watermark */}
+        <div className="weshop-card-watermark" aria-hidden="true">
+          <img
+            src="/jomnenhkh-icon.jpg"
+            onError={(e) => {
+              if (e.currentTarget.src !== '/JomnenhKH.jpg') {
+                e.currentTarget.src = '/JomnenhKH.jpg';
+              }
+            }}
+            alt=""
+            className="weshop-card-watermark-img"
+          />
+        </div>
+
+        <div className="weshop-store-info-left relative z-10">
           {/* 3. Circular Category Icon */}
           <div className="weshop-store-icon-circle" aria-hidden="true">
             {IconComponent && <IconComponent size={18} className="weshop-cat-svg-icon" />}

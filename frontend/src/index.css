@@ -7247,7 +7247,26 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   #developers .interactive-lanyard-wrapper > .text-center { gap: 12px; margin-bottom: 22px !important; }
   #developers .dev-switcher-dock { gap: 8px; }
   .developer-edit-modal { width: min(96vw, 680px); }
-  .dev-switcher-item .dev-dock-btn { width: min(78vw, 260px); }
+  .dev-switcher-item .dev-dock-btn {
+    width: auto !important;
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+    gap: 6px !important;
+  }
+  .dev-dock-img {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .dev-dock-name {
+    font-size: 11px !important;
+  }
+  .dev-dock-role {
+    font-size: 9px !important;
+  }
+  .dev-edit-btn {
+    font-size: 10px !important;
+    padding: 2px 6px !important;
+  }
   .developer-edit-overlay { padding: 10px; }
   .developer-edit-dialog { padding: 20px 16px; border-radius: 6px; }
   .developer-edit-fields { grid-template-columns: minmax(0, 1fr); gap: 14px; }
@@ -10277,4 +10296,180 @@ select option { background: #151f33; color: #f4f6ff; }
 
 [data-theme="light"] .lang-dropdown-item.active {
   background: rgba(79, 70, 229, 0.08);
+}
+
+
+/* ==========================================================================
+   Global Website Brand Watermark (jomnenhkh-icon.jpg blurred across all pages)
+   ========================================================================== */
+.site-global-watermark-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.site-watermark-item {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.16;
+  filter: blur(6px);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+[data-theme="dark"] .site-watermark-item {
+  opacity: 0.12;
+  filter: blur(8px);
+}
+
+.site-watermark-item.watermark-top-right {
+  top: 80px;
+  right: -60px;
+  width: 560px;
+  max-width: 50vw;
+  transform: rotate(-5deg);
+}
+
+.site-watermark-item.watermark-mid-left {
+  top: 42%;
+  left: -80px;
+  width: 580px;
+  max-width: 52vw;
+  transform: rotate(5deg);
+}
+
+.site-watermark-item.watermark-bottom-right {
+  bottom: 60px;
+  right: -50px;
+  width: 520px;
+  max-width: 48vw;
+  transform: rotate(-4deg);
+}
+
+.site-watermark-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+
+/* ==========================================================================
+   About Us — Compact Scaled CTA Section
+   ========================================================================== */
+.about-cta {
+  padding: 40px 16px 48px !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+}
+
+.about-cta-title {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  margin: 0 0 8px !important;
+  color: var(--text-main, #ffffff) !important;
+}
+
+.about-cta-desc {
+  font-size: 14px !important;
+  color: #94a3b8 !important;
+  margin: 0 0 20px !important;
+}
+
+.about-cta-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: auto !important;
+  margin: 0 auto !important;
+}
+
+.about-cta-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 40px !important;
+  padding: 8px 20px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  white-space: nowrap !important;
+  width: auto !important;
+}
+
+/* Phone Responsive Scaling (max-width: 768px and max-width: 480px) */
+@media (max-width: 768px) {
+  .about-cta {
+    padding: 20px 12px 24px !important;
+    margin: 0 auto !important;
+  }
+
+  .about-cta-title {
+    font-size: 17px !important;
+    line-height: 1.25 !important;
+    margin: 0 0 5px !important;
+  }
+
+  .about-cta-desc {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    margin: 0 0 14px !important;
+    color: #94a3b8 !important;
+  }
+
+  .about-cta-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  .about-cta-btn {
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    padding: 4px 14px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-cta {
+    padding: 16px 10px 20px !important;
+  }
+
+  .about-cta-title {
+    font-size: 16px !important;
+    margin: 0 0 4px !important;
+  }
+
+  .about-cta-desc {
+    font-size: 11px !important;
+    margin: 0 0 12px !important;
+  }
+
+  .about-cta-actions {
+    gap: 6px !important;
+  }
+
+  .about-cta-btn {
+    min-height: 30px !important;
+    height: 30px !important;
+    padding: 4px 12px !important;
+    font-size: 11px !important;
+    border-radius: 7px !important;
+  }
 }

@@ -144,9 +144,9 @@ const Services = () => {
             {t('services.title', 'Software Services')}
           </h1>
 
-          <div className="hero-actions justify-center mb-8">
-            <a href="#inquiry" className="btn-primary">
-              <Send size={15} /> {t('footer.contactUs', 'Contact Us')}
+          <div className="services-hero-actions hero-actions justify-center mb-6">
+            <a href="#inquiry" className="btn-primary services-contact-btn">
+              <Send size={13} /> {t('footer.contactUs', 'Contact Us')}
             </a>
           </div>
         </div>
@@ -154,9 +154,9 @@ const Services = () => {
 
       {/* 2. CORE CAPABILITIES - FEATURE FOCUS (REDUCED TEXT) */}
       <section className="section-container">
-        <div className="section-header text-center">
-          <span className="section-badge">Capabilities</span>
-          <h2 className="section-title">Core Engineering Capabilities</h2>
+        <div className="section-header text-center capabilities-header">
+          <span className="section-badge capabilities-badge">Capabilities</span>
+          <h2 className="section-title capabilities-title">Core Engineering Capabilities</h2>
         </div>
 
         <div className="services-grid">

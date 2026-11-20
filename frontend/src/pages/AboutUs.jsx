@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Code, Cpu, UserCheck, Pencil, X } from 'lucide-react';
+import { Sparkles, Code, Cpu, UserCheck, Pencil, X, Plus, Trash2 } from 'lucide-react';
 import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 import DeveloperPhotoPicker from '../components/DeveloperPhotoPicker';
 import api from '../api/client';
@@ -49,15 +49,29 @@ const DEVELOPERS = [
 const AboutUs = () => {
   const { isAdmin } = useAuth();
   const { t } = useLanguage();
-  const [developers, setDevelopers] = useState(DEVELOPERS);
-  const [selectedDevId, setSelectedDevId] = useState(DEVELOPERS[0].id);
+  const [developers, setDevelopers] = useState(() => {
+    try {
+      const saved = localStorage.getItem('jomnenh_team_members');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return DEVELOPERS;
+  });
+  const [selectedDevId, setSelectedDevId] = useState(() => developers[0]?.id || 1);
   const [editingDeveloper, setEditingDeveloper] = useState(null);
   const [developerSaveError, setDeveloperSaveError] = useState('');
   const [savingDeveloper, setSavingDeveloper] = useState(false);
 
   useEffect(() => {
+    localStorage.setItem('jomnenh_team_members', JSON.stringify(developers));
+  }, [developers]);
+
+  useEffect(() => {
     api.get('/api/developers').then(({ data }) => {
       if (!Array.isArray(data) || data.length === 0) return;
+      if (localStorage.getItem('jomnenh_team_members_customized')) return;
       const profiles = data.map((profile) => ({
         ...profile,
         isLead: profile.lead,
@@ -70,7 +84,7 @@ const AboutUs = () => {
     });
   }, []);
 
-  const activeDev = developers.find(d => d.id === selectedDevId) || developers[0];
+  const activeDev = developers.find((d) => d.id === selectedDevId) || developers[0] || DEVELOPERS[0];
 
   const resolveDevId = (devId) => {
     if (devId === 'hong') return 1;
@@ -78,6 +92,25 @@ const AboutUs = () => {
     if (devId === 'devon') return 3;
     const num = Number(devId);
     return Number.isFinite(num) ? num : devId;
+  };
+
+  const handleAddNewDeveloper = () => {
+    setDeveloperSaveError('');
+    const newId = `dev_${Date.now()}`;
+    const newDev = {
+      id: newId,
+      name: 'New Team Member',
+      role: 'Full-Stack Developer',
+      badgeRole: 'Developer',
+      pill: 'Engineer',
+      avatar: '/JomnenhKH.jpg',
+      tier: (developers.length % 3),
+      isLead: false,
+      bio: 'Contributing to platform design, architecture, and user experience.',
+      skills: 'React.js, Node.js, Spring Boot',
+      isNew: true,
+    };
+    setEditingDeveloper(newDev);
   };
 
   const openDeveloperEditor = (developer) => {
@@ -90,13 +123,37 @@ const AboutUs = () => {
       ...developer,
       id: targetId,
       skills: skillsStr,
+      isNew: false,
     });
+  };
+
+  const handleDeleteDeveloper = (devId, e) => {
+    if (e) e.stopPropagation();
+    if (developers.length <= 1) {
+      alert('You must maintain at least one team member profile.');
+      return;
+    }
+    if (confirm('Are you sure you want to remove this team member?')) {
+      localStorage.setItem('jomnenh_team_members_customized', 'true');
+      setDevelopers((prev) => {
+        const remaining = prev.filter((d) => d.id !== devId);
+        if (selectedDevId === devId && remaining.length > 0) {
+          setSelectedDevId(remaining[0].id);
+        }
+        return remaining;
+      });
+      if (editingDeveloper?.id === devId) {
+        setEditingDeveloper(null);
+      }
+    }
   };
 
   const saveDeveloper = async (event) => {
     event.preventDefault();
     setSavingDeveloper(true);
     setDeveloperSaveError('');
+    localStorage.setItem('jomnenh_team_members_customized', 'true');
+
     const targetId = resolveDevId(editingDeveloper.id);
     const skillsArray = typeof editingDeveloper.skills === 'string'
       ? editingDeveloper.skills.split(',').map((skill) => skill.trim()).filter(Boolean)
@@ -107,6 +164,15 @@ const AboutUs = () => {
       id: targetId,
       skills: skillsArray,
     };
+
+    if (editingDeveloper.isNew) {
+      delete updatedProfile.isNew;
+      setDevelopers((profiles) => [...profiles, updatedProfile]);
+      setSelectedDevId(updatedProfile.id);
+      setEditingDeveloper(null);
+      setSavingDeveloper(false);
+      return;
+    }
 
     try {
       const { data } = await api.put(`/api/admin/developers/${targetId}`, {
@@ -184,13 +250,42 @@ const AboutUs = () => {
                       {isActive && <span className="dev-active-dot" title="Active on 3D Pass" />}
                     </button>
                     {isAdmin && (
-                      <button type="button" className="dev-edit-btn" onClick={() => openDeveloperEditor(dev)}>
-                        <Pencil size={13} /> Edit
-                      </button>
+                      <div className="flex items-center gap-1 mt-1 justify-center">
+                        <button type="button" className="dev-edit-btn" onClick={() => openDeveloperEditor(dev)} title="Edit profile">
+                          <Pencil size={11} /> Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="dev-edit-btn text-rose-500 hover:text-rose-600 hover:border-rose-300"
+                          onClick={(e) => handleDeleteDeveloper(dev.id, e)}
+                          title="Delete team member"
+                        >
+                          <Trash2 size={11} />
+                        </button>
+                      </div>
                     )}
                   </div>
                 );
               })}
+
+              {/* Admin: Create / Add New Team Member Button */}
+              {isAdmin && (
+                <div className="dev-switcher-item">
+                  <button
+                    type="button"
+                    className="dev-dock-btn dev-dock-add-btn"
+                    onClick={handleAddNewDeveloper}
+                    title="Create and add a new team member"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-cyan-400">
+                      <Plus size={16} />
+                    </div>
+                    <div className="dev-dock-text">
+                      <span className="dev-dock-name text-indigo-600 dark:text-cyan-400 font-semibold">+ Add Member</span>
+                    </div>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -209,11 +304,11 @@ const AboutUs = () => {
 
       {/* CTA */}
       <section className="section-container text-center about-cta">
-        <h2>Ready to explore?</h2>
-        <p>Shop our products or talk with our software team.</p>
-        <div className="hero-actions justify-center">
-          <Link to="/products" className="btn-primary">Browse Products</Link>
-          <Link to="/services" className="btn-secondary">Explore services</Link>
+        <h2 className="about-cta-title">Ready to explore?</h2>
+        <p className="about-cta-desc">Shop our products or talk with our software team.</p>
+        <div className="about-cta-actions">
+          <Link to="/products" className="btn-primary about-cta-btn">Browse Products</Link>
+          <Link to="/services" className="btn-secondary about-cta-btn">Explore services</Link>
         </div>
       </section>
 
@@ -238,8 +333,20 @@ const AboutUs = () => {
             </div>
             {developerSaveError && <p className="developer-edit-error" role="alert">{developerSaveError}</p>}
             <div className="developer-edit-actions">
+              {!editingDeveloper.isNew && (
+                <button
+                  type="button"
+                  className="btn-secondary text-rose-500 hover:text-rose-600 hover:border-rose-400"
+                  onClick={() => handleDeleteDeveloper(editingDeveloper.id)}
+                  title="Remove this team member"
+                >
+                  <Trash2 size={14} className="inline mr-1" /> Delete Member
+                </button>
+              )}
               <button type="button" className="btn-secondary" onClick={() => setEditingDeveloper(null)}>Cancel</button>
-              <button type="submit" className="btn-primary" disabled={savingDeveloper}>{savingDeveloper ? 'Saving...' : 'Save profile'}</button>
+              <button type="submit" className="btn-primary" disabled={savingDeveloper}>
+                {savingDeveloper ? 'Saving...' : editingDeveloper.isNew ? 'Create Member' : 'Save profile'}
+              </button>
             </div>
           </form>
         </div>
