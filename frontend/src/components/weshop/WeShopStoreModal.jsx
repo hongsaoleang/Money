@@ -80,21 +80,21 @@ const WeShopStoreModal = ({ store, isOpen, onClose }) => {
           {/* Supplier Highlights */}
           <div className="weshop-modal-metrics-grid">
             <div className="weshop-modal-metric-card">
-              <Clock size={16} className="text-emerald-500" />
+              <Clock size={16} className="text-indigo-600 dark:text-cyan-400" />
               <div>
                 <span className="metric-val">{t('modal.leadTimeVal')}</span>
                 <span className="metric-lbl">{t('modal.leadTime')}</span>
               </div>
             </div>
             <div className="weshop-modal-metric-card">
-              <Award size={16} className="text-emerald-500" />
+              <Award size={16} className="text-indigo-600 dark:text-cyan-400" />
               <div>
                 <span className="metric-val">99.4%</span>
                 <span className="metric-lbl">{t('modal.positiveReviews')}</span>
               </div>
             </div>
             <div className="weshop-modal-metric-card">
-              <Package size={16} className="text-emerald-500" />
+              <Package size={16} className="text-indigo-600 dark:text-cyan-400" />
               <div>
                 <span className="metric-val">{t('modal.lowMoqVal')}</span>
                 <span className="metric-lbl">{t('modal.lowMoq')}</span>
