@@ -5,6 +5,7 @@ import InteractiveLanyardBadge from '../components/InteractiveLanyardBadge';
 import DeveloperPhotoPicker from '../components/DeveloperPhotoPicker';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const DEVELOPERS = [
   {
@@ -47,6 +48,7 @@ const DEVELOPERS = [
 
 const AboutUs = () => {
   const { isAdmin } = useAuth();
+  const { t } = useLanguage();
   const [developers, setDevelopers] = useState(DEVELOPERS);
   const [selectedDevId, setSelectedDevId] = useState(DEVELOPERS[0].id);
   const [editingDeveloper, setEditingDeveloper] = useState(null);
@@ -135,17 +137,17 @@ const AboutUs = () => {
       {/* Hero */}
       <section className="about-hero section-container">
         <h1 className="hero-title">
-          About <span className="gradient-text">Jomnenh-KH</span>
+          {t('footer.aboutUs', 'About')} <span className="gradient-text">Jomnenh-KH</span>
         </h1>
       </section>
 
       {/* Meet the Developers Who Built Jomnenh-KH */}
       <section id="developers" className="section-container developers-section">
         <div className="section-header text-center">
-          <span className="section-badge"><Code size={13} className="text-indigo-400" /> Engineering Division</span>
-          <h2 className="section-title">The Developers Who Built Jomnenh-KH</h2>
+          <span className="section-badge"><Code size={13} className="text-indigo-400" /> {t('about.leadArchitect', 'Engineering Division')}</span>
+          <h2 className="section-title">{t('about.title', 'The Developers Who Built Jomnenh-KH')}</h2>
           <p className="section-subtitle">
-            Meet the team behind our products and platform.
+            {t('about.subtitle', 'Meet the team behind our products and platform.')}
           </p>
         </div>
 

@@ -12,11 +12,18 @@ export const TRANSLATIONS = {
     'nav.exploreStores': 'Explore Stores',
     'nav.categories': 'Categories',
     'nav.getStarted': 'Get Started',
+    'nav.signIn': 'Sign In',
+    'nav.cart': 'Shopping Cart',
+    'nav.accountSettings': 'Account Settings',
+    'nav.adminDashboard': 'Admin Dashboard',
+    'nav.deployProduct': 'Deploy Product (Client)',
+    'nav.signOut': 'Sign Out',
     'nav.searchPlaceholder': 'Search products or suppliers...',
     'nav.allCategories': 'View All 24+ Marketplace Categories',
     'nav.switchBack': 'Back to Tech Store Home',
     'nav.viewMarketplace': 'JomnenhKH-Shop Modern Marketplace View',
     'nav.alternateBadge': 'Alternate Homepage',
+    'nav.selectLanguage': 'Select Language',
 
     // Categories
     'cat.home': 'Home & Living',
@@ -80,20 +87,48 @@ export const TRANSLATIONS = {
     'search.popular': 'Popular Marketplace Searches',
     'search.pressEnter': 'Press Enter to search for',
 
+    // Products page
+    'products.title': 'Products & Hardware',
+    'products.addNew': 'Add New Product',
+    'products.searchPlaceholder': 'Search by name, spec, or origin...',
+    'products.allCategories': 'All Categories',
+    'products.inStock': 'in stock',
+    'products.backorder': 'Backorder',
+    'products.addToCart': 'Add to Cart',
+    'products.added': 'Added to Cart',
+    'products.contactTelegram': 'Contact via Telegram',
+    'products.viewDetails': 'View Details',
+    'products.noProducts': 'No products found.',
+
+    // Services page
+    'services.title': 'Software & Cloud Services',
+    'services.subtitle': 'High-impact engineering, web systems, and mobile architectures built for scale.',
+    'services.portfolio': 'Selected Engineering Portfolio',
+    'services.inquiryTitle': 'Request an Engineering Estimate',
+    'services.inquirySubtitle': 'Direct inquiry with our lead full-stack architect & engineering team.',
+    'services.submitBtn': 'Submit Inquiry',
+
+    // About Us page
+    'about.title': 'Engineering Team & Architecture',
+    'about.subtitle': 'Meet the core engineers and system designers behind Jomnenh-KH.',
+    'about.leadArchitect': 'Lead Architect',
+    'about.uiEngineer': 'UI Engineer',
+    'about.cloudInfra': 'Cloud Infra',
+
     // Footer
-    'footer.tagline': 'The premier independent maker & wholesale marketplace.',
+    'footer.tagline': 'Hardware & Software Services · Phnom Penh, Cambodia.',
+    'footer.location': 'Phnom Penh, Cambodia',
     'footer.marketplace': 'Marketplace',
     'footer.allProducts': 'All Products',
     'footer.featuredStores': 'Featured Stores',
-    'footer.suppliers': 'Suppliers',
-    'footer.applyMaker': 'Apply as Maker',
-    'footer.wholesaleStandards': 'Wholesale Standards',
-    'footer.logistics': 'Logistics Support',
-    'footer.platform': 'Platform',
-    'footer.switchToTech': 'Switch to Tech Store',
-    'footer.about': 'About Jomnenh-KH',
-    'footer.account': 'Account & Orders',
-    'footer.copyright': '© 2026 JomnenhKH-Shop Marketplace · Independent Suppliers Worldwide.',
+    'footer.shoppingCart': 'Shopping Cart',
+    'footer.services': 'Services',
+    'footer.softwareServices': 'Software Services',
+    'footer.contactUs': 'Contact Us',
+    'footer.company': 'Company',
+    'footer.aboutUs': 'About Us',
+    'footer.myAccount': 'My Account',
+    'footer.copyright': '© 2026 Jomnenh-KH · All rights reserved.',
     'footer.buyerProtection': 'Buyer Protection Guaranteed',
   },
 
@@ -108,11 +143,18 @@ export const TRANSLATIONS = {
     'nav.exploreStores': 'រុករកហាង',
     'nav.categories': 'ប្រភេទ',
     'nav.getStarted': 'ចាប់ផ្តើម',
+    'nav.signIn': 'ចូលគណនី',
+    'nav.cart': 'កន្ត្រកទំនិញ',
+    'nav.accountSettings': 'ការកំណត់គណនី',
+    'nav.adminDashboard': 'ផ្ទាំងគ្រប់គ្រង Admin',
+    'nav.deployProduct': 'ដាក់ផលិតផលថ្មី (Client)',
+    'nav.signOut': 'ចាកចេញ',
     'nav.searchPlaceholder': 'ស្វែងរកផលិតផល ឬអ្នកផ្គត់ផ្គង់...',
     'nav.allCategories': 'មើលប្រភេទទាំងអស់ ២៤+ ក្នុងទីផ្សារ',
     'nav.switchBack': 'ត្រឡប់ទៅហាងបច្ចេកវិទ្យាដើម',
     'nav.viewMarketplace': 'ទិដ្ឋភាពទីផ្សារទំនិញទំនើប JomnenhKH-Shop',
     'nav.alternateBadge': 'ទំព័រដើម',
+    'nav.selectLanguage': 'ជ្រើសរើសភាសា',
 
     // Categories
     'cat.home': 'ការតុបតែងផ្ទះ',
@@ -176,34 +218,76 @@ export const TRANSLATIONS = {
     'search.popular': 'ពាក្យស្វែងរកពេញនិយមក្នុងទីផ្សារ',
     'search.pressEnter': 'ចុច Enter ដើម្បីស្វែងរក',
 
+    // Products page
+    'products.title': 'ផលិតផល និងគ្រឿងបន្លាស់',
+    'products.addNew': 'បន្ថែមផលិតផលថ្មី',
+    'products.searchPlaceholder': 'ស្វែងរកតាមឈ្មោះ ឬលក្ខណៈពិសេស...',
+    'products.allCategories': 'ប្រភេទទាំងអស់',
+    'products.inStock': 'ក្នុងស្តុក',
+    'products.backorder': 'អស់ពីស្តុក',
+    'products.addToCart': 'ដាក់ក្នុងកន្ត្រក',
+    'products.added': 'បានបញ្ចូលក្នុងកន្ត្រក',
+    'products.contactTelegram': 'ទាក់ទងតាម Telegram',
+    'products.viewDetails': 'មើលលម្អិត',
+    'products.noProducts': 'រកមិនឃើញផលិតផលឡើយ។',
+
+    // Services page
+    'services.title': 'សេវាកម្មសូហ្វវែរ និង Cloud',
+    'services.subtitle': 'វិស្វកម្មសូហ្វវែរ ប្រព័ន្ធគេហទំព័រ និងកម្មវិធីទូរស័ព្ទកម្រិតខ្ពស់សម្រាប់អាជីវកម្មរីកចម្រើន។',
+    'services.portfolio': 'គម្រោងការងារលេចធ្លោ',
+    'services.inquiryTitle': 'ស្នើសុំការប្រឹក្សា និងតម្លៃគម្រោង',
+    'services.inquirySubtitle': 'ទំនាក់ទំនងផ្ទាល់ជាមួយក្រុមវិស្វករ និងស្ថាបត្យករប្រព័ន្ធចម្បងរបស់យើង។',
+    'services.submitBtn': 'ផ្ញើសំណើពិគ្រោះយោបល់',
+
+    // About Us page
+    'about.title': 'ក្រុមវិស្វករប្រព័ន្ធ និងស្ថាបត្យកម្ម',
+    'about.subtitle': 'ស្គាល់ពីវិស្វករ និងអ្នករចនាប្រព័ន្ធនៅពីក្រោយ Jomnenh-KH។',
+    'about.leadArchitect': 'ស្ថាបត្យករចម្បង',
+    'about.uiEngineer': 'វិស្វករ UI',
+    'about.cloudInfra': 'វិស្វករ Cloud',
+
     // Footer
-    'footer.tagline': 'ទីផ្សារទំនិញបោះដុំ និងអ្នកផលិតឯករាជ្យឈានមុខគេ។',
+    'footer.tagline': 'សេវាកម្មផ្នែករឹង និងសូហ្វវែរ · រាជធានីភ្នំពេញ កម្ពុជា។',
+    'footer.location': 'រាជធានីភ្នំពេញ កម្ពុជា',
     'footer.marketplace': 'ទីផ្សារទំនិញ',
     'footer.allProducts': 'ផលិតផលទាំងអស់',
     'footer.featuredStores': 'ហាងលេចធ្លោ',
-    'footer.suppliers': 'អ្នកផ្គត់ផ្គង់',
-    'footer.applyMaker': 'ចុះឈ្មោះជាអ្នកផលិត',
-    'footer.wholesaleStandards': 'ស្តង់ដារបោះដុំ',
-    'footer.logistics': 'សេវាភស្តុភារកម្ម',
-    'footer.platform': 'វេទិកា',
-    'footer.switchToTech': 'ត្រឡប់ទៅហាងបច្ចេកវិទ្យា',
-    'footer.about': 'អំពី Jomnenh-KH',
-    'footer.account': 'គណនី និងការបញ្ជាទិញ',
-    'footer.copyright': '© ២០២៦ JomnenhKH-Shop Marketplace · អ្នកផ្គត់ផ្គង់ឯករាជ្យជុំវិញពិភពលោក។',
+    'footer.shoppingCart': 'កន្ត្រកទំនិញ',
+    'footer.services': 'សេវាកម្ម',
+    'footer.softwareServices': 'សេវាកម្មសូហ្វវែរ',
+    'footer.contactUs': 'ទំនាក់ទំនងពួកយើង',
+    'footer.company': 'ក្រុមហ៊ុន',
+    'footer.aboutUs': 'អំពីយើង',
+    'footer.myAccount': 'គណនីរបស់ខ្ញុំ',
+    'footer.copyright': '© ២០២៦ Jomnenh-KH · រក្សាសិទ្ធិគ្រប់យ៉ាង។',
     'footer.buyerProtection': 'ធានាសុវត្ថិភាពការទូទាត់ និងការពារអ្នកទិញ ១០០%',
   },
 
   FR: {
+    // Navigation
+    'nav.home': 'Accueil',
     'nav.browseProducts': 'Parcourir les produits',
+    'nav.products': 'Produits',
+    'nav.manage': 'Gérer',
+    'nav.services': 'Services',
+    'nav.aboutUs': 'À propos',
     'nav.exploreStores': 'Explorer les boutiques',
     'nav.categories': 'Catégories',
     'nav.getStarted': 'Commencer',
+    'nav.signIn': 'Connexion',
+    'nav.cart': 'Panier d’achat',
+    'nav.accountSettings': 'Paramètres du compte',
+    'nav.adminDashboard': 'Tableau de bord Admin',
+    'nav.deployProduct': 'Déployer un produit (Client)',
+    'nav.signOut': 'Déconnexion',
     'nav.searchPlaceholder': 'Rechercher des produits ou fournisseurs...',
     'nav.allCategories': 'Voir les 24+ catégories du marché',
     'nav.switchBack': 'Retour à la boutique Tech',
     'nav.viewMarketplace': 'Vue Marketplace Moderne JomnenhKH-Shop',
     'nav.alternateBadge': 'Page d’accueil alternative',
+    'nav.selectLanguage': 'Choisir la langue',
 
+    // Categories
     'cat.home': 'Maison & Décoration',
     'cat.homeCount': '450+ articles',
     'cat.apparel': 'Vêtements & Textiles',
@@ -215,6 +299,7 @@ export const TRANSLATIONS = {
     'cat.ceramics': 'Céramiques & Arts de la table',
     'cat.ceramicsCount': '140+ articles',
 
+    // Hero Section
     'hero.tag': 'Marché B2B et Vente Directe Moderne',
     'hero.heading1': 'Achetez plus intelligemment.',
     'hero.heading2': 'Grandissez W ensemble.',
@@ -229,11 +314,13 @@ export const TRANSLATIONS = {
     'hero.badgeDirect': 'Directement des créateurs',
     'hero.badgeWholesale': 'Prix de gros',
 
+    // Featured Stores
     'stores.heading': 'Des boutiques à découvrir',
     'stores.subtitle': 'Rencontrez les créateurs derrière votre prochaine trouvaille.',
     'stores.explore': 'Explorer les boutiques',
     'stores.productsSuffix': 'produits',
 
+    // Store names & descriptions
     'store.homestyle.category': 'Décoration',
     'store.homestyle.desc': 'Céramiques sur mesure, vases en grès et accessoires minimalistes en argile nordique naturelle.',
     'store.trendwear.category': 'Mode',
@@ -245,6 +332,7 @@ export const TRANSLATIONS = {
     'store.daily.category': 'Arts de la table',
     'store.daily.desc': 'Essentiels du quotidien, tasses à espresso mates et récipients sculpturaux faits à la main.',
 
+    // Store Modal
     'modal.verifiedMaker': 'Créateur vérifié',
     'modal.aboutSupplier': 'À propos du fournisseur',
     'modal.leadTime': 'Délai moyen',
@@ -256,37 +344,81 @@ export const TRANSLATIONS = {
     'modal.close': 'Fermer',
     'modal.exploreStore': 'Voir les produits de la boutique',
 
+    // Search
     'search.suggested': 'Suggestions',
     'search.popular': 'Recherches populaires',
     'search.pressEnter': 'Appuyez sur Entrée pour rechercher',
 
-    'footer.tagline': 'La première place de marché pour artisans indépendants et grossistes.',
+    // Products page
+    'products.title': 'Produits et Matériel',
+    'products.addNew': 'Ajouter un produit',
+    'products.searchPlaceholder': 'Rechercher par nom, spécification...',
+    'products.allCategories': 'Toutes catégories',
+    'products.inStock': 'en stock',
+    'products.backorder': 'Rupture',
+    'products.addToCart': 'Ajouter au panier',
+    'products.added': 'Ajouté !',
+    'products.contactTelegram': 'Contacter via Telegram',
+    'products.viewDetails': 'Voir détails',
+    'products.noProducts': 'Aucun produit trouvé.',
+
+    // Services page
+    'services.title': 'Services Logiciels et Cloud',
+    'services.subtitle': 'Ingénierie à fort impact, systèmes web et architectures mobiles conçues pour évoluer.',
+    'services.portfolio': 'Portfolio de réalisations',
+    'services.inquiryTitle': 'Demande de devis d’ingénierie',
+    'services.inquirySubtitle': 'Contact direct avec notre équipe d’architectes full-stack.',
+    'services.submitBtn': 'Envoyer la demande',
+
+    // About Us page
+    'about.title': 'Équipe d’ingénierie et architecture',
+    'about.subtitle': 'Rencontrez les ingénieurs et concepteurs de systèmes derrière Jomnenh-KH.',
+    'about.leadArchitect': 'Architecte principal',
+    'about.uiEngineer': 'Ingénieur UI',
+    'about.cloudInfra': 'Infrastructure Cloud',
+
+    // Footer
+    'footer.tagline': 'Services informatiques et matériels · Phnom Penh, Cambodge.',
+    'footer.location': 'Phnom Penh, Cambodge',
     'footer.marketplace': 'Marché',
     'footer.allProducts': 'Tous les produits',
     'footer.featuredStores': 'Boutiques à la une',
-    'footer.suppliers': 'Fournisseurs',
-    'footer.applyMaker': 'Devenir créateur',
-    'footer.wholesaleStandards': 'Standards de vente de gros',
-    'footer.logistics': 'Assistance logistique',
-    'footer.platform': 'Plateforme',
-    'footer.switchToTech': 'Basculer vers la boutique Tech',
-    'footer.about': 'À propos de Jomnenh-KH',
-    'footer.account': 'Compte & Commandes',
-    'footer.copyright': '© 2026 JomnenhKH-Shop Marketplace · Fournisseurs indépendants du monde entier.',
+    'footer.shoppingCart': 'Panier d’achat',
+    'footer.services': 'Services',
+    'footer.softwareServices': 'Services logiciels',
+    'footer.contactUs': 'Contactez-nous',
+    'footer.company': 'Entreprise',
+    'footer.aboutUs': 'À propos de nous',
+    'footer.myAccount': 'Mon compte',
+    'footer.copyright': '© 2026 Jomnenh-KH · Tous droits réservés.',
     'footer.buyerProtection': 'Garantie de protection de l’acheteur',
   },
 
   ES: {
+    // Navigation
+    'nav.home': 'Inicio',
     'nav.browseProducts': 'Explorar Productos',
+    'nav.products': 'Productos',
+    'nav.manage': 'Gestionar',
+    'nav.services': 'Servicios',
+    'nav.aboutUs': 'Sobre nosotros',
     'nav.exploreStores': 'Explorar Tiendas',
     'nav.categories': 'Categorías',
     'nav.getStarted': 'Comenzar',
+    'nav.signIn': 'Iniciar sesión',
+    'nav.cart': 'Carrito de compras',
+    'nav.accountSettings': 'Ajustes de cuenta',
+    'nav.adminDashboard': 'Panel de Admin',
+    'nav.deployProduct': 'Desplegar producto (Cliente)',
+    'nav.signOut': 'Cerrar sesión',
     'nav.searchPlaceholder': 'Buscar productos o proveedores...',
     'nav.allCategories': 'Ver las más de 24 categorías',
     'nav.switchBack': 'Volver a la tienda Tech',
     'nav.viewMarketplace': 'Vista Marketplace Moderno JomnenhKH-Shop',
     'nav.alternateBadge': 'Página de inicio alternativa',
+    'nav.selectLanguage': 'Seleccionar idioma',
 
+    // Categories
     'cat.home': 'Hogar y Decoración',
     'cat.homeCount': '450+ artículos',
     'cat.apparel': 'Ropa y Textiles',
@@ -298,6 +430,7 @@ export const TRANSLATIONS = {
     'cat.ceramics': 'Cerámica y Vajilla',
     'cat.ceramicsCount': '140+ artículos',
 
+    // Hero Section
     'hero.tag': 'Mercado B2B y Venta Directa Moderna',
     'hero.heading1': 'Abastécete mejor.',
     'hero.heading2': 'Crece W juntos.',
@@ -312,11 +445,13 @@ export const TRANSLATIONS = {
     'hero.badgeDirect': 'Directo de los fabricantes',
     'hero.badgeWholesale': 'Precios de mayorista',
 
+    // Featured Stores
     'stores.heading': 'Tiendas que vale la pena conocer',
     'stores.subtitle': 'Conoce a las personas detrás de tu próximo gran hallazgo.',
     'stores.explore': 'Explorar tiendas',
     'stores.productsSuffix': 'productos',
 
+    // Store names & descriptions
     'store.homestyle.category': 'Hogar',
     'store.homestyle.desc': 'Cerámica artesanal, jarrones esculpidos y accesorios minimalistas de arcilla nórdica natural.',
     'store.trendwear.category': 'Moda',
@@ -328,6 +463,7 @@ export const TRANSLATIONS = {
     'store.daily.category': 'Vajilla',
     'store.daily.desc': 'Artículos esenciales para tus rituales diarios, tazas de café y piezas escultóricas hechas a mano.',
 
+    // Store Modal
     'modal.verifiedMaker': 'Fabricante verificado',
     'modal.aboutSupplier': 'Acerca del proveedor',
     'modal.leadTime': 'Tiempo de preparación',
@@ -339,37 +475,81 @@ export const TRANSLATIONS = {
     'modal.close': 'Cerrar',
     'modal.exploreStore': 'Ver productos de esta tienda',
 
+    // Search
     'search.suggested': 'Sugerencias',
     'search.popular': 'Búsquedas populares',
     'search.pressEnter': 'Presiona Enter para buscar',
 
-    'footer.tagline': 'El mercado líder para artesanos independientes y venta al por mayor.',
+    // Products page
+    'products.title': 'Productos y Hardware',
+    'products.addNew': 'Añadir nuevo producto',
+    'products.searchPlaceholder': 'Buscar por nombre, especificación...',
+    'products.allCategories': 'Todas las categorías',
+    'products.inStock': 'en stock',
+    'products.backorder': 'Agotado',
+    'products.addToCart': 'Añadir al carrito',
+    'products.added': '¡Añadido!',
+    'products.contactTelegram': 'Contactar por Telegram',
+    'products.viewDetails': 'Ver detalles',
+    'products.noProducts': 'No se encontraron productos.',
+
+    // Services page
+    'services.title': 'Servicios de Software y Cloud',
+    'services.subtitle': 'Ingeniería de alto impacto, sistemas web y arquitecturas móviles diseñadas para escalar.',
+    'services.portfolio': 'Portafolio de proyectos',
+    'services.inquiryTitle': 'Solicitud de presupuesto de ingeniería',
+    'services.inquirySubtitle': 'Consulta directa con nuestro equipo de arquitectos full-stack.',
+    'services.submitBtn': 'Enviar solicitud',
+
+    // About Us page
+    'about.title': 'Equipo de Ingeniería y Arquitectura',
+    'about.subtitle': 'Conoce a los ingenieros y diseñadores de sistemas detrás de Jomnenh-KH.',
+    'about.leadArchitect': 'Arquitecto Principal',
+    'about.uiEngineer': 'Ingeniero de UI',
+    'about.cloudInfra': 'Infraestructura Cloud',
+
+    // Footer
+    'footer.tagline': 'Servicios de hardware y software · Phnom Penh, Camboya.',
+    'footer.location': 'Phnom Penh, Camboya',
     'footer.marketplace': 'Mercado',
     'footer.allProducts': 'Todos los productos',
     'footer.featuredStores': 'Tiendas destacadas',
-    'footer.suppliers': 'Proveedores',
-    'footer.applyMaker': 'Registrarse como creador',
-    'footer.wholesaleStandards': 'Estándares de mayorista',
-    'footer.logistics': 'Soporte logístico',
-    'footer.platform': 'Plataforma',
-    'footer.switchToTech': 'Volver a la tienda Tech',
-    'footer.about': 'Acerca de Jomnenh-KH',
-    'footer.account': 'Cuenta y Pedidos',
-    'footer.copyright': '© 2026 JomnenhKH-Shop Marketplace · Proveedores independientes de todo el mundo.',
+    'footer.shoppingCart': 'Carrito de compras',
+    'footer.services': 'Servicios',
+    'footer.softwareServices': 'Servicios de software',
+    'footer.contactUs': 'Contáctanos',
+    'footer.company': 'Empresa',
+    'footer.aboutUs': 'Sobre nosotros',
+    'footer.myAccount': 'Mi cuenta',
+    'footer.copyright': '© 2026 Jomnenh-KH · Todos los derechos reservados.',
     'footer.buyerProtection': 'Protección al comprador garantizada',
   },
 
   ZH: {
+    // Navigation
+    'nav.home': '首页',
     'nav.browseProducts': '浏览商品',
+    'nav.products': '商品',
+    'nav.manage': '管理',
+    'nav.services': '服务',
+    'nav.aboutUs': '关于我们',
     'nav.exploreStores': '探索店铺',
     'nav.categories': '全部分类',
     'nav.getStarted': '立即开启',
+    'nav.signIn': '登录',
+    'nav.cart': '购物车',
+    'nav.accountSettings': '账户设置',
+    'nav.adminDashboard': '管理后台',
+    'nav.deployProduct': '发布商品 (客户)',
+    'nav.signOut': '退出登录',
     'nav.searchPlaceholder': '搜索优质商品或源头供应商...',
     'nav.allCategories': '查看全市场 24+ 精选分类',
     'nav.switchBack': '返回原科技商城',
     'nav.viewMarketplace': 'JomnenhKH-Shop 现代批发集市',
     'nav.alternateBadge': '备用精选主页',
+    'nav.selectLanguage': '选择语言',
 
+    // Categories
     'cat.home': '家居生活',
     'cat.homeCount': '450+ 款好物',
     'cat.apparel': '服饰与棉麻',
@@ -381,6 +561,7 @@ export const TRANSLATIONS = {
     'cat.ceramics': '陶瓷与器皿',
     'cat.ceramicsCount': '140+ 款好物',
 
+    // Hero Section
     'hero.tag': '现代化 B2B 独立源头批发集市',
     'hero.heading1': '精明采购，智选源头。',
     'hero.heading2': '共赢共创 W 卓越未来。',
@@ -395,11 +576,13 @@ export const TRANSLATIONS = {
     'hero.badgeDirect': '工厂源头直供',
     'hero.badgeWholesale': '一手批发底价',
 
+    // Featured Stores
     'stores.heading': '值得关注的宝藏店铺',
     'stores.subtitle': '走近匠心工坊，发现令人心动的源头佳品。',
     'stores.explore': '探索所有店铺',
     'stores.productsSuffix': '款商品',
 
+    // Store names & descriptions
     'store.homestyle.category': '家居饰品',
     'store.homestyle.desc': '北欧原矿陶土手作陶瓷、极简花器与自然生活雅物。',
     'store.trendwear.category': '服饰生活',
@@ -411,6 +594,7 @@ export const TRANSLATIONS = {
     'store.daily.category': '日常器皿',
     'store.daily.desc': '哑光浓缩咖啡杯、手冲咖啡滤杯与极简餐厨艺术器皿。',
 
+    // Store Modal
     'modal.verifiedMaker': '平台认证工坊',
     'modal.aboutSupplier': '关于该供应商',
     'modal.leadTime': '出货周期',
@@ -422,23 +606,53 @@ export const TRANSLATIONS = {
     'modal.close': '关闭',
     'modal.exploreStore': '浏览此店铺商品',
 
+    // Search
     'search.suggested': '智能推荐搜索',
     'search.popular': '市场热门热搜词',
     'search.pressEnter': '按 Enter 开始检索',
 
-    'footer.tagline': '值得信赖的独立匠人与现代商业批发集市。',
+    // Products page
+    'products.title': '商品与智能硬件',
+    'products.addNew': '添加新商品',
+    'products.searchPlaceholder': '按名称、规格或产地搜索...',
+    'products.allCategories': '全部分类',
+    'products.inStock': '件现货',
+    'products.backorder': '缺货补货中',
+    'products.addToCart': '加入购物车',
+    'products.added': '已加入！',
+    'products.contactTelegram': '通过 Telegram 咨询',
+    'products.viewDetails': '查看详情',
+    'products.noProducts': '未找到相关商品。',
+
+    // Services page
+    'services.title': '软件与云端架构服务',
+    'services.subtitle': '高并发工程、现代化 Web 系统与跨平台移动应用架构。',
+    'services.portfolio': '核心工程案例展示',
+    'services.inquiryTitle': '工程方案咨询与报价',
+    'services.inquirySubtitle': '与我们的全栈架构师及核心工程团队直接沟通。',
+    'services.submitBtn': '提交咨询',
+
+    // About Us page
+    'about.title': '核心工程团队与技术架构',
+    'about.subtitle': '认识打造 Jomnenh-KH 平台的资深工程师与系统架构师。',
+    'about.leadArchitect': '全栈首席架构师',
+    'about.uiEngineer': 'UI系统工程师',
+    'about.cloudInfra': '云基础设施工程师',
+
+    // Footer
+    'footer.tagline': '硬件与软件专业服务 · 柬埔寨金边。',
+    'footer.location': '柬埔寨金边',
     'footer.marketplace': '批发集市',
     'footer.allProducts': '所有商品',
     'footer.featuredStores': '名店推荐',
-    'footer.suppliers': '供应商',
-    'footer.applyMaker': '入驻成为供应商',
-    'footer.wholesaleStandards': '批发服务标准',
-    'footer.logistics': '全球物流支持',
-    'footer.platform': '平台支持',
-    'footer.switchToTech': '切回原科技商城',
-    'footer.about': '关于 Jomnenh-KH',
-    'footer.account': '我的账户与订单',
-    'footer.copyright': '© 2026 JomnenhKH-Shop Marketplace · 全球独立原创供应商精选。',
+    'footer.shoppingCart': '购物车',
+    'footer.services': '服务',
+    'footer.softwareServices': '软件定制服务',
+    'footer.contactUs': '联系我们',
+    'footer.company': '公司',
+    'footer.aboutUs': '关于我们',
+    'footer.myAccount': '我的账户',
+    'footer.copyright': '© 2026 Jomnenh-KH · 保留所有权利。',
     'footer.buyerProtection': '官方交易资金安全保障',
   },
 };
@@ -447,7 +661,7 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguageState] = useState(() => {
-    return localStorage.getItem('app_language') || 'KH';
+    return localStorage.getItem('app_language') || 'EN';
   });
 
   const setLanguage = (langCode) => {
@@ -476,7 +690,6 @@ export const LanguageProvider = ({ children }) => {
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {
-    // Graceful fallback if used outside provider
     return {
       language: 'EN',
       setLanguage: () => {},

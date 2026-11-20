@@ -3,7 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { Search, Globe, Filter, ArrowRight, CheckCircle2, Package, Plus, ShoppingBag, Check, X, Sparkles, CheckSquare, Square } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { Search, Globe, Plus, ShoppingBag, Check, X } from 'lucide-react';
 import { getProductSpecs } from '../utils/productSpecs';
 import ProductTelegramSelectionBar from '../components/ProductTelegramSelectionBar';
 
@@ -22,6 +23,7 @@ const TelegramIcon = ({ size = 16 }) => (
 const Products = () => {
   const { user, isAdmin } = useAuth();
   const { addToCart } = useCart();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [categories, setCategories] = useState([]);
@@ -109,20 +111,20 @@ const Products = () => {
       {/* Header & Search */}
       <div className="products-page-header">
         <div>
-          <h1 className="page-title">Products</h1>
+          <h1 className="page-title">{t('products.title', 'Products')}</h1>
         </div>
 
         <div className="catalog-actions-row">
           {isAdmin && (
             <Link to="/products/manage?create=true" className="btn-primary catalog-manage-btn">
-              <Plus size={17} /> Add New Product
+              <Plus size={17} /> {t('products.addNew', 'Add New Product')}
             </Link>
           )}
           <div className="search-bar-wrap">
             <Search size={18} className="search-icon" />
             <input
               type="text"
-              placeholder="Search by name, spec, or origin..."
+              placeholder={t('products.searchPlaceholder', 'Search by name, spec, or origin...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
@@ -147,7 +149,7 @@ const Products = () => {
             className={`pill-btn ${selectedCategory === null ? 'active' : ''}`}
             onClick={() => setSelectedCategory(null)}
           >
-            All Categories
+            {t('products.allCategories', 'All Categories')}
           </button>
           {categories.map((cat) => (
             <button
@@ -207,9 +209,9 @@ const Products = () => {
                     <Globe size={12} /> {product.originCountry || 'Verified'}
                   </span>
                   {product.stockQuantity > 0 ? (
-                    <span className="stock-badge in-stock">{product.stockQuantity} in stock</span>
+                    <span className="stock-badge in-stock">{product.stockQuantity} {t('products.inStock', 'in stock')}</span>
                   ) : (
-                    <span className="stock-badge out-stock">Backorder</span>
+                    <span className="stock-badge out-stock">{t('products.backorder', 'Backorder')}</span>
                   )}
                 </div>
 
@@ -235,7 +237,7 @@ const Products = () => {
                         type="button"
                         onClick={() => contactSingleProduct(product)}
                         className="spotlight-telegram-btn"
-                        title="Contact Hong Saoleang on Telegram for this product"
+                        title={t('products.contactTelegram', 'Contact via Telegram')}
                       >
                         <TelegramIcon size={16} />
                       </button>
@@ -245,15 +247,15 @@ const Products = () => {
                         onClick={() => handleQuickAdd(product)}
                         disabled={product.stockQuantity <= 0}
                         className={`spotlight-cart-btn ${addedId === product.id ? 'added' : ''}`}
-                        title="Add to shopping cart"
+                        title={t('products.addToCart', 'Add to Cart')}
                       >
                         {addedId === product.id ? (
                           <>
-                            <Check size={15} /> Added!
+                            <Check size={15} /> {t('products.added', 'Added!')}
                           </>
                         ) : (
                           <>
-                            <ShoppingBag size={15} /> Add to Cart
+                            <ShoppingBag size={15} /> {t('products.addToCart', 'Add to Cart')}
                           </>
                         )}
                       </button>

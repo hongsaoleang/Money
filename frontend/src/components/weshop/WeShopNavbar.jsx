@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { 
   Menu, X, ChevronDown, ArrowRight, Home, Shirt, Laptop, Armchair, Coffee,
-  ShoppingBag, User, LogOut, LayoutDashboard
+  ShoppingBag, LogOut, LayoutDashboard
 } from 'lucide-react';
 import WeShopSearchBar from './WeShopSearchBar';
 import WeShopThemeToggle from './WeShopThemeToggle';
@@ -78,7 +78,7 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
               className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
               end
             >
-              {t('nav.home')}
+              Home
             </NavLink>
 
             <NavLink
@@ -86,28 +86,30 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
               className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
               end
             >
-              {t('nav.products')}
+              Products
             </NavLink>
 
-            <NavLink
-              to="/products/manage"
-              className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
-            >
-              {t('nav.manage')}
-            </NavLink>
+            {isAdmin && (
+              <NavLink
+                to="/products/manage"
+                className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
+              >
+                Manage
+              </NavLink>
+            )}
 
             <NavLink
               to="/services"
               className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
             >
-              {t('nav.services')}
+              Services
             </NavLink>
 
             <NavLink
               to="/about-us"
               className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
             >
-              {t('nav.aboutUs')}
+              About Us
             </NavLink>
 
             <div className="weshop-categories-trigger-wrap">
@@ -180,9 +182,9 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
           {/* User Auth Controls */}
           {user ? (
             <div className="flex items-center gap-2">
-              <Link to="/settings" className="weshop-user-pill" title="My Account">
-                <User size={15} />
-                <span className="truncate max-w-[100px]">{user.fullName || 'Account'}</span>
+              <Link to="/settings" className="weshop-user-pill user-pill flex items-center gap-1.5" title="My Account">
+                <span className="user-name font-semibold">{user.fullName ? user.fullName.split(' ')[0] : 'Account'}</span>
+                {isAdmin && <span className="role-tag admin">Admin</span>}
               </Link>
               {isAdmin && (
                 <Link to="/admin" className="weshop-user-pill" title="Admin Dashboard">
@@ -245,35 +247,37 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
                 className="weshop-mobile-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.home')}
+                Home
               </Link>
               <Link
                 to="/products"
                 className="weshop-mobile-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.products')}
+                Products
               </Link>
-              <Link
-                to="/products/manage"
-                className="weshop-mobile-link"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.manage')}
-              </Link>
+              {isAdmin && (
+                <Link
+                  to="/products/manage"
+                  className="weshop-mobile-link"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Manage
+                </Link>
+              )}
               <Link
                 to="/services"
                 className="weshop-mobile-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.services')}
+                Services
               </Link>
               <Link
                 to="/about-us"
                 className="weshop-mobile-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.aboutUs')}
+                About Us
               </Link>
               <Link
                 to="/products"
@@ -307,10 +311,11 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
                 <div className="flex items-center gap-2">
                   <Link
                     to="/settings"
-                    className="weshop-user-pill"
+                    className="weshop-user-pill user-pill flex items-center gap-1.5"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    {user.fullName || 'Account'}
+                    <span className="user-name font-semibold">{user.fullName ? user.fullName.split(' ')[0] : 'Account'}</span>
+                    {isAdmin && <span className="role-tag admin">Admin</span>}
                   </Link>
                   <button
                     type="button"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -23,17 +23,10 @@ import Register from './pages/Register';
 import Cart from './pages/Cart';
 
 const AppLayout = () => {
-  const location = useLocation();
-  const isHome =
-    location.pathname === '/' ||
-    location.pathname === '/jomnenhkh-shop' ||
-    location.pathname === '/weshop' ||
-    location.pathname === '/marketplace';
-
   return (
-    <div className={`app-container ${isHome ? 'weshop-standalone' : ''}`}>
-      {!isHome && <Navbar />}
-      <main className={`main-content ${isHome ? 'weshop-main-content' : ''}`}>
+    <div className="app-container">
+      <Navbar />
+      <main className="main-content">
         <Routes>
           {/* Main JomnenhKH-Shop Modern Marketplace Homepage */}
           <Route path="/" element={<Home />} />
@@ -119,7 +112,7 @@ const AppLayout = () => {
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>
-              {!isHome && <Footer />}
+              <Footer />
             </div>
   );
 };

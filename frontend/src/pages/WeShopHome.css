@@ -17,7 +17,7 @@
   --weshop-border: #E2E8F0;
   --weshop-radius-card: 18px;
   --weshop-radius-pill: 9999px;
-  --weshop-max-width: 1480px;
+  --weshop-max-width: 1320px;
   --weshop-nav-height: 90px;
   --weshop-font-main: 'Manrope', 'Kantumruy Pro', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
@@ -687,18 +687,19 @@
    ========================================================================== */
 .weshop-hero-section {
   width: 100%;
-  padding: 56px 5% 64px;
+  padding: clamp(28px, 3.8vw, 44px) clamp(18px, 3vw, 32px) clamp(32px, 4vw, 48px);
   background-color: var(--weshop-bg-main);
   position: relative;
 }
 
 .weshop-hero-container {
+  width: min(100%, 1320px);
   max-width: var(--weshop-max-width);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 56px;
+  gap: clamp(28px, 3.5vw, 44px);
 }
 
 /* Left Column */
@@ -721,16 +722,16 @@
   font-weight: 600;
   color: var(--weshop-text-secondary);
   width: fit-content;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .weshop-hero-heading {
-  font-size: 58px;
+  font-size: clamp(36px, 3.8vw, 52px);
   font-weight: 800;
   line-height: 1.14;
   letter-spacing: -0.03em;
   color: var(--weshop-text-primary);
-  margin: 0 0 20px;
+  margin: 0 0 16px;
 }
 
 .weshop-heading-line {
@@ -748,18 +749,18 @@
 }
 
 .weshop-hero-description {
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.55;
   color: var(--weshop-text-secondary);
-  margin: 0 0 32px;
+  margin: 0 0 24px;
   max-width: 520px;
 }
 
 .weshop-hero-cta-group {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-bottom: 48px;
+  gap: 18px;
+  margin-bottom: 32px;
 }
 
 .weshop-hero-secondary-link {
@@ -945,12 +946,13 @@
    ========================================================================== */
 .weshop-featured-stores-section {
   width: 100%;
-  padding: 64px 5% 88px;
+  padding: clamp(32px, 4vw, 48px) clamp(18px, 3vw, 32px) clamp(44px, 5vw, 60px);
   background-color: var(--weshop-bg-main);
   border-top: 1px solid var(--weshop-border);
 }
 
 .weshop-stores-container {
+  width: min(100%, 1320px);
   max-width: var(--weshop-max-width);
   margin: 0 auto;
 }
@@ -960,7 +962,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   gap: 20px;
 }
 
@@ -1437,7 +1439,11 @@
   }
 
   .weshop-hero-section {
-    padding: 36px 5% 48px;
+    padding: 28px clamp(16px, 3vw, 24px) 36px;
+  }
+
+  .weshop-featured-stores-section {
+    padding: 28px clamp(16px, 3vw, 24px) 44px;
   }
 
   .weshop-hero-container {
@@ -1603,4 +1609,9 @@
   100% {
     transform: translateY(-8px);
   }
+}
+
+/* Seamless transition from Home page to Footer */
+.main-content:has(.weshop-page) + .footer-wrapper {
+  margin-top: 0;
 }

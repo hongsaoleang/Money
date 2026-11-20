@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { 
   Code, Smartphone, Server, CheckCircle2, 
   ExternalLink, Send, ArrowRight
@@ -52,6 +53,7 @@ const HIDDEN_SAMPLE_CLIENTS = new Set([
 
 const Services = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [services, setServices] = useState([]);
@@ -139,12 +141,12 @@ const Services = () => {
       <section className="services-hero section-container">
         <div className="services-hero-content text-center">
           <h1 className="hero-title">
-            Software <span className="gradient-text">Services</span>
+            {t('services.title', 'Software Services')}
           </h1>
 
           <div className="hero-actions justify-center mb-8">
             <a href="#inquiry" className="btn-primary">
-              <Send size={15} /> Contact Us
+              <Send size={15} /> {t('footer.contactUs', 'Contact Us')}
             </a>
           </div>
         </div>

@@ -5,7 +5,7 @@ import api from '../api/client';
 import { 
   User, Package, Calendar, MapPin, Phone, Mail, Shield, Clock, 
   CheckCircle, ArrowRight, ShoppingBag, ShieldCheck, Truck, LogOut,
-  Sparkles, ExternalLink, Settings as SettingsIcon, AlertCircle, Edit3, Save, Check,
+  ExternalLink, Settings as SettingsIcon, AlertCircle, Edit3, Save, Check,
   Users, UserCheck, UserX, Search, Trash2, Plus, Camera, Upload
 } from 'lucide-react';
 
@@ -180,64 +180,20 @@ const Settings = () => {
 
   return (
     <div className="settings-page section-container">
-      {/* 1. EXECUTIVE PROFILE HERO BANNER */}
-      <div className="settings-hero-card">
-        <div className="settings-hero-main">
-          <div className="settings-avatar-wrapper">
-            <input
-              type="file"
-              ref={avatarFileRef}
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleAvatarFileSelect}
-            />
-            {user?.avatar ? (
-              <div 
-                className="settings-avatar-has-img" 
-                onClick={() => avatarFileRef.current?.click()}
-                title="Click to change your profile photo"
-              >
-                <img src={user.avatar} alt={user.fullName} className="settings-avatar-img" />
-                <div className="avatar-hover-overlay">
-                  <Camera size={14} />
-                </div>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => avatarFileRef.current?.click()}
-                className="settings-avatar-empty-btn"
-                title="Click to add profile photo (+)"
-                aria-label="Add profile photo"
-                disabled={avatarUploading}
-              >
-                {avatarUploading ? (
-                  <span style={{ fontSize: '0.65rem', color: '#818cf8' }}>...</span>
-                ) : (
-                  <Plus size={22} className="avatar-plus-icon" />
-                )}
-              </button>
-            )}
-            <span className="avatar-status-dot" title="Active Enterprise Session" />
-          </div>
-          <div className="settings-hero-info">
-            <div className="settings-badge-row">
-              <span className="section-badge compact">
-                <Sparkles size={11} className="text-amber-400" /> Account Operations
-              </span>
-              <span className="hero-status-pill compact">
-                <span className="pulse-dot green" /> {formatRole(user.role)}
-              </span>
-            </div>
-            <h1 className="settings-user-name">{user.fullName}</h1>
-            <div className="settings-user-meta">
-              <span><Mail size={12} className="text-indigo-400" /> {user.email}</span>
-              <span className="meta-sep">&bull;</span>
-              <span><MapPin size={12} className="text-emerald" /> {address.split(',')[0]}</span>
-              <span className="meta-sep">&bull;</span>
-              <span><ShieldCheck size={12} className="text-indigo-400" /> Enterprise Verified</span>
-            </div>
-          </div>
+      {/* Hidden file input for avatar upload */}
+      <input
+        type="file"
+        ref={avatarFileRef}
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={handleAvatarFileSelect}
+      />
+
+      {/* 1. TOP HEADER & ACTIONS */}
+      <div className="settings-header-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
+        <div>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, margin: 0, color: 'var(--text-main)' }}>Settings</h1>
+          <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Manage your orders, profile preferences, and account security</p>
         </div>
 
         <div className="settings-hero-actions">
