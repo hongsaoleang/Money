@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import { ProtectedRoute, PublicOnlyRoute } from './components/ProtectedRoute';
 
 import Home from './pages/Home';
+import WeShopHome from './pages/WeShopHome';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import ProductManage from './pages/ProductManage';
@@ -26,22 +27,26 @@ const HomeRoute = () => {
   return user ? <Home /> : <Navigate to="/products" replace />;
 };
 
-function App() {
+const AppLayout = () => {
+  const location = useLocation();
+  const isWeShop = location.pathname === '/weshop' || location.pathname === '/marketplace';
+
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Router>
-            <div className="app-container">
-              <Navbar />
-              <main className="main-content">
-                <Routes>
-                  {/* Home Route: Registered users see Home, unregistered visitors go straight to Products */}
-                  <Route path="/" element={<HomeRoute />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/products/:id" element={<ProductDetail />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/about-us" element={<AboutUs />} />
+    <div className={`app-container ${isWeShop ? 'weshop-standalone' : ''}`}>
+      {!isWeShop && <Navbar />}
+      <main className={`main-content ${isWeShop ? 'weshop-main-content' : ''}`}>
+        <Routes>
+          {/* Home Route: Registered users see Home, unregistered visitors go straight to Products */}
+          <Route path="/" element={<HomeRoute />} />
+
+          {/* WeShop Modern Marketplace Homepage (Publicly accessible alternate homepage) */}
+          <Route path="/weshop" element={<WeShopHome />} />
+          <Route path="/marketplace" element={<WeShopHome />} />
+
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/about-us" element={<AboutUs />} />
 
                   {/* Public Auth Pages - Redirect away if already signed in */}
                   <Route
@@ -113,8 +118,18 @@ function App() {
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>
-              <Footer />
+              {!isWeShop && <Footer />}
             </div>
+  );
+};
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <AppLayout />
           </Router>
         </CartProvider>
       </AuthProvider>

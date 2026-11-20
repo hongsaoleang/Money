@@ -47,6 +47,11 @@ const Navbar = () => {
               Home
             </NavLink>
           )}
+          <NavLink to="/jomnenhkh-shop" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+              🌱 JomnenhKH-Shop Home
+            </span>
+          </NavLink>
           <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
             Products
           </NavLink>
@@ -215,6 +220,9 @@ const Navbar = () => {
                   <HomeIcon size={17} /> Home
                 </NavLink>
               )}
+              <NavLink to="/jomnenhkh-shop" className={({ isActive }) => `mobile-nav-item text-emerald-400 font-semibold ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
+                🌱 JomnenhKH-Shop Marketplace
+              </NavLink>
               <NavLink to="/products" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} end onClick={() => setMobileMenuOpen(false)}>
                 <Package size={17} /> Products & Hardware
               </NavLink>

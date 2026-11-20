@@ -87,6 +87,53 @@ const Home = () => {
 
   return (
     <div className="home-page">
+      {/* 0. NEW ALTERNATE HOMEPAGE BANNER */}
+      <div className="section-container" style={{ paddingTop: '16px', paddingBottom: '0' }}>
+        <Link 
+          to="/jomnenhkh-shop" 
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'linear-gradient(135deg, rgba(0, 200, 83, 0.14) 0%, rgba(16, 185, 129, 0.06) 100%)',
+            border: '1px solid rgba(0, 200, 83, 0.35)',
+            borderRadius: '16px',
+            padding: '12px 20px',
+            textDecoration: 'none',
+            color: 'inherit',
+            transition: 'all 0.2s ease',
+            boxShadow: '0 4px 14px rgba(0, 200, 83, 0.08)',
+            flexWrap: 'wrap',
+            gap: '12px'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '20px' }}>🌱</span>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '15px' }}>
+                JomnenhKH-Shop Modern Marketplace Homepage is now available!
+              </div>
+              <div style={{ fontSize: '13px', opacity: 0.8 }}>
+                Explore the JomnenhKH-Shop homepage recreation with 5 featured store cards, clean minimalism, and independent suppliers.
+              </div>
+            </div>
+          </div>
+          <span style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '6px', 
+            background: '#00C853', 
+            color: '#ffffff', 
+            padding: '6px 16px', 
+            borderRadius: '9999px',
+            fontWeight: 600,
+            fontSize: '13px'
+          }}>
+            Open JomnenhKH-Shop Home <ArrowRight size={14} />
+          </span>
+        </Link>
+      </div>
+
       {/* 1. HERO SECTION */}
       <section className="home-hero-section section-container">
         <div className="hero-content-wrap text-center">
