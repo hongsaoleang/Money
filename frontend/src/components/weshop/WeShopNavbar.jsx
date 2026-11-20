@@ -59,30 +59,56 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
       <div className="weshop-navbar-container">
         {/* LEFT: Brand Logo & Main Nav Links */}
         <div className="weshop-nav-left">
-          {/* Green Script-style Logo linking directly to root / */}
-          <Link to="/" className="weshop-logo-link" aria-label="JomnenhKH-Shop Home">
+          {/* Jomnenh-KH Logo linking directly to root / */}
+          <Link to="/" className="weshop-logo-link" aria-label="Jomnenh-KH Home">
+            <img
+              src="/JomnenhKH.jpg"
+              alt="Jomnenh-KH Logo"
+              className="weshop-brand-logo-img"
+            />
             <span className="weshop-logo-script">
-              JomnenhKH<span className="weshop-logo-accent">-Shop</span>
+              Jomnenh<span className="weshop-logo-accent">-KH</span>
             </span>
-            <span className="weshop-logo-leaf" aria-hidden="true">🌱</span>
           </Link>
 
-          {/* Navigation Links */}
+          {/* Navigation Links: Home, Products, Manage, Services, About Us, Categories */}
           <nav className="weshop-nav-links" aria-label="Main Navigation">
+            <NavLink
+              to="/"
+              className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
+              end
+            >
+              {t('nav.home')}
+            </NavLink>
+
             <NavLink
               to="/products"
               className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
+              end
             >
-              {t('nav.browseProducts')}
+              {t('nav.products')}
             </NavLink>
 
-            <a
-              href="#featured-stores"
-              onClick={handleExploreStores}
-              className="weshop-nav-link"
+            <NavLink
+              to="/products/manage"
+              className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
             >
-              {t('nav.exploreStores')}
-            </a>
+              {t('nav.manage')}
+            </NavLink>
+
+            <NavLink
+              to="/services"
+              className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
+            >
+              {t('nav.services')}
+            </NavLink>
+
+            <NavLink
+              to="/about-us"
+              className={({ isActive }) => `weshop-nav-link ${isActive ? 'active' : ''}`}
+            >
+              {t('nav.aboutUs')}
+            </NavLink>
 
             <div className="weshop-categories-trigger-wrap">
               <button
@@ -215,11 +241,46 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
 
             <nav className="weshop-mobile-links">
               <Link
+                to="/"
+                className="weshop-mobile-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.home')}
+              </Link>
+              <Link
                 to="/products"
                 className="weshop-mobile-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.browseProducts')}
+                {t('nav.products')}
+              </Link>
+              <Link
+                to="/products/manage"
+                className="weshop-mobile-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.manage')}
+              </Link>
+              <Link
+                to="/services"
+                className="weshop-mobile-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.services')}
+              </Link>
+              <Link
+                to="/about-us"
+                className="weshop-mobile-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.aboutUs')}
+              </Link>
+              <Link
+                to="/products"
+                className="weshop-mobile-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t('nav.categories')}
               </Link>
               <a
                 href="#featured-stores"
@@ -228,13 +289,6 @@ const WeShopNavbar = ({ onExploreStoresClick }) => {
               >
                 {t('nav.exploreStores')}
               </a>
-              <Link
-                to="/products"
-                className="weshop-mobile-link"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.categories')}
-              </Link>
               <Link
                 to="/cart"
                 className="weshop-mobile-link"

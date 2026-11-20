@@ -447,7 +447,7 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguageState] = useState(() => {
-    return localStorage.getItem('app_language') || 'EN';
+    return localStorage.getItem('app_language') || 'KH';
   });
 
   const setLanguage = (langCode) => {

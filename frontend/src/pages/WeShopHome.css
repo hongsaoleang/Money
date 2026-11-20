@@ -4,13 +4,17 @@
 
 /* Design Tokens */
 .weshop-page {
-  --weshop-green-primary: #00C853;
-  --weshop-green-hover: #16A34A;
+  --weshop-green-primary: #4f46e5;
+  --weshop-green-hover: #4338ca;
+  --weshop-primary: #4f46e5;
+  --weshop-primary-hover: #4338ca;
+  --weshop-accent: #00c4d6;
+  --weshop-accent-cyan: #00c4d6;
   --weshop-bg-main: #FFFFFF;
-  --weshop-bg-light: #F5F5F5;
-  --weshop-text-primary: #171717;
-  --weshop-text-secondary: #737373;
-  --weshop-border: #E5E5E5;
+  --weshop-bg-light: #F8FAFC;
+  --weshop-text-primary: #0F172A;
+  --weshop-text-secondary: #475569;
+  --weshop-border: #E2E8F0;
   --weshop-radius-card: 18px;
   --weshop-radius-pill: 9999px;
   --weshop-max-width: 1480px;
@@ -29,13 +33,17 @@
 
 /* Dark Mode Overrides */
 [data-theme="dark"] .weshop-page {
-  --weshop-bg-main: #0c1017;
-  --weshop-bg-light: #161c27;
-  --weshop-text-primary: #f8fafc;
-  --weshop-text-secondary: #94a3b8;
-  --weshop-border: #242e3f;
-  --weshop-green-primary: #00E676;
-  --weshop-green-hover: #00C853;
+  --weshop-bg-main: #0b1020;
+  --weshop-bg-light: #111a2c;
+  --weshop-text-primary: #f4f6ff;
+  --weshop-text-secondary: #aab5cc;
+  --weshop-border: rgba(174, 190, 230, 0.13);
+  --weshop-green-primary: #7185ff;
+  --weshop-green-hover: #5d70ed;
+  --weshop-primary: #7185ff;
+  --weshop-primary-hover: #5d70ed;
+  --weshop-accent: #39c6d8;
+  --weshop-accent-cyan: #39c6d8;
 }
 
 /* ==========================================================================
@@ -122,40 +130,47 @@
 .weshop-nav-left {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 32px;
   flex-shrink: 0;
 }
 
 .weshop-logo-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   text-decoration: none;
   user-select: none;
 }
 
+.weshop-brand-logo-img {
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.weshop-logo-link:hover .weshop-brand-logo-img {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
+}
+
 .weshop-logo-script {
-  font-size: 29px;
+  font-size: 24px;
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   color: var(--weshop-text-primary);
-  font-family: 'Playfair Display', 'Dancing Script', 'Manrope', Georgia, serif;
-  font-style: italic;
+  font-family: var(--weshop-font-main);
   display: inline-block;
 }
 
 .weshop-logo-accent {
-  color: var(--weshop-green-primary);
+  color: var(--weshop-accent, #00c4d6);
   font-style: normal;
   font-family: var(--weshop-font-main);
   font-weight: 800;
   margin-left: 1px;
-}
-
-.weshop-logo-leaf {
-  font-size: 16px;
-  transform: translateY(-2px);
-  filter: drop-shadow(0 2px 4px rgba(0, 200, 83, 0.2));
 }
 
 .weshop-nav-links {
@@ -295,7 +310,7 @@
 .weshop-search-input-wrapper:focus-within {
   background: var(--weshop-bg-main);
   border-color: var(--weshop-green-primary);
-  box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.12);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
 .weshop-search-icon {
@@ -608,12 +623,12 @@
 .weshop-btn-primary {
   background-color: var(--weshop-green-primary);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 200, 83, 0.25);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
 }
 
 .weshop-btn-primary:hover {
   background-color: var(--weshop-green-hover);
-  box-shadow: 0 6px 20px rgba(0, 200, 83, 0.35);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.38);
   transform: translateY(-1px);
 }
 
@@ -811,7 +826,7 @@
   width: 480px;
   height: 480px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 200, 83, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, rgba(0, 196, 214, 0.05) 40%, rgba(255, 255, 255, 0) 70%);
   filter: blur(40px);
   z-index: 0;
   pointer-events: none;
@@ -1018,12 +1033,12 @@
 
 .weshop-store-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
-  border-color: rgba(0, 200, 83, 0.4);
+  box-shadow: 0 14px 32px rgba(79, 70, 229, 0.12);
+  border-color: rgba(79, 70, 229, 0.4);
 }
 
 .weshop-store-card:focus-visible {
-  box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.3);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
 }
 
 /* Cover Image Box (Occupies ~68% of card height) */
@@ -1100,7 +1115,7 @@
 }
 
 .weshop-store-card:hover .weshop-store-icon-circle {
-  background: rgba(0, 200, 83, 0.12);
+  background: rgba(79, 70, 229, 0.12);
   color: var(--weshop-green-primary);
 }
 
@@ -1259,9 +1274,9 @@
   align-items: center;
   gap: 4px;
   font-size: 11px;
-  background: rgba(0, 200, 83, 0.25);
-  border: 1px solid rgba(0, 200, 83, 0.5);
-  color: #a7f3d0;
+  background: rgba(79, 70, 229, 0.25);
+  border: 1px solid rgba(79, 70, 229, 0.5);
+  color: #c7d2fe;
   padding: 2px 8px;
   border-radius: var(--weshop-radius-pill);
   font-weight: 600;
