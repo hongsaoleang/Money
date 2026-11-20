@@ -738,7 +738,10 @@
 }
 
 .weshop-brand-w {
-  color: var(--weshop-green-primary);
+  background: linear-gradient(135deg, var(--weshop-primary) 0%, var(--weshop-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--weshop-accent);
   font-weight: 900;
   display: inline-block;
   transform: scale(1.04);

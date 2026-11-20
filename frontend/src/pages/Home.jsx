@@ -42,9 +42,16 @@ const Home = () => {
         <div className="weshop-footer-container">
           <div className="weshop-footer-top">
             <div className="weshop-footer-brand">
-              <span className="weshop-logo-script">
-                JomnenhKH<span className="weshop-logo-accent">-Shop</span>
-              </span>
+              <div className="flex items-center gap-2 mb-2">
+                <img
+                  src="/JomnenhKH.jpg"
+                  alt="Jomnenh-KH Logo"
+                  className="weshop-brand-logo-img !h-8 !w-8"
+                />
+                <span className="weshop-logo-script">
+                  Jomnenh<span className="weshop-logo-accent">-KH</span>
+                </span>
+              </div>
               <p className="weshop-footer-tagline">
                 {t('footer.tagline')}
               </p>
@@ -81,7 +88,7 @@ const Home = () => {
             </p>
             <div className="weshop-footer-meta">
               <span className="flex items-center gap-1">
-                <ShieldCheck size={14} className="text-emerald-500" /> {t('footer.buyerProtection')}
+                <ShieldCheck size={14} className="text-indigo-600 dark:text-cyan-400" /> {t('footer.buyerProtection')}
               </span>
             </div>
           </div>
