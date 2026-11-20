@@ -61,7 +61,7 @@ const WeShopLanguageSelector = () => {
                 <span className="weshop-lang-flag">{lang.flag}</span>
                 <span className="weshop-lang-item-name">{lang.name}</span>
                 {lang.code === language && (
-                  <Check size={14} className="weshop-lang-check text-emerald-500" />
+                  <Check size={14} className="weshop-lang-check text-indigo-600 dark:text-cyan-400" />
                 )}
               </li>
             ))}

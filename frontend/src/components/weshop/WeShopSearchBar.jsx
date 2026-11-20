@@ -94,7 +94,7 @@ const WeShopSearchBar = ({ placeholder, onSearch }) => {
         <div className="weshop-search-dropdown">
           <div className="weshop-search-dropdown-header">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-              <Sparkles size={12} className="text-emerald-500" />
+              <Sparkles size={12} className="text-indigo-600 dark:text-cyan-400" />
               {query ? t('search.suggested') : t('search.popular')}
             </span>
           </div>
