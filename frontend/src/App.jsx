@@ -29,17 +29,21 @@ const HomeRoute = () => {
 
 const AppLayout = () => {
   const location = useLocation();
-  const isWeShop = location.pathname === '/weshop' || location.pathname === '/marketplace';
+  const isJomnenhShop =
+    location.pathname === '/jomnenhkh-shop' ||
+    location.pathname === '/weshop' ||
+    location.pathname === '/marketplace';
 
   return (
-    <div className={`app-container ${isWeShop ? 'weshop-standalone' : ''}`}>
-      {!isWeShop && <Navbar />}
-      <main className={`main-content ${isWeShop ? 'weshop-main-content' : ''}`}>
+    <div className={`app-container ${isJomnenhShop ? 'weshop-standalone' : ''}`}>
+      {!isJomnenhShop && <Navbar />}
+      <main className={`main-content ${isJomnenhShop ? 'weshop-main-content' : ''}`}>
         <Routes>
           {/* Home Route: Registered users see Home, unregistered visitors go straight to Products */}
           <Route path="/" element={<HomeRoute />} />
 
-          {/* WeShop Modern Marketplace Homepage (Publicly accessible alternate homepage) */}
+          {/* JomnenhKH-Shop Modern Marketplace Homepage */}
+          <Route path="/jomnenhkh-shop" element={<WeShopHome />} />
           <Route path="/weshop" element={<WeShopHome />} />
           <Route path="/marketplace" element={<WeShopHome />} />
 
