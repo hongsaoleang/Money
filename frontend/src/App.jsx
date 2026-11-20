@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 import { ProtectedRoute, PublicOnlyRoute } from './components/ProtectedRoute';
 
 import Home from './pages/Home';
-import WeShopHome from './pages/WeShopHome';
+import TechStoreHome from './pages/TechStoreHome';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import ProductManage from './pages/ProductManage';
@@ -21,32 +21,28 @@ import Admin from './pages/Admin';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
-import { useAuth } from './context/AuthContext';
-
-const HomeRoute = () => {
-  const { user } = useAuth();
-  return user ? <Home /> : <Navigate to="/products" replace />;
-};
 
 const AppLayout = () => {
   const location = useLocation();
-  const isJomnenhShop =
+  const isHome =
+    location.pathname === '/' ||
     location.pathname === '/jomnenhkh-shop' ||
     location.pathname === '/weshop' ||
     location.pathname === '/marketplace';
 
   return (
-    <div className={`app-container ${isJomnenhShop ? 'weshop-standalone' : ''}`}>
-      {!isJomnenhShop && <Navbar />}
-      <main className={`main-content ${isJomnenhShop ? 'weshop-main-content' : ''}`}>
+    <div className={`app-container ${isHome ? 'weshop-standalone' : ''}`}>
+      {!isHome && <Navbar />}
+      <main className={`main-content ${isHome ? 'weshop-main-content' : ''}`}>
         <Routes>
-          {/* Home Route: Registered users see Home, unregistered visitors go straight to Products */}
-          <Route path="/" element={<HomeRoute />} />
+          {/* Main JomnenhKH-Shop Modern Marketplace Homepage */}
+          <Route path="/" element={<Home />} />
 
-          {/* JomnenhKH-Shop Modern Marketplace Homepage */}
-          <Route path="/jomnenhkh-shop" element={<WeShopHome />} />
-          <Route path="/weshop" element={<WeShopHome />} />
-          <Route path="/marketplace" element={<WeShopHome />} />
+          {/* Path Aliases */}
+          <Route path="/jomnenhkh-shop" element={<Home />} />
+          <Route path="/weshop" element={<Home />} />
+          <Route path="/marketplace" element={<Home />} />
+          <Route path="/tech-store" element={<TechStoreHome />} />
 
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
@@ -123,7 +119,7 @@ const AppLayout = () => {
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>
-              {!isJomnenhShop && <Footer />}
+              {!isHome && <Footer />}
             </div>
   );
 };
