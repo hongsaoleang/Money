@@ -3,11 +3,16 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 export const TRANSLATIONS = {
   EN: {
     // Navigation
+    'nav.home': 'Home',
     'nav.browseProducts': 'Browse Products',
+    'nav.products': 'Products',
+    'nav.manage': 'Manage',
+    'nav.services': 'Services',
+    'nav.aboutUs': 'About Us',
     'nav.exploreStores': 'Explore Stores',
     'nav.categories': 'Categories',
     'nav.getStarted': 'Get Started',
-    'nav.searchPlaceholder': 'Search products or suppliers',
+    'nav.searchPlaceholder': 'Search products or suppliers...',
     'nav.allCategories': 'View All 24+ Marketplace Categories',
     'nav.switchBack': 'Back to Tech Store Home',
     'nav.viewMarketplace': 'JomnenhKH-Shop Modern Marketplace View',
@@ -94,7 +99,12 @@ export const TRANSLATIONS = {
 
   KH: {
     // Navigation
-    'nav.browseProducts': 'រកមើលផលិតផល',
+    'nav.home': 'ទំព័រដើម',
+    'nav.browseProducts': 'ស្វែងរកផលិតផល',
+    'nav.products': 'ផលិតផល',
+    'nav.manage': 'គ្រប់គ្រង',
+    'nav.services': 'សេវាកម្ម',
+    'nav.aboutUs': 'អំពីយើង',
     'nav.exploreStores': 'រុករកហាង',
     'nav.categories': 'ប្រភេទ',
     'nav.getStarted': 'ចាប់ផ្តើម',
@@ -102,18 +112,18 @@ export const TRANSLATIONS = {
     'nav.allCategories': 'មើលប្រភេទទាំងអស់ ២៤+ ក្នុងទីផ្សារ',
     'nav.switchBack': 'ត្រឡប់ទៅហាងបច្ចេកវិទ្យាដើម',
     'nav.viewMarketplace': 'ទិដ្ឋភាពទីផ្សារទំនិញទំនើប JomnenhKH-Shop',
-    'nav.alternateBadge': 'ទំព័រដើមជំនួស',
+    'nav.alternateBadge': 'ទំព័រដើម',
 
     // Categories
-    'cat.home': 'គេហដ្ឋាន និងការរស់នៅ',
+    'cat.home': 'ការតុបតែងផ្ទះ',
     'cat.homeCount': '៤៥០+ មុខទំនិញ',
-    'cat.apparel': 'សម្លៀកបំពាក់ និងក្រណាត់',
+    'cat.apparel': 'សម្លៀកបំពាក់',
     'cat.apparelCount': '៣២០+ មុខទំនិញ',
-    'cat.office': 'ការិយាល័យ និងបច្ចេកវិទ្យា',
+    'cat.office': 'កន្លែងធ្វើការ',
     'cat.officeCount': '១៨០+ មុខទំនិញ',
-    'cat.furniture': 'គ្រឿងសង្ហារិម និងតុបតែង',
+    'cat.furniture': 'ការរស់នៅសុខស្រួល',
     'cat.furnitureCount': '២១០+ មុខទំនិញ',
-    'cat.ceramics': 'គ្រឿងកុលាលភាជន៍ និងចានកែវ',
+    'cat.ceramics': 'សម្ភារៈផ្ទះបាយ',
     'cat.ceramicsCount': '១៤០+ មុខទំនិញ',
 
     // Hero Section
