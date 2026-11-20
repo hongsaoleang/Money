@@ -14,7 +14,7 @@ const WeShopHeroSection = () => {
         <div className="weshop-hero-left">
           {/* Subtle B2B / Marketplace Pill Tag */}
           <div className="weshop-hero-tag">
-            <Sparkles size={13} className="text-emerald-500" />
+            <Sparkles size={13} className="text-indigo-600 dark:text-cyan-400" />
             <span>{t('hero.tag')}</span>
           </div>
 
