@@ -122,7 +122,7 @@ const AppLayout = () => {
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>
-              {!isWeShop && <Footer />}
+              {!isJomnenhShop && <Footer />}
             </div>
   );
 };
