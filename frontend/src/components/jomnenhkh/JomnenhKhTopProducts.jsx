@@ -213,25 +213,8 @@ const JomnenhKhTopProducts = () => {
 
       <div className="jomnenhkh-stores-container weshop-stores-container relative z-10">
         {/* Section Header */}
-        <div className="jomnenhkh-stores-header weshop-stores-header">
-          <div className="jomnenhkh-stores-title-group weshop-stores-title-group">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="jomnenhkh-stock-dot weshop-stock-dot" aria-hidden="true" />
-              <span className="text-xs font-bold tracking-wide uppercase text-emerald-600 dark:text-emerald-400">
-                {language === 'KH' ? 'ទំនិញមានក្នុងស្តុកពិតប្រាកដ' : 'Active Warehouse Inventory'}
-              </span>
-            </div>
-            <h2 className="jomnenhkh-stores-heading weshop-stores-heading">
-              {language === 'KH' ? 'ផលិតផលលេចធ្លោមានក្នុងស្តុក' : 'Top Products in Stock'}
-            </h2>
-            <p className="jomnenhkh-stores-subtitle weshop-stores-subtitle">
-              {language === 'KH'
-                ? 'ទំនិញគុណភាពខ្ពស់ ត្រួតពិនិត្យរួចរាល់ ដឹកជញ្ជូនភ្លាមៗពីរោងចក្រ។'
-                : 'Direct from vetted makers. Physically inspected, packaged, and ready for same-day delivery.'}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
+        <div className="jomnenhkh-stores-header weshop-stores-header justify-end">
+          <div className="flex items-center gap-2 ml-auto">
             {isAdmin && (
               <>
                 <button
