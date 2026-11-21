@@ -19,13 +19,20 @@ const JomnenhKhHeroSection = () => {
       </div>
 
       <div className="jomnenhkh-hero-container weshop-hero-container relative z-10">
-        {/* Left column: Jomnenh-Kh Heading */}
-        <div className="jomnenhkh-hero-left weshop-hero-left jomnenhkh-hero-left-spacer weshop-hero-left-spacer">
-          <h1 className="jomnenhkh-hero-heading weshop-hero-heading">
-            <span className="jomnenhkh-heading-line weshop-heading-line">
-              Jomnenh-Kh
-            </span>
-          </h1>
+        {/* Left column: Brand Icon pushed to top-right & scaled */}
+        <div className="jomnenhkh-hero-left weshop-hero-left jomnenhkh-hero-left-spacer weshop-hero-left-spacer jomnenhkh-hero-icon-container">
+          <div className="jomnenhkh-hero-icon-wrapper">
+            <img
+              src="/JomnenhKH.jpg"
+              onError={(e) => {
+                if (e.currentTarget.src !== '/jomnenhkh-icon.jpg') {
+                  e.currentTarget.src = '/jomnenhkh-icon.jpg';
+                }
+              }}
+              alt="Jomnenh-Kh Icon"
+              className="jomnenhkh-hero-brand-icon"
+            />
+          </div>
         </div>
 
         {/* RIGHT COLUMN: Big Image kept in the exact same place with a little rounded */}
