@@ -65,9 +65,11 @@ public class TelegramBotService {
         if (chatId != null && !chatId.isBlank()) {
             try {
                 StringBuilder sb = new StringBuilder();
-                sb.append("🛍 <b>NEW ORDER CONFIRMED & PAID!</b>\n");
+                String formattedId = String.format("JH-%04d", order.getId());
+                sb.append("🛍 <b>JomnenhKh Admin Notifications</b>\n");
+                sb.append("<b>NEW ORDER RECEIVED</b>\n");
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
-                sb.append("🆔 <b>Order ID:</b> #").append(order.getId()).append("\n");
+                sb.append("🆔 <b>Order ID:</b> #").append(formattedId).append("\n");
                 if (order.getUser() != null) {
                     sb.append("👤 <b>Customer:</b> ")
                       .append(escapeHtml(order.getUser().getFullName()))
@@ -127,7 +129,7 @@ public class TelegramBotService {
 
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
                 sb.append("📊 <b>Total Quantity:</b> ").append(totalQty).append(" items\n");
-                sb.append("💰 <b>TOTAL PAID: $").append(order.getTotalAmount()).append("</b>\n");
+                sb.append("💰 <b>TOTAL: $").append(order.getTotalAmount()).append(" USD</b>\n");
                 sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
 
                 if (hasSoldOut) {
@@ -163,16 +165,17 @@ public class TelegramBotService {
 
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append("🛍 <b>YOUR ORDER CONFIRMATION #").append(order.getId()).append("</b>\n");
+            String customerOrderId = String.format("JH-%04d", order.getId());
+            sb.append("🛍 <b>YOUR ORDER CONFIRMATION #").append(customerOrderId).append("</b>\n");
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
             if (order.getUser() != null && order.getUser().getFullName() != null) {
                 sb.append("👋 Hello <b>").append(escapeHtml(order.getUser().getFullName())).append("</b>,\n");
-                sb.append("Thank you for shopping with JomnenhKH-Shop! Here is the summary of what you ordered:\n\n");
+                sb.append("Thank you for shopping with JomnenhKh! Here is the summary of what you ordered:\n\n");
             } else {
                 sb.append("Thank you for your order! Here is your purchase summary:\n\n");
             }
 
-            sb.append("🆔 <b>Order ID:</b> #").append(order.getId()).append("\n");
+            sb.append("🆔 <b>Order ID:</b> #").append(customerOrderId).append("\n");
             if (order.getShippingAddress() != null && !order.getShippingAddress().isBlank()) {
                 sb.append("📍 <b>Shipping Address:</b> ")
                   .append(escapeHtml(order.getShippingAddress())).append("\n");
@@ -205,7 +208,7 @@ public class TelegramBotService {
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
             sb.append("✅ <i>Your order is verified and our dispatch team has received your instructions.</i>\n\n");
             sb.append("🌐 Visit your order history anytime: http://localhost:3000/settings\n");
-            sb.append("💬 Need assistance? Chat with Hong Saoleang on Telegram: @hongsaoleang");
+            sb.append("💬 Need assistance? Contact JomnenhKh Support on Telegram: @EcommerceMoneyBot");
 
             boolean sent = sendMessage(customerChatId.trim(), sb.toString());
             if (sent) {

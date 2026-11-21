@@ -114,7 +114,8 @@ const Cart = () => {
     const phone = (customerPhone || user?.phone || '').trim();
     const customerContactInfo = user?.email || guestContact.trim() || '';
     const orderId = order?.id;
-    const idText = orderId ? `#${orderId}` : '';
+    const formattedId = orderId ? `#JH-${String(orderId).padStart(4, '0')}` : '';
+    const idText = formattedId;
     const destination = order?.shippingAddress || fallbackAddress || '';
 
     // If order has items from backend response, use them; otherwise use fallback
@@ -134,7 +135,7 @@ const Cart = () => {
       ? parseFloat(order.totalAmount)
       : fallbackTotal;
 
-    let msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
+    let msg = `👋 Hello JomnenhKh Support!\n`;
     msg += `Here is my Order Summary:\n\n`;
     if (idText) {
       msg += `📦 Order: ${idText}\n`;
@@ -184,9 +185,9 @@ const Cart = () => {
     const addressSnapshot = shippingAddress;
     const cleanTgChatId = telegramChatId ? telegramChatId.trim() : '';
 
-    // Pre-create direct Telegram URL with owner @hongsaoleang
+    // Pre-create direct Telegram URL with JomnenhKh
     const directInitialMsg = buildTelegramMessage(null, itemsSnapshot, totalSnapshot, addressSnapshot);
-    const ownerInitialUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(directInitialMsg)}`;
+    const ownerInitialUrl = `https://t.me/EcommerceMoneyBot?start=order`;
 
     // Open chat tab immediately to prevent popup blocker
     const tgWindow = window.open(ownerInitialUrl, '_blank', 'noopener,noreferrer');
@@ -210,10 +211,9 @@ const Cart = () => {
       const createdOrder = res.data;
 
       if (createdOrder && createdOrder.id) {
-        // Upgrade telegram text in open window with created Order ID
-        const finalMsg = buildTelegramMessage(createdOrder, itemsSnapshot, totalSnapshot, addressSnapshot);
+        // Upgrade telegram link in open window with created Order ID
         if (tgWindow && !tgWindow.closed) {
-          tgWindow.location.href = `https://t.me/hongsaoleang?text=${encodeURIComponent(finalMsg)}`;
+          tgWindow.location.href = `https://t.me/EcommerceMoneyBot?start=order_${createdOrder.id}`;
         }
         removeItemsFromCart(selectedIds);
         setOrderConfirmed(createdOrder);
@@ -222,10 +222,10 @@ const Cart = () => {
       }
     } catch (err) {
       console.warn('Backend order auto-sync notice:', err);
-      // Even if backend fails, guest/user was connected directly to owner
+      // Even if backend fails, guest/user was connected to JomnenhKh bot
       removeItemsFromCart(selectedIds);
       setOrderConfirmed({
-        id: 'DIRECT-' + Date.now().toString().slice(-6),
+        id: 'JH-' + Date.now().toString().slice(-4),
         items: itemsSnapshot.map((it) => ({ product: it.product, quantity: it.quantity, unitPrice: it.product.price })),
         totalAmount: totalSnapshot,
         shippingAddress: addressSnapshot,
@@ -316,7 +316,7 @@ const Cart = () => {
   // ==========================================
   if (orderConfirmed) {
     const tgMessage = buildTelegramMessage(orderConfirmed);
-    const telegramOwnerUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMessage)}`;
+    const orderFormattedId = orderConfirmed.id ? (String(orderConfirmed.id).startsWith('JH-') ? orderConfirmed.id : `JH-${String(orderConfirmed.id).padStart(4, '0')}`) : 'JH-0001';
     const telegramBotUrl = `https://t.me/EcommerceMoneyBot?start=order_${orderConfirmed.id}`;
 
     return (
@@ -328,12 +328,12 @@ const Cart = () => {
           <span className="badge badge-success mb-2">Order Confirmed &amp; Sent</span>
           <h1>Thank You for Your Order!</h1>
           <p className="order-number-text">
-            Official Order ID: <strong>#{orderConfirmed.id}</strong>
+            Official Order ID: <strong>#{orderFormattedId}</strong>
           </p>
 
-          {/* TELEGRAM BOT & OWNER NOTIFICATION HUB */}
+          {/* TELEGRAM BOT NOTIFICATION HUB */}
           <div className="telegram-confirmation-box" style={{ maxWidth: '520px', margin: '20px auto', textAlign: 'center' }}>
-            {/* Primary Action: Direct Chat with Store Owner */}
+            {/* Primary Action: View in Telegram Bot */}
             <div style={{
               background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(56, 189, 248, 0.1))',
               border: '1px solid rgba(56, 189, 248, 0.45)',
@@ -345,21 +345,21 @@ const Cart = () => {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '6px' }}>
                 <TelegramIcon size={24} className="text-sky-400" />
                 <h4 style={{ margin: 0, fontSize: '1.08rem', color: '#38bdf8', fontWeight: 700 }}>
-                  Chat with Owner Hong Saoleang (@hongsaoleang)
+                  Order Dispatched to JomnenhKh (@EcommerceMoneyBot)
                 </h4>
               </div>
               <p style={{ margin: '0 0 14px', fontSize: '0.84rem', color: 'var(--text-muted)' }}>
-                Connect directly with the store owner on Telegram to confirm stock, delivery, or custom requests.
+                Your order #{orderFormattedId} was registered. Tap below to view your order receipt in Telegram:
               </p>
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a
-                  href={telegramOwnerUrl}
+                  href={telegramBotUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-telegram"
                   style={{ marginTop: 0, padding: '10px 20px', fontSize: '0.9rem', justifyContent: 'center', background: '#0284c7' }}
                 >
-                  <TelegramIcon size={18} /> Chat with Owner (@hongsaoleang) <ExternalLink size={14} />
+                  <TelegramIcon size={18} /> View in JomnenhKh Bot <ExternalLink size={14} />
                 </a>
                 <button
                   type="button"
@@ -830,13 +830,13 @@ const Cart = () => {
               </span>
             </div>
 
-            {/* ORDER OPTION 1: Chat & Order with Owner Hong Saoleang */}
+            {/* ORDER OPTION 1: Chat & Order with JomnenhKh */}
             <button
               type="button"
               onClick={handleChatWithOwner}
               disabled={submitting || selectedItems.length === 0}
               className="btn-telegram"
-              title="Directly chat and place order with Store Owner Hong Saoleang on Telegram (@hongsaoleang)"
+              title="Directly chat and place order with JomnenhKh on Telegram"
               style={{
                 fontSize: '0.98rem',
                 fontWeight: 700,
@@ -856,7 +856,7 @@ const Cart = () => {
               }}
             >
               <TelegramIcon size={20} />
-              <span>{submitting ? 'Connecting...' : 'Chat & Order with Owner (@hongsaoleang)'}</span>
+              <span>{submitting ? 'Connecting...' : 'Chat & Order via JomnenhKh'}</span>
             </button>
 
             {/* ORDER OPTION 2: Submit & Track via Telegram Bot */}
