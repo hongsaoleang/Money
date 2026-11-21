@@ -4764,33 +4764,33 @@ h1, h2, h3, h4, h5, h6,
     font-size: 0.58rem !important;
   }
 
-  /* Mobile Phone: Clean, Clear & Compact Product Cards */
+  /* Mobile Phone: Clean, Clear & Compact 3-Per-Row Product Cards */
   .featured-showcase-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
     width: 100% !important;
   }
 
   .featured-spotlight-card {
     display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    padding: 8px 10px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 0 !important;
     border-radius: 6px !important;
-    gap: 12px !important;
+    overflow: hidden !important;
     width: 100% !important;
-    box-shadow: var(--shadow-sm) !important;
-    border: 1px solid var(--border-color) !important;
+    min-width: 0 !important;
     background: var(--bg-card) !important;
-    transition: all 0.2s ease !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16) !important;
   }
 
   .spotlight-thumb-wrap {
-    width: 78px !important;
-    height: 78px !important;
-    border-radius: 5px !important;
-    flex-shrink: 0 !important;
+    width: 100% !important;
+    height: 72px !important;
+    max-height: 72px !important;
+    border-radius: 5px 5px 0 0 !important;
     position: relative !important;
     overflow: hidden !important;
     background: var(--bg-secondary) !important;
@@ -4800,46 +4800,41 @@ h1, h2, h3, h4, h5, h6,
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
-    padding: 6px !important;
+    padding: 3px !important;
   }
 
   .spotlight-badge-row {
     position: absolute !important;
-    bottom: 3px !important;
-    top: auto !important;
-    left: 3px !important;
-    right: 3px !important;
+    top: 2px !important;
+    right: 2px !important;
+    bottom: auto !important;
+    left: auto !important;
     display: flex !important;
-    justify-content: flex-start !important;
+    z-index: 2 !important;
   }
 
-  .spotlight-origin-badge {
-    padding: 1px 4px !important;
-    font-size: 0.52rem !important;
+  .spotlight-stock-badge {
+    display: inline-block !important;
+    font-size: 0.40rem !important;
+    line-height: 1 !important;
+    padding: 1px 3px !important;
     border-radius: 3px !important;
-    background: rgba(0, 0, 0, 0.75) !important;
-    color: #fff !important;
-    font-weight: 600 !important;
   }
 
-  .spotlight-origin-badge svg {
-    width: 8px !important;
-    height: 8px !important;
-  }
-
-  .spotlight-stock-badge,
-  .spotlight-flagship-tag {
+  .spotlight-origin-badge,
+  .spotlight-flagship-tag,
+  .spotlight-specs-row,
+  .spotlight-sku {
     display: none !important;
   }
 
   .spotlight-content {
-    padding: 0 !important;
+    padding: 3px 4px 5px !important;
     flex: 1 !important;
     min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
-    gap: 2px !important;
+    gap: 1px !important;
   }
 
   .spotlight-category-row {
@@ -7197,11 +7192,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
 
   .spotlight-thumb-wrap {
     width: 100% !important;
-    height: 110px !important;
+    height: 72px !important;
+    max-height: 72px !important;
     position: relative !important;
     overflow: hidden !important;
     background: #080d1a !important;
-    border-radius: 8px 8px 0 0 !important;
+    border-radius: 6px 6px 0 0 !important;
   }
 
   .spotlight-img {
@@ -11592,48 +11588,47 @@ select option { background: #151f33; color: #f4f6ff; }
    6. PHONE & MOBILE VIEW OPTIMIZATIONS (Spacious 3-Products-Per-Row Layout)
    ========================================================================== */
 @media (max-width: 768px) {
-  .products-page {
+  /* Both Products Page and Home Page have matching side spacing on mobile */
+  .products-page,
+  .home-page {
     padding: 18px 64px 36px !important;
     box-sizing: border-box !important;
-  }
-
-  /* Match Home Page Spacing to Products Page */
-  .home-page {
     width: 100% !important;
-    box-sizing: border-box !important;
   }
 
   .home-page .section-container,
   .home-page .home-hero-section,
   .home-page .product-dashboard-section,
   .home-page .top-featured-section {
-    padding-left: 64px !important;
-    padding-right: 64px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
     box-sizing: border-box !important;
   }
 
   .home-page .top-featured-section {
-    padding-top: 14px !important;
-    padding-bottom: 24px !important;
+    padding-top: 10px !important;
+    padding-bottom: 20px !important;
   }
 
   .home-page .top-featured-header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 10px !important;
-    margin-bottom: 12px !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
   }
 
   .home-page .top-featured-title {
-    font-size: 1.15rem !important;
+    font-size: 1.10rem !important;
     margin: 0 !important;
     line-height: 1.2 !important;
   }
 
   .home-page .view-all-pill {
-    padding: 3px 8px !important;
-    font-size: 0.68rem !important;
+    padding: 2px 7px !important;
+    font-size: 0.65rem !important;
     flex-shrink: 0 !important;
   }
 
@@ -11723,7 +11718,7 @@ select option { background: #151f33; color: #f4f6ff; }
   .featured-showcase-grid {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 16px !important;
+    gap: 12px !important;
     width: 100% !important;
   }
 
@@ -11747,8 +11742,8 @@ select option { background: #151f33; color: #f4f6ff; }
   .products-page .product-image-wrap,
   .spotlight-thumb-wrap {
     width: 100% !important;
-    height: 84px !important;
-    max-height: 84px !important;
+    height: 72px !important;
+    max-height: 72px !important;
     border-radius: 5px 5px 0 0 !important;
     background: #090e17 !important;
     border-bottom: none !important;
@@ -11760,7 +11755,7 @@ select option { background: #151f33; color: #f4f6ff; }
   .spotlight-img {
     width: 100% !important;
     height: 100% !important;
-    padding: 3px !important;
+    padding: 2px !important;
     object-fit: contain !important;
   }
 
@@ -11783,7 +11778,7 @@ select option { background: #151f33; color: #f4f6ff; }
     right: 2px !important;
     bottom: auto !important;
     left: auto !important;
-    font-size: 0.44rem !important;
+    font-size: 0.40rem !important;
     padding: 1px 3px !important;
     border-radius: 3px !important;
     line-height: 1 !important;
@@ -11807,8 +11802,8 @@ select option { background: #151f33; color: #f4f6ff; }
     top: 2px !important;
     left: 2px !important;
     right: auto !important;
-    width: 14px !important;
-    height: 14px !important;
+    width: 13px !important;
+    height: 13px !important;
     border-radius: 3px !important;
     position: absolute !important;
     z-index: 3 !important;
@@ -11819,25 +11814,25 @@ select option { background: #151f33; color: #f4f6ff; }
 
   .products-page .card-select-checkbox svg,
   .featured-spotlight-card .card-select-checkbox svg {
-    width: 9px !important;
-    height: 9px !important;
+    width: 8px !important;
+    height: 8px !important;
   }
 
   /* Product Details */
   .products-page .product-details,
   .spotlight-content {
-    padding: 4px 5px 6px 5px !important;
+    padding: 3px 4px 5px !important;
     display: flex !important;
     flex-direction: column !important;
     flex: 1 !important;
     min-width: 0 !important;
-    gap: 0 !important;
+    gap: 1px !important;
   }
 
   .products-page .spotlight-top-meta,
   .featured-spotlight-card .spotlight-top-meta {
-    margin-bottom: 2px !important;
-    gap: 3px !important;
+    margin-bottom: 1px !important;
+    gap: 2px !important;
     width: 100% !important;
     display: flex !important;
     align-items: center !important;
@@ -11856,7 +11851,7 @@ select option { background: #151f33; color: #f4f6ff; }
 
   .products-page .product-category,
   .featured-spotlight-card .spotlight-category {
-    font-size: 0.48rem !important;
+    font-size: 0.46rem !important;
     line-height: 1.1 !important;
     max-width: 55px !important;
     overflow: hidden !important;
@@ -11865,8 +11860,8 @@ select option { background: #151f33; color: #f4f6ff; }
   }
 
   .products-page .product-origin-pill {
-    font-size: 0.44rem !important;
-    padding: 1px 4px !important;
+    font-size: 0.42rem !important;
+    padding: 1px 3px !important;
     border-radius: 3px !important;
     gap: 2px !important;
     line-height: 1.1 !important;
@@ -11875,17 +11870,17 @@ select option { background: #151f33; color: #f4f6ff; }
   }
 
   .products-page .product-origin-pill svg {
-    width: 8px !important;
-    height: 8px !important;
+    width: 7px !important;
+    height: 7px !important;
   }
 
   .products-page .product-title,
   .spotlight-title {
-    font-size: 0.62rem !important;
-    line-height: 1.25 !important;
-    margin: 2px 0 !important;
-    min-height: 2.5em !important;
-    max-height: 2.5em !important;
+    font-size: 0.58rem !important;
+    line-height: 1.2 !important;
+    margin: 1px 0 !important;
+    min-height: 2.4em !important;
+    max-height: 2.4em !important;
     font-weight: 600 !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -11897,9 +11892,9 @@ select option { background: #151f33; color: #f4f6ff; }
   /* Footer on Mobile */
   .products-page .product-footer,
   .featured-spotlight-card .spotlight-footer {
-    padding-top: 3px !important;
+    padding-top: 2px !important;
     margin-top: auto !important;
-    gap: 3px !important;
+    gap: 2px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
@@ -11916,13 +11911,13 @@ select option { background: #151f33; color: #f4f6ff; }
 
   .products-page .product-price-box .product-price,
   .featured-spotlight-card .spotlight-price {
-    font-size: 0.74rem !important;
+    font-size: 0.70rem !important;
     font-weight: 800 !important;
     line-height: 1 !important;
   }
 
   .products-page .product-price-box .product-currency-label {
-    font-size: 0.44rem !important;
+    font-size: 0.42rem !important;
     font-weight: 600 !important;
     line-height: 1 !important;
   }
@@ -11932,7 +11927,7 @@ select option { background: #151f33; color: #f4f6ff; }
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 3px !important;
+    gap: 2px !important;
     width: 100% !important;
   }
 
@@ -11949,9 +11944,9 @@ select option { background: #151f33; color: #f4f6ff; }
     flex: 1 !important;
     width: auto !important;
     min-width: 0 !important;
-    height: 20px !important;
-    min-height: 20px !important;
-    border-radius: 4px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    border-radius: 3px !important;
     padding: 0 !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -11964,13 +11959,14 @@ select option { background: #151f33; color: #f4f6ff; }
   .featured-spotlight-card .spotlight-telegram-btn svg,
   .featured-spotlight-card .spotlight-inspect-btn svg,
   .featured-spotlight-card .spotlight-cart-btn svg {
-    width: 10px !important;
-    height: 10px !important;
+    width: 9px !important;
+    height: 9px !important;
   }
 }
 
 @media (max-width: 480px) {
-  .products-page {
+  .products-page,
+  .home-page {
     padding: 16px 54px 32px !important;
   }
 
@@ -11978,44 +11974,8 @@ select option { background: #151f33; color: #f4f6ff; }
   .home-page .home-hero-section,
   .home-page .product-dashboard-section,
   .home-page .top-featured-section {
-    padding-left: 54px !important;
-    padding-right: 54px !important;
-  }
-
-  .products-page .products-grid,
-  .featured-showcase-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 14px !important;
-  }
-
-  .products-page .product-image-wrap,
-  .spotlight-thumb-wrap {
-    height: 72px !important;
-    max-height: 72px !important;
-  }
-
-  .products-page .product-title,
-  .spotlight-title {
-    font-size: 0.58rem !important;
-  }
-
-  .products-page .product-price-box .product-price,
-  .featured-spotlight-card .spotlight-price {
-    font-size: 0.70rem !important;
-  }
-}
-
-@media (max-width: 360px) {
-  .products-page {
-    padding: 14px 36px 26px !important;
-  }
-
-  .home-page .section-container,
-  .home-page .home-hero-section,
-  .home-page .product-dashboard-section,
-  .home-page .top-featured-section {
-    padding-left: 36px !important;
-    padding-right: 36px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .products-page .products-grid,
@@ -12030,11 +11990,6 @@ select option { background: #151f33; color: #f4f6ff; }
     max-height: 64px !important;
   }
 
-  .products-page .product-details,
-  .spotlight-content {
-    padding: 3px 4px 4px !important;
-  }
-
   .products-page .product-title,
   .spotlight-title {
     font-size: 0.54rem !important;
@@ -12044,6 +11999,48 @@ select option { background: #151f33; color: #f4f6ff; }
   .featured-spotlight-card .spotlight-price {
     font-size: 0.66rem !important;
   }
+}
+
+@media (max-width: 360px) {
+  .products-page,
+  .home-page {
+    padding: 14px 36px 26px !important;
+  }
+
+  .home-page .section-container,
+  .home-page .home-hero-section,
+  .home-page .product-dashboard-section,
+  .home-page .top-featured-section {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .products-page .products-grid,
+  .featured-showcase-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .products-page .product-image-wrap,
+  .spotlight-thumb-wrap {
+    height: 56px !important;
+    max-height: 56px !important;
+  }
+
+  .products-page .product-details,
+  .spotlight-content {
+    padding: 2px 3px 3px !important;
+  }
+
+  .products-page .product-title,
+  .spotlight-title {
+    font-size: 0.50rem !important;
+  }
+
+  .products-page .product-price-box .product-price,
+  .featured-spotlight-card .spotlight-price {
+    font-size: 0.62rem !important;
+  }
 
   .products-page .spotlight-telegram-btn,
   .products-page .spotlight-inspect-btn,
@@ -12051,8 +12048,8 @@ select option { background: #151f33; color: #f4f6ff; }
   .featured-spotlight-card .spotlight-telegram-btn,
   .featured-spotlight-card .spotlight-inspect-btn,
   .featured-spotlight-card .spotlight-cart-btn {
-    height: 18px !important;
-    min-height: 18px !important;
+    height: 16px !important;
+    min-height: 16px !important;
   }
 
   .products-page .spotlight-telegram-btn svg,
@@ -12061,7 +12058,7 @@ select option { background: #151f33; color: #f4f6ff; }
   .featured-spotlight-card .spotlight-telegram-btn svg,
   .featured-spotlight-card .spotlight-inspect-btn svg,
   .featured-spotlight-card .spotlight-cart-btn svg {
-    width: 9px !important;
-    height: 9px !important;
+    width: 8px !important;
+    height: 8px !important;
   }
 }
