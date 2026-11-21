@@ -1057,7 +1057,7 @@ h1, h2, h3, h4, h5, h6,
 /* Featured Showcase Grid - 4 Columns */
 .featured-showcase-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
@@ -1868,7 +1868,7 @@ h1, h2, h3, h4, h5, h6,
 /* Products Grid - 4 Columns */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
@@ -1880,7 +1880,7 @@ h1, h2, h3, h4, h5, h6,
 
 @media (max-width: 900px) {
   .products-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -5083,7 +5083,7 @@ h1, h2, h3, h4, h5, h6,
 
   /* High-Density 2-Column Product Grid on Phone */
   .products-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 10px !important;
   }
 
@@ -5574,7 +5574,7 @@ h1, h2, h3, h4, h5, h6,
 /* Very Small Smartphones (e.g. iPhone SE, 360px Android devices) */
 @media (max-width: 370px) {
   .products-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
   .product-thumb-wrap {
@@ -11153,7 +11153,7 @@ select option { background: #151f33; color: #f4f6ff; }
 
 .products-page .products-grid {
   display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 20px !important;
   width: 100% !important;
 }
@@ -11166,7 +11166,7 @@ select option { background: #151f33; color: #f4f6ff; }
 
 @media (max-width: 900px) {
   .products-page .products-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
 
