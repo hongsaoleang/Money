@@ -51,7 +51,7 @@ const Navbar = () => {
           <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
             {t('nav.products', 'Products')}
           </NavLink>
-          {isAdmin && (
+          {(!user || isAdmin) && (
             <NavLink to="/products/manage" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               <span className="flex items-center gap-1.5">
                 <Package size={15} /> {t('nav.manage', 'Manage')}
@@ -172,6 +172,32 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile Phone Appbar (Second Tier / Row on Phone View) */}
+      <nav className="navbar-mobile-appbar" aria-label="Mobile Navigation Appbar">
+        <NavLink to="/" className={({ isActive }) => `mobile-appbar-item ${isActive ? 'active' : ''}`} end>
+          <HomeIcon size={15} />
+          <span>{t('nav.home', 'Home')}</span>
+        </NavLink>
+        <NavLink to="/products" className={({ isActive }) => `mobile-appbar-item ${isActive ? 'active' : ''}`} end>
+          <Package size={15} />
+          <span>{t('nav.products', 'Products')}</span>
+        </NavLink>
+        {(!user || isAdmin) && (
+          <NavLink to="/products/manage" className={({ isActive }) => `mobile-appbar-item highlight-manage ${isActive ? 'active' : ''}`}>
+            <Package size={15} />
+            <span>{t('nav.manage', 'Manage')}</span>
+          </NavLink>
+        )}
+        <NavLink to="/services" className={({ isActive }) => `mobile-appbar-item ${isActive ? 'active' : ''}`}>
+          <Layers size={15} />
+          <span>{t('nav.services', 'Services')}</span>
+        </NavLink>
+        <NavLink to="/about-us" className={({ isActive }) => `mobile-appbar-item ${isActive ? 'active' : ''}`}>
+          <Info size={15} />
+          <span>{t('nav.aboutUs', 'About Us')}</span>
+        </NavLink>
+      </nav>
+
       {/* Mobile Drawer / Dropdown Sheet */}
       {mobileMenuOpen && (
         <div className="mobile-drawer-overlay" onClick={() => setMobileMenuOpen(false)}>
@@ -216,29 +242,13 @@ const Navbar = () => {
               </div>
             )}
 
+            {/* Quick Access Account / Admin Portal Links */}
             <div className="mobile-nav-list">
-              <NavLink to="/" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} end onClick={() => setMobileMenuOpen(false)}>
-                <HomeIcon size={17} /> {t('nav.home', 'Home')}
-              </NavLink>
-              <NavLink to="/products" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} end onClick={() => setMobileMenuOpen(false)}>
-                <Package size={17} /> {t('nav.products', 'Products')}
-              </NavLink>
-              {isAdmin && (
-                <NavLink to="/products/manage" className={({ isActive }) => `mobile-nav-item highlight-admin ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
-                  <Package size={17} /> {t('nav.manage', 'Manage')}
-                </NavLink>
-              )}
               {isAdmin && (
                 <NavLink to="/admin" className={({ isActive }) => `mobile-nav-item highlight-admin ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
                   <LayoutDashboard size={17} /> {t('nav.adminDashboard', 'Admin Dashboard')}
                 </NavLink>
               )}
-              <NavLink to="/services" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
-                <Layers size={17} /> {t('nav.services', 'Services')}
-              </NavLink>
-              <NavLink to="/about-us" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
-                <Info size={17} /> {t('nav.aboutUs', 'About Us')}
-              </NavLink>
               {user && (
                 <NavLink to="/cart" className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
                   <ShoppingBag size={17} /> {t('nav.cart', 'Shopping Cart')} {totalItems > 0 ? `(${totalItems})` : ''}
