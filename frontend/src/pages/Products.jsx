@@ -196,7 +196,7 @@ const Products = () => {
 
       {/* Category Pills & Tab Switcher */}
       <div className="catalog-toolbar">
-        <div className="category-pills" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+        <div className="category-pills">
           <button
             className={`pill-btn ${selectedCategory === null ? 'active' : ''}`}
             onClick={() => setSelectedCategory(null)}
@@ -364,6 +364,10 @@ const Products = () => {
                   ) : (
                     <span className="stock-badge out-stock">{t('products.backorder', 'Backorder')}</span>
                   )}
+                  {/* Floating Price Tag directly on Product Image */}
+                  <div className="product-image-price-tag">
+                    ${parseFloat(product.price || 0).toFixed(2)}
+                  </div>
                 </div>
 
                 <div className="product-details">
@@ -372,6 +376,12 @@ const Products = () => {
                     <span className="spotlight-sku">{specs.modelId}</span>
                   </div>
                   <h3 className="product-title">{product.name}</h3>
+
+                  {/* Prominent Price Row */}
+                  <div className="product-price-row">
+                    <span className="product-price">${parseFloat(product.price || 0).toFixed(2)}</span>
+                    <span className="product-currency-label">USD</span>
+                  </div>
 
                   {/* Specific Hardware Attributes */}
                   <div className="spotlight-specs-row">
