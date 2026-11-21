@@ -199,11 +199,11 @@ const TechStoreHome = () => {
                         >
                           {addedId === product.id ? (
                             <>
-                              <Check size={15} /> Added!
+                              <Check size={14} /> <span className="cart-btn-label">Added!</span>
                             </>
                           ) : (
                             <>
-                              <ShoppingBag size={15} /> Add to Cart
+                              <ShoppingBag size={14} /> <span className="cart-btn-label">Add to Cart</span>
                             </>
                           )}
                         </button>
