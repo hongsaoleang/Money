@@ -10,4 +10,5 @@ public class CreateOrderRequest {
     private String telegramChatId;
     private String customerName;
     private String customerContact;
+    private String phoneNumber;
 }

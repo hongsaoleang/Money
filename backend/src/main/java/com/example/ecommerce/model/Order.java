@@ -31,6 +31,8 @@ public class Order {
 
     private String customerContact;
 
+    private String phoneNumber;
+
     @Column(nullable = false)
     private BigDecimal totalAmount;
 

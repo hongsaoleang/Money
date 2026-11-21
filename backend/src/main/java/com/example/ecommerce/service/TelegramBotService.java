@@ -75,9 +75,22 @@ public class TelegramBotService {
                 } else {
                     sb.append("👤 <b>Customer (Guest):</b> ")
                       .append(escapeHtml(order.getCustomerName() != null ? order.getCustomerName() : "Guest"))
-                      .append(order.getCustomerContact() != null ? " (" + escapeHtml(order.getCustomerContact()) + ")" : "")
                       .append("\n");
                 }
+
+                String phone = order.getPhoneNumber();
+                if ((phone == null || phone.isBlank()) && order.getUser() != null) {
+                    phone = order.getUser().getPhone();
+                }
+                if (phone != null && !phone.isBlank()) {
+                    sb.append("📞 <b>Phone Number:</b> ").append(escapeHtml(phone)).append("\n");
+                }
+
+                if (order.getCustomerContact() != null && !order.getCustomerContact().isBlank()
+                        && !order.getCustomerContact().equalsIgnoreCase(phone)) {
+                    sb.append("💬 <b>Telegram / Contact:</b> ").append(escapeHtml(order.getCustomerContact())).append("\n");
+                }
+
                 if (order.getShippingAddress() != null && !order.getShippingAddress().isBlank()) {
                     sb.append("📍 <b>Destination:</b> ")
                       .append(escapeHtml(order.getShippingAddress())).append("\n");

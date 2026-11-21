@@ -65,7 +65,15 @@ const ProductDetail = () => {
   };
 
   const handleContactTelegram = () => {
-    const customerInfo = user ? `\n👤 Customer: ${user.fullName || user.email}` : '\n👤 Customer: Guest Customer';
+    let customerInfo = user ? `\n👤 Customer: ${user.fullName || user.email}` : '\n👤 Customer: Guest Customer';
+    if (user?.phone) {
+      customerInfo += `\n📞 Phone: ${user.phone}`;
+    } else {
+      const guestPhone = window.prompt('Please enter your phone number so the store owner can contact you (or press OK to chat directly):');
+      if (guestPhone && guestPhone.trim()) {
+        customerInfo += `\n📞 Phone: ${guestPhone.trim()}`;
+      }
+    }
     const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI want to purchase this product:${customerInfo}\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price).toFixed(2)} USD\n🔢 Quantity: ${quantity} unit(s)\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease confirm availability and payment details. Thank you!`;
     window.open(`https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
   };

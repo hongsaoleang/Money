@@ -53,11 +53,17 @@ public class OrderService {
                 : (request.getCustomerName() != null && !request.getCustomerName().isBlank() ? request.getCustomerName().trim() : "Guest Customer");
         String customerContact = user != null ? user.getEmail()
                 : (request.getCustomerContact() != null ? request.getCustomerContact().trim() : null);
+        String phoneNumber = request.getPhoneNumber() != null && !request.getPhoneNumber().isBlank()
+                ? request.getPhoneNumber().trim()
+                : (request.getCustomerContact() != null && !request.getCustomerContact().isBlank()
+                        ? request.getCustomerContact().trim()
+                        : (user != null && user.getPhone() != null ? user.getPhone().trim() : null));
 
         Order order = Order.builder()
                 .user(user)
                 .customerName(customerName)
                 .customerContact(customerContact)
+                .phoneNumber(phoneNumber)
                 .shippingAddress(request.getShippingAddress() != null && !request.getShippingAddress().isBlank()
                         ? request.getShippingAddress().trim()
                         : (user != null && user.getAddress() != null ? user.getAddress() : "Phnom Penh, Cambodia"))

@@ -16,7 +16,8 @@ import {
   Copy,
   Check,
   User,
-  MessageCircle
+  MessageCircle,
+  Phone
 } from 'lucide-react';
 
 // Custom Telegram Icon SVG for sharp branding
@@ -39,7 +40,9 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const [guestName, setGuestName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState(() => user?.phone || '');
   const [guestContact, setGuestContact] = useState('');
+  const [phoneError, setPhoneError] = useState(false);
   const [shippingAddress, setShippingAddress] = useState(
     user?.address || 'Street 2004, Phnom Penh, Cambodia'
   );
@@ -108,6 +111,7 @@ const Cart = () => {
   // Construct message for direct Telegram chat with Hong Saoleang (@hongsaoleang)
   const buildTelegramMessage = (order = null, fallbackItems = selectedItems, fallbackTotal = selectedTotalPrice, fallbackAddress = shippingAddress) => {
     const customerName = user?.fullName || guestName.trim() || 'Guest Customer';
+    const phone = (customerPhone || user?.phone || '').trim();
     const customerContactInfo = user?.email || guestContact.trim() || '';
     const orderId = order?.id;
     const idText = orderId ? `#${orderId}` : '';
@@ -135,7 +139,13 @@ const Cart = () => {
     if (idText) {
       msg += `📦 Order: ${idText}\n`;
     }
-    msg += `👤 Customer: ${customerName}${customerContactInfo ? ` (${customerContactInfo})` : ''}\n`;
+    msg += `👤 Customer: ${customerName}\n`;
+    if (phone) {
+      msg += `📞 Phone Number: ${phone}\n`;
+    }
+    if (customerContactInfo && customerContactInfo !== phone) {
+      msg += `💬 Telegram/Contact: ${customerContactInfo}\n`;
+    }
     if (destination) {
       msg += `📍 Destination: ${destination}\n\n`;
     }
@@ -162,6 +172,13 @@ const Cart = () => {
       return;
     }
 
+    const phoneToUse = (customerPhone || user?.phone || '').trim();
+    if (!phoneToUse) {
+      setPhoneError(true);
+      alert('Please enter your Phone Number so the store owner can contact you and confirm your delivery.');
+      return;
+    }
+
     const itemsSnapshot = [...selectedItems];
     const totalSnapshot = selectedTotalPrice;
     const addressSnapshot = shippingAddress;
@@ -180,7 +197,8 @@ const Cart = () => {
         shippingAddress: addressSnapshot,
         telegramChatId: cleanTgChatId || null,
         customerName: user?.fullName || guestName.trim() || 'Guest Customer',
-        customerContact: user?.email || guestContact.trim() || null,
+        customerContact: cleanTgChatId || guestContact.trim() || user?.email || null,
+        phoneNumber: phoneToUse,
         items: itemsSnapshot.map((item) => ({
           productId: item.product.id,
           quantity: item.quantity,
@@ -212,6 +230,7 @@ const Cart = () => {
         totalAmount: totalSnapshot,
         shippingAddress: addressSnapshot,
         customerName: user?.fullName || guestName.trim() || 'Guest Customer',
+        phoneNumber: phoneToUse,
       });
     } finally {
       setSubmitting(false);
@@ -222,6 +241,13 @@ const Cart = () => {
   const handleChatViaTelegramOrderSummary = async () => {
     if (selectedItems.length === 0) {
       alert('Please select at least one product to order.');
+      return;
+    }
+
+    const phoneToUse = (customerPhone || user?.phone || '').trim();
+    if (!phoneToUse) {
+      setPhoneError(true);
+      alert('Please enter your Phone Number so the store owner can contact you and confirm your delivery.');
       return;
     }
 
@@ -245,7 +271,8 @@ const Cart = () => {
         shippingAddress: addressSnapshot,
         telegramChatId: cleanTgChatId || null,
         customerName: user?.fullName || guestName.trim() || 'Guest Customer',
-        customerContact: user?.email || guestContact.trim() || null,
+        customerContact: cleanTgChatId || guestContact.trim() || user?.email || null,
+        phoneNumber: phoneToUse,
         items: itemsSnapshot.map((item) => ({
           productId: item.product.id,
           quantity: item.quantity,
@@ -651,13 +678,13 @@ const Cart = () => {
                   </div>
                   <div>
                     <label style={{ fontSize: '0.72rem', color: 'var(--text-dim)', display: 'block', marginBottom: '2px' }}>
-                      Contact (Phone / Telegram):
+                      Telegram @username (Optional):
                     </label>
                     <input
                       type="text"
                       value={guestContact}
                       onChange={(e) => setGuestContact(e.target.value)}
-                      placeholder="@username or phone"
+                      placeholder="e.g. @username"
                       className="form-control"
                       style={{
                         width: '100%',
@@ -673,6 +700,50 @@ const Cart = () => {
                   </div>
                 </div>
               )}
+
+              {/* Required Phone Number Field */}
+              <div style={{ marginBottom: '8px' }}>
+                <label style={{
+                  fontSize: '0.74rem',
+                  color: phoneError ? '#ef4444' : 'var(--text-dim)',
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  marginBottom: '3px'
+                }}>
+                  <Phone size={13} className={phoneError ? 'text-red-400' : 'text-sky-400'} />
+                  <span>Phone Number *</span>
+                  <span style={{ fontSize: '0.68rem', color: phoneError ? '#ef4444' : '#10b981', fontWeight: 500 }}>
+                    {phoneError ? '(Required to order & chat)' : '(Required for delivery confirmation)'}
+                  </span>
+                </label>
+                <input
+                  type="tel"
+                  value={customerPhone}
+                  onChange={(e) => {
+                    setCustomerPhone(e.target.value);
+                    if (phoneError && e.target.value.trim()) setPhoneError(false);
+                  }}
+                  placeholder="e.g. 012 345 678 or +855 12 345 678"
+                  className="form-control"
+                  style={{
+                    width: '100%',
+                    fontSize: '0.82rem',
+                    padding: '7px 10px',
+                    borderRadius: '6px',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: phoneError ? '2px solid #ef4444' : '1px solid var(--border-color)',
+                    color: 'var(--text-main)',
+                    boxSizing: 'border-box'
+                  }}
+                />
+                {phoneError && (
+                  <span style={{ display: 'block', fontSize: '0.7rem', color: '#ef4444', marginTop: '2px', fontWeight: 600 }}>
+                    ⚠️ Please input your phone number so the owner can contact you.
+                  </span>
+                )}
+              </div>
 
               {/* Delivery Address */}
               <div>
