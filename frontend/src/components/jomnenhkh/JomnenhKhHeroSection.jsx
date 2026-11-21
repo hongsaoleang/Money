@@ -7,10 +7,10 @@ const JomnenhKhHeroSection = () => {
       {/* Blurred Brand Icon Watermark in Hero Background */}
       <div className="jomnenhkh-brand-watermark-bg weshop-brand-watermark-bg top-left" aria-hidden="true">
         <img
-          src="/jomnenhkh-icon.jpg"
+          src="/jomnenhkh-icon.png"
           onError={(e) => {
-            if (e.currentTarget.src !== '/JomnenhKH.jpg') {
-              e.currentTarget.src = '/JomnenhKH.jpg';
+            if (e.currentTarget.src !== '/jomnenhkh-icon.jpg') {
+              e.currentTarget.src = '/jomnenhkh-icon.jpg';
             }
           }}
           alt=""
@@ -23,10 +23,10 @@ const JomnenhKhHeroSection = () => {
         <div className="jomnenhkh-hero-left weshop-hero-left jomnenhkh-hero-left-spacer weshop-hero-left-spacer jomnenhkh-hero-icon-container">
           <div className="jomnenhkh-hero-icon-wrapper">
             <img
-              src="/jomnenhkh-icon.jpg"
+              src="/jomnenhkh-icon.png"
               onError={(e) => {
-                if (e.currentTarget.src !== '/JomnenhKH.jpg') {
-                  e.currentTarget.src = '/JomnenhKH.jpg';
+                if (e.currentTarget.src !== '/jomnenhkh-icon.jpg') {
+                  e.currentTarget.src = '/jomnenhkh-icon.jpg';
                 }
               }}
               alt="Jomnenh-Kh Icon"
