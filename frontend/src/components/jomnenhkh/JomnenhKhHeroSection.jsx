@@ -19,8 +19,14 @@ const JomnenhKhHeroSection = () => {
       </div>
 
       <div className="jomnenhkh-hero-container weshop-hero-container relative z-10">
-        {/* Left column text cleared per user request; image kept in the exact same place on the right */}
-        <div className="jomnenhkh-hero-left-spacer weshop-hero-left-spacer" aria-hidden="true" />
+        {/* Left column: Jomnenh-Kh Heading */}
+        <div className="jomnenhkh-hero-left weshop-hero-left jomnenhkh-hero-left-spacer weshop-hero-left-spacer">
+          <h1 className="jomnenhkh-hero-heading weshop-hero-heading">
+            <span className="jomnenhkh-heading-line weshop-heading-line">
+              Jomnenh-Kh
+            </span>
+          </h1>
+        </div>
 
         {/* RIGHT COLUMN: Big Image kept in the exact same place with a little rounded */}
         <div className="jomnenhkh-hero-right weshop-hero-right">

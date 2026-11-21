@@ -13,10 +13,10 @@ const Footer = () => {
           <div className="navbar-logo">
             <img 
               src="/JomnenhKH.jpg" 
-              alt="JomnenhKH Logo" 
+              alt="Jomnenh-Kh Logo" 
               className="navbar-brand-logo-img" 
             />
-            <span className="logo-text">Jomnenh<span className="logo-accent">-KH</span></span>
+            <span className="logo-text">Jomnenh<span className="logo-accent">-Kh</span></span>
           </div>
           <p className="footer-desc">
             {t('footer.tagline', 'Hardware & Software Services · Phnom Penh, Cambodia.')}
@@ -59,7 +59,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>{t('footer.copyright', '© 2026 Jomnenh-KH · All rights reserved.')}</p>
+        <p>{t('footer.copyright', '© 2026 Jomnenh-Kh · All rights reserved.')}</p>
       </div>
     </footer>
   );

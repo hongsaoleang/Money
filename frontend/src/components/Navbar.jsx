@@ -37,10 +37,10 @@ const Navbar = () => {
         <Link to={user ? "/" : "/products"} className="navbar-logo" onClick={() => setMobileMenuOpen(false)}>
           <img 
             src="/JomnenhKH.jpg" 
-            alt="JomnenhKH Logo" 
+            alt="Jomnenh-Kh Logo" 
             className="navbar-brand-logo-img" 
           />
-          <span className="logo-text">Jomnenh<span className="logo-accent">-KH</span></span>
+          <span className="logo-text">Jomnenh<span className="logo-accent">-Kh</span></span>
         </Link>
 
         {/* Desktop Navigation Links */}

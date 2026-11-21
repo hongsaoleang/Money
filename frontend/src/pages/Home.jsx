@@ -7,7 +7,7 @@ const Home = () => {
   useEffect(() => {
     // Set document title
     const prevTitle = document.title;
-    document.title = 'JomnenhKh — Modern Marketplace';
+    document.title = 'Jomnenh-Kh — Modern Marketplace';
     return () => {
       document.title = prevTitle;
     };
