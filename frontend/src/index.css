@@ -4702,8 +4702,8 @@ h1, h2, h3, h4, h5, h6,
   }
 
   .section-container {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    padding-left: 22px !important;
+    padding-right: 22px !important;
     padding-top: 20px !important;
     padding-bottom: 30px !important;
   }
@@ -8362,7 +8362,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   }
 
   .section-container {
-    padding: 24px 14px 32px !important;
+    padding: 24px 24px 32px !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
@@ -8416,7 +8416,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   }
 
   .section-container {
-    padding: 20px 12px 28px !important;
+    padding: 20px 20px 28px !important;
   }
 
   /* Headings: scaled to normal, clear sizes */
@@ -11994,7 +11994,7 @@ select option { background: #151f33; color: #f4f6ff; }
 @media (max-width: 480px) {
   .products-page,
   .home-page {
-    padding: 14px 14px 32px !important;
+    padding: 14px 20px 32px !important;
   }
 
   .home-page .section-container,
@@ -12031,7 +12031,7 @@ select option { background: #151f33; color: #f4f6ff; }
 @media (max-width: 360px) {
   .products-page,
   .home-page {
-    padding: 12px 10px 24px !important;
+    padding: 12px 16px 24px !important;
   }
 
   .home-page .section-container,

@@ -3327,8 +3327,8 @@
 
 @media (max-width: 768px) {
   :is(.jomnenhkh-page, .weshop-page) {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
     box-sizing: border-box !important;
   }
 
@@ -3385,8 +3385,9 @@
 
 @media (max-width: 480px) {
   :is(.jomnenhkh-page, .weshop-page) {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box !important;
   }
 
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
@@ -3439,8 +3440,9 @@
 
 @media (max-width: 360px) {
   :is(.jomnenhkh-page, .weshop-page) {
-    padding-left: 8px !important;
-    padding-right: 8px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
   }
 
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
