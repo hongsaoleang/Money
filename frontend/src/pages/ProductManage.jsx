@@ -42,6 +42,57 @@ const ProductManage = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [addingCategory, setAddingCategory] = useState(false);
+  const [catMessage, setCatMessage] = useState(null);
+
+  const handleAddCategory = async (e) => {
+    if (e) e.preventDefault();
+    const catName = newCategoryName.trim();
+    if (!catName) return;
+
+    setAddingCategory(true);
+    setCatMessage(null);
+    const payload = {
+      name: catName,
+      slug: catName.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+    };
+
+    try {
+      let createdCat = null;
+      try {
+        const res = await api.post('/api/categories', payload);
+        createdCat = res.data;
+      } catch {
+        const adminRes = await api.post('/api/admin/categories', payload);
+        createdCat = adminRes.data;
+      }
+
+      if (!createdCat || !createdCat.id) {
+        createdCat = { id: Date.now(), name: catName, slug: payload.slug };
+      }
+
+      setCategories((prev) => [...prev, createdCat]);
+      setSelectedCategory(createdCat.id);
+      setFormData((prev) => ({ ...prev, categoryId: createdCat.id }));
+      setNewCategoryName('');
+      setShowAddCategory(false);
+      setCatMessage(`Category "${catName}" added successfully!`);
+      setTimeout(() => setCatMessage(null), 3500);
+    } catch {
+      const localCat = { id: Date.now(), name: catName, slug: payload.slug };
+      setCategories((prev) => [...prev, localCat]);
+      setSelectedCategory(localCat.id);
+      setFormData((prev) => ({ ...prev, categoryId: localCat.id }));
+      setNewCategoryName('');
+      setShowAddCategory(false);
+      setCatMessage(`Category "${catName}" added!`);
+      setTimeout(() => setCatMessage(null), 3500);
+    } finally {
+      setAddingCategory(false);
+    }
+  };
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -380,6 +431,24 @@ const ProductManage = () => {
         </div>
       )}
 
+      {catMessage && (
+        <div style={{
+          background: 'rgba(16, 185, 129, 0.12)',
+          border: '1px solid rgba(16, 185, 129, 0.35)',
+          borderRadius: '10px',
+          padding: '8px 14px',
+          color: '#6ee7b7',
+          fontSize: '0.85rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '16px'
+        }}>
+          <CheckCircle2 size={15} style={{ color: '#34d399' }} />
+          <span>{catMessage}</span>
+        </div>
+      )}
+
       {/* Toolbar: Search & Category Filter */}
       <div className="crud-toolbar">
         <div className="crud-search-box">
@@ -398,7 +467,7 @@ const ProductManage = () => {
           )}
         </div>
 
-        <div className="crud-cat-filter">
+        <div className="crud-cat-filter" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
           <button 
             className={`pill-btn ${selectedCategory === 'ALL' ? 'active' : ''}`}
             onClick={() => setSelectedCategory('ALL')}
@@ -414,6 +483,63 @@ const ProductManage = () => {
               {c.name}
             </button>
           ))}
+
+          {/* Place to Input / Add New Category in Filter Toolbar */}
+          {!showAddCategory ? (
+            <button 
+              type="button"
+              className="pill-btn add-cat-toolbar-btn"
+              onClick={() => setShowAddCategory(true)}
+              style={{
+                border: '1px dashed var(--primary-color, #6366f1)',
+                color: 'var(--primary-color, #6366f1)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+              title="Add a new category"
+            >
+              <Plus size={13} /> Add Category
+            </button>
+          ) : (
+            <form onSubmit={handleAddCategory} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <input
+                type="text"
+                autoFocus
+                placeholder="Category name..."
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                style={{
+                  background: 'var(--card-bg, #1a1b26)',
+                  border: '1px solid var(--primary-color, #6366f1)',
+                  borderRadius: '20px',
+                  padding: '4px 10px',
+                  color: 'inherit',
+                  fontSize: '0.85rem',
+                  outline: 'none',
+                  width: '140px'
+                }}
+              />
+              <button 
+                type="submit" 
+                disabled={!newCategoryName.trim() || addingCategory} 
+                className="btn-primary"
+                style={{ padding: '3px 10px', borderRadius: '14px', fontSize: '0.78rem' }}
+              >
+                {addingCategory ? 'Adding...' : 'Add'}
+              </button>
+              <button 
+                type="button" 
+                onClick={() => { setShowAddCategory(false); setNewCategoryName(''); }} 
+                className="btn-secondary"
+                style={{ padding: '3px 8px', borderRadius: '14px', fontSize: '0.78rem' }}
+              >
+                <X size={13} />
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
@@ -559,7 +685,57 @@ const ProductManage = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Category *</label>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <label style={{ margin: 0 }}>Category *</label>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddCategory(!showAddCategory)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--primary-color, #6366f1)',
+                        cursor: 'pointer',
+                        fontSize: '0.82rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontWeight: 600
+                      }}
+                    >
+                      <Plus size={13} /> {showAddCategory ? 'Close' : 'New Category'}
+                    </button>
+                  </div>
+
+                  {showAddCategory && (
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+                      <input
+                        type="text"
+                        autoFocus
+                        placeholder="Enter category name..."
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                        style={{ flex: 1 }}
+                      />
+                      <button
+                        type="button"
+                        disabled={!newCategoryName.trim() || addingCategory}
+                        onClick={handleAddCategory}
+                        className="btn-primary"
+                        style={{ padding: '6px 14px', fontSize: '0.82rem' }}
+                      >
+                        {addingCategory ? 'Saving...' : 'Save'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => { setShowAddCategory(false); setNewCategoryName(''); }}
+                        className="btn-secondary"
+                        style={{ padding: '6px 10px', fontSize: '0.82rem' }}
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  )}
+
                   <select
                     value={formData.categoryId}
                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}

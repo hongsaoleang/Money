@@ -10600,3 +10600,812 @@ select option { background: #151f33; color: #f4f6ff; }
     font-size: 15px !important;
   }
 }
+
+/* ==========================================================================
+   Clean & Compact Settings Dashboard & Order History Cards
+   ========================================================================== */
+.settings-page {
+  max-width: 980px !important;
+  margin: 0 auto !important;
+  padding-top: 14px !important;
+  padding-bottom: 36px !important;
+}
+
+.settings-header-bar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.settings-header-bar h1 {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--text-main) !important;
+}
+
+.settings-header-bar p {
+  margin: 2px 0 0 !important;
+  font-size: 0.76rem !important;
+  color: var(--text-muted) !important;
+}
+
+.settings-hero-actions {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+}
+
+.settings-action-btn {
+  padding: 4px 10px !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  gap: 4px !important;
+  min-height: 28px !important;
+  height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Compact 4-Card KPI Grid */
+.settings-kpi-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+@media (max-width: 860px) {
+  .settings-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.settings-kpi-card {
+  padding: 8px 12px !important;
+  gap: 8px !important;
+  border-radius: 8px !important;
+  min-height: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: transform 0.18s ease, border-color 0.18s ease !important;
+}
+
+.settings-kpi-card:hover {
+  transform: translateY(-1px) !important;
+  border-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+.settings-kpi-icon-wrap {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.settings-kpi-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  min-width: 0 !important;
+}
+
+.settings-kpi-lbl {
+  font-size: 0.64rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: var(--text-muted) !important;
+  line-height: 1.1 !important;
+}
+
+.settings-kpi-val {
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.settings-kpi-sub {
+  font-size: 0.6rem !important;
+  color: var(--text-dim, #64748b) !important;
+  line-height: 1.1 !important;
+}
+
+/* Compact Nav Tabs */
+.settings-tabs-bar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 4px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.settings-tab-pill {
+  padding: 5px 12px !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  gap: 5px !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-muted) !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  height: 28px !important;
+  line-height: 1 !important;
+}
+
+.settings-tab-pill:hover {
+  color: var(--text-main) !important;
+  border-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+.settings-tab-pill.active {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.28) !important;
+}
+
+/* Compact Order History Ledger Card */
+.order-history-card {
+  padding: 10px 14px !important;
+  margin-bottom: 10px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+  background: var(--bg-card) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.order-header-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-bottom: 8px !important;
+  padding-bottom: 6px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.order-id {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  font-family: var(--font-mono, monospace) !important;
+  color: #818cf8 !important;
+  margin-right: 8px !important;
+}
+
+.order-date {
+  font-size: 0.72rem !important;
+  color: var(--text-muted) !important;
+}
+
+.order-status-badge .badge {
+  padding: 2px 7px !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em !important;
+}
+
+.order-delivery-date-banner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: rgba(99, 102, 241, 0.06) !important;
+  border: 1px solid rgba(99, 102, 241, 0.18) !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  margin-bottom: 8px !important;
+  font-size: 0.72rem !important;
+  color: #a5b4fc !important;
+}
+
+.order-items-table {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  margin-bottom: 8px !important;
+}
+
+.order-item-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 5px 8px !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+.item-thumb {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  object-fit: cover !important;
+  border-radius: 5px !important;
+  border: 1px solid var(--border-color) !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+
+.item-info {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.item-info h4 {
+  margin: 0 !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  line-height: 1.2 !important;
+}
+
+.item-origin {
+  font-size: 0.67rem !important;
+  color: var(--text-muted) !important;
+  display: block !important;
+  margin-top: 1px !important;
+}
+
+.item-qty {
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  padding: 0 6px !important;
+  white-space: nowrap !important;
+}
+
+.item-price {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+  white-space: nowrap !important;
+}
+
+.order-footer-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  padding-top: 6px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+  font-size: 0.74rem !important;
+}
+
+.shipping-address-snippet {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-size: 0.71rem !important;
+  color: var(--text-muted) !important;
+}
+
+.shipping-address-snippet span {
+  color: var(--text-main) !important;
+  font-weight: 500 !important;
+}
+
+.order-total-amount {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  color: var(--text-muted) !important;
+}
+
+.order-total-amount span {
+  color: #10b981 !important;
+  font-size: 0.86rem !important;
+  margin-left: 4px !important;
+}
+
+/* Light Mode Overrides for Settings & Orders */
+[data-theme="light"] .order-history-card {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .order-header-row,
+[data-theme="light"] .order-footer-row {
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .order-delivery-date-banner {
+  background: rgba(99, 102, 241, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.2) !important;
+  color: #4f46e5 !important;
+}
+
+[data-theme="light"] .order-item-row {
+  background: #f8fafc !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Telegram Bot Ordering & Confirmation Enhancements */
+.cart-telegram-chat-config {
+  transition: all 0.2s ease;
+}
+.cart-telegram-chat-config:focus-within {
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+}
+.telegram-confirmation-box {
+  animation: fadeIn 0.3s ease;
+}
+[data-theme="light"] .cart-telegram-chat-config {
+  background: #f0f9ff !important;
+  border-color: #bae6fd !important;
+}
+[data-theme="light"] .cart-telegram-chat-config input {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* ==========================================================================
+   PRODUCTS CATALOG COMPACT SIZING & MOBILE RESPONSIVE ENHANCEMENTS
+   ========================================================================== */
+
+/* 1. Header & Actions Row */
+.products-page-header {
+  gap: 12px !important;
+  margin-bottom: 16px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.catalog-actions-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+/* 2. Compact "+ Add New Product" Button */
+.catalog-manage-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-full) !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25) !important;
+  transition: all 0.2s ease !important;
+}
+
+.catalog-manage-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35) !important;
+}
+
+/* 3. Compact Search Box */
+.search-bar-wrap {
+  position: relative !important;
+  min-width: 220px !important;
+  max-width: 320px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.search-bar-wrap .search-icon {
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: var(--text-dim) !important;
+  pointer-events: none !important;
+}
+
+.search-bar-wrap .search-input {
+  width: 100% !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-full) !important;
+  padding: 6px 30px 6px 34px !important;
+  color: var(--text-main) !important;
+  font-size: 0.82rem !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.search-bar-wrap .search-input:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+}
+
+.search-clear-btn {
+  position: absolute !important;
+  right: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 4. Compact Toolbar & Category Pills */
+.products-page .catalog-toolbar {
+  margin-bottom: 16px !important;
+  gap: 8px !important;
+}
+
+.products-page .category-pills {
+  gap: 6px !important;
+}
+
+.products-page .pill-btn {
+  padding: 4px 10px !important;
+  font-size: 0.78rem !important;
+}
+
+/* 5. Desktop / Default Compact Product Grid & Cards */
+.products-page .products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.products-page .product-card {
+  padding: 0 !important;
+  border-radius: 10px !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.products-page .product-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(99, 102, 241, 0.35) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25) !important;
+}
+
+.products-page .product-image-wrap {
+  height: 150px !important;
+  position: relative !important;
+  background: #0d131f !important;
+  overflow: hidden !important;
+  border-radius: 9px 9px 0 0 !important;
+}
+
+.products-page .product-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.products-page .product-details {
+  padding: 10px 12px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+.products-page .spotlight-top-meta {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 3px !important;
+}
+
+.products-page .product-category {
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  color: var(--primary) !important;
+  margin: 0 !important;
+}
+
+.products-page .spotlight-sku {
+  font-size: 0.62rem !important;
+  color: var(--text-dim) !important;
+}
+
+.products-page .product-title {
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  margin-bottom: 6px !important;
+  min-height: 2.6em !important;
+  max-height: 2.6em !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  color: var(--text-main) !important;
+}
+
+.products-page .spotlight-specs-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin-bottom: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.products-page .spec-feature-tag,
+.products-page .spec-origin-tag {
+  font-size: 0.66rem !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+.products-page .product-footer {
+  margin-top: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.products-page .product-price {
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+}
+
+.products-page .product-card-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.products-page .spotlight-telegram-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border-radius: 6px !important;
+  background: rgba(14, 165, 233, 0.12) !important;
+  border: 1px solid rgba(14, 165, 233, 0.3) !important;
+  color: #38bdf8 !important;
+}
+
+.products-page .spotlight-cart-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding: 5px 10px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  border-radius: 6px !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.products-page .spotlight-inspect-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border-radius: 6px !important;
+}
+
+/* ==========================================================================
+   6. PHONE & MOBILE VIEW OPTIMIZATIONS (Max Width: 768px and 480px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .products-page {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .products-page-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .catalog-actions-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .catalog-manage-btn {
+    width: auto !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 5px 12px !important;
+    font-size: 0.76rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .search-bar-wrap {
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: 1 !important;
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+
+  .search-bar-wrap .search-input {
+    height: 34px !important;
+    min-height: 34px !important;
+    font-size: 0.78rem !important;
+    padding: 5px 28px 5px 30px !important;
+  }
+
+  .search-bar-wrap .search-icon {
+    left: 10px !important;
+  }
+
+  .search-clear-btn {
+    right: 8px !important;
+  }
+
+  /* 2-Column High-Density Product Grid on Mobile Phones */
+  .products-page .products-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .products-page .product-card {
+    border-radius: 8px !important;
+    padding: 0 !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .products-page .product-image-wrap {
+    height: 115px !important;
+    border-radius: 7px 7px 0 0 !important;
+  }
+
+  .products-page .origin-badge,
+  .products-page .stock-badge {
+    font-size: 0.58rem !important;
+    padding: 2px 5px !important;
+  }
+
+  .products-page .card-select-checkbox {
+    width: 20px !important;
+    height: 20px !important;
+    top: 5px !important;
+    left: 5px !important;
+  }
+
+  .products-page .product-details {
+    padding: 6px 8px 8px !important;
+  }
+
+  .products-page .spotlight-top-meta {
+    margin-bottom: 2px !important;
+  }
+
+  .products-page .product-category {
+    font-size: 0.58rem !important;
+  }
+
+  .products-page .spotlight-sku {
+    font-size: 0.56rem !important;
+  }
+
+  .products-page .product-title {
+    font-size: 0.78rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 4px !important;
+    min-height: 2.5em !important;
+    max-height: 2.5em !important;
+  }
+
+  /* Hide technical spec pill on small phone view so card is compact */
+  .products-page .spotlight-specs-row {
+    display: none !important;
+  }
+
+  .products-page .product-footer {
+    padding-top: 5px !important;
+    gap: 4px !important;
+  }
+
+  .products-page .product-price {
+    font-size: 0.88rem !important;
+  }
+
+  .products-page .product-card-actions {
+    gap: 3px !important;
+  }
+
+  .products-page .spotlight-telegram-btn,
+  .products-page .spotlight-inspect-btn {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+  }
+
+  .products-page .spotlight-cart-btn {
+    height: 24px !important;
+    min-height: 24px !important;
+    padding: 3px 6px !important;
+    font-size: 0.68rem !important;
+    border-radius: 4px !important;
+    gap: 3px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .products-page {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .products-page .products-grid {
+    gap: 6px !important;
+  }
+
+  .products-page .product-image-wrap {
+    height: 105px !important;
+  }
+
+  .products-page .cart-btn-label {
+    display: none !important;
+  }
+
+  .products-page .spotlight-cart-btn {
+    padding: 4px !important;
+    width: 24px !important;
+  }
+}

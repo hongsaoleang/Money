@@ -87,17 +87,22 @@ public class AuthService {
                 .fullName(userDetails.getFullName())
                 .role(userDetails.getRole())
                 .avatar(userDetails.getAvatar())
+                .phone(user.getPhone())
+                .address(user.getAddress())
+                .telegramChatId(user.getTelegramChatId())
                 .build();
     }
 
     public AuthResponse login(LoginRequest request) {
+        String cleanEmail = request.getEmail().trim().toLowerCase();
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail().trim().toLowerCase(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(cleanEmail, request.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateToken(authentication);
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User dbUser = userRepository.findByEmail(cleanEmail).orElse(null);
 
         return AuthResponse.builder()
                 .token(jwt)
@@ -106,6 +111,9 @@ public class AuthService {
                 .fullName(userDetails.getFullName())
                 .role(userDetails.getRole())
                 .avatar(userDetails.getAvatar())
+                .phone(dbUser != null ? dbUser.getPhone() : null)
+                .address(dbUser != null ? dbUser.getAddress() : null)
+                .telegramChatId(dbUser != null ? dbUser.getTelegramChatId() : null)
                 .build();
     }
 
@@ -142,7 +150,35 @@ public class AuthService {
                 .fullName(user.getFullName())
                 .role(user.getRole())
                 .avatar(user.getAvatar())
+                .phone(user.getPhone())
+                .address(user.getAddress())
+                .telegramChatId(user.getTelegramChatId())
                 .build();
+    }
+
+    @Transactional
+    public ResponseEntity<?> updateProfile(String email, java.util.Map<String, String> payload) {
+        return userRepository.findByEmail(email).map(user -> {
+            if (payload.containsKey("address")) {
+                user.setAddress(payload.get("address"));
+            }
+            if (payload.containsKey("phone")) {
+                user.setPhone(payload.get("phone"));
+            }
+            if (payload.containsKey("telegramChatId")) {
+                user.setTelegramChatId(payload.get("telegramChatId"));
+            }
+            if (payload.containsKey("fullName") && payload.get("fullName") != null && !payload.get("fullName").isBlank()) {
+                user.setFullName(payload.get("fullName").trim());
+            }
+            userRepository.save(user);
+            return ResponseEntity.ok(java.util.Map.of(
+                    "success", true,
+                    "address", user.getAddress() != null ? user.getAddress() : "",
+                    "phone", user.getPhone() != null ? user.getPhone() : "",
+                    "telegramChatId", user.getTelegramChatId() != null ? user.getTelegramChatId() : ""
+            ));
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     @Transactional

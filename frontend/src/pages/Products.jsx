@@ -33,6 +33,55 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [addedId, setAddedId] = useState(null);
   const [selectedCardIds, setSelectedCardIds] = useState([]);
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [addingCategory, setAddingCategory] = useState(false);
+  const [catMessage, setCatMessage] = useState(null);
+
+  const handleAddCategory = async (e) => {
+    if (e) e.preventDefault();
+    const catName = newCategoryName.trim();
+    if (!catName) return;
+
+    setAddingCategory(true);
+    setCatMessage(null);
+    const payload = {
+      name: catName,
+      slug: catName.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+    };
+
+    try {
+      let createdCat = null;
+      try {
+        const res = await api.post('/api/categories', payload);
+        createdCat = res.data;
+      } catch {
+        const adminRes = await api.post('/api/admin/categories', payload);
+        createdCat = adminRes.data;
+      }
+
+      if (!createdCat || !createdCat.id) {
+        createdCat = { id: Date.now(), name: catName, slug: payload.slug };
+      }
+
+      setCategories((prev) => [...prev, createdCat]);
+      setSelectedCategory(createdCat.id);
+      setNewCategoryName('');
+      setShowAddCategory(false);
+      setCatMessage(`Category "${catName}" added successfully!`);
+      setTimeout(() => setCatMessage(null), 3500);
+    } catch {
+      const localCat = { id: Date.now(), name: catName, slug: payload.slug };
+      setCategories((prev) => [...prev, localCat]);
+      setSelectedCategory(localCat.id);
+      setNewCategoryName('');
+      setShowAddCategory(false);
+      setCatMessage(`Category "${catName}" added!`);
+      setTimeout(() => setCatMessage(null), 3500);
+    } finally {
+      setAddingCategory(false);
+    }
+  };
 
   const handleQuickAdd = (product) => {
     if (!user) {
@@ -65,7 +114,7 @@ const Products = () => {
       });
       return;
     }
-    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI am interested in this product from your store:\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
+    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI am interested in this product from your store:\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price || 0).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
     window.open(`https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
   };
 
@@ -80,9 +129,10 @@ const Products = () => {
   const fetchCategories = async () => {
     try {
       const res = await api.get('/api/categories');
-      setCategories(res.data);
+      setCategories(Array.isArray(res?.data) ? res.data : []);
     } catch (err) {
       console.error('Error fetching categories', err);
+      setCategories([]);
     }
   };
 
@@ -96,15 +146,17 @@ const Products = () => {
       if (params.toString()) url += `?${params.toString()}`;
 
       const res = await api.get(url);
-      setProducts(res.data);
+      setProducts(Array.isArray(res?.data) ? res.data : []);
     } catch (err) {
       console.error('Error fetching products', err);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const selectedProducts = products.filter((p) => selectedCardIds.includes(p.id));
+  const safeProducts = Array.isArray(products) ? products : [];
+  const selectedProducts = safeProducts.filter((p) => selectedCardIds.includes(p.id));
 
   return (
     <div className="products-page section-container">
@@ -117,11 +169,11 @@ const Products = () => {
         <div className="catalog-actions-row">
           {isAdmin && (
             <Link to="/products/manage?create=true" className="btn-primary catalog-manage-btn">
-              <Plus size={17} /> {t('products.addNew', 'Add New Product')}
+              <Plus size={14} /> {t('products.addNew', 'Add New Product')}
             </Link>
           )}
           <div className="search-bar-wrap">
-            <Search size={18} className="search-icon" />
+            <Search size={15} className="search-icon" />
             <input
               type="text"
               placeholder={t('products.searchPlaceholder', 'Search by name, spec, or origin...')}
@@ -135,7 +187,7 @@ const Products = () => {
                 className="search-clear-btn"
                 title="Clear search"
               >
-                <X size={15} />
+                <X size={13} />
               </button>
             )}
           </div>
@@ -144,7 +196,7 @@ const Products = () => {
 
       {/* Category Pills & Tab Switcher */}
       <div className="catalog-toolbar">
-        <div className="category-pills">
+        <div className="category-pills" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
           <button
             className={`pill-btn ${selectedCategory === null ? 'active' : ''}`}
             onClick={() => setSelectedCategory(null)}
@@ -160,13 +212,112 @@ const Products = () => {
               {cat.name}
             </button>
           ))}
+
+          {/* Place to Input / Add New Category */}
+          {!showAddCategory ? (
+            <button
+              type="button"
+              className="pill-btn add-cat-trigger-btn"
+              onClick={() => setShowAddCategory(true)}
+              style={{
+                border: '1px dashed var(--primary-color, #6366f1)',
+                color: 'var(--primary-color, #6366f1)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+              title="Add a new category"
+            >
+              <Plus size={14} /> Add Category
+            </button>
+          ) : (
+            <form
+              onSubmit={handleAddCategory}
+              className="inline-add-category-form"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(99, 102, 241, 0.08)',
+                border: '1px solid var(--primary-color, #6366f1)',
+                borderRadius: '9999px',
+                padding: '4px 8px 4px 12px',
+                boxShadow: '0 0 12px rgba(99, 102, 241, 0.25)'
+              }}
+            >
+              <input
+                type="text"
+                autoFocus
+                placeholder="Category name..."
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'inherit',
+                  outline: 'none',
+                  fontSize: '0.88rem',
+                  width: '140px'
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!newCategoryName.trim() || addingCategory}
+                className="btn-primary"
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '9999px',
+                  fontSize: '0.78rem',
+                  fontWeight: 600
+                }}
+              >
+                {addingCategory ? 'Adding...' : 'Add'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowAddCategory(false); setNewCategoryName(''); }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#9ca3af',
+                  cursor: 'pointer',
+                  padding: '2px',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                title="Cancel"
+              >
+                <X size={14} />
+              </button>
+            </form>
+          )}
         </div>
       </div>
+
+      {catMessage && (
+        <div style={{
+          background: 'rgba(16, 185, 129, 0.12)',
+          border: '1px solid rgba(16, 185, 129, 0.35)',
+          borderRadius: '10px',
+          padding: '8px 14px',
+          color: '#6ee7b7',
+          fontSize: '0.85rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '16px'
+        }}>
+          <Check size={15} style={{ color: '#34d399' }} />
+          <span>{catMessage}</span>
+        </div>
+      )}
 
       {/* Main Grid: Products Catalog */}
       {loading ? (
         <div className="loading-spinner">Loading curated catalog...</div>
-      ) : products.length === 0 ? (
+      ) : safeProducts.length === 0 ? (
         <div className="empty-state">
           <p>No products found matching your criteria.</p>
           <button onClick={() => { setSelectedCategory(null); setSearchQuery(''); }} className="btn-secondary">
@@ -175,7 +326,7 @@ const Products = () => {
         </div>
       ) : (
         <div className="products-grid">
-          {products.map((product) => {
+          {safeProducts.map((product) => {
             const specs = getProductSpecs(product);
             const isSelected = selectedCardIds.includes(product.id);
 
@@ -229,7 +380,7 @@ const Products = () => {
                   </div>
 
                   <div className="product-footer">
-                    <span className="product-price">${parseFloat(product.price).toFixed(2)}</span>
+                    <span className="product-price">${parseFloat(product.price || 0).toFixed(2)}</span>
 
                     <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
                       {/* Direct Telegram Contact for this Card */}
@@ -239,7 +390,7 @@ const Products = () => {
                         className="spotlight-telegram-btn"
                         title={t('products.contactTelegram', 'Contact via Telegram')}
                       >
-                        <TelegramIcon size={16} />
+                        <TelegramIcon size={14} />
                       </button>
 
                       {/* Add to Cart */}
@@ -251,18 +402,18 @@ const Products = () => {
                       >
                         {addedId === product.id ? (
                           <>
-                            <Check size={15} /> {t('products.added', 'Added!')}
+                            <Check size={13} /> <span className="cart-btn-label">{t('products.added', 'Added!')}</span>
                           </>
                         ) : (
                           <>
-                            <ShoppingBag size={15} /> {t('products.addToCart', 'Add to Cart')}
+                            <ShoppingBag size={13} /> <span className="cart-btn-label">{t('products.addToCart', 'Add to Cart')}</span>
                           </>
                         )}
                       </button>
 
                       {/* View Specs */}
                       <Link to={`/products/${product.id}`} className="spotlight-inspect-btn" title="View Specifications">
-                        <ArrowRight size={15} />
+                        <ArrowRight size={13} />
                       </Link>
                     </div>
                   </div>

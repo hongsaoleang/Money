@@ -36,6 +36,8 @@ public class User {
 
     private String address;
 
+    private String telegramChatId;
+
     @Column(columnDefinition = "TEXT")
     private String avatar;
 

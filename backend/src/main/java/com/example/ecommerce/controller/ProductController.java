@@ -93,6 +93,18 @@ public class ProductController {
         return ResponseEntity.ok(categoryRepository.findAll());
     }
 
+    @PostMapping("/categories")
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        if (category.getName() == null || category.getName().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        category.setName(category.getName().trim());
+        if (category.getSlug() == null || category.getSlug().isEmpty()) {
+            category.setSlug(category.getName().toLowerCase().replaceAll("[^a-z0-9]", "-"));
+        }
+        return ResponseEntity.ok(categoryRepository.save(category));
+    }
+
     // Public Active Products
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(

@@ -19,4 +19,7 @@ public class AuthResponse {
     private String fullName;
     private Role role;
     private String avatar;
+    private String phone;
+    private String address;
+    private String telegramChatId;
 }

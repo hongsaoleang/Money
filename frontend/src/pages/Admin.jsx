@@ -4,7 +4,7 @@ import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import DeveloperPhotoPicker from '../components/DeveloperPhotoPicker';
 import { 
-  LayoutDashboard, Package, Clock, CheckCircle, XCircle, Trash2, Edit3, Plus, 
+  LayoutDashboard, Package, Clock, CheckCircle, XCircle, Trash2, Edit3, Plus, X,
   Layers, Users, ShoppingCart, DollarSign, MessageSquare, Calendar, Globe, AlertCircle,
   UserPlus, ShieldCheck, Shield, ShieldAlert, UserCheck, UserX, Key, Search, ArrowRight, ExternalLink,
   Mail
@@ -18,6 +18,49 @@ const Admin = () => {
   const [products, setProducts] = useState([]);
   const [pendingProducts, setPendingProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [addingCategory, setAddingCategory] = useState(false);
+
+  const handleAddCategory = async (e) => {
+    if (e) e.preventDefault();
+    const catName = newCategoryName.trim();
+    if (!catName) return;
+
+    setAddingCategory(true);
+    const payload = {
+      name: catName,
+      slug: catName.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+    };
+
+    try {
+      let createdCat = null;
+      try {
+        const res = await api.post('/api/admin/categories', payload);
+        createdCat = res.data;
+      } catch {
+        const publicRes = await api.post('/api/categories', payload);
+        createdCat = publicRes.data;
+      }
+
+      if (!createdCat || !createdCat.id) {
+        createdCat = { id: Date.now(), name: catName, slug: payload.slug };
+      }
+
+      setCategories((prev) => [...prev, createdCat]);
+      setProductForm((prev) => ({ ...prev, categoryId: createdCat.id }));
+      setNewCategoryName('');
+      setShowAddCategory(false);
+    } catch {
+      const localCat = { id: Date.now(), name: catName, slug: payload.slug };
+      setCategories((prev) => [...prev, localCat]);
+      setProductForm((prev) => ({ ...prev, categoryId: localCat.id }));
+      setNewCategoryName('');
+      setShowAddCategory(false);
+    } finally {
+      setAddingCategory(false);
+    }
+  };
   const [services, setServices] = useState([]);
   const [portfolio, setPortfolio] = useState([]);
   const [teamProfiles, setTeamProfiles] = useState([]);
@@ -1146,7 +1189,57 @@ const Admin = () => {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>Category *</label>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <label style={{ margin: 0 }}>Category *</label>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddCategory(!showAddCategory)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--primary-color, #6366f1)',
+                        cursor: 'pointer',
+                        fontSize: '0.82rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontWeight: 600
+                      }}
+                    >
+                      <Plus size={13} /> {showAddCategory ? 'Close' : 'New Category'}
+                    </button>
+                  </div>
+
+                  {showAddCategory && (
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+                      <input
+                        type="text"
+                        autoFocus
+                        placeholder="Enter category name..."
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                        style={{ flex: 1 }}
+                      />
+                      <button
+                        type="button"
+                        disabled={!newCategoryName.trim() || addingCategory}
+                        onClick={handleAddCategory}
+                        className="btn-primary"
+                        style={{ padding: '6px 14px', fontSize: '0.82rem' }}
+                      >
+                        {addingCategory ? 'Saving...' : 'Save'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => { setShowAddCategory(false); setNewCategoryName(''); }}
+                        className="btn-secondary"
+                        style={{ padding: '6px 10px', fontSize: '0.82rem' }}
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  )}
+
                   <select
                     value={productForm.categoryId}
                     onChange={(e) => setProductForm({ ...productForm, categoryId: e.target.value })}

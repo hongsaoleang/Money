@@ -85,4 +85,19 @@ public class AuthController {
         }
         return authService.uploadAvatar(email.trim().toLowerCase(), image);
     }
+
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(
+            @RequestBody java.util.Map<String, String> payload,
+            @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails
+    ) {
+        String email = payload.get("email");
+        if (userDetails != null && userDetails.getUsername() != null) {
+            email = userDetails.getUsername();
+        }
+        if (email == null || email.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("error", "Email is required"));
+        }
+        return authService.updateProfile(email.trim().toLowerCase(), payload);
+    }
 }

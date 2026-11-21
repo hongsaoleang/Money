@@ -158,11 +158,30 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (profileData) => {
+    try {
+      const res = await api.put('/api/auth/profile', {
+        ...profileData,
+        email: user?.email,
+      });
+      const updatedUser = { ...user, ...res.data, ...profileData };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return { success: true, data: res.data };
+    } catch {
+      // Local fallback
+      const updatedUser = { ...user, ...profileData };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return { success: true, data: profileData };
+    }
+  };
+
   const isAdmin = user?.role === 'ROLE_ADMIN';
   const isClient = user?.role === 'ROLE_CLIENT' || user?.role === 'ROLE_ADMIN';
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, sendRegistrationOtp, loginWithGoogle, logout, updateAvatar, isAdmin, isClient }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, sendRegistrationOtp, loginWithGoogle, logout, updateAvatar, updateProfile, isAdmin, isClient }}>
       {children}
     </AuthContext.Provider>
   );

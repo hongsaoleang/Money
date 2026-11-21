@@ -40,11 +40,22 @@ public class OrderService {
         BigDecimal total = BigDecimal.ZERO;
         List<OrderItem> items = new ArrayList<>();
 
+        String telegramChatId = request.getTelegramChatId();
+        if ((telegramChatId == null || telegramChatId.isBlank()) && user != null) {
+            telegramChatId = user.getTelegramChatId();
+        }
+
+        if (request.getTelegramChatId() != null && !request.getTelegramChatId().isBlank() && user != null) {
+            user.setTelegramChatId(request.getTelegramChatId().trim());
+            userRepository.save(user);
+        }
+
         Order order = Order.builder()
                 .user(user)
                 .shippingAddress(request.getShippingAddress() != null && !request.getShippingAddress().isBlank()
                         ? request.getShippingAddress()
                         : (user != null && user.getAddress() != null ? user.getAddress() : "Phnom Penh, Cambodia"))
+                .telegramChatId(telegramChatId)
                 .orderStatus("CONFIRMED")
                 // Estimated delivery date: 4 days after the order timestamp
                 .estimatedDeliveryDate(LocalDateTime.now().plusDays(4))

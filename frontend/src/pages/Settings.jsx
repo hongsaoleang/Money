@@ -9,8 +9,21 @@ import {
   Users, UserCheck, UserX, Search, Trash2, Plus, Camera, Upload
 } from 'lucide-react';
 
+const TelegramIcon = ({ size = 18, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    style={{ display: 'inline-block', verticalAlign: 'middle' }}
+  >
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
+  </svg>
+);
+
 const Settings = () => {
-  const { user, logout, isAdmin, updateAvatar } = useAuth();
+  const { user, logout, isAdmin, updateAvatar, updateProfile } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -29,9 +42,16 @@ const Settings = () => {
 
   // Editable address state
   const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [address, setAddress] = useState(user?.address || '100 Innovation Way, Suite 400, San Francisco, CA 94105');
+  const [address, setAddress] = useState(user?.address || 'Street 2004, Phnom Penh, Cambodia');
   const [phone, setPhone] = useState(user?.phone || '+855 12 019 2834');
   const [savedNotice, setSavedNotice] = useState(false);
+
+  // Telegram Bot integration state
+  const [telegramChatId, setTelegramChatId] = useState(
+    user?.telegramChatId || localStorage.getItem('user_tg_chat_id') || ''
+  );
+  const [isEditingTelegram, setIsEditingTelegram] = useState(false);
+  const [telegramNotice, setTelegramNotice] = useState(false);
 
   const handleAvatarFileSelect = async (e) => {
     const file = e.target.files?.[0];
@@ -67,11 +87,38 @@ const Settings = () => {
     setTimeout(() => setAvatarNotice(''), 2500);
   };
 
-  const handleSaveAddress = (e) => {
+  const handleSaveAddress = async (e) => {
     e.preventDefault();
+    try {
+      if (updateProfile) {
+        await updateProfile({ address, phone });
+      }
+    } catch (err) {
+      console.warn('Address update note:', err);
+    }
     setIsEditingAddress(false);
     setSavedNotice(true);
     setTimeout(() => setSavedNotice(false), 2400);
+  };
+
+  const handleSaveTelegram = async (e) => {
+    e.preventDefault();
+    const cleanId = telegramChatId ? telegramChatId.trim() : '';
+    try {
+      if (updateProfile) {
+        await updateProfile({ telegramChatId: cleanId });
+      }
+      if (cleanId) {
+        localStorage.setItem('user_tg_chat_id', cleanId);
+      } else {
+        localStorage.removeItem('user_tg_chat_id');
+      }
+    } catch (err) {
+      console.warn('Telegram update note:', err);
+    }
+    setIsEditingTelegram(false);
+    setTelegramNotice(true);
+    setTimeout(() => setTelegramNotice(false), 2400);
   };
 
   const handleLogout = () => {
@@ -190,10 +237,10 @@ const Settings = () => {
       />
 
       {/* 1. TOP HEADER & ACTIONS */}
-      <div className="settings-header-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
+      <div className="settings-header-bar">
         <div>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, margin: 0, color: 'var(--text-main)' }}>Settings</h1>
-          <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Manage your orders, profile preferences, and account security</p>
+          <h1>Settings</h1>
+          <p>Manage your orders, profile preferences, and account security</p>
         </div>
 
         <div className="settings-hero-actions">
@@ -220,7 +267,7 @@ const Settings = () => {
       <div className="settings-kpi-grid">
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap orders">
-            <Package size={16} />
+            <Package size={14} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Total Orders</span>
@@ -231,7 +278,7 @@ const Settings = () => {
 
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap status">
-            <ShieldCheck size={16} />
+            <ShieldCheck size={14} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Account Status</span>
@@ -242,7 +289,7 @@ const Settings = () => {
 
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap role">
-            <Shield size={16} />
+            <Shield size={14} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Role Clearance</span>
@@ -253,7 +300,7 @@ const Settings = () => {
 
         <div className="settings-kpi-card">
           <div className="settings-kpi-icon-wrap logistics">
-            <Truck size={16} />
+            <Truck size={14} />
           </div>
           <div className="settings-kpi-content">
             <span className="settings-kpi-lbl">Courier SLA</span>
@@ -269,26 +316,26 @@ const Settings = () => {
           className={`settings-tab-pill ${activeTab === 'orders' ? 'active' : ''}`}
           onClick={() => setActiveTab('orders')}
         >
-          <Package size={16} /> Order History &amp; Tracking ({orders.length})
+          <Package size={14} /> Order History &amp; Tracking ({orders.length})
         </button>
         <button
           className={`settings-tab-pill ${activeTab === 'profile' ? 'active' : ''}`}
           onClick={() => setActiveTab('profile')}
         >
-          <User size={16} /> Profile &amp; Shipping Addresses
+          <User size={14} /> Profile &amp; Shipping Addresses
         </button>
         <button
           className={`settings-tab-pill ${activeTab === 'security' ? 'active' : ''}`}
           onClick={() => setActiveTab('security')}
         >
-          <Shield size={16} /> Security &amp; Privileges
+          <Shield size={14} /> Security &amp; Privileges
         </button>
         {isAdmin && (
           <button
             className={`settings-tab-pill ${activeTab === 'users' ? 'active' : ''}`}
             onClick={() => setActiveTab('users')}
           >
-            <Users size={16} /> Registered Users ({registeredUsers.length})
+            <Users size={14} /> Registered Users ({registeredUsers.length})
           </button>
         )}
       </div>
@@ -359,7 +406,7 @@ const Settings = () => {
 
                   {/* Delivery date banner */}
                   <div className="order-delivery-date-banner">
-                    <Calendar size={18} className="text-indigo" />
+                    <Calendar size={14} className="text-indigo" />
                     <div>
                       <strong>Estimated Arrival Date:</strong>{' '}
                       {order.estimatedDeliveryDate
@@ -396,7 +443,7 @@ const Settings = () => {
 
                   <div className="order-footer-row">
                     <div className="shipping-address-snippet">
-                      <MapPin size={15} /> Shipping To: <span>{order.shippingAddress || address}</span>
+                      <MapPin size={13} /> Shipping To: <span>{order.shippingAddress || address}</span>
                     </div>
                     <div className="order-total-amount">
                       Total: <span>${parseFloat(order.totalAmount).toFixed(2)}</span>
@@ -579,6 +626,89 @@ const Settings = () => {
                 {savedNotice && (
                   <div className="save-notice-banner">
                     <Check size={16} /> Shipping destination updated successfully!
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Telegram Bot Integration Card */}
+            <div className="settings-panel-card">
+              <div className="panel-card-header">
+                <div className="flex items-center gap-2">
+                  <TelegramIcon size={18} className="text-sky-400" />
+                  <h3>Telegram Bot Receipts (@EcommerceMoneyBot)</h3>
+                </div>
+                <button 
+                  onClick={() => setIsEditingTelegram(!isEditingTelegram)} 
+                  className="panel-edit-btn"
+                >
+                  <Edit3 size={14} /> {isEditingTelegram ? 'Cancel' : 'Edit Telegram'}
+                </button>
+              </div>
+
+              <div className="panel-card-body">
+                {isEditingTelegram ? (
+                  <form onSubmit={handleSaveTelegram} className="edit-address-form">
+                    <div className="form-group">
+                      <label style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span>Your Telegram Chat ID / Username</span>
+                        <a
+                          href="https://t.me/EcommerceMoneyBot"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ fontSize: '0.78rem', color: '#38bdf8', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                        >
+                          Find ID in @EcommerceMoneyBot <ExternalLink size={11} />
+                        </a>
+                      </label>
+                      <input 
+                        type="text" 
+                        value={telegramChatId} 
+                        onChange={(e) => setTelegramChatId(e.target.value)} 
+                        placeholder="e.g. 1263944701 or @username"
+                        className="form-control"
+                      />
+                      <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '4px' }}>
+                        Open <strong>@EcommerceMoneyBot</strong> on Telegram and tap <em>/start</em> to instantly see your numeric Chat ID.
+                      </span>
+                    </div>
+                    <button type="submit" className="btn-primary mt-3">
+                      <Save size={15} /> Save Telegram Settings
+                    </button>
+                  </form>
+                ) : (
+                  <>
+                    <div className="profile-field-row">
+                      <span className="field-lbl">Telegram Status</span>
+                      <span className="field-val" style={{ color: telegramChatId ? '#34d399' : 'var(--text-dim)' }}>
+                        {telegramChatId ? 'Connected for Bot Receipts' : 'Not Linked (Click Edit to Link)'}
+                      </span>
+                    </div>
+                    <div className="profile-field-row">
+                      <span className="field-lbl">Connected Chat ID</span>
+                      <span className="field-val font-mono">
+                        {telegramChatId || 'None registered'}
+                      </span>
+                    </div>
+                    <div className="profile-field-row">
+                      <span className="field-lbl">Official Bot</span>
+                      <span className="field-val">
+                        <a
+                          href="https://t.me/EcommerceMoneyBot"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: '#38bdf8', display: 'inline-flex', alignItems: 'center', gap: '4px', textDecoration: 'none' }}
+                        >
+                          @EcommerceMoneyBot <ExternalLink size={12} />
+                        </a>
+                      </span>
+                    </div>
+                  </>
+                )}
+
+                {telegramNotice && (
+                  <div className="save-notice-banner">
+                    <Check size={16} /> Telegram settings updated successfully!
                   </div>
                 )}
               </div>

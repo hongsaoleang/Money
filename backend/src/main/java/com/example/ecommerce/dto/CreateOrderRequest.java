@@ -7,4 +7,5 @@ import java.util.List;
 public class CreateOrderRequest {
     private List<OrderItemRequest> items;
     private String shippingAddress;
+    private String telegramChatId;
 }
