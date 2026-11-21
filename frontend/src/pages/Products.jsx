@@ -4,7 +4,7 @@ import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Search, Globe, Plus, ShoppingBag, Check, X } from 'lucide-react';
+import { Search, Globe, Plus, ShoppingBag, Check, X, ArrowRight } from 'lucide-react';
 import { getProductSpecs } from '../utils/productSpecs';
 import ProductTelegramSelectionBar from '../components/ProductTelegramSelectionBar';
 
