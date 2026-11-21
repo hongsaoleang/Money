@@ -3792,13 +3792,25 @@ h1, h2, h3, h4, h5, h6,
   max-width: 340px;
 }
 
-.footer-contact p {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  margin-bottom: 6px;
+.footer-contact,
+.footer-contact-row {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 8px 16px !important;
+  margin-top: 10px !important;
+}
+
+.footer-contact p,
+.footer-contact-row p {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 0.8rem !important;
+  color: var(--text-dim) !important;
+  margin-bottom: 0 !important;
+  white-space: nowrap !important;
 }
 
 .footer-col h4 {
@@ -5491,20 +5503,23 @@ h1, h2, h3, h4, h5, h6,
     width: 100% !important;
   }
 
-  .footer-main .footer-contact {
+  .footer-main .footer-contact,
+  .footer-main .footer-contact-row {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 4px !important;
+    gap: 3px 6px !important;
     width: 100% !important;
-    margin: 0 auto !important;
+    margin: 4px auto 0 auto !important;
   }
 
-  .footer-main .footer-contact p {
-    font-size: 0.5rem !important;
-    line-height: 1.25 !important;
-    gap: 4px !important;
+  .footer-main .footer-contact p,
+  .footer-main .footer-contact-row p {
+    font-size: 0.48rem !important;
+    line-height: 1.2 !important;
+    gap: 3px !important;
     margin-bottom: 0 !important;
     overflow-wrap: anywhere !important;
     word-break: break-word !important;
@@ -5512,7 +5527,7 @@ h1, h2, h3, h4, h5, h6,
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
-    width: 100% !important;
+    width: auto !important;
   }
 
   .footer-main .footer-contact p svg {
