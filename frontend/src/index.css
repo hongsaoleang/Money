@@ -2260,7 +2260,7 @@ h1, h2, h3, h4, h5, h6,
   height: 46px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-full);
+  border-radius: 6px;
   padding: 10px 42px 10px 46px;
   color: var(--text-main);
   font-size: 0.9rem;
@@ -9751,13 +9751,18 @@ select option { background: #151f33; color: #f4f6ff; }
   height: 52px;
   min-height: 52px;
   padding: 12px 46px 12px 48px !important;
-  border-radius: 15px !important;
+  border-radius: 6px !important;
   background: linear-gradient(145deg, rgba(22, 32, 53, 0.98), rgba(14, 22, 39, 0.98)) !important;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12), inset 0 1px rgba(255, 255, 255, 0.035);
 }
 .search-bar-wrap:focus-within .search-icon { color: #9aa9ff; }
-.search-clear-btn { right: 12px; width: 28px; height: 28px; border-radius: 8px; justify-content: center; }
+.search-clear-btn { right: 12px; width: 28px; height: 28px; border-radius: 6px; justify-content: center; }
 .search-clear-btn:hover { background: rgba(255, 255, 255, 0.08); color: var(--text-main); }
+.products-page .search-bar-wrap .search-input,
+.products-page .search-input,
+.catalog-actions-row .search-input {
+  border-radius: 6px !important;
+}
 .products-page .catalog-toolbar { margin-bottom: 24px; }
 .products-page .products-grid { row-gap: 22px; column-gap: 20px; }
 
@@ -11431,7 +11436,7 @@ select option { background: #151f33; color: #f4f6ff; }
   min-height: 36px !important;
   background: var(--bg-card) !important;
   border: 1px solid var(--border-color) !important;
-  border-radius: var(--radius-full) !important;
+  border-radius: 6px !important;
   padding: 6px 30px 6px 34px !important;
   color: var(--text-main) !important;
   font-size: 0.82rem !important;
