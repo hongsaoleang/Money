@@ -156,12 +156,11 @@ const ProductDetail = () => {
             )}
           </div>
 
-          <div className="detail-description">
-            <h3 className="detail-section-label">Overview</h3>
-            <p className="detail-desc-text">
-              {product.description || 'Verified authentic item in our active warehouse inventory. Ready for immediate dispatch.'}
-            </p>
-          </div>
+          {product.description && product.description.trim() ? (
+            <div className="detail-description">
+              <p className="detail-desc-text">{product.description}</p>
+            </div>
+          ) : null}
 
           <div className="detail-features-grid">
             <div className="detail-feat-item">
