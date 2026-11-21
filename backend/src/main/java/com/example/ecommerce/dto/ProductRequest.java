@@ -31,7 +31,6 @@ public class ProductRequest {
 
     private String imageUrl;
 
-    @NotNull(message = "Category ID is required")
     private Long categoryId;
 
     // Release date can be set by Admin to schedule when it becomes available

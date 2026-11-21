@@ -9,63 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useLanguage } from '../../context/LanguageContext';
 
-export const INITIAL_TOP_PRODUCTS = [
-  {
-    id: 1,
-    name: 'NovaPro Ultrabook M3',
-    category: { name: 'Developer Workstations' },
-    price: 1899.99,
-    stockQuantity: 25,
-    rating: '4.95',
-    originCountry: 'Germany',
-    description: 'Engineered for developers and creators. Featuring an OLED 120Hz display, 64GB unified memory, and 18-hour battery longevity.',
-    imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 2,
-    name: 'AeroSpatial Studio Headphones',
-    category: { name: 'Audio & Acoustics' },
-    price: 349.50,
-    stockQuantity: 40,
-    rating: '4.91',
-    originCountry: 'Japan',
-    description: 'Audiophile planar-magnetic wireless headphones with spatial sound stage and lossless 24-bit audio streaming.',
-    imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 3,
-    name: 'Quantum Mech Keyboard Pro',
-    category: { name: 'Developer Workstations' },
-    price: 219.00,
-    stockQuantity: 15,
-    rating: '4.88',
-    originCountry: 'Taiwan',
-    description: 'Gasket-mounted hot-swappable mechanical keyboard with custom factory-lubed switches and seamless Bluetooth 5.4.',
-    imageUrl: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 4,
-    name: 'CyberGrip Smart Ring Titanium',
-    category: { name: 'Smart Devices' },
-    price: 299.00,
-    stockQuantity: 50,
-    rating: '4.93',
-    originCountry: 'Switzerland',
-    description: 'Next-gen biometric health tracking, haptic gesture controls, and NFC payment in a featherlight grade-5 titanium form factor.',
-    imageUrl: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 5,
-    name: 'Apex Wireless Ergonomic Mouse',
-    category: { name: 'Developer Workstations' },
-    price: 89.99,
-    stockQuantity: 100,
-    rating: '4.85',
-    originCountry: 'South Korea',
-    description: 'Ergonomic vertical posture mouse reducing wrist strain by 70%, 4000 DPI optical sensor, and silent tactile clicks.',
-    imageUrl: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=800&q=80',
-  },
-];
+export const INITIAL_TOP_PRODUCTS = [];
 
 const JomnenhKhTopProducts = () => {
   const { user } = useAuth();
@@ -92,19 +36,21 @@ const JomnenhKhTopProducts = () => {
 
         if (!isMounted) return;
 
-        if (Array.isArray(prodRes?.data) && prodRes.data.length > 0) {
+        if (Array.isArray(prodRes?.data)) {
           setProducts(prodRes.data);
         } else {
-          setProducts(INITIAL_TOP_PRODUCTS);
+          setProducts([]);
         }
 
         if (Array.isArray(catRes?.data) && catRes.data.length > 0) {
           setCategories(catRes.data);
+        } else {
+          setCategories([]);
         }
       } catch (err) {
-        console.warn('Could not load products from API, falling back to catalog items:', err);
+        console.warn('Could not load products from API:', err);
         if (isMounted) {
-          setProducts(INITIAL_TOP_PRODUCTS);
+          setProducts([]);
         }
       } finally {
         if (isMounted) setLoading(false);

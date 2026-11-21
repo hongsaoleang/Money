@@ -241,15 +241,11 @@ const JomnenhKhTopProductsModal = ({
                 <div className="jomnenhkh-modal-field weshop-modal-field">
                   <label className="jomnenhkh-modal-label weshop-modal-label">Category</label>
                   <select
-                    value={formData.category}
+                    value={formData.category || ''}
                     onChange={(e) => setFormData((p) => ({ ...p, category: e.target.value }))}
                     className="jomnenhkh-modal-input weshop-modal-input"
                   >
-                    <option value="Developer Workstations">Developer Workstations</option>
-                    <option value="Audio & Acoustics">Audio & Acoustics</option>
-                    <option value="Smart Devices">Smart Devices</option>
-                    <option value="Home & Living">Home & Living</option>
-                    <option value="Apparel & Textiles">Apparel & Textiles</option>
+                    <option value="">-- No Category / General --</option>
                   </select>
                 </div>
               </div>

@@ -59,8 +59,10 @@ public class ProductService {
         User vendor = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userEmail));
 
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + request.getCategoryId()));
+        Category category = null;
+        if (request.getCategoryId() != null) {
+            category = categoryRepository.findById(request.getCategoryId()).orElse(null);
+        }
 
         String slug = generateSlug(request.getName());
 
@@ -87,8 +89,10 @@ public class ProductService {
         User admin = userRepository.findByEmail(adminEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + adminEmail));
 
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + request.getCategoryId()));
+        Category category = null;
+        if (request.getCategoryId() != null) {
+            category = categoryRepository.findById(request.getCategoryId()).orElse(null);
+        }
 
         String slug = generateSlug(request.getName());
 
@@ -115,9 +119,10 @@ public class ProductService {
         Product product = getProductById(id);
 
         if (request.getCategoryId() != null) {
-            Category category = categoryRepository.findById(request.getCategoryId())
-                    .orElseThrow(() -> new IllegalArgumentException("Category not found: " + request.getCategoryId()));
+            Category category = categoryRepository.findById(request.getCategoryId()).orElse(null);
             product.setCategory(category);
+        } else {
+            product.setCategory(null);
         }
 
         product.setName(request.getName());

@@ -216,14 +216,9 @@ public class AdminController {
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         return categoryRepository.findById(id).map(category -> {
             // Unlink any products assigned to this category to prevent foreign key errors
-            List<Product> products = productRepository.findByCategoryId(id);
-            if (!products.isEmpty()) {
-                for (Product p : products) {
-                    p.setCategory(null);
-                }
-                productRepository.saveAll(products);
-            }
+            productRepository.unlinkCategory(id);
             categoryRepository.delete(category);
+            categoryRepository.flush();
             return ResponseEntity.noContent().build();
         }).orElse(ResponseEntity.notFound().build());
     }

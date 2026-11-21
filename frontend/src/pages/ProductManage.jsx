@@ -198,7 +198,7 @@ const ProductManage = () => {
       categoryId: categories.length > 0 ? categories[0].id : '',
       price: '',
       stockQuantity: '',
-      originCountry: 'Japan',
+      originCountry: 'Cambodia',
       provenanceDetails: '',
       imageUrl: PRESET_IMAGES[Math.floor(Math.random() * PRESET_IMAGES.length)].url,
       description: '',
@@ -212,10 +212,10 @@ const ProductManage = () => {
     setSelectedFileName(product.imageUrl ? 'Existing Product Image' : '');
     setFormData({
       name: product.name || '',
-      categoryId: product.category?.id || (categories.length > 0 ? categories[0].id : ''),
+      categoryId: product.category?.id ? product.category.id.toString() : '',
       price: product.price?.toString() || '',
       stockQuantity: product.stockQuantity?.toString() || '0',
-      originCountry: product.originCountry || 'Japan',
+      originCountry: product.originCountry || 'Cambodia',
       provenanceDetails: product.provenanceDetails || '',
       imageUrl: product.imageUrl || PRESET_IMAGES[0].url,
       description: product.description || '',
@@ -232,9 +232,10 @@ const ProductManage = () => {
     }
 
     setFormSubmitting(true);
+    const parsedCatId = formData.categoryId ? parseInt(formData.categoryId, 10) : null;
     const payload = {
       name: formData.name.trim(),
-      categoryId: parseInt(formData.categoryId, 10) || (categories[0]?.id || 1),
+      categoryId: parsedCatId,
       price: parseFloat(formData.price),
       stockQuantity: parseInt(formData.stockQuantity, 10) || 0,
       originCountry: formData.originCountry,
@@ -256,7 +257,7 @@ const ProductManage = () => {
           updated = {
             id: editingId,
             ...payload,
-            category: categories.find(c => c.id === payload.categoryId) || { name: 'Hardware' },
+            category: parsedCatId ? (categories.find(c => c.id === parsedCatId) || null) : null,
           };
         }
 
@@ -754,9 +755,10 @@ const ProductManage = () => {
                   )}
 
                   <select
-                    value={formData.categoryId}
+                    value={formData.categoryId || ''}
                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
                   >
+                    <option value="">{categories.length === 0 ? '-- No Categories Yet (Uncategorized) --' : '-- Select Category (Optional) --'}</option>
                     {categories.map(c => (
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}

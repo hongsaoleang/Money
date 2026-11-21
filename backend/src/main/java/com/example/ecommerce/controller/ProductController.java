@@ -29,6 +29,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryRepository categoryRepository;
+    private final com.example.ecommerce.repository.ProductRepository productRepository;
     private final OrderRepository orderRepository;
 
     // Public Sales & Profit Analytics
@@ -103,6 +104,17 @@ public class ProductController {
             category.setSlug(category.getName().toLowerCase().replaceAll("[^a-z0-9]", "-"));
         }
         return ResponseEntity.ok(categoryRepository.save(category));
+    }
+
+    @DeleteMapping("/categories/{id}")
+    @org.springframework.transaction.annotation.Transactional
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        return categoryRepository.findById(id).map(category -> {
+            productRepository.unlinkCategory(id);
+            categoryRepository.delete(category);
+            categoryRepository.flush();
+            return ResponseEntity.noContent().build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     // Public Active Products

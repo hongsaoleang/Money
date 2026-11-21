@@ -20,6 +20,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId")
     List<Product> findByCategoryId(@Param("categoryId") Long categoryId);
 
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query("UPDATE Product p SET p.category = null WHERE p.category.id = :categoryId")
+    void unlinkCategory(@Param("categoryId") Long categoryId);
+
     @Query("SELECT COUNT(p) FROM Product p WHERE p.category.id = :categoryId")
     long countByCategoryId(@Param("categoryId") Long categoryId);
 
