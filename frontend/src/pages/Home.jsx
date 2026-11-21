@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react';
-import WeShopHeroSection from '../components/weshop/WeShopHeroSection';
-import WeShopTopProducts from '../components/weshop/WeShopTopProducts';
-import './WeShopHome.css';
+import JomnenhKhHeroSection from '../components/jomnenhkh/JomnenhKhHeroSection';
+import JomnenhKhTopProducts from '../components/jomnenhkh/JomnenhKhTopProducts';
+import './JomnenhKhHome.css';
 
 const Home = () => {
   useEffect(() => {
     // Set document title
     const prevTitle = document.title;
-    document.title = 'JomnenhKH-Shop — Modern Marketplace';
+    document.title = 'JomnenhKh — Modern Marketplace';
     return () => {
       document.title = prevTitle;
     };
   }, []);
 
   return (
-    <div className="weshop-page">
+    <div className="jomnenhkh-page weshop-page">
       {/* 1. Hero Section with Top In-Stock Highlights and Big Image on the Right */}
-      <WeShopHeroSection />
+      <JomnenhKhHeroSection />
 
       {/* 2. Top Products In Stock Section (Admin Configurable) */}
-      <WeShopTopProducts />
+      <JomnenhKhTopProducts />
     </div>
   );
 };

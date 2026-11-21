@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { 
   Code, Smartphone, Server, CheckCircle2, 
-  ExternalLink, Send, ArrowRight
+  ExternalLink
 } from 'lucide-react';
 
 const TelegramIcon = ({ size = 20, className = "" }) => (
@@ -143,12 +143,6 @@ const Services = () => {
           <h1 className="hero-title">
             {t('services.title', 'Software Services')}
           </h1>
-
-          <div className="services-hero-actions hero-actions justify-center mb-6">
-            <a href="#inquiry" className="btn-primary services-contact-btn">
-              <Send size={13} /> {t('footer.contactUs', 'Contact Us')}
-            </a>
-          </div>
         </div>
       </section>
 

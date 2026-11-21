@@ -72,8 +72,11 @@ const AppLayout = () => {
           <Route path="/" element={<Home />} />
 
           {/* Path Aliases */}
+          <Route path="/jomnenhkh" element={<Home />} />
+          <Route path="/jomnenhkhhome" element={<Home />} />
           <Route path="/jomnenhkh-shop" element={<Home />} />
           <Route path="/weshop" element={<Home />} />
+          <Route path="/weshophome" element={<Home />} />
           <Route path="/marketplace" element={<Home />} />
           <Route path="/tech-store" element={<TechStoreHome />} />
 

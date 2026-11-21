@@ -10473,3 +10473,130 @@ select option { background: #151f33; color: #f4f6ff; }
     border-radius: 7px !important;
   }
 }
+
+
+/* ==========================================================================
+   Services Page — Scaled Down Contact Us & Capabilities on Phone
+   ========================================================================== */
+.services-hero-actions {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: auto !important;
+  margin: 0 auto 20px !important;
+}
+
+.services-contact-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  width: auto !important;
+  min-height: 38px !important;
+  padding: 8px 18px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  border-radius: 9px !important;
+}
+
+.capabilities-header {
+  margin-bottom: 24px !important;
+}
+
+.capabilities-badge {
+  font-size: 11px !important;
+  padding: 3px 10px !important;
+  letter-spacing: 0.05em !important;
+}
+
+.capabilities-title {
+  font-size: clamp(20px, 2.4vw, 28px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Phone Responsive Scaling (max-width: 768px and max-width: 480px) */
+@media (max-width: 768px) {
+  .services-hero {
+    padding-top: 18px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .services-hero .hero-title {
+    font-size: 20px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .services-hero-actions {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 auto 12px !important;
+  }
+
+  .services-contact-btn {
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 30px !important;
+    height: 30px !important;
+    padding: 4px 14px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    border-radius: 7px !important;
+    gap: 5px !important;
+  }
+
+  .capabilities-header {
+    margin-bottom: 14px !important;
+    gap: 4px !important;
+    align-items: center !important;
+  }
+
+  .capabilities-badge,
+  .services-page .section-badge {
+    font-size: 9.5px !important;
+    padding: 2px 7px !important;
+    margin-bottom: 4px !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .capabilities-title,
+  .services-page .section-title {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+    margin: 0 0 6px !important;
+    font-weight: 700 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-hero {
+    padding-top: 14px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .services-hero .hero-title {
+    font-size: 18px !important;
+  }
+
+  .services-contact-btn {
+    min-height: 28px !important;
+    height: 28px !important;
+    padding: 3px 12px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+    gap: 4px !important;
+  }
+
+  .capabilities-badge,
+  .services-page .section-badge {
+    font-size: 9px !important;
+    padding: 1.5px 6px !important;
+  }
+
+  .capabilities-title,
+  .services-page .section-title {
+    font-size: 15px !important;
+  }
+}
