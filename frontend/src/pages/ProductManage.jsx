@@ -484,6 +484,23 @@ const ProductManage = () => {
             </button>
           ))}
 
+          <Link
+            to="/admin?tab=categories"
+            className="pill-btn"
+            style={{
+              border: '1px solid rgba(99, 102, 241, 0.4)',
+              color: '#818cf8',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontWeight: 600,
+              textDecoration: 'none'
+            }}
+            title="Open Category Management (create, update, delete)"
+          >
+            <Layers size={13} /> Manage Categories
+          </Link>
+
           {/* Place to Input / Add New Category in Filter Toolbar */}
           {!showAddCategory ? (
             <button 

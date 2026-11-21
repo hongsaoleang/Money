@@ -17,6 +17,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByStatus(ProductStatus status);
     List<Product> findByVendorId(Long vendorId);
 
+    @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId")
+    List<Product> findByCategoryId(@Param("categoryId") Long categoryId);
+
+    @Query("SELECT COUNT(p) FROM Product p WHERE p.category.id = :categoryId")
+    long countByCategoryId(@Param("categoryId") Long categoryId);
+
     // Public products: approved AND (releaseDate is null OR releaseDate <= now)
     @Query("SELECT p FROM Product p WHERE p.status = :status AND (p.releaseDate IS NULL OR p.releaseDate <= :now)")
     List<Product> findActivePublicProducts(@Param("status") ProductStatus status, @Param("now") LocalDateTime now);

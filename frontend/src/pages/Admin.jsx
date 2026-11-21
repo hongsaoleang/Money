@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import DeveloperPhotoPicker from '../components/DeveloperPhotoPicker';
@@ -12,8 +12,17 @@ import {
 
 const Admin = () => {
   const { user, isAdmin } = useAuth();
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState('dashboard');
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get('tab');
+    if (tabParam) {
+      setActiveTab(tabParam);
+    }
+  }, [location.search]);
   const [stats, setStats] = useState(null);
   const [products, setProducts] = useState([]);
   const [pendingProducts, setPendingProducts] = useState([]);
@@ -21,6 +30,129 @@ const Admin = () => {
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [addingCategory, setAddingCategory] = useState(false);
+
+  // Category CRUD states & handlers
+  const [categorySearchQuery, setCategorySearchQuery] = useState('');
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [categorySubmitting, setCategorySubmitting] = useState(false);
+  const [categoryFeedback, setCategoryFeedback] = useState(null);
+  const [categoryFormData, setCategoryFormData] = useState({
+    name: '',
+    slug: '',
+    description: '',
+  });
+
+  const handleOpenCategoryModal = (cat = null) => {
+    if (cat) {
+      setEditingCategory(cat);
+      setCategoryFormData({
+        name: cat.name || '',
+        slug: cat.slug || '',
+        description: cat.description || '',
+      });
+    } else {
+      setEditingCategory(null);
+      setCategoryFormData({
+        name: '',
+        slug: '',
+        description: '',
+      });
+    }
+    setCategoryFeedback(null);
+    setIsCategoryModalOpen(true);
+  };
+
+  const handleSaveCategory = async (e) => {
+    if (e) e.preventDefault();
+    const catName = categoryFormData.name.trim();
+    if (!catName) {
+      alert('Please enter a category name');
+      return;
+    }
+
+    setCategorySubmitting(true);
+    setCategoryFeedback(null);
+
+    const payload = {
+      name: catName,
+      slug: (categoryFormData.slug?.trim() || catName.toLowerCase().replace(/[^a-z0-9]/g, '-')).replace(/^-+|-+$/g, ''),
+      description: categoryFormData.description?.trim() || '',
+    };
+
+    try {
+      if (editingCategory) {
+        let updatedCat = null;
+        try {
+          const res = await api.put(`/api/admin/categories/${editingCategory.id}`, payload);
+          updatedCat = res.data;
+        } catch {
+          const res2 = await api.put(`/api/categories/${editingCategory.id}`, payload);
+          updatedCat = res2.data;
+        }
+
+        if (!updatedCat || !updatedCat.id) {
+          updatedCat = { id: editingCategory.id, ...payload };
+        }
+
+        setCategories((prev) => prev.map((c) => (c.id === editingCategory.id ? { ...c, ...updatedCat } : c)));
+        setCategoryFeedback({ type: 'success', message: `Category "${catName}" updated successfully!` });
+      } else {
+        let createdCat = null;
+        try {
+          const res = await api.post('/api/admin/categories', payload);
+          createdCat = res.data;
+        } catch {
+          const res2 = await api.post('/api/categories', payload);
+          createdCat = res2.data;
+        }
+
+        if (!createdCat || !createdCat.id) {
+          createdCat = { id: Date.now(), ...payload };
+        }
+
+        setCategories((prev) => [...prev, createdCat]);
+        setCategoryFeedback({ type: 'success', message: `Category "${catName}" created successfully!` });
+      }
+
+      setIsCategoryModalOpen(false);
+      loadAllData();
+      setTimeout(() => setCategoryFeedback(null), 4000);
+    } catch (err) {
+      const msg = err.response?.data?.message || err.response?.data || err.message || 'Failed to save category';
+      alert('Error saving category: ' + msg);
+    } finally {
+      setCategorySubmitting(false);
+    }
+  };
+
+  const handleDeleteCategory = async (cat) => {
+    const productCount = products.filter(
+      (p) => p.category?.id === cat.id || p.category === cat.name || p.categoryId === cat.id
+    ).length;
+
+    const confirmMsg = productCount > 0
+      ? `Are you sure you want to delete category "${cat.name}"?\n\nNote: ${productCount} assigned products will safely have their category unlinked and preserved in the catalog.`
+      : `Are you sure you want to delete category "${cat.name}"? This action cannot be undone.`;
+
+    if (!window.confirm(confirmMsg)) return;
+
+    try {
+      try {
+        await api.delete(`/api/admin/categories/${cat.id}`);
+      } catch {
+        await api.delete(`/api/categories/${cat.id}`);
+      }
+
+      setCategories((prev) => prev.filter((c) => c.id !== cat.id));
+      setCategoryFeedback({ type: 'success', message: `Category "${cat.name}" deleted successfully.` });
+      loadAllData();
+      setTimeout(() => setCategoryFeedback(null), 4000);
+    } catch (err) {
+      const msg = err.response?.data?.message || err.response?.data || err.message || 'Failed to delete category';
+      alert('Error deleting category: ' + msg);
+    }
+  };
 
   const handleAddCategory = async (e) => {
     if (e) e.preventDefault();
@@ -442,6 +574,17 @@ const Admin = () => {
     }
   };
 
+  // Filter categories by search
+  const filteredCategories = categories.filter((c) => {
+    if (!categorySearchQuery.trim()) return true;
+    const q = categorySearchQuery.toLowerCase();
+    return (
+      c.name?.toLowerCase().includes(q) ||
+      c.slug?.toLowerCase().includes(q) ||
+      c.description?.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="admin-page section-container">
       {/* Top Header */}
@@ -449,7 +592,7 @@ const Admin = () => {
         <div>
           <h1 className="page-title">Administration</h1>
           <p className="page-desc">
-            Manage products, requests, services, orders, and users.
+            Manage products, categories, requests, services, orders, and users.
           </p>
         </div>
         <div className="admin-actions flex items-center gap-2">
@@ -460,6 +603,13 @@ const Admin = () => {
           >
             <Package size={16} /> Manage
           </Link>
+          <button
+            onClick={() => handleOpenCategoryModal(null)}
+            className="btn-secondary flex items-center gap-2"
+            title="Create New Category"
+          >
+            <Layers size={16} /> + Category
+          </button>
           <button
             onClick={() => {
               setUserFormFeedback(null);
@@ -500,6 +650,12 @@ const Admin = () => {
           onClick={() => setActiveTab('products')}
         >
           <Package size={16} /> Product Catalog CRUD ({products.length})
+        </button>
+        <button
+          className={`admin-tab-btn ${activeTab === 'categories' ? 'active' : ''}`}
+          onClick={() => setActiveTab('categories')}
+        >
+          <Layers size={16} /> Categories ({categories.length})
         </button>
         <button
           className={`admin-tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
@@ -570,6 +726,14 @@ const Admin = () => {
               <div>
                 <span className="kpi-title">Users & Admins</span>
                 <h3 className="kpi-value">{users.length || stats.totalUsers}</h3>
+              </div>
+            </div>
+
+            <div className="kpi-card" onClick={() => setActiveTab('categories')} style={{ cursor: 'pointer' }} title="Click to view and manage product categories">
+              <div className="kpi-icon" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}><Layers size={24} /></div>
+              <div>
+                <span className="kpi-title">Categories</span>
+                <h3 className="kpi-value">{categories.length}</h3>
               </div>
             </div>
 
@@ -715,6 +879,203 @@ const Admin = () => {
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Tab: Categories Management & Taxonomy */}
+      {activeTab === 'categories' && (
+        <div className="admin-categories-view">
+          <div className="sub-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
+            <div>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: 700, margin: 0 }}>Category Management & Taxonomy</h2>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', margin: '4px 0 0' }}>
+                Create, update, and delete product categories across the marketplace.
+              </p>
+            </div>
+            <button
+              onClick={() => handleOpenCategoryModal(null)}
+              className="btn-primary flex items-center gap-2"
+            >
+              <Plus size={16} /> Create New Category
+            </button>
+          </div>
+
+          {categoryFeedback && (
+            <div style={{
+              padding: '12px 16px',
+              borderRadius: '8px',
+              marginBottom: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: categoryFeedback.type === 'success' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+              border: `1px solid ${categoryFeedback.type === 'success' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+              color: categoryFeedback.type === 'success' ? '#34d399' : '#f87171',
+              fontSize: '0.88rem'
+            }}>
+              {categoryFeedback.type === 'success' ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
+              <span>{categoryFeedback.message}</span>
+            </div>
+          )}
+
+          {/* Search Bar */}
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '18px', alignItems: 'center' }}>
+            <div style={{ position: 'relative', flex: 1, maxWidth: '400px' }}>
+              <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
+              <input
+                type="text"
+                placeholder="Search categories by name, slug or description..."
+                value={categorySearchQuery}
+                onChange={(e) => setCategorySearchQuery(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '9px 12px 9px 36px',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-md)',
+                  color: 'var(--text-main)',
+                  fontSize: '0.88rem'
+                }}
+              />
+            </div>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+              Showing {filteredCategories.length} of {categories.length} categories
+            </span>
+          </div>
+
+          {/* Table */}
+          <div className="table-responsive">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th style={{ width: '60px' }}>ID</th>
+                  <th>Category Name</th>
+                  <th>Slug</th>
+                  <th>Description</th>
+                  <th>Linked Products</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredCategories.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" style={{ textAlign: 'center', padding: '36px 20px', color: 'var(--text-dim)' }}>
+                      No categories found matching your query.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredCategories.map((cat) => {
+                    const productCount = products.filter(
+                      (p) => p.category?.id === cat.id || p.category === cat.name || p.categoryId === cat.id
+                    ).length;
+
+                    return (
+                      <tr key={cat.id}>
+                        <td>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-dim)' }}>
+                            #{cat.id}
+                          </span>
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <div style={{
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '6px',
+                              background: 'rgba(99, 102, 241, 0.12)',
+                              border: '1px solid rgba(99, 102, 241, 0.25)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--primary, #6366f1)',
+                              fontWeight: 700,
+                              fontSize: '0.8rem'
+                            }}>
+                              {cat.name.charAt(0).toUpperCase()}
+                            </div>
+                            <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>{cat.name}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <span style={{
+                            display: 'inline-block',
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.75rem',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            padding: '3px 8px',
+                            borderRadius: '4px',
+                            color: 'var(--text-muted)'
+                          }}>
+                            {cat.slug}
+                          </span>
+                        </td>
+                        <td>
+                          <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                            {cat.description || '—'}
+                          </span>
+                        </td>
+                        <td>
+                          <span style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            padding: '3px 10px',
+                            borderRadius: '12px',
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            background: productCount > 0 ? 'rgba(16, 185, 129, 0.12)' : 'rgba(148, 163, 184, 0.1)',
+                            color: productCount > 0 ? '#34d399' : 'var(--text-dim)',
+                            border: `1px solid ${productCount > 0 ? 'rgba(16, 185, 129, 0.25)' : 'rgba(148, 163, 184, 0.2)'}`
+                          }}>
+                            <Package size={11} />
+                            {productCount} {productCount === 1 ? 'item' : 'items'}
+                          </span>
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <div style={{ display: 'inline-flex', gap: '8px' }}>
+                            <button
+                              onClick={() => handleOpenCategoryModal(cat)}
+                              className="btn-outline"
+                              style={{
+                                padding: '6px 12px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                fontSize: '0.78rem',
+                                borderColor: 'rgba(99, 102, 241, 0.35)',
+                                color: '#818cf8'
+                              }}
+                              title="Edit Category Name, Slug, Description"
+                            >
+                              <Edit3 size={13} />
+                              <span>Edit</span>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteCategory(cat)}
+                              className="btn-outline"
+                              style={{
+                                padding: '6px 12px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                fontSize: '0.78rem',
+                                borderColor: 'rgba(239, 68, 68, 0.35)',
+                                color: '#f87171'
+                              }}
+                              title="Delete Category"
+                            >
+                              <Trash2 size={13} />
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
@@ -1649,6 +2010,110 @@ const Admin = () => {
                   disabled={userFormSubmitting}
                 >
                   {userFormSubmitting ? 'Creating...' : `Create ${newUserForm.role === 'ROLE_ADMIN' ? 'Administrator' : 'User'}`}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Create or Edit Category */}
+      {isCategoryModalOpen && (
+        <div className="modal-backdrop" onClick={() => setIsCategoryModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '520px' }}>
+            <div className="modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '8px',
+                  background: 'rgba(99, 102, 241, 0.15)',
+                  border: '1px solid rgba(99, 102, 241, 0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#818cf8'
+                }}>
+                  <Layers size={20} />
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>
+                    {editingCategory ? 'Edit Category' : 'Create New Category'}
+                  </h2>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '2px 0 0' }}>
+                    {editingCategory ? `Update properties for "${editingCategory.name}"` : 'Add a new product classification to catalog'}
+                  </p>
+                </div>
+              </div>
+              <button onClick={() => setIsCategoryModalOpen(false)} className="close-btn">&times;</button>
+            </div>
+
+            <form onSubmit={handleSaveCategory} className="modal-form">
+              <div className="form-group" style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px' }}>
+                  Category Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={categoryFormData.name}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setCategoryFormData((prev) => ({
+                      ...prev,
+                      name: val,
+                      slug: !editingCategory ? val.toLowerCase().replace(/[^a-z0-9]/g, '-') : prev.slug,
+                    }));
+                  }}
+                  placeholder="e.g. Mechanical Keyboards"
+                  style={{ width: '100%', padding: '10px 12px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid var(--border-color)', borderRadius: '6px', color: '#fff' }}
+                />
+              </div>
+
+              <div className="form-group" style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px' }}>
+                  URL Slug
+                </label>
+                <input
+                  type="text"
+                  value={categoryFormData.slug}
+                  onChange={(e) => setCategoryFormData({ ...categoryFormData, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') })}
+                  placeholder="e.g. mechanical-keyboards"
+                  style={{ width: '100%', padding: '10px 12px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid var(--border-color)', borderRadius: '6px', color: '#fff' }}
+                />
+                <small style={{ color: 'var(--text-dim)', fontSize: '0.74rem', marginTop: '4px', display: 'block' }}>
+                  Used for SEO URLs & category filter routing.
+                </small>
+              </div>
+
+              <div className="form-group" style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px' }}>
+                  Description (Optional)
+                </label>
+                <textarea
+                  rows="3"
+                  value={categoryFormData.description}
+                  onChange={(e) => setCategoryFormData({ ...categoryFormData, description: e.target.value })}
+                  placeholder="Brief description of the goods or hardware grouped in this category..."
+                  style={{ width: '100%', padding: '10px 12px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid var(--border-color)', borderRadius: '6px', color: '#fff', resize: 'vertical' }}
+                />
+              </div>
+
+              <div className="modal-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => setIsCategoryModalOpen(false)}
+                  className="btn-secondary"
+                  disabled={categorySubmitting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  disabled={categorySubmitting}
+                >
+                  {categorySubmitting ? 'Saving...' : editingCategory ? 'Update Category' : 'Create Category'}
                 </button>
               </div>
             </form>

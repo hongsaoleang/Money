@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -143,18 +145,87 @@ public class AdminController {
     }
 
     // Categories CRUD
+    @GetMapping("/categories")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return ResponseEntity.ok(categoryRepository.findAll());
+    }
+
     @PostMapping("/categories")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        if (category.getSlug() == null || category.getSlug().isEmpty()) {
-            category.setSlug(category.getName().toLowerCase().replaceAll("[^a-z0-9]", "-"));
+    public ResponseEntity<?> createCategory(@RequestBody Category category) {
+        if (category.getName() == null || category.getName().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Category name is required.");
+        }
+        String name = category.getName().trim();
+        if (categoryRepository.existsByName(name)) {
+            return ResponseEntity.badRequest().body("A category with name '" + name + "' already exists.");
+        }
+        String slug = category.getSlug();
+        if (slug == null || slug.trim().isEmpty()) {
+            slug = name.toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
+        } else {
+            slug = slug.trim().toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
+        }
+        if (categoryRepository.existsBySlug(slug)) {
+            slug = slug + "-" + System.currentTimeMillis();
+        }
+        category.setName(name);
+        category.setSlug(slug);
+        if (category.getDescription() != null) {
+            category.setDescription(category.getDescription().trim());
         }
         return ResponseEntity.ok(categoryRepository.save(category));
     }
 
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody Category updated) {
+        return categoryRepository.findById(id).map(existing -> {
+            if (updated.getName() != null && !updated.getName().trim().isEmpty()) {
+                String newName = updated.getName().trim();
+                Optional<Category> byName = categoryRepository.findByName(newName);
+                if (byName.isPresent() && !byName.get().getId().equals(id)) {
+                    return ResponseEntity.badRequest().body("Category name '" + newName + "' is already in use.");
+                }
+                existing.setName(newName);
+
+                // Auto-generate slug if not explicitly passed
+                if (updated.getSlug() == null || updated.getSlug().trim().isEmpty()) {
+                    String newSlug = newName.toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
+                    Optional<Category> bySlug = categoryRepository.findBySlug(newSlug);
+                    if (bySlug.isEmpty() || bySlug.get().getId().equals(id)) {
+                        existing.setSlug(newSlug);
+                    }
+                }
+            }
+            if (updated.getSlug() != null && !updated.getSlug().trim().isEmpty()) {
+                String newSlug = updated.getSlug().trim().toLowerCase().replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
+                Optional<Category> bySlug = categoryRepository.findBySlug(newSlug);
+                if (bySlug.isPresent() && !bySlug.get().getId().equals(id)) {
+                    return ResponseEntity.badRequest().body("Category slug '" + newSlug + "' is already in use.");
+                }
+                existing.setSlug(newSlug);
+            }
+            if (updated.getDescription() != null) {
+                existing.setDescription(updated.getDescription().trim());
+            }
+            return ResponseEntity.ok(categoryRepository.save(existing));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        categoryRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @Transactional
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        return categoryRepository.findById(id).map(category -> {
+            // Unlink any products assigned to this category to prevent foreign key errors
+            List<Product> products = productRepository.findByCategoryId(id);
+            if (!products.isEmpty()) {
+                for (Product p : products) {
+                    p.setCategory(null);
+                }
+                productRepository.saveAll(products);
+            }
+            categoryRepository.delete(category);
+            return ResponseEntity.noContent().build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     // Users list
