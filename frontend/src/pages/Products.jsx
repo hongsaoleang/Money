@@ -356,9 +356,6 @@ const Products = () => {
                   </button>
 
                   <img src={product.imageUrl} alt={product.name} className="product-image" />
-                  <span className="origin-badge">
-                    <Globe size={12} /> {product.originCountry || 'Verified'}
-                  </span>
                   {product.stockQuantity > 0 ? (
                     <span className="stock-badge in-stock">{product.stockQuantity} {t('products.inStock', 'in stock')}</span>
                   ) : (
@@ -368,15 +365,24 @@ const Products = () => {
 
                 <div className="product-details">
                   <div className="spotlight-top-meta">
-                    <span className="product-category">{product.category?.name}</span>
+                    <div className="product-cat-origin-row">
+                      <span className="product-category">{product.category?.name || 'General'}</span>
+                      <span className="product-origin-pill">
+                        <Globe size={11} /> {product.originCountry || specs.origin || 'Cambodia'}
+                      </span>
+                    </div>
                     <span className="spotlight-sku">{specs.modelId}</span>
                   </div>
                   <h3 className="product-title" title={product.name}>{product.name}</h3>
 
                   {/* Specific Hardware Attributes */}
                   <div className="spotlight-specs-row">
-                    <span className="spec-feature-tag">{specs.spec1}</span>
-                    <span className="spec-origin-tag"><Globe size={11} /> {specs.origin}</span>
+                    <span className="spec-feature-tag">
+                      {specs.spec1 && specs.spec1 !== product.category?.name ? specs.spec1 : (specs.chipLabel || 'Standard Spec')}
+                    </span>
+                    <span className="spec-origin-tag">
+                      <Globe size={11} /> {product.originCountry || specs.origin || 'Cambodia'}
+                    </span>
                   </div>
 
                   <div className="product-footer">
