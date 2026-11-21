@@ -11213,28 +11213,46 @@ select option { background: #151f33; color: #f4f6ff; }
 }
 
 /* 5. Modern Desktop / Web Product Card UI */
-.products-page {
+.products-page,
+.home-page {
   width: 100% !important;
-  max-width: 1440px !important;
+  max-width: 1360px !important;
   margin: 0 auto !important;
+  padding-left: clamp(48px, 8vw, 120px) !important;
+  padding-right: clamp(48px, 8vw, 120px) !important;
+  box-sizing: border-box !important;
 }
 
-.products-page .products-grid {
+.home-page .section-container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Strictly 3 products per row on home page and products catalog across all breakpoints */
+.products-page .products-grid,
+.featured-showcase-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 20px !important;
+  gap: 24px !important;
   width: 100% !important;
 }
 
 @media (max-width: 1200px) {
-  .products-page .products-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
+  .products-page .products-grid,
+  .featured-showcase-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 20px !important;
   }
 }
 
 @media (max-width: 900px) {
-  .products-page .products-grid {
+  .products-page .products-grid,
+  .featured-showcase-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 16px !important;
   }
 }
 
@@ -11588,10 +11606,10 @@ select option { background: #151f33; color: #f4f6ff; }
    6. PHONE & MOBILE VIEW OPTIMIZATIONS (Spacious 3-Products-Per-Row Layout)
    ========================================================================== */
 @media (max-width: 768px) {
-  /* Both Products Page and Home Page have matching side spacing on mobile */
+  /* Both Products Page and Home Page have generous side margins on mobile */
   .products-page,
   .home-page {
-    padding: 18px 64px 36px !important;
+    padding: 18px 72px 36px !important;
     box-sizing: border-box !important;
     width: 100% !important;
   }
@@ -11713,7 +11731,7 @@ select option { background: #151f33; color: #f4f6ff; }
     align-items: center !important;
   }
 
-  /* 3 Products Per Row Grid on Phone Size */
+  /* Strictly 3 Products Per Row Grid */
   .products-page .products-grid,
   .featured-showcase-grid {
     display: grid !important;
@@ -11738,7 +11756,7 @@ select option { background: #151f33; color: #f4f6ff; }
     transition: all 0.2s ease !important;
   }
 
-  /* Compact Product Image on Phone */
+  /* Compact Product Image */
   .products-page .product-image-wrap,
   .spotlight-thumb-wrap {
     width: 100% !important;
@@ -11967,7 +11985,7 @@ select option { background: #151f33; color: #f4f6ff; }
 @media (max-width: 480px) {
   .products-page,
   .home-page {
-    padding: 16px 54px 32px !important;
+    padding: 16px 64px 32px !important;
   }
 
   .home-page .section-container,
@@ -12004,7 +12022,7 @@ select option { background: #151f33; color: #f4f6ff; }
 @media (max-width: 360px) {
   .products-page,
   .home-page {
-    padding: 14px 36px 26px !important;
+    padding: 14px 44px 26px !important;
   }
 
   .home-page .section-container,
