@@ -195,16 +195,7 @@ public class DataInitializer implements CommandLineRunner {
                 .active(true)
                 .build();
 
-        ServiceOffering s3 = ServiceOffering.builder()
-                .title("Enterprise Cloud & Backend Systems")
-                .slug("cloud-backend-systems")
-                .summary("Robust Spring Boot & PostgreSQL architecture with Docker, Kubernetes, CI/CD pipelines, and high-availability caching.")
-                .description("Reliable backend architectures supporting high-throughput transactions, database replication, and zero-downtime rolling updates. We ensure banking-grade security and automated compliance.")
-                .icon("Server")
-                .active(true)
-                .build();
-
-        serviceOfferingRepository.saveAll(List.of(s1, s2, s3));
+        serviceOfferingRepository.saveAll(List.of(s1, s2));
 
         // 5. Portfolio of Completed Projects
         PortfolioProject port1 = PortfolioProject.builder()

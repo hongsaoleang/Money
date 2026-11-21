@@ -36,13 +36,6 @@ const SERVICE_FEATURE_SETS = {
     'Offline access to key features',
     'Notifications and live sync',
   ],
-  cloud: [
-    'Reliable PostgreSQL databases',
-    'Fast caching with Redis',
-    'Docker and Kubernetes hosting',
-    'Safe, low-downtime releases',
-    'Automated backups and recovery',
-  ],
 };
 
 const HIDDEN_SAMPLE_CLIENTS = new Set([
@@ -70,6 +63,10 @@ const Services = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const visiblePortfolio = portfolio.filter((project) => !HIDDEN_SAMPLE_CLIENTS.has(project.clientName));
+  const visibleServices = services.filter((srv) => 
+    !srv.slug?.includes('cloud') && 
+    !srv.title?.toLowerCase().includes('cloud')
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,25 +151,23 @@ const Services = () => {
         </div>
 
         <div className="services-grid">
-          {services.map((srv) => {
+          {visibleServices.map((srv) => {
             const isWeb = srv.slug?.includes('web');
             const isMobile = srv.slug?.includes('mobile');
             const featureList = isWeb 
               ? SERVICE_FEATURE_SETS.web 
-              : isMobile 
-              ? SERVICE_FEATURE_SETS.mobile 
-              : SERVICE_FEATURE_SETS.cloud;
+              : SERVICE_FEATURE_SETS.mobile;
 
             return (
               <div key={srv.id} className="service-detail-card">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="service-icon-box">
-                    {isWeb ? <Code size={24} /> : isMobile ? <Smartphone size={24} /> : <Server size={24} />}
+                    {isWeb ? <Code size={24} /> : <Smartphone size={24} />}
                   </div>
                   <div>
                     <h3 className="m-0 text-base font-bold">{srv.title}</h3>
                     <span className="text-xs text-indigo-400 font-semibold uppercase tracking-wider">
-                      {isWeb ? 'Full-Stack Web' : isMobile ? 'iOS & Android' : 'Cloud Infra & DB'}
+                      {isWeb ? 'Full-Stack Web' : 'iOS & Android'}
                     </span>
                   </div>
                 </div>
@@ -181,7 +176,7 @@ const Services = () => {
 
                 {/* Specific Feature Checklist */}
                 <div className="service-features-list">
-                  {featureList.map((feature, idx) => (
+                  {featureList?.map((feature, idx) => (
                     <div key={idx} className="service-feature-row">
                       <CheckCircle2 size={15} className="text-emerald shrink-0" />
                       <span className="text-xs text-slate-200 font-medium">{feature}</span>
