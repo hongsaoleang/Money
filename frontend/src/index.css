@@ -4760,7 +4760,8 @@ h1, h2, h3, h4, h5, h6,
   .spotlight-img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important;
+    object-fit: contain !important;
+    padding: 6px !important;
   }
 
   .spotlight-badge-row {
@@ -5094,14 +5095,16 @@ h1, h2, h3, h4, h5, h6,
 
   .product-thumb-wrap,
   .product-image-wrap {
-    height: 130px !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
     border-radius: 5px 5px 0 0 !important;
   }
 
   .product-image {
     height: 100% !important;
     width: 100% !important;
-    object-fit: cover !important;
+    object-fit: contain !important;
+    padding: 6px !important;
   }
 
   .product-card-body,
@@ -5211,7 +5214,8 @@ h1, h2, h3, h4, h5, h6,
 
   .upcoming-thumb {
     width: 100% !important;
-    height: 130px !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
     border-radius: 8px !important;
   }
 
@@ -5533,7 +5537,13 @@ h1, h2, h3, h4, h5, h6,
   }
 
   .product-thumb-wrap {
-    height: 150px !important;
+    width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   }
 
   .spotlight-thumb-wrap {
@@ -7079,7 +7089,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-focus); b
   .spotlight-img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important;
+    object-fit: contain !important;
+    padding: 6px !important;
   }
 
   .spotlight-badge-row {
@@ -10091,7 +10102,8 @@ select option { background: #151f33; color: #f4f6ff; }
 .settings-avatar-has-img .settings-avatar-img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
+  padding: 8px !important;
   display: block !important;
 }
 
@@ -10852,7 +10864,8 @@ select option { background: #151f33; color: #f4f6ff; }
   height: 36px !important;
   min-width: 36px !important;
   max-width: 36px !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
+  padding: 8px !important;
   border-radius: 5px !important;
   border: 1px solid var(--border-color) !important;
   flex-shrink: 0 !important;
@@ -11110,7 +11123,13 @@ select option { background: #151f33; color: #f4f6ff; }
 }
 
 .products-page .product-image-wrap {
-  height: 150px !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   position: relative !important;
   background: #0d131f !important;
   overflow: hidden !important;
@@ -11120,7 +11139,8 @@ select option { background: #151f33; color: #f4f6ff; }
 .products-page .product-image {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
+  padding: 8px !important;
 }
 
 .products-page .product-details {
@@ -11598,6 +11618,11 @@ select option { background: #151f33; color: #f4f6ff; }
 [data-theme="light"] .products-page .product-price,
 [data-theme="light"] .product-price-row .product-price {
   color: #059669 !important;
+}
+
+[data-theme="light"] .products-page .product-image-wrap,
+[data-theme="light"] .product-image-wrap {
+  background: #f1f5f9 !important;
 }
 
 [data-theme="light"] .product-image-price-tag {
