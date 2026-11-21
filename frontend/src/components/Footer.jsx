@@ -21,11 +21,6 @@ const Footer = () => {
           <p className="footer-desc">
             {t('footer.tagline', 'Hardware & Software Services · Phnom Penh, Cambodia.')}
           </p>
-          <div className="footer-contact footer-contact-row">
-            <p><MapPin size={16} /> {t('footer.location', 'Phnom Penh, Cambodia')}</p>
-            <p><Mail size={16} /> hongsaoleang@gmail.com</p>
-            <p><Phone size={16} /> +855 93779991</p>
-          </div>
         </div>
 
         <div className="footer-col">
@@ -50,6 +45,16 @@ const Footer = () => {
             <li><Link to="/about-us">{t('footer.aboutUs', 'About Us')}</Link></li>
             <li><Link to="/settings">{t('footer.myAccount', 'My Account')}</Link></li>
           </ul>
+        </div>
+      </div>
+
+      <div className="footer-contact-bar">
+        <div className="footer-contact footer-contact-row">
+          <p><MapPin size={14} /> {t('footer.location', 'Phnom Penh, Cambodia')}</p>
+          <span className="footer-contact-dot">·</span>
+          <p><Mail size={14} /> hongsaoleang@gmail.com</p>
+          <span className="footer-contact-dot">·</span>
+          <p><Phone size={14} /> +855 93779991</p>
         </div>
       </div>
 

@@ -3792,25 +3792,52 @@ h1, h2, h3, h4, h5, h6,
   max-width: 340px;
 }
 
-.footer-contact,
-.footer-contact-row {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  gap: 8px 16px !important;
-  margin-top: 10px !important;
+/* Footer Contact Bar */
+.footer-contact-bar {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-.footer-contact p,
-.footer-contact-row p {
+.footer-contact-bar .footer-contact,
+.footer-contact-bar .footer-contact-row {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  margin: 0 auto !important;
+  white-space: nowrap !important;
+}
+
+.footer-contact-bar .footer-contact p,
+.footer-contact-bar .footer-contact-row p {
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 6px !important;
   font-size: 0.8rem !important;
   color: var(--text-dim) !important;
-  margin-bottom: 0 !important;
+  margin: 0 !important;
   white-space: nowrap !important;
+}
+
+.footer-contact-bar .footer-contact-dot {
+  color: var(--text-muted) !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  opacity: 0.6 !important;
+  user-select: none !important;
+}
+
+[data-theme="light"] .footer-contact-bar {
+  border-top-color: rgba(0, 0, 0, 0.08);
 }
 
 .footer-col h4 {
@@ -5503,31 +5530,43 @@ h1, h2, h3, h4, h5, h6,
     width: 100% !important;
   }
 
-  .footer-main .footer-contact,
-  .footer-main .footer-contact-row {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 3px 6px !important;
+  .footer-contact-bar {
+    padding: 10px 8px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
     width: 100% !important;
-    margin: 4px auto 0 auto !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
   }
 
-  .footer-main .footer-contact p,
-  .footer-main .footer-contact-row p {
-    font-size: 0.48rem !important;
-    line-height: 1.2 !important;
+  .footer-contact-bar .footer-contact,
+  .footer-contact-bar .footer-contact-row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  .footer-contact-bar .footer-contact p,
+  .footer-contact-bar .footer-contact-row p {
+    font-size: clamp(0.44rem, 2.2vw, 0.58rem) !important;
+    line-height: 1 !important;
     gap: 3px !important;
-    margin-bottom: 0 !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
+    margin: 0 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    text-align: center !important;
-    width: auto !important;
+    white-space: nowrap !important;
+  }
+
+  .footer-contact-bar .footer-contact-dot {
+    font-size: 0.65rem !important;
+    margin: 0 1px !important;
+    opacity: 0.5 !important;
   }
 
   .footer-main .footer-contact p svg {
@@ -5642,10 +5681,28 @@ h1, h2, h3, h4, h5, h6,
   }
 
   .footer-main .footer-desc,
-  .footer-main .footer-contact p,
   .footer-col ul li a {
     font-size: 0.48rem !important;
     text-align: center !important;
+  }
+
+  .footer-contact-bar {
+    padding: 8px 4px !important;
+  }
+
+  .footer-contact-bar .footer-contact {
+    gap: 2px !important;
+  }
+
+  .footer-contact-bar .footer-contact p {
+    font-size: 0.42rem !important;
+    gap: 2px !important;
+  }
+
+  .footer-contact-bar .footer-contact p svg {
+    width: 8px !important;
+    height: 8px !important;
+    min-width: 8px !important;
   }
 }
 
