@@ -3399,63 +3399,63 @@
 }
 
 :is(.jomnenhkh-hero-icon-wrapper, .weshop-hero-icon-wrapper) {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100%;
   position: relative;
 }
 
 :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
-  width: clamp(160px, 22vw, 280px);
-  height: clamp(160px, 22vw, 280px);
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: clamp(18px, 2.5vw, 28px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 4px 14px rgba(0, 0, 0, 0.04);
-  border: 3px solid rgba(255, 255, 255, 0.95);
-  background: #ffffff;
+  width: 100% !important;
+  max-width: clamp(320px, 42vw, 540px) !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  border-radius: clamp(12px, 1.8vw, 20px) !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.12));
   transform: rotate(-6deg);
   transform-origin: center center;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
 }
 
 :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon):hover {
-  transform: translateY(-5px) scale(1.025) rotate(-6deg);
-  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.12), 0 6px 18px rgba(0, 0, 0, 0.06);
+  transform: translateY(-5px) scale(1.02) rotate(-6deg);
+  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.18));
 }
 
 [data-theme="dark"] :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: #141a24;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.45));
 }
 
 @media (max-width: 768px) {
   :is(.jomnenhkh-hero-icon-container, .weshop-hero-icon-container) {
     justify-content: flex-end !important;
-    align-items: flex-start !important;
-    align-self: flex-start !important;
+    align-items: center !important;
     padding-top: 0 !important;
   }
 
   :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
-    width: clamp(72px, 20vw, 110px);
-    height: clamp(72px, 20vw, 110px);
-    border-radius: 14px;
-    border-width: 2px;
+    max-width: 220px !important;
+    border-radius: 10px !important;
     transform: rotate(-5deg);
   }
 
   :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon):hover {
-    transform: translateY(-3px) scale(1.02) rotate(-5deg);
+    transform: translateY(-2px) scale(1.02) rotate(-5deg);
   }
 }
 
 @media (max-width: 480px) {
   :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
-    width: clamp(64px, 18vw, 92px);
-    height: clamp(64px, 18vw, 92px);
-    border-radius: 12px;
+    max-width: 170px !important;
+    border-radius: 8px !important;
     transform: rotate(-5deg);
   }
 }
