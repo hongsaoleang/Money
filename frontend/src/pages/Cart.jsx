@@ -349,15 +349,12 @@ const Cart = () => {
               marginBottom: '14px',
               textAlign: 'center'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '16px' }}>
                 <TelegramIcon size={26} className="text-sky-400" />
                 <h4 style={{ margin: 0, fontSize: '1.12rem', color: '#38bdf8', fontWeight: 700 }}>
                   Track Your Order via JomnenhKh (@EcommerceMoneyBot)
                 </h4>
               </div>
-              <p style={{ margin: '0 0 16px', fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                Order <strong>#{orderFormattedId}</strong> has been confirmed! Tap below to connect with <strong>JomnenhKh Bot</strong> to receive live delivery tracking, payment verification, and 24/7 support:
-              </p>
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <a
                   href={telegramBotUrl}
