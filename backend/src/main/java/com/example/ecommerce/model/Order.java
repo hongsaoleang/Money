@@ -38,11 +38,17 @@ public class Order {
 
     @Column(nullable = false)
     @Builder.Default
-    private String orderStatus = "CONFIRMED"; // CONFIRMED, PROCESSING, SHIPPED, DELIVERED
+    private String orderStatus = "CONFIRMED"; // CONFIRMED, PROCESSING, SHIPPED, DELIVERED, COMPLETED, CANCELLED
+
+    @Builder.Default
+    private String paymentStatus = "PAID"; // PENDING, PAID, FAILED, REFUNDED
 
     private String shippingAddress;
 
     private String telegramChatId;
+
+    @Transient
+    private String telegramLinkUrl;
 
     private LocalDateTime estimatedDeliveryDate;
 

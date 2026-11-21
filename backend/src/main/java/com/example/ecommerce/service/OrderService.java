@@ -5,7 +5,7 @@ import com.example.ecommerce.dto.OrderItemRequest;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.OrderItem;
 import com.example.ecommerce.model.Product;
-import com.example.ecommerce.model.Role;
+import com.example.ecommerce.model.TelegramLinkToken;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.repository.OrderRepository;
 import com.example.ecommerce.repository.ProductRepository;
@@ -28,6 +28,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final TelegramBotService telegramBotService;
+    private final TelegramLinkTokenService linkTokenService;
 
     @Transactional
     public Order placeOrder(CreateOrderRequest request, String userEmail) {
@@ -69,6 +70,7 @@ public class OrderService {
                         : (user != null && user.getAddress() != null ? user.getAddress() : "Phnom Penh, Cambodia"))
                 .telegramChatId(telegramChatId)
                 .orderStatus("CONFIRMED")
+                .paymentStatus("PAID")
                 // Estimated delivery date: 4 days after the order timestamp
                 .estimatedDeliveryDate(LocalDateTime.now().plusDays(4))
                 .totalAmount(BigDecimal.ZERO)
@@ -105,6 +107,16 @@ public class OrderService {
         order.setItems(items);
 
         Order savedOrder = orderRepository.save(order);
+
+        // Generate Telegram deep link token for customer tracking
+        try {
+            TelegramLinkToken linkToken = linkTokenService.createTokenForOrder(
+                    savedOrder.getId(),
+                    user != null ? user.getId() : null
+            );
+            savedOrder.setTelegramLinkUrl(linkTokenService.buildDeepLink(linkToken.getToken()));
+        } catch (Exception ignored) {}
+
         try {
             emailService.sendOrderConfirmation(savedOrder);
         } catch (Exception ignored) {}
@@ -119,7 +131,14 @@ public class OrderService {
     public List<Order> getUserOrders(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userEmail));
-        return orderRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
+        List<Order> orders = orderRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
+        for (Order o : orders) {
+            try {
+                TelegramLinkToken token = linkTokenService.createTokenForOrder(o.getId(), user.getId());
+                o.setTelegramLinkUrl(linkTokenService.buildDeepLink(token.getToken()));
+            } catch (Exception ignored) {}
+        }
+        return orders;
     }
 
     public List<Order> getAllOrdersForAdmin() {

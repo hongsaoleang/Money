@@ -97,8 +97,8 @@ const Products = () => {
 
   const contactSingleProduct = (product) => {
     const customerInfo = user ? `\n👤 From: ${user.fullName || user.email}` : '\n👤 From: Guest Customer';
-    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI am interested in this product from your store:${customerInfo}\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price || 0).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
-    window.open(`https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+    const msg = `👋 Hello JomnenhKh!\nI am interested in this product from your store:${customerInfo}\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price || 0).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
+    window.open(`https://t.me/EcommerceMoneyBot`, '_blank', 'noopener,noreferrer');
   };
 
   useEffect(() => {

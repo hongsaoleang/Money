@@ -28,7 +28,7 @@ const ProductTelegramSelectionBar = ({ selectedProducts = [], onClear, onAddToCa
   );
 
   const handleContactTelegram = () => {
-    let msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
+    let msg = `👋 Hello JomnenhKh Support!\n`;
     msg += `👤 Customer: ${user ? (user.fullName || user.email) : 'Guest Customer'}\n`;
     msg += `I have selected the following product(s) on your store and would like to contact you:\n\n`;
 
@@ -45,7 +45,7 @@ const ProductTelegramSelectionBar = ({ selectedProducts = [], onClear, onAddToCa
     msg += `━━━━━━━━━━━━━━━━━━━━\n`;
     msg += `Please let me know availability and how to proceed with my order. Thank you!`;
 
-    const url = `https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`;
+    const url = `https://t.me/EcommerceMoneyBot?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 

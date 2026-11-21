@@ -3,7 +3,6 @@ package com.example.ecommerce.service;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.OrderItem;
 import com.example.ecommerce.model.Product;
-import com.example.ecommerce.model.User;
 import com.example.ecommerce.repository.OrderRepository;
 import com.example.ecommerce.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -23,6 +22,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -32,13 +32,21 @@ public class TelegramBotService {
     private String botToken;
 
     @Value("${telegram.bot.chat-id:1263944701}")
-    private String chatId;
+    private String adminChatId;
 
     @Value("${telegram.bot.username:EcommerceMoneyBot}")
     private String botUsername;
 
     @Value("${telegram.bot.enabled:true}")
     private boolean enabled;
+
+    @Autowired
+    @Lazy
+    private TelegramUpdateHandler updateHandler;
+
+    @Autowired
+    @Lazy
+    private TelegramLinkTokenService linkTokenService;
 
     @Autowired
     @Lazy
@@ -55,99 +63,33 @@ public class TelegramBotService {
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
+    public String getBotUsername() {
+        return botUsername;
+    }
+
+    public String getAdminChatId() {
+        return adminChatId;
+    }
+
+    public boolean isEnabled() {
+        return enabled && botToken != null && !botToken.isBlank();
+    }
+
+    /**
+     * Send order notifications:
+     * 1. Rich Admin notification with inline management buttons (Confirm, Processing, Shipped, Completed, Cancel)
+     * 2. Customer order confirmation if customerChatId is already linked
+     */
     public void sendOrderNotification(Order order) {
-        if (!enabled || botToken == null || botToken.isBlank()) {
+        if (!isEnabled()) {
             log.info("Telegram notification skipped: disabled or missing bot token");
             return;
         }
 
-        // 1. Send Admin / Merchant Notification to store owner (chatId)
-        if (chatId != null && !chatId.isBlank()) {
-            try {
-                StringBuilder sb = new StringBuilder();
-                String formattedId = String.format("JH-%04d", order.getId());
-                sb.append("🛍 <b>JomnenhKh Admin Notifications</b>\n");
-                sb.append("<b>NEW ORDER RECEIVED</b>\n");
-                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
-                sb.append("🆔 <b>Order ID:</b> #").append(formattedId).append("\n");
-                if (order.getUser() != null) {
-                    sb.append("👤 <b>Customer:</b> ")
-                      .append(escapeHtml(order.getUser().getFullName()))
-                      .append(" (").append(escapeHtml(order.getUser().getEmail())).append(")\n");
-                } else {
-                    sb.append("👤 <b>Customer (Guest):</b> ")
-                      .append(escapeHtml(order.getCustomerName() != null ? order.getCustomerName() : "Guest"))
-                      .append("\n");
-                }
+        // 1. Send Admin / Merchant Notification with Action Buttons
+        sendAdminOrderAlert(order);
 
-                String phone = order.getPhoneNumber();
-                if ((phone == null || phone.isBlank()) && order.getUser() != null) {
-                    phone = order.getUser().getPhone();
-                }
-                if (phone != null && !phone.isBlank()) {
-                    sb.append("📞 <b>Phone Number:</b> ").append(escapeHtml(phone)).append("\n");
-                }
-
-                if (order.getCustomerContact() != null && !order.getCustomerContact().isBlank()
-                        && !order.getCustomerContact().equalsIgnoreCase(phone)) {
-                    sb.append("💬 <b>Telegram / Contact:</b> ").append(escapeHtml(order.getCustomerContact())).append("\n");
-                }
-
-                if (order.getShippingAddress() != null && !order.getShippingAddress().isBlank()) {
-                    sb.append("📍 <b>Destination:</b> ")
-                      .append(escapeHtml(order.getShippingAddress())).append("\n");
-                }
-
-                sb.append("\n📦 <b>ORDERED PRODUCTS:</b>\n");
-                boolean hasSoldOut = false;
-                int totalQty = 0;
-
-                if (order.getItems() != null) {
-                    for (OrderItem item : order.getItems()) {
-                        Product product = item.getProduct();
-                        int qty = item.getQuantity() != null ? item.getQuantity() : 1;
-                        totalQty += qty;
-                        BigDecimal unitPrice = item.getUnitPrice() != null ? item.getUnitPrice() : BigDecimal.ZERO;
-                        BigDecimal lineTotal = unitPrice.multiply(BigDecimal.valueOf(qty));
-
-                        sb.append(" • <b>").append(escapeHtml(product.getName())).append("</b>\n");
-                        sb.append("   - <b>Qty:</b> ").append(qty).append(" unit(s)\n");
-                        sb.append("   - <b>Price:</b> $").append(unitPrice).append(" (Subtotal: $").append(lineTotal).append(")\n");
-
-                        int remainingStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
-                        if (remainingStock <= 0) {
-                            sb.append("   🚨 <b>INVENTORY: SOLD OUT (0 in stock)!</b>\n");
-                            hasSoldOut = true;
-                        } else if (remainingStock <= 3) {
-                            sb.append("   ⚠️ <b>INVENTORY: LOW STOCK (").append(remainingStock).append(" left)</b>\n");
-                        } else {
-                            sb.append("   ✅ <b>Stock remaining:</b> ").append(remainingStock).append(" units\n");
-                        }
-                        sb.append("\n");
-                    }
-                }
-
-                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-                sb.append("📊 <b>Total Quantity:</b> ").append(totalQty).append(" items\n");
-                sb.append("💰 <b>TOTAL: $").append(order.getTotalAmount()).append(" USD</b>\n");
-                sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-
-                if (hasSoldOut) {
-                    sb.append("\n⚠️ <b>ACTION REQUIRED: One or more products are now SOLD OUT!</b>\n");
-                }
-
-                boolean sent = sendMessage(chatId, sb.toString());
-                if (sent) {
-                    log.info("Telegram admin notification sent for Order #{}", order.getId());
-                } else {
-                    log.warn("Telegram admin notification could not be delivered for Order #{}", order.getId());
-                }
-            } catch (Exception e) {
-                log.error("Failed to compile and dispatch Telegram admin notification", e);
-            }
-        }
-
-        // 2. Also send dedicated customer order receipt to the user's Telegram Chat ID if provided
+        // 2. Also send dedicated customer order receipt if customer chat ID is linked
         String customerChatId = order.getTelegramChatId();
         if ((customerChatId == null || customerChatId.isBlank()) && order.getUser() != null) {
             customerChatId = order.getUser().getTelegramChatId();
@@ -158,8 +100,128 @@ public class TelegramBotService {
         }
     }
 
+    /**
+     * Dispatches order alert to Admin (Hong Saoleang) with interactive management buttons
+     */
+    public void sendAdminOrderAlert(Order order) {
+        if (adminChatId == null || adminChatId.isBlank()) {
+            return;
+        }
+
+        try {
+            StringBuilder sb = new StringBuilder();
+            String formattedId = String.format("JH-%04d", order.getId());
+            sb.append("🛍 <b>JomnenhKh Admin Notifications</b>\n");
+            sb.append("<b>NEW ORDER RECEIVED</b>\n");
+            sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
+            sb.append("🆔 <b>Order ID:</b> #").append(formattedId).append("\n");
+
+            if (order.getUser() != null) {
+                sb.append("👤 <b>Customer:</b> ")
+                  .append(escapeHtml(order.getUser().getFullName()))
+                  .append(" (").append(escapeHtml(order.getUser().getEmail())).append(")\n");
+            } else {
+                sb.append("👤 <b>Customer (Guest):</b> ")
+                  .append(escapeHtml(order.getCustomerName() != null ? order.getCustomerName() : "Guest"))
+                  .append("\n");
+            }
+
+            String phone = order.getPhoneNumber();
+            if ((phone == null || phone.isBlank()) && order.getUser() != null) {
+                phone = order.getUser().getPhone();
+            }
+            if (phone != null && !phone.isBlank()) {
+                sb.append("📞 <b>Phone Number:</b> ").append(escapeHtml(phone)).append("\n");
+            }
+
+            if (order.getCustomerContact() != null && !order.getCustomerContact().isBlank()
+                    && !order.getCustomerContact().equalsIgnoreCase(phone)) {
+                sb.append("💬 <b>Telegram / Contact:</b> ").append(escapeHtml(order.getCustomerContact())).append("\n");
+            }
+
+            if (order.getShippingAddress() != null && !order.getShippingAddress().isBlank()) {
+                sb.append("📍 <b>Destination:</b> ")
+                  .append(escapeHtml(order.getShippingAddress())).append("\n");
+            }
+
+            sb.append("💳 <b>Payment Status:</b> ").append(order.getPaymentStatus() != null ? order.getPaymentStatus() : "PAID").append("\n");
+            sb.append("🚚 <b>Order Status:</b> ").append(order.getOrderStatus() != null ? order.getOrderStatus() : "CONFIRMED").append("\n");
+
+            sb.append("\n📦 <b>ORDERED PRODUCTS:</b>\n");
+            boolean hasSoldOut = false;
+            int totalQty = 0;
+
+            if (order.getItems() != null) {
+                for (OrderItem item : order.getItems()) {
+                    Product product = item.getProduct();
+                    int qty = item.getQuantity() != null ? item.getQuantity() : 1;
+                    totalQty += qty;
+                    BigDecimal unitPrice = item.getUnitPrice() != null ? item.getUnitPrice() : BigDecimal.ZERO;
+                    BigDecimal lineTotal = unitPrice.multiply(BigDecimal.valueOf(qty));
+
+                    sb.append(" • <b>").append(escapeHtml(product.getName())).append("</b>\n");
+                    sb.append("   - <b>Qty:</b> ").append(qty).append(" unit(s)\n");
+                    sb.append("   - <b>Price:</b> $").append(unitPrice).append(" (Subtotal: $").append(lineTotal).append(")\n");
+
+                    int remainingStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+                    if (remainingStock <= 0) {
+                        sb.append("   🚨 <b>INVENTORY: SOLD OUT (0 in stock)!</b>\n");
+                        hasSoldOut = true;
+                    } else if (remainingStock <= 3) {
+                        sb.append("   ⚠️ <b>INVENTORY: LOW STOCK (").append(remainingStock).append(" left)</b>\n");
+                    } else {
+                        sb.append("   ✅ <b>Stock remaining:</b> ").append(remainingStock).append(" units\n");
+                    }
+                    sb.append("\n");
+                }
+            }
+
+            sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+            sb.append("📊 <b>Total Quantity:</b> ").append(totalQty).append(" items\n");
+            sb.append("💰 <b>TOTAL: $").append(order.getTotalAmount()).append(" USD</b>\n");
+            sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+
+            if (hasSoldOut) {
+                sb.append("\n⚠️ <b>ACTION REQUIRED: One or more products are now SOLD OUT!</b>\n");
+            }
+
+            // Inline keyboard for order lifecycle actions
+            Map<String, Object> replyMarkup = buildAdminOrderKeyboard(order.getId());
+            sendMessageWithKeyboard(adminChatId, sb.toString(), replyMarkup);
+            log.info("Admin order alert dispatched for Order #{}", order.getId());
+        } catch (Exception e) {
+            log.error("Failed to compile and dispatch Telegram admin notification", e);
+        }
+    }
+
+    /**
+     * Builds interactive keyboard for admin to update order statuses
+     */
+    public Map<String, Object> buildAdminOrderKeyboard(Long orderId) {
+        List<List<Map<String, String>>> keyboard = new ArrayList<>();
+
+        List<Map<String, String>> row1 = new ArrayList<>();
+        row1.add(Map.of("text", "✅ Confirm Order", "callback_data", "adm_status:" + orderId + ":CONFIRMED"));
+        row1.add(Map.of("text", "⚙️ Processing", "callback_data", "adm_status:" + orderId + ":PROCESSING"));
+        keyboard.add(row1);
+
+        List<Map<String, String>> row2 = new ArrayList<>();
+        row2.add(Map.of("text", "🚚 Shipped", "callback_data", "adm_status:" + orderId + ":SHIPPED"));
+        row2.add(Map.of("text", "🎉 Completed", "callback_data", "adm_status:" + orderId + ":COMPLETED"));
+        keyboard.add(row2);
+
+        List<Map<String, String>> row3 = new ArrayList<>();
+        row3.add(Map.of("text", "❌ Cancel Order", "callback_data", "adm_status:" + orderId + ":CANCELLED"));
+        keyboard.add(row3);
+
+        return Map.of("inline_keyboard", keyboard);
+    }
+
+    /**
+     * Sends customer-facing order summary with customer navigation buttons
+     */
     public void sendCustomerOrderNotification(Order order, String customerChatId) {
-        if (!enabled || botToken == null || botToken.isBlank() || customerChatId == null || customerChatId.isBlank()) {
+        if (!isEnabled() || customerChatId == null || customerChatId.isBlank()) {
             return;
         }
 
@@ -170,9 +232,9 @@ public class TelegramBotService {
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
             if (order.getUser() != null && order.getUser().getFullName() != null) {
                 sb.append("👋 Hello <b>").append(escapeHtml(order.getUser().getFullName())).append("</b>,\n");
-                sb.append("Thank you for shopping with JomnenhKh! Here is the summary of what you ordered:\n\n");
+                sb.append("Thank you for shopping with JomnenhKh! Here is your purchase summary:\n\n");
             } else {
-                sb.append("Thank you for your order! Here is your purchase summary:\n\n");
+                sb.append("Thank you for choosing JomnenhKh! Here is your purchase summary:\n\n");
             }
 
             sb.append("🆔 <b>Order ID:</b> #").append(customerOrderId).append("\n");
@@ -204,25 +266,90 @@ public class TelegramBotService {
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
             sb.append("📊 <b>Total Items:</b> ").append(totalQty).append(" units\n");
             sb.append("💰 <b>TOTAL AMOUNT: $").append(order.getTotalAmount()).append(" USD</b>\n");
-            sb.append("🚚 <b>Status:</b> ").append(order.getOrderStatus() != null ? order.getOrderStatus() : "CONFIRMED").append("\n");
+            sb.append("💳 <b>Payment Status:</b> ").append(order.getPaymentStatus() != null ? order.getPaymentStatus() : "PAID").append("\n");
+            sb.append("🚚 <b>Order Status:</b> ").append(order.getOrderStatus() != null ? order.getOrderStatus() : "CONFIRMED").append("\n");
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n");
-            sb.append("✅ <i>Your order is verified and our dispatch team has received your instructions.</i>\n\n");
-            sb.append("🌐 Visit your order history anytime: http://localhost:3000/settings\n");
-            sb.append("💬 Need assistance? Contact JomnenhKh Support on Telegram: @EcommerceMoneyBot");
+            sb.append("✅ <i>Your order is verified. Our dispatch team is preparing your package.</i>");
 
-            boolean sent = sendMessage(customerChatId.trim(), sb.toString());
-            if (sent) {
-                log.info("Customer Telegram receipt successfully delivered to chat {} for Order #{}", customerChatId, order.getId());
-            } else {
-                log.warn("Customer Telegram receipt could not be delivered to chat {} for Order #{}", customerChatId, order.getId());
-            }
+            Map<String, Object> keyboard = buildCustomerMenuKeyboard();
+            sendMessageWithKeyboard(customerChatId.trim(), sb.toString(), keyboard);
+            log.info("Customer Telegram receipt delivered to chat {} for Order #{}", customerChatId, order.getId());
         } catch (Exception e) {
             log.error("Failed to send customer Telegram notification", e);
         }
     }
 
+    /**
+     * Notifies customer when admin updates their order status
+     */
+    public void sendCustomerOrderStatusUpdate(Order order, String newStatus) {
+        String customerChatId = order.getTelegramChatId();
+        if (customerChatId == null || customerChatId.isBlank()) {
+            return;
+        }
+
+        try {
+            String formattedId = String.format("JH-%04d", order.getId());
+            String icon = switch (newStatus.toUpperCase()) {
+                case "CONFIRMED" -> "✅";
+                case "PROCESSING" -> "⚙️";
+                case "SHIPPED" -> "🚚";
+                case "COMPLETED" -> "🎉";
+                case "CANCELLED" -> "❌";
+                default -> "📦";
+            };
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("🔔 <b>Order Status Update</b>\n\n");
+            sb.append("Your order <b>#").append(formattedId).append("</b> has been updated to:\n");
+            sb.append("<b>").append(newStatus).append("</b> ").append(icon).append("\n\n");
+
+            if ("SHIPPED".equalsIgnoreCase(newStatus)) {
+                sb.append("🚀 Your package is on the way! Our courier is handling your delivery.\n");
+            } else if ("PROCESSING".equalsIgnoreCase(newStatus)) {
+                sb.append("📦 Our warehouse team is packaging your order with care.\n");
+            } else if ("COMPLETED".equalsIgnoreCase(newStatus)) {
+                sb.append("✨ Thank you for shopping with JomnenhKh! We hope you love your purchase.\n");
+            } else if ("CANCELLED".equalsIgnoreCase(newStatus)) {
+                sb.append("ℹ️ This order has been cancelled. If you have questions, please reach out to Support.\n");
+            }
+
+            sb.append("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+            List<List<Map<String, String>>> keyboard = List.of(
+                    List.of(
+                            Map.of("text", "🚚 Track This Order", "callback_data", "cust_track:" + order.getId()),
+                            Map.of("text", "💬 Contact Support", "callback_data", "cust_support")
+                    )
+            );
+
+            sendMessageWithKeyboard(customerChatId, sb.toString(), Map.of("inline_keyboard", keyboard));
+        } catch (Exception e) {
+            log.error("Failed to notify customer of status update", e);
+        }
+    }
+
+    /**
+     * Builds main navigation keyboard for customer
+     */
+    public Map<String, Object> buildCustomerMenuKeyboard() {
+        List<List<Map<String, String>>> keyboard = new ArrayList<>();
+
+        List<Map<String, String>> row1 = new ArrayList<>();
+        row1.add(Map.of("text", "📦 My Orders", "callback_data", "cust_orders"));
+        row1.add(Map.of("text", "💳 Payment Status", "callback_data", "cust_payment"));
+        keyboard.add(row1);
+
+        List<Map<String, String>> row2 = new ArrayList<>();
+        row2.add(Map.of("text", "🚚 Track My Order", "callback_data", "cust_track"));
+        row2.add(Map.of("text", "💬 Contact Support", "callback_data", "cust_support"));
+        keyboard.add(row2);
+
+        return Map.of("inline_keyboard", keyboard);
+    }
+
     public void sendInquiryNotification(com.example.ecommerce.model.ContactInquiry inquiry) {
-        if (!enabled || botToken == null || botToken.isBlank() || chatId == null || chatId.isBlank()) {
+        if (!isEnabled() || adminChatId == null || adminChatId.isBlank()) {
             return;
         }
 
@@ -240,19 +367,18 @@ public class TelegramBotService {
             sb.append(escapeHtml(inquiry.getMessage())).append("\n");
             sb.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
 
-            sendMessage(chatId, sb.toString());
+            sendMessage(adminChatId, sb.toString());
         } catch (Exception e) {
             log.error("Failed to send inquiry Telegram notification", e);
         }
     }
 
     /**
-     * Poll incoming Telegram messages so when a user sends /start, /order <id>, or clicks
-     * https://t.me/EcommerceMoneyBot?start=order_<id>, the bot instantly returns their order receipt!
+     * Continuous polling for local development so all features work seamlessly without a public webhook
      */
     @Scheduled(fixedDelay = 4000)
     public void pollTelegramUpdates() {
-        if (!enabled || botToken == null || botToken.isBlank()) {
+        if (!isEnabled()) {
             return;
         }
 
@@ -282,97 +408,38 @@ public class TelegramBotService {
                         lastUpdateId = updateId;
                     }
 
-                    JsonNode messageNode = update.path("message");
-                    if (messageNode.isMissingNode()) continue;
-
-                    String text = messageNode.path("text").asText("").trim();
-                    JsonNode chatNode = messageNode.path("chat");
-                    String userChatId = chatNode.path("id").asText();
-
-                    if (userChatId == null || userChatId.isBlank() || text.isBlank()) continue;
-
-                    handleIncomingUserMessage(userChatId, text);
+                    if (updateHandler != null) {
+                        updateHandler.processUpdate(update);
+                    }
                 }
             }
         } catch (Exception ignored) {
-            // Silently ignore network timeouts or offline environments
-        }
-    }
-
-    private void handleIncomingUserMessage(String userChatId, String text) {
-        String lower = text.toLowerCase();
-
-        // 1. Check for Order lookups: /start order_123, /order 123, or order_123
-        Long targetOrderId = null;
-        if (lower.startsWith("/start order_")) {
-            String idStr = text.substring("/start order_".length()).trim();
-            targetOrderId = parseLongSafe(idStr);
-        } else if (lower.startsWith("/order")) {
-            String idStr = text.substring("/order".length()).replace("#", "").trim();
-            targetOrderId = parseLongSafe(idStr);
-        } else if (lower.startsWith("order_")) {
-            String idStr = text.substring("order_".length()).trim();
-            targetOrderId = parseLongSafe(idStr);
-        } else if (text.matches("^#?\\d+$")) {
-            targetOrderId = parseLongSafe(text.replace("#", "").trim());
-        }
-
-        if (targetOrderId != null && orderRepository != null) {
-            Order order = orderRepository.findById(targetOrderId).orElse(null);
-            if (order != null) {
-                // Link telegramChatId to order and user if not set
-                if (order.getTelegramChatId() == null || order.getTelegramChatId().isBlank()) {
-                    order.setTelegramChatId(userChatId);
-                    orderRepository.save(order);
-                }
-                if (order.getUser() != null && (order.getUser().getTelegramChatId() == null || order.getUser().getTelegramChatId().isBlank()) && userRepository != null) {
-                    User u = order.getUser();
-                    u.setTelegramChatId(userChatId);
-                    userRepository.save(u);
-                }
-
-                sendCustomerOrderNotification(order, userChatId);
-                return;
-            } else {
-                sendMessage(userChatId, "❌ <b>Order #" + targetOrderId + " not found.</b>\nPlease check your Order ID and try again, or view your orders at http://localhost:3000/settings");
-                return;
-            }
-        }
-
-        // 2. Greeting or Help: /start or /help
-        if (lower.startsWith("/start") || lower.startsWith("/help")) {
-            StringBuilder welcome = new StringBuilder();
-            welcome.append("👋 <b>Welcome to JomnenhKH-Shop Telegram Bot (@EcommerceMoneyBot)!</b>\n\n");
-            welcome.append("Your unique Telegram Chat ID is: <code>").append(userChatId).append("</code>\n\n");
-            welcome.append("📋 <b>Available Commands:</b>\n");
-            welcome.append("• <code>/order &lt;id&gt;</code> - View your order summary (e.g. <code>/order 1</code>)\n");
-            welcome.append("• Visit our web store: http://localhost:3000\n\n");
-            welcome.append("💡 <i>Tip: Add your Chat ID (<code>").append(userChatId).append("</code>) in your Account Settings or at Checkout to receive automated receipts for every order!</i>");
-
-            sendMessage(userChatId, welcome.toString());
-        }
-    }
-
-    private Long parseLongSafe(String str) {
-        try {
-            return Long.parseLong(str.trim());
-        } catch (Exception e) {
-            return null;
+            // Silently ignore network timeouts or transient connection glitches
         }
     }
 
     public boolean sendMessage(String targetChatId, String htmlText) {
+        return sendMessageWithKeyboard(targetChatId, htmlText, null);
+    }
+
+    public boolean sendMessageWithKeyboard(String targetChatId, String htmlText, Map<String, Object> replyMarkup) {
         try {
             String url = "https://api.telegram.org/bot" + botToken + "/sendMessage";
-            String form = "chat_id=" + URLEncoder.encode(targetChatId, StandardCharsets.UTF_8)
-                    + "&text=" + URLEncoder.encode(htmlText, StandardCharsets.UTF_8)
-                    + "&parse_mode=HTML";
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("chat_id", targetChatId);
+            payload.put("text", htmlText);
+            payload.put("parse_mode", "HTML");
+            if (replyMarkup != null) {
+                payload.put("reply_markup", replyMarkup);
+            }
+
+            String json = objectMapper.writeValueAsString(payload);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .header("Content-Type", "application/json")
                     .timeout(Duration.ofSeconds(10))
-                    .POST(HttpRequest.BodyPublishers.ofString(form))
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -383,7 +450,63 @@ public class TelegramBotService {
         }
     }
 
-    private String escapeHtml(String text) {
+    public boolean editMessageText(String targetChatId, long messageId, String htmlText, Map<String, Object> replyMarkup) {
+        try {
+            String url = "https://api.telegram.org/bot" + botToken + "/editMessageText";
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("chat_id", targetChatId);
+            payload.put("message_id", messageId);
+            payload.put("text", htmlText);
+            payload.put("parse_mode", "HTML");
+            if (replyMarkup != null) {
+                payload.put("reply_markup", replyMarkup);
+            }
+
+            String json = objectMapper.writeValueAsString(payload);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .timeout(Duration.ofSeconds(10))
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 200;
+        } catch (Exception e) {
+            log.error("Error executing Telegram editMessageText API request", e);
+            return false;
+        }
+    }
+
+    public boolean answerCallbackQuery(String callbackQueryId, String text, boolean showAlert) {
+        try {
+            String url = "https://api.telegram.org/bot" + botToken + "/answerCallbackQuery";
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("callback_query_id", callbackQueryId);
+            if (text != null && !text.isBlank()) {
+                payload.put("text", text);
+            }
+            payload.put("show_alert", showAlert);
+
+            String json = objectMapper.writeValueAsString(payload);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .timeout(Duration.ofSeconds(10))
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 200;
+        } catch (Exception e) {
+            log.error("Error executing Telegram answerCallbackQuery API request", e);
+            return false;
+        }
+    }
+
+    public String escapeHtml(String text) {
         if (text == null) return "";
         return text.replace("&", "&amp;")
                    .replace("<", "&lt;")

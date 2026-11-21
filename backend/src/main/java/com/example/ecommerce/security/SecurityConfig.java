@@ -80,6 +80,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/developer-photos/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/inquiries/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/orders/*/telegram-link").permitAll()
+                        .requestMatchers("/api/telegram/**").permitAll()
                         .requestMatchers("/api/payment/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         // Client / Vendor Endpoints

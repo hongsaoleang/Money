@@ -449,6 +449,33 @@ const Settings = () => {
                       Total: <span>${parseFloat(order.totalAmount).toFixed(2)}</span>
                     </div>
                   </div>
+
+                  {/* Telegram Tracking Action */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                      Track status & delivery updates live in Telegram:
+                    </span>
+                    <a
+                      href={order.telegramLinkUrl || `https://t.me/EcommerceMoneyBot?start=order_${order.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 14px',
+                        borderRadius: '8px',
+                        background: 'rgba(2, 132, 199, 0.15)',
+                        color: '#38bdf8',
+                        border: '1px solid rgba(56, 189, 248, 0.3)',
+                        fontSize: '0.82rem',
+                        fontWeight: 600,
+                        textDecoration: 'none'
+                      }}
+                    >
+                      <TelegramIcon size={14} /> Track on Telegram <ExternalLink size={12} />
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>

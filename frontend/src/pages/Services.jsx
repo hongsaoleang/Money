@@ -89,7 +89,7 @@ const Services = () => {
   const handleInquirySubmit = async (e) => {
     e.preventDefault();
 
-    let tgMsg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
+    let tgMsg = `👋 Hello JomnenhKh Services Support!\n`;
     tgMsg += `I have a project inquiry for you:\n\n`;
     tgMsg += `👤 Name: ${inquiry.name}\n`;
     tgMsg += `📧 Email: ${inquiry.email}\n`;
@@ -99,7 +99,7 @@ const Services = () => {
     tgMsg += `------------------------------------\n`;
     tgMsg += `Looking forward to your reply. Thank you!`;
 
-    const telegramUrl = `https://t.me/hongsaoleang?text=${encodeURIComponent(tgMsg)}`;
+    const telegramUrl = `https://t.me/EcommerceMoneyBot?text=${encodeURIComponent(tgMsg)}`;
     // Open Telegram immediately upon submission so browser never blocks it as an async popup
     window.open(telegramUrl, '_blank', 'noopener,noreferrer');
 
