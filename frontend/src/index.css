@@ -2357,11 +2357,17 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* Product Detail Page */
+.product-detail-page {
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+
 .product-detail-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  margin-top: 24px;
+  grid-template-columns: minmax(300px, 440px) 1fr;
+  gap: 36px;
+  align-items: start;
+  margin-top: 8px;
 }
 
 .back-link {
@@ -2369,30 +2375,80 @@ h1, h2, h3, h4, h5, h6,
   align-items: center;
   gap: 6px;
   color: var(--text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-bottom: 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  transition: all 0.18s ease;
+  text-decoration: none;
 }
 
 .back-link:hover {
   color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(-2px);
+}
+
+.product-media-column {
+  width: 100%;
 }
 
 .main-image-container {
-  border-radius: var(--radius-lg);
+  position: relative;
+  width: 100%;
+  height: 380px;
+  max-height: 400px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--border-color);
-  background: radial-gradient(circle at center, #161e31 0%, #0a0e1a 100%);
+  background: radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.9) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .main-image-container {
+  background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .detail-image {
   width: 100%;
-  height: 420px;
-  object-fit: contain;
-  padding: 16px;
+  height: 100%;
+  max-height: 380px;
+  object-fit: contain !important;
+  object-position: center !important;
+  padding: 20px;
+  display: block;
+  box-sizing: border-box;
+  transition: transform 0.25s ease;
+}
+
+.main-image-container:hover .detail-image {
+  transform: scale(1.02);
+}
+
+.detail-origin-chip {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(10px);
+  color: #38bdf8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 
 .provenance-detail-card {
@@ -2447,36 +2503,162 @@ h1, h2, h3, h4, h5, h6,
   color: var(--text-muted);
 }
 
+.product-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-meta-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .product-category-pill {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--primary);
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+
+.detail-stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+
+.detail-stock-badge.in-stock {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.detail-stock-badge.out-stock {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.detail-stock-badge.upcoming {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.stock-pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #10b981;
 }
 
 .detail-product-title {
-  font-size: 2.2rem;
+  font-size: clamp(1.35rem, 2vw, 1.9rem);
   font-weight: 800;
-  margin: 6px 0 16px 0;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  color: var(--text-main, #ffffff);
+  margin: 0;
 }
 
-.price-stock-row {
+.detail-price-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 12px;
 }
 
-.detail-price {
-  font-size: 2rem;
+.detail-price-tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  color: #10b981;
+}
+
+.detail-price-currency {
+  font-size: 1.15rem;
   font-weight: 800;
-  color: #fff;
+}
+
+.detail-price-amount {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.detail-price-unit {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-left: 3px;
+}
+
+.detail-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 3px 8px;
+  border-radius: 5px;
 }
 
 .detail-description {
-  margin-bottom: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 2px 0;
+}
+
+.detail-section-label {
+  font-size: 0.76rem;
+  font-weight: 700;
   color: var(--text-muted);
-  line-height: 1.7;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 4px 0;
+}
+
+.detail-desc-text {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.detail-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.detail-feat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.feat-bullet {
+  color: #10b981;
+  font-weight: 800;
 }
 
 .upcoming-alert-box {
@@ -2536,44 +2718,114 @@ h1, h2, h3, h4, h5, h6,
   font-weight: normal;
 }
 
+.purchase-controls-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
 .purchase-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 28px;
+  gap: 10px;
 }
 
 .quantity-selector {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  height: 40px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .quantity-selector button {
-  width: 36px;
-  height: 40px;
+  width: 32px;
+  height: 100%;
   background: transparent;
   border: none;
-  color: #fff;
-  font-size: 1.1rem;
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 700;
   cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.quantity-selector span {
-  padding: 0 12px;
+.quantity-selector button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.quantity-selector button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.quantity-value {
+  padding: 0 8px;
+  font-size: 0.88rem;
   font-weight: 700;
+  color: var(--text-main);
+  min-width: 20px;
+  text-align: center;
 }
 
 .add-cart-btn {
   flex: 1;
-  height: 42px;
+  height: 40px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-main);
+}
+
+.add-cart-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.add-cart-btn.added {
+  background: #059669 !important;
+  border-color: #059669 !important;
+  color: #ffffff !important;
 }
 
 .buy-now-btn {
   flex: 1;
-  height: 42px;
+  height: 40px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.detail-telegram-btn {
+  height: 40px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .trust-features-list {
@@ -12277,5 +12529,188 @@ select option { background: #151f33; color: #f4f6ff; }
     padding-left: 16px !important;
     padding-right: 16px !important;
     box-sizing: border-box !important;
+  }
+}
+
+/* ==========================================================================
+   Product Detail: Compact Mobile Phone Layout (Reduced Space & Fit Picture)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .product-detail-page {
+    padding-top: 12px !important;
+    padding-bottom: 24px !important;
+  }
+
+  .product-detail-page .back-link {
+    font-size: 0.76rem !important;
+    padding: 4px 9px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .product-detail-layout {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-top: 2px !important;
+  }
+
+  .main-image-container {
+    height: 210px !important;
+    max-height: 210px !important;
+    border-radius: 8px !important;
+  }
+
+  .detail-image {
+    max-height: 210px !important;
+    padding: 10px !important;
+    object-fit: contain !important;
+  }
+
+  .detail-origin-chip {
+    top: 8px !important;
+    left: 8px !important;
+    font-size: 0.68rem !important;
+    padding: 2px 7px !important;
+  }
+
+  .product-info-column {
+    gap: 8px !important;
+  }
+
+  .detail-meta-header {
+    gap: 6px !important;
+  }
+
+  .product-category-pill {
+    font-size: 0.65rem !important;
+    padding: 2px 6px !important;
+  }
+
+  .detail-stock-badge {
+    font-size: 0.66rem !important;
+    padding: 2px 6px !important;
+  }
+
+  .detail-product-title {
+    font-size: 1.15rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .detail-price-row {
+    gap: 8px !important;
+  }
+
+  .detail-price-currency {
+    font-size: 0.95rem !important;
+  }
+
+  .detail-price-amount {
+    font-size: 1.4rem !important;
+  }
+
+  .detail-price-unit {
+    font-size: 0.7rem !important;
+  }
+
+  .detail-verified-badge {
+    font-size: 0.68rem !important;
+    padding: 2px 5px !important;
+  }
+
+  .detail-description {
+    padding: 8px 10px !important;
+    border-radius: 6px !important;
+    margin: 0 !important;
+  }
+
+  .detail-section-label {
+    font-size: 0.7rem !important;
+    margin: 0 0 2px 0 !important;
+  }
+
+  .detail-desc-text {
+    font-size: 0.76rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .detail-features-grid {
+    gap: 4px !important;
+  }
+
+  .detail-feat-item {
+    font-size: 0.7rem !important;
+    gap: 4px !important;
+  }
+
+  .purchase-controls-wrapper {
+    gap: 6px !important;
+    margin-top: 2px !important;
+  }
+
+  .purchase-controls {
+    gap: 6px !important;
+  }
+
+  .quantity-selector {
+    height: 35px !important;
+  }
+
+  .quantity-selector button {
+    width: 26px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .quantity-value {
+    padding: 0 6px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .add-cart-btn {
+    height: 35px !important;
+    font-size: 0.75rem !important;
+    padding: 0 8px !important;
+    gap: 4px !important;
+  }
+
+  .buy-now-btn {
+    height: 35px !important;
+    font-size: 0.75rem !important;
+    padding: 0 8px !important;
+  }
+
+  .detail-telegram-btn {
+    height: 35px !important;
+    font-size: 0.76rem !important;
+    padding: 0 10px !important;
+    gap: 5px !important;
+  }
+
+  .detail-telegram-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-detail-page {
+    padding-top: 8px !important;
+    padding-bottom: 16px !important;
+  }
+
+  .main-image-container {
+    height: 190px !important;
+    max-height: 190px !important;
+  }
+
+  .detail-image {
+    max-height: 190px !important;
+    padding: 8px !important;
+  }
+
+  .detail-product-title {
+    font-size: 1.08rem !important;
+  }
+
+  .detail-price-amount {
+    font-size: 1.3rem !important;
   }
 }
