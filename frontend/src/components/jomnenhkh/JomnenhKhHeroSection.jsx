@@ -23,10 +23,10 @@ const JomnenhKhHeroSection = () => {
         <div className="jomnenhkh-hero-left weshop-hero-left jomnenhkh-hero-left-spacer weshop-hero-left-spacer jomnenhkh-hero-icon-container">
           <div className="jomnenhkh-hero-icon-wrapper">
             <img
-              src="/JomnenhKH.jpg"
+              src="/jomnenhkh-icon.jpg"
               onError={(e) => {
-                if (e.currentTarget.src !== '/jomnenhkh-icon.jpg') {
-                  e.currentTarget.src = '/jomnenhkh-icon.jpg';
+                if (e.currentTarget.src !== '/JomnenhKH.jpg') {
+                  e.currentTarget.src = '/JomnenhKH.jpg';
                 }
               }}
               alt="Jomnenh-Kh Icon"
