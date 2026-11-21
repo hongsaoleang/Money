@@ -362,7 +362,7 @@ const Admin = () => {
     try {
       const payload = {
         name: productForm.name,
-        categoryId: parseInt(productForm.categoryId, 10),
+        categoryId: productForm.categoryId ? parseInt(productForm.categoryId, 10) : null,
         price: parseFloat(productForm.price),
         stockQuantity: parseInt(productForm.stockQuantity, 10),
         originCountry: productForm.originCountry,
@@ -1551,7 +1551,7 @@ const Admin = () => {
               <div className="form-row">
                 <div className="form-group">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                    <label style={{ margin: 0 }}>Category *</label>
+                    <label style={{ margin: 0 }}>Category (Optional)</label>
                     <button
                       type="button"
                       onClick={() => setShowAddCategory(!showAddCategory)}
@@ -1602,9 +1602,10 @@ const Admin = () => {
                   )}
 
                   <select
-                    value={productForm.categoryId}
+                    value={productForm.categoryId || ''}
                     onChange={(e) => setProductForm({ ...productForm, categoryId: e.target.value })}
                   >
+                    <option value="">{categories.length === 0 ? '-- No Categories Yet (Uncategorized) --' : '-- Select Category (Optional) --'}</option>
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}

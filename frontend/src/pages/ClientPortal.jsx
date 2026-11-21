@@ -78,7 +78,7 @@ const ClientPortal = () => {
         ...formData,
         price: parseFloat(formData.price),
         stockQuantity: parseInt(formData.stockQuantity, 10),
-        categoryId: parseInt(formData.categoryId, 10),
+        categoryId: formData.categoryId ? parseInt(formData.categoryId, 10) : null,
       });
 
       setMessage({ type: 'success', text: 'Product submitted successfully! It is now pending admin review before deployment.' });
@@ -150,11 +150,12 @@ const ClientPortal = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label>Category *</label>
+                <label>Category (Optional)</label>
                 <select
-                  value={formData.categoryId}
+                  value={formData.categoryId || ''}
                   onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
                 >
+                  <option value="">{categories.length === 0 ? '-- No Categories Yet (Uncategorized) --' : '-- Select Category (Optional) --'}</option>
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}

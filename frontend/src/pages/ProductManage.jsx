@@ -704,7 +704,7 @@ const ProductManage = () => {
 
                 <div className="form-group">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                    <label style={{ margin: 0 }}>Category *</label>
+                    <label style={{ margin: 0 }}>Category (Optional)</label>
                     <button
                       type="button"
                       onClick={() => setShowAddCategory(!showAddCategory)}
