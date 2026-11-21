@@ -3396,14 +3396,21 @@
   align-self: flex-start !important;
   width: 100% !important;
   padding-top: clamp(6px, 1.5vw, 20px) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 :is(.jomnenhkh-hero-icon-wrapper, .weshop-hero-icon-wrapper) {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  position: relative;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+  position: relative !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
 }
 
 :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
@@ -3412,26 +3419,28 @@
   height: auto !important;
   aspect-ratio: auto !important;
   object-fit: contain !important;
-  border-radius: clamp(12px, 1.8vw, 20px) !important;
+  border-radius: 0 !important;
   border: none !important;
+  outline: none !important;
   background: transparent !important;
   box-shadow: none !important;
-  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.12));
+  filter: none !important;
   transform: rotate(-6deg);
   transform-origin: center center;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon):hover {
-  transform: translateY(-5px) scale(1.02) rotate(-6deg);
-  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.18));
+  transform: translateY(-4px) scale(1.02) rotate(-6deg);
+  box-shadow: none !important;
+  filter: none !important;
 }
 
 [data-theme="dark"] :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
   border: none !important;
   background: transparent !important;
   box-shadow: none !important;
-  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.45));
+  filter: none !important;
 }
 
 @media (max-width: 768px) {
@@ -3443,8 +3452,10 @@
 
   :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
     max-width: 220px !important;
-    border-radius: 10px !important;
+    border-radius: 0 !important;
     transform: rotate(-5deg);
+    box-shadow: none !important;
+    filter: none !important;
   }
 
   :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon):hover {
@@ -3455,7 +3466,9 @@
 @media (max-width: 480px) {
   :is(.jomnenhkh-hero-brand-icon, .weshop-hero-brand-icon) {
     max-width: 170px !important;
-    border-radius: 8px !important;
+    border-radius: 0 !important;
     transform: rotate(-5deg);
+    box-shadow: none !important;
+    filter: none !important;
   }
 }
