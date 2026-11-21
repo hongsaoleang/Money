@@ -28,16 +28,8 @@ const ProductTelegramSelectionBar = ({ selectedProducts = [], onClear, onAddToCa
   );
 
   const handleContactTelegram = () => {
-    if (!user) {
-      navigate('/login', {
-        state: {
-          from: location,
-          message: 'Please sign in to send messages or contact via Telegram.',
-        },
-      });
-      return;
-    }
     let msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
+    msg += `👤 Customer: ${user ? (user.fullName || user.email) : 'Guest Customer'}\n`;
     msg += `I have selected the following product(s) on your store and would like to contact you:\n\n`;
 
     selectedProducts.forEach((p, idx) => {

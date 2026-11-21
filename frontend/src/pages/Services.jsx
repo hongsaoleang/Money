@@ -89,16 +89,6 @@ const Services = () => {
   const handleInquirySubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-      navigate('/login', {
-        state: {
-          from: location,
-          message: 'Please sign in to send messages or inquiries via Telegram.',
-        },
-      });
-      return;
-    }
-
     let tgMsg = `👋 Hello Hong Saoleang (@hongsaoleang)!\n`;
     tgMsg += `I have a project inquiry for you:\n\n`;
     tgMsg += `👤 Name: ${inquiry.name}\n`;

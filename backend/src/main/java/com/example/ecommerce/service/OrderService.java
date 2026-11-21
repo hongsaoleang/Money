@@ -31,11 +31,10 @@ public class OrderService {
 
     @Transactional
     public Order placeOrder(CreateOrderRequest request, String userEmail) {
-        if (userEmail == null || userEmail.isBlank()) {
-            throw new IllegalArgumentException("Authentication required: order cannot be placed without a registered user account.");
+        User user = null;
+        if (userEmail != null && !userEmail.isBlank()) {
+            user = userRepository.findByEmail(userEmail).orElse(null);
         }
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException("Registered user account not found: " + userEmail));
 
         BigDecimal total = BigDecimal.ZERO;
         List<OrderItem> items = new ArrayList<>();
@@ -50,10 +49,17 @@ public class OrderService {
             userRepository.save(user);
         }
 
+        String customerName = user != null ? user.getFullName()
+                : (request.getCustomerName() != null && !request.getCustomerName().isBlank() ? request.getCustomerName().trim() : "Guest Customer");
+        String customerContact = user != null ? user.getEmail()
+                : (request.getCustomerContact() != null ? request.getCustomerContact().trim() : null);
+
         Order order = Order.builder()
                 .user(user)
+                .customerName(customerName)
+                .customerContact(customerContact)
                 .shippingAddress(request.getShippingAddress() != null && !request.getShippingAddress().isBlank()
-                        ? request.getShippingAddress()
+                        ? request.getShippingAddress().trim()
                         : (user != null && user.getAddress() != null ? user.getAddress() : "Phnom Penh, Cambodia"))
                 .telegramChatId(telegramChatId)
                 .orderStatus("CONFIRMED")

@@ -54,45 +54,19 @@ const ProductDetail = () => {
   }
 
   const handleAddToCart = () => {
-    if (!user) {
-      navigate('/login', {
-        state: {
-          from: location,
-          message: 'Please sign in to add items to your cart.',
-        },
-      });
-      return;
-    }
     addToCart(product, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 2500);
   };
 
   const handleBuyNow = () => {
-    if (!user) {
-      navigate('/login', {
-        state: {
-          from: location,
-          message: 'Please sign in to add items to your cart and proceed to checkout.',
-        },
-      });
-      return;
-    }
     addToCart(product, quantity);
     navigate('/cart');
   };
 
   const handleContactTelegram = () => {
-    if (!user) {
-      navigate('/login', {
-        state: {
-          from: location,
-          message: 'Please sign in to send messages or contact via Telegram.',
-        },
-      });
-      return;
-    }
-    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI want to purchase this product:\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price).toFixed(2)} USD\n🔢 Quantity: ${quantity} unit(s)\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease confirm availability and payment details. Thank you!`;
+    const customerInfo = user ? `\n👤 Customer: ${user.fullName || user.email}` : '\n👤 Customer: Guest Customer';
+    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI want to purchase this product:${customerInfo}\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price).toFixed(2)} USD\n🔢 Quantity: ${quantity} unit(s)\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease confirm availability and payment details. Thank you!`;
     window.open(`https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
   };
 

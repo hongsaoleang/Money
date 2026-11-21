@@ -5,10 +5,9 @@ const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const { user } = useAuth();
-  const storageKey = user ? `cart_${user.id || user.email}` : null;
+  const storageKey = user ? `cart_${user.id || user.email}` : 'cart_guest';
 
   const [cartItems, setCartItems] = useState(() => {
-    if (!user || !storageKey) return [];
     try {
       const saved = localStorage.getItem(storageKey);
       if (saved) return JSON.parse(saved);
@@ -24,24 +23,39 @@ export const CartProvider = ({ children }) => {
     }
   });
 
-  // Keep cart in sync with active user session
+  // Keep cart in sync with active user session (merges guest cart on login)
   useEffect(() => {
-    if (!user || !storageKey) {
-      setCartItems([]);
-      return;
-    }
     try {
+      if (user) {
+        const guestCart = localStorage.getItem('cart_guest');
+        if (guestCart) {
+          try {
+            const guestItems = JSON.parse(guestCart);
+            if (Array.isArray(guestItems) && guestItems.length > 0) {
+              const userSaved = localStorage.getItem(storageKey);
+              const userItems = userSaved ? JSON.parse(userSaved) : [];
+              guestItems.forEach((gItem) => {
+                const match = userItems.find((u) => u.product.id === gItem.product.id);
+                if (match) {
+                  match.quantity += gItem.quantity;
+                } else {
+                  userItems.push(gItem);
+                }
+              });
+              localStorage.setItem(storageKey, JSON.stringify(userItems));
+              localStorage.removeItem('cart_guest');
+              setCartItems(userItems);
+              return;
+            }
+          } catch {}
+        }
+      }
+
       const saved = localStorage.getItem(storageKey);
       if (saved) {
         setCartItems(JSON.parse(saved));
       } else {
-        const legacy = localStorage.getItem('cart');
-        if (legacy) {
-          localStorage.removeItem('cart');
-          setCartItems(JSON.parse(legacy));
-        } else {
-          setCartItems([]);
-        }
+        setCartItems([]);
       }
     } catch {
       setCartItems([]);
@@ -49,17 +63,12 @@ export const CartProvider = ({ children }) => {
   }, [user?.id, user?.email, storageKey]);
 
   useEffect(() => {
-    if (user && storageKey) {
+    try {
       localStorage.setItem(storageKey, JSON.stringify(cartItems));
-    }
-  }, [cartItems, user, storageKey]);
+    } catch {}
+  }, [cartItems, storageKey]);
 
   const addToCart = (product, quantity = 1) => {
-    // Only registered and logged-in customers can hold items in cart
-    if (!user) {
-      return false;
-    }
-
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
@@ -97,18 +106,16 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCartItems([]);
-    if (storageKey) {
+    try {
       localStorage.removeItem(storageKey);
-    }
+    } catch {}
   };
 
-  const totalItems = user ? cartItems.reduce((acc, item) => acc + item.quantity, 0) : 0;
-  const totalPrice = user
-    ? cartItems.reduce(
-        (acc, item) => acc + item.quantity * parseFloat(item.product.price),
-        0
-      )
-    : 0;
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.quantity * parseFloat(item.product?.price || 0),
+    0
+  );
 
   return (
     <CartContext.Provider

@@ -63,13 +63,6 @@ const JomnenhKhTopProducts = () => {
 
   const handleQuickAdd = (product, e) => {
     e.stopPropagation();
-    if (!user) {
-      navigate('/login', {
-        state: { message: 'Please sign in to add items to your cart.' },
-      });
-      return;
-    }
-
     addToCart(product, 1);
     setAddedId(product.id);
     setTimeout(() => setAddedId(null), 1800);

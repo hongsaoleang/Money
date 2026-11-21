@@ -84,15 +84,6 @@ const Products = () => {
   };
 
   const handleQuickAdd = (product) => {
-    if (!user) {
-      navigate('/login', {
-        state: {
-          from: location,
-          message: 'Please sign in to add items to your cart.',
-        },
-      });
-      return;
-    }
     addToCart(product, 1);
     setAddedId(product.id);
     setTimeout(() => setAddedId(null), 1800);
@@ -105,16 +96,8 @@ const Products = () => {
   };
 
   const contactSingleProduct = (product) => {
-    if (!user) {
-      navigate('/login', {
-        state: {
-          from: location,
-          message: 'Please sign in to send messages or contact via Telegram.',
-        },
-      });
-      return;
-    }
-    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI am interested in this product from your store:\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price || 0).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
+    const customerInfo = user ? `\n👤 From: ${user.fullName || user.email}` : '\n👤 From: Guest Customer';
+    const msg = `👋 Hello Hong Saoleang (@hongsaoleang)!\nI am interested in this product from your store:${customerInfo}\n\n📦 Product: ${product.name}\n💰 Price: $${parseFloat(product.price || 0).toFixed(2)} USD\n🔢 Stock: ${product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Backorder'}\n📍 Origin: ${product.originCountry || 'Verified'}\n\nPlease let me know how I can order or pay for this. Thank you!`;
     window.open(`https://t.me/hongsaoleang?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
   };
 
@@ -438,15 +421,6 @@ const Products = () => {
         selectedProducts={selectedProducts}
         onClear={() => setSelectedCardIds([])}
         onAddToCart={(items) => {
-          if (!user) {
-            navigate('/login', {
-              state: {
-                from: location,
-                message: 'Please sign in to add items to your cart.',
-              },
-            });
-            return;
-          }
           items.forEach((p) => addToCart(p, 1));
           setSelectedCardIds([]);
         }}

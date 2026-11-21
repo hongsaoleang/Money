@@ -8,4 +8,6 @@ public class CreateOrderRequest {
     private List<OrderItemRequest> items;
     private String shippingAddress;
     private String telegramChatId;
+    private String customerName;
+    private String customerContact;
 }

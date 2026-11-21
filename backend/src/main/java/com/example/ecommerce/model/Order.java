@@ -24,8 +24,12 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    private String customerName;
+
+    private String customerContact;
 
     @Column(nullable = false)
     private BigDecimal totalAmount;

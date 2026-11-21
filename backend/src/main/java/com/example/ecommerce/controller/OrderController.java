@@ -24,10 +24,8 @@ public class OrderController {
             @Valid @RequestBody CreateOrderRequest request,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        if (userDetails == null) {
-            return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok(orderService.placeOrder(request, userDetails.getUsername()));
+        String userEmail = userDetails != null ? userDetails.getUsername() : null;
+        return ResponseEntity.ok(orderService.placeOrder(request, userEmail));
     }
 
     @GetMapping("/my")

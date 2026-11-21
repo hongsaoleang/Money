@@ -87,14 +87,13 @@ const Navbar = () => {
 
           {/* Cart */}
           <Link 
-            to={user ? "/cart" : "/login"} 
-            state={!user ? { message: 'Please sign in to access your shopping cart.' } : undefined}
+            to="/cart" 
             className="cart-btn" 
-            title={user ? "View Cart" : "Sign in to view cart"} 
+            title="View Cart" 
             onClick={() => setMobileMenuOpen(false)}
           >
             <ShoppingBag size={19} />
-            {user && totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
           </Link>
 
           {/* Quick Profile Link (Mobile & Desktop) */}

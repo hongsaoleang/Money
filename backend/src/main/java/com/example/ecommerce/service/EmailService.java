@@ -37,6 +37,11 @@ public class EmailService {
             return;
         }
 
+        if (order.getUser() == null || order.getUser().getEmail() == null) {
+            log.info("[Gmail Integration] Order #{} placed by guest. Skipping customer email dispatch.", order.getId());
+            return;
+        }
+
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromEmail);
