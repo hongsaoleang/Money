@@ -2800,20 +2800,20 @@
     margin-bottom: 4px;
   }
 
-  /* Mobile: Keep web grid layout style, scaled down proportionally */
+  /* Mobile: 2 containers in each row */
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 10px;
-    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
     overflow-x: visible;
     padding-bottom: 0;
   }
 
   @media (min-width: 520px) {
     :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 14px !important;
     }
   }
 
@@ -2830,25 +2830,32 @@
   }
 
   :is(.jomnenhkh-store-name, .weshop-store-name) {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
   }
 
   :is(.jomnenhkh-store-count, .weshop-store-count) {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   :is(.jomnenhkh-store-badge, .weshop-store-badge) {
-    font-size: 9px;
+    font-size: 10px;
     padding: 2px 6px;
   }
 
   :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
-    font-size: 9px;
-    padding: 2px 6px;
-    bottom: 6px;
-    left: 6px;
-    border-radius: 4px;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    bottom: 8px !important;
+    left: 8px !important;
+    border-radius: 6px !important;
+    background: #059669 !important;
+    color: #ffffff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-shadow: 0 3px 10px rgba(5, 150, 105, 0.45) !important;
   }
 
   :is(.jomnenhkh-prod-quick-add-btn, .weshop-prod-quick-add-btn) {
@@ -3320,48 +3327,107 @@
 
 @media (max-width: 768px) {
   :is(.jomnenhkh-page, .weshop-page) {
-    padding-left: 36px !important;
-    padding-right: 36px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
     box-sizing: border-box !important;
   }
 
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
+    display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 14px !important;
   }
 
   :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
-    font-size: 11.5px !important;
-    font-weight: 700 !important;
-    padding: 3px 9px !important;
-    bottom: 8px !important;
-    left: 8px !important;
-    border-radius: 5px !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    padding: 4px 11px !important;
+    bottom: 9px !important;
+    left: 9px !important;
+    border-radius: 6px !important;
+    background: #059669 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.45) !important;
   }
 
   :is(.jomnenhkh-prod-stock-dot, .weshop-prod-stock-dot) {
-    width: 6px !important;
-    height: 6px !important;
+    width: 7px !important;
+    height: 7px !important;
+    flex-shrink: 0 !important;
   }
 
   :is(.jomnenhkh-store-img-box, .weshop-store-img-box) {
-    height: 140px !important;
-    max-height: 140px !important;
+    height: 150px !important;
+    max-height: 150px !important;
   }
 
   :is(.jomnenhkh-store-info-box, .weshop-store-info-box) {
-    padding: 8px 10px !important;
+    padding: 10px 12px !important;
     gap: 6px !important;
   }
 
   :is(.jomnenhkh-store-name, .weshop-store-name) {
-    font-size: 0.82rem !important;
+    font-size: 0.88rem !important;
     font-weight: 700 !important;
   }
 
   :is(.jomnenhkh-price-value, .weshop-price-value) {
-    font-size: 0.95rem !important;
+    font-size: 1rem !important;
     font-weight: 800 !important;
+  }
+
+  :is(.jomnenhkh-prod-quick-add-btn, .weshop-prod-quick-add-btn) {
+    height: 28px !important;
+    font-size: 0.72rem !important;
+    padding: 0 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  :is(.jomnenhkh-page, .weshop-page) {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    bottom: 8px !important;
+    left: 8px !important;
+    border-radius: 6px !important;
+    background: #059669 !important;
+    color: #ffffff !important;
+    box-shadow: 0 3px 10px rgba(5, 150, 105, 0.45) !important;
+  }
+
+  :is(.jomnenhkh-prod-stock-dot, .weshop-prod-stock-dot) {
+    width: 6.5px !important;
+    height: 6.5px !important;
+    flex-shrink: 0 !important;
+  }
+
+  :is(.jomnenhkh-store-img-box, .weshop-store-img-box) {
+    height: 135px !important;
+    max-height: 135px !important;
+  }
+
+  :is(.jomnenhkh-store-info-box, .weshop-store-info-box) {
+    padding: 8px 10px !important;
+  }
+
+  :is(.jomnenhkh-store-name, .weshop-store-name) {
+    font-size: 0.82rem !important;
+  }
+
+  :is(.jomnenhkh-price-value, .weshop-price-value) {
+    font-size: 0.94rem !important;
   }
 
   :is(.jomnenhkh-prod-quick-add-btn, .weshop-prod-quick-add-btn) {
@@ -3371,24 +3437,27 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 360px) {
   :is(.jomnenhkh-page, .weshop-page) {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
   }
 
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
+    display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+    gap: 8px !important;
   }
 
   :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
-    font-size: 10.5px !important;
-    font-weight: 700 !important;
-    padding: 3px 7px !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    padding: 3px 8px !important;
     bottom: 7px !important;
     left: 7px !important;
-    border-radius: 4px !important;
+    border-radius: 5px !important;
+    background: #059669 !important;
+    color: #ffffff !important;
   }
 
   :is(.jomnenhkh-store-img-box, .weshop-store-img-box) {
@@ -3397,50 +3466,11 @@
   }
 
   :is(.jomnenhkh-store-name, .weshop-store-name) {
-    font-size: 0.78rem !important;
+    font-size: 0.76rem !important;
   }
 
   :is(.jomnenhkh-price-value, .weshop-price-value) {
     font-size: 0.88rem !important;
-  }
-
-  :is(.jomnenhkh-prod-quick-add-btn, .weshop-prod-quick-add-btn) {
-    height: 24px !important;
-    font-size: 0.64rem !important;
-    padding: 0 6px !important;
-  }
-}
-
-@media (max-width: 360px) {
-  :is(.jomnenhkh-page, .weshop-page) {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-
-  :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 8px !important;
-  }
-
-  :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
-    font-size: 9.5px !important;
-    font-weight: 700 !important;
-    padding: 2px 6px !important;
-    bottom: 6px !important;
-    left: 6px !important;
-  }
-
-  :is(.jomnenhkh-store-img-box, .weshop-store-img-box) {
-    height: 105px !important;
-    max-height: 105px !important;
-  }
-
-  :is(.jomnenhkh-store-name, .weshop-store-name) {
-    font-size: 0.72rem !important;
-  }
-
-  :is(.jomnenhkh-price-value, .weshop-price-value) {
-    font-size: 0.82rem !important;
   }
 }
 
