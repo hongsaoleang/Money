@@ -364,10 +364,6 @@ const Products = () => {
                   ) : (
                     <span className="stock-badge out-stock">{t('products.backorder', 'Backorder')}</span>
                   )}
-                  {/* Floating Price Tag directly on Product Image */}
-                  <div className="product-image-price-tag">
-                    ${parseFloat(product.price || 0).toFixed(2)}
-                  </div>
                 </div>
 
                 <div className="product-details">
@@ -375,13 +371,7 @@ const Products = () => {
                     <span className="product-category">{product.category?.name}</span>
                     <span className="spotlight-sku">{specs.modelId}</span>
                   </div>
-                  <h3 className="product-title">{product.name}</h3>
-
-                  {/* Prominent Price Row */}
-                  <div className="product-price-row">
-                    <span className="product-price">${parseFloat(product.price || 0).toFixed(2)}</span>
-                    <span className="product-currency-label">USD</span>
-                  </div>
+                  <h3 className="product-title" title={product.name}>{product.name}</h3>
 
                   {/* Specific Hardware Attributes */}
                   <div className="spotlight-specs-row">
@@ -390,7 +380,10 @@ const Products = () => {
                   </div>
 
                   <div className="product-footer">
-                    <span className="product-price">${parseFloat(product.price || 0).toFixed(2)}</span>
+                    <div className="product-price-box">
+                      <span className="product-price">${parseFloat(product.price || 0).toFixed(2)}</span>
+                      <span className="product-currency-label">USD</span>
+                    </div>
 
                     <div className="product-card-actions" onClick={(e) => e.stopPropagation()}>
                       {/* Direct Telegram Contact for this Card */}
