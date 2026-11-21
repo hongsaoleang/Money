@@ -435,7 +435,7 @@ const ProductManage = () => {
         <div style={{
           background: 'rgba(16, 185, 129, 0.12)',
           border: '1px solid rgba(16, 185, 129, 0.35)',
-          borderRadius: '10px',
+          borderRadius: '6px',
           padding: '8px 14px',
           color: '#6ee7b7',
           fontSize: '0.85rem',
@@ -531,7 +531,7 @@ const ProductManage = () => {
                 style={{
                   background: 'var(--card-bg, #1a1b26)',
                   border: '1px solid var(--primary-color, #6366f1)',
-                  borderRadius: '20px',
+                  borderRadius: '6px',
                   padding: '4px 10px',
                   color: 'inherit',
                   fontSize: '0.85rem',
@@ -543,7 +543,7 @@ const ProductManage = () => {
                 type="submit" 
                 disabled={!newCategoryName.trim() || addingCategory} 
                 className="btn-primary"
-                style={{ padding: '3px 10px', borderRadius: '14px', fontSize: '0.78rem' }}
+                style={{ padding: '3px 10px', borderRadius: '6px', fontSize: '0.78rem' }}
               >
                 {addingCategory ? 'Adding...' : 'Add'}
               </button>
@@ -551,7 +551,7 @@ const ProductManage = () => {
                 type="button" 
                 onClick={() => { setShowAddCategory(false); setNewCategoryName(''); }} 
                 className="btn-secondary"
-                style={{ padding: '3px 8px', borderRadius: '14px', fontSize: '0.78rem' }}
+                style={{ padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem' }}
               >
                 <X size={13} />
               </button>

@@ -748,7 +748,7 @@ const Admin = () => {
 
           {/* Quick Hub Launchers */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '0.95rem', color: '#38bdf8' }}>
                   <Package size={18} /> Product Inventory CRUD
@@ -762,7 +762,7 @@ const Admin = () => {
               </Link>
             </div>
 
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '0.95rem', color: '#a78bfa' }}>
                   <ShieldCheck size={18} /> User & Admin Authorization
@@ -776,7 +776,7 @@ const Admin = () => {
               </button>
             </div>
 
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '6px', padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '0.95rem', color: '#10b981' }}>
                   <Mail size={18} /> Gmail SMTP Active
@@ -906,7 +906,7 @@ const Admin = () => {
           {categoryFeedback && (
             <div style={{
               padding: '12px 16px',
-              borderRadius: '8px',
+              borderRadius: '6px',
               marginBottom: '18px',
               display: 'flex',
               alignItems: 'center',
@@ -935,7 +935,7 @@ const Admin = () => {
                   padding: '9px 12px 9px 36px',
                   background: 'var(--bg-card)',
                   border: '1px solid var(--border-color)',
-                  borderRadius: 'var(--radius-md)',
+                  borderRadius: '6px',
                   color: 'var(--text-main)',
                   fontSize: '0.88rem'
                 }}
@@ -1023,7 +1023,7 @@ const Admin = () => {
                             alignItems: 'center',
                             gap: '5px',
                             padding: '3px 10px',
-                            borderRadius: '12px',
+                            borderRadius: '4px',
                             fontSize: '0.75rem',
                             fontWeight: 600,
                             background: productCount > 0 ? 'rgba(16, 185, 129, 0.12)' : 'rgba(148, 163, 184, 0.1)',
@@ -1938,7 +1938,7 @@ const Admin = () => {
                     onClick={() => setNewUserForm({ ...newUserForm, role: 'ROLE_ADMIN' })}
                     style={{
                       padding: '12px',
-                      borderRadius: '10px',
+                      borderRadius: '6px',
                       border: newUserForm.role === 'ROLE_ADMIN' ? '2px solid #6366f1' : '1px solid var(--border-color)',
                       background: newUserForm.role === 'ROLE_ADMIN' ? 'rgba(99, 102, 241, 0.15)' : 'var(--bg-card)',
                       cursor: 'pointer',
@@ -1957,7 +1957,7 @@ const Admin = () => {
                     onClick={() => setNewUserForm({ ...newUserForm, role: 'ROLE_USER' })}
                     style={{
                       padding: '12px',
-                      borderRadius: '10px',
+                      borderRadius: '6px',
                       border: newUserForm.role === 'ROLE_USER' ? '2px solid #10b981' : '1px solid var(--border-color)',
                       background: newUserForm.role === 'ROLE_USER' ? 'rgba(16, 185, 129, 0.15)' : 'var(--bg-card)',
                       cursor: 'pointer',
@@ -2026,7 +2026,7 @@ const Admin = () => {
                 <div style={{
                   width: '38px',
                   height: '38px',
-                  borderRadius: '8px',
+                  borderRadius: '6px',
                   background: 'rgba(99, 102, 241, 0.15)',
                   border: '1px solid rgba(99, 102, 241, 0.3)',
                   display: 'flex',

@@ -4025,7 +4025,7 @@ h1, h2, h3, h4, h5, h6,
   font-size: 0.72rem;
   font-weight: 700;
   padding: 3px 10px;
-  border-radius: var(--radius-full);
+  border-radius: 4px;
   background: rgba(16, 185, 129, 0.15);
   border: 1px solid rgba(16, 185, 129, 0.35);
   color: #10b981;
@@ -4045,7 +4045,7 @@ h1, h2, h3, h4, h5, h6,
   align-items: center;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border-radius: 6px;
   padding: 8px 14px;
   gap: 10px;
   min-width: 280px;
@@ -4071,7 +4071,7 @@ h1, h2, h3, h4, h5, h6,
 .crud-table-wrap {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
+  border-radius: 6px;
   overflow-x: auto;
   box-shadow: var(--shadow-md);
 }
@@ -4114,7 +4114,7 @@ h1, h2, h3, h4, h5, h6,
 .table-product-thumb {
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   object-fit: cover;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -4139,7 +4139,7 @@ h1, h2, h3, h4, h5, h6,
   font-size: 0.75rem;
   font-weight: 600;
   padding: 3px 10px;
-  border-radius: var(--radius-full);
+  border-radius: 4px;
   background: rgba(99, 102, 241, 0.12);
   color: #818cf8;
   white-space: nowrap;
@@ -4155,7 +4155,7 @@ h1, h2, h3, h4, h5, h6,
   font-size: 0.75rem;
   font-weight: 600;
   padding: 3px 8px;
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   background: rgba(16, 185, 129, 0.12);
   color: #10b981;
   white-space: nowrap;
@@ -4181,7 +4181,7 @@ h1, h2, h3, h4, h5, h6,
   font-size: 0.72rem;
   font-weight: 700;
   padding: 3px 8px;
-  border-radius: var(--radius-full);
+  border-radius: 4px;
   white-space: nowrap;
 }
 
@@ -4208,7 +4208,7 @@ h1, h2, h3, h4, h5, h6,
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-muted);
@@ -4244,7 +4244,7 @@ h1, h2, h3, h4, h5, h6,
   padding: 72px 24px;
   background: var(--bg-card);
   border: 1px dashed var(--border-color);
-  border-radius: var(--radius-lg);
+  border-radius: 6px;
   margin: 32px 0;
 }
 
@@ -6351,12 +6351,21 @@ body {
 button:disabled { cursor: not-allowed; opacity: .58; }
 
 .product-card, .provenance-country-card, .portfolio-compact-card, .process-step-compact,
-.profile-card, .order-history-card, .cart-item-card, .auth-card, .kpi-glass-card,
-.crud-table-wrap, .admin-table-wrap, .dashboard-graph-card, .service-card,
+.profile-card, .order-history-card, .cart-item-card, .auth-card,
+.dashboard-graph-card, .service-card,
 .product-detail-card, .client-portal-card, .settings-tabs, .catalog-toolbar,
 .audit-checklist-box, .service-features-list, .empty-state {
   border-color: var(--border-color);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.kpi-glass-card,
+.crud-table-wrap,
+.admin-table-wrap,
+.table-responsive {
+  border-color: var(--border-color);
+  border-radius: 6px;
   box-shadow: var(--shadow-sm);
 }
 .product-card, .provenance-country-card, .profile-card, .order-history-card,
@@ -12079,4 +12088,60 @@ select option { background: #151f33; color: #f4f6ff; }
     width: 8px !important;
     height: 8px !important;
   }
+}
+
+/* ==========================================================================
+   Management UI - Subtle Corner Radii ("just a little only")
+   ========================================================================== */
+.product-manage-page .kpi-glass-card,
+.product-manage-page .crud-table-wrap,
+.product-manage-page .crud-search-box,
+.product-manage-page .crud-empty-state,
+.product-manage-page .crud-modal-card,
+.product-manage-page .crud-feedback-banner,
+.admin-page .kpi-card,
+.admin-page .table-responsive,
+.admin-page .admin-table-wrap,
+.admin-page .crud-table-wrap,
+.admin-page .modal-content,
+.admin-page .admin-card,
+.admin-page .dashboard-view .kpi-card {
+  border-radius: 6px !important;
+}
+
+.product-manage-page .pill-btn,
+.product-manage-page .btn-primary,
+.product-manage-page .btn-secondary,
+.product-manage-page .btn-outline,
+.product-manage-page .action-icon-btn,
+.product-manage-page .table-product-thumb,
+.product-manage-page .kpi-icon-wrap,
+.admin-page .pill-btn,
+.admin-page .admin-tab-btn,
+.admin-page .btn-primary,
+.admin-page .btn-secondary,
+.admin-page .btn-outline {
+  border-radius: 5px !important;
+}
+
+.product-manage-page .admin-status-badge,
+.product-manage-page .section-badge,
+.product-manage-page .table-cat-badge,
+.product-manage-page .table-stock-badge,
+.product-manage-page .table-status-pill,
+.product-manage-page .preset-img-chip,
+.admin-page .admin-status-badge,
+.admin-page .admin-badge,
+.admin-page .status-badge,
+.admin-page .role-badge {
+  border-radius: 4px !important;
+}
+
+.product-manage-page input,
+.product-manage-page select,
+.product-manage-page textarea,
+.admin-page input,
+.admin-page select,
+.admin-page textarea {
+  border-radius: 5px !important;
 }
