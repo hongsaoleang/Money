@@ -2800,11 +2800,11 @@
     margin-bottom: 4px;
   }
 
-  /* Mobile: 3 containers in each row */
+  /* Mobile: 2 containers in each row on phone view */
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
     width: 100% !important;
     overflow-x: visible;
     padding-bottom: 0;
@@ -2812,8 +2812,8 @@
 
   @media (min-width: 520px) {
     :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      gap: 12px !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 14px !important;
     }
   }
 
@@ -3334,8 +3334,8 @@
 
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
   }
 
   :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
@@ -3357,8 +3357,8 @@
   }
 
   :is(.jomnenhkh-store-img-box, .weshop-store-img-box) {
-    height: 135px !important;
-    max-height: 135px !important;
+    height: 155px !important;
+    max-height: 155px !important;
   }
 
   :is(.jomnenhkh-store-info-box, .weshop-store-info-box) {
@@ -3391,8 +3391,8 @@
 
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 7px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
   }
 
   :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
@@ -3414,8 +3414,8 @@
   }
 
   :is(.jomnenhkh-store-img-box, .weshop-store-img-box) {
-    height: 115px !important;
-    max-height: 115px !important;
+    height: 135px !important;
+    max-height: 135px !important;
   }
 
   :is(.jomnenhkh-store-info-box, .weshop-store-info-box) {
@@ -3445,8 +3445,8 @@
 
   :is(.jomnenhkh-stores-grid, .weshop-stores-grid) {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 5px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
   }
 
   :is(.jomnenhkh-prod-stock-chip, .weshop-prod-stock-chip) {
@@ -3559,5 +3559,13 @@
     transform: rotate(-5deg);
     box-shadow: none !important;
     filter: none !important;
+  }
+}
+
+/* Guarantee 2 containers per row on phone view for Home */
+@media (max-width: 768px) {
+  :is(.jomnenhkh-stores-grid, .weshop-stores-grid, .jomnenhkh-top-products-grid) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
