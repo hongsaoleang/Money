@@ -43,7 +43,7 @@ const Settings = () => {
   // Editable address state
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [address, setAddress] = useState(user?.address || 'Street 2004, Phnom Penh, Cambodia');
-  const [phone, setPhone] = useState(user?.phone || '+855 12 019 2834');
+  const [phone, setPhone] = useState(user?.phone || '+855 93779991');
   const [savedNotice, setSavedNotice] = useState(false);
 
   // Telegram Bot integration state

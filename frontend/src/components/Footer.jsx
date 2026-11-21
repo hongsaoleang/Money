@@ -21,10 +21,10 @@ const Footer = () => {
           <p className="footer-desc">
             {t('footer.tagline', 'Hardware & Software Services · Phnom Penh, Cambodia.')}
           </p>
-          <div className="footer-contact">
+          <div className="footer-contact footer-contact-row">
             <p><MapPin size={16} /> {t('footer.location', 'Phnom Penh, Cambodia')}</p>
             <p><Mail size={16} /> hongsaoleang@gmail.com</p>
-            <p><Phone size={16} /> +855 12 019 2834</p>
+            <p><Phone size={16} /> +855 93779991</p>
           </div>
         </div>
 
